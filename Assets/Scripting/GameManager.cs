@@ -21,12 +21,12 @@ namespace Scripting
 
         [SerializeField] private GameObject baseballBat;
         [SerializeField] private GameObject cigar;
-        
+
         private readonly List<CustomerMotor> _customerMotors = new();
         private CustomerMotor _currentCustomer;
-        
+
         private List<AiSpot> _aiSpots = new();
-        
+
         private void Awake()
         {
             if (upgrades.chairs)
@@ -51,7 +51,7 @@ namespace Scripting
                 cigar.SetActive(true);
             }
         }
-        
+
         public void SpawnCustomer()
         {
             var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
@@ -60,6 +60,14 @@ namespace Scripting
             var go = Instantiate(customerPrefab, spawnPoint.transform.position, Quaternion.identity);
 
             _customerMotors.Add(go.GetComponent<CustomerMotor>());
+        }
+
+        public void FinalizeCustomer()
+        {
+            if (!_currentCustomer) return;
+
+            _currentCustomer.LeaveDesk();
+            _customerMotors.Remove(_currentCustomer);
         }
 
         public List<AiSpot> GetDistractionSpots()
