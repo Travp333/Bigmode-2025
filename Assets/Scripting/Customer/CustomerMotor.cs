@@ -41,7 +41,7 @@ namespace Scripting.Customer
 
         private void Update()
         {
-            if (!_aiController) return;
+            if (!_aiController || _done) return;
 
             if (!_done)
             {
@@ -52,6 +52,8 @@ namespace Scripting.Customer
             {
                 _done = true;
 
+                RemoveMoney();
+                
                 if (_sittingAtAttorney)
                 {
                     _sittingAtAttorney = false;
@@ -213,6 +215,11 @@ namespace Scripting.Customer
         {
             capsuleCollider.enabled = true;
             WalkOut();
+        }
+
+        private void RemoveMoney()
+        {
+            // HAS TO BE IMPLEMENTED
         }
 
         private void WalkOut()

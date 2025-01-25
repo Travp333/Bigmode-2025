@@ -1,4 +1,5 @@
 using System.Collections;
+using Scripting.Desk;
 using Scripting.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -228,12 +229,14 @@ namespace Scripting.Player
         {
             Cursor.lockState = CursorLockMode.Confined;
             _seated = true;
+            GetComponent<Drawing>().SetActive(true);
         }
 
         private void ExitChairStart()
         {
             Cursor.lockState = CursorLockMode.Locked;
             _seated = false;
+            GetComponent<Drawing>().SetActive(false);
         }
 
         private void ExitChairDone()

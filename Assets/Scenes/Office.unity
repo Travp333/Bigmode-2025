@@ -3357,6 +3357,7 @@ GameObject:
   - component: {fileID: 1953529837}
   - component: {fileID: 1953529838}
   - component: {fileID: 1953529839}
+  - component: {fileID: 1953529840}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -3530,6 +3531,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 1}
+--- !u!114 &1953529840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953529832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e386af399567c47b3538fa7a300edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  samplingRate: 0.025
+  writingSurface: {fileID: 4285204946629091603, guid: b4ef4ef02e797f54cbfdba3f312180fc, type: 3}
 --- !u!1 &1979605610
 GameObject:
   m_ObjectHideFlags: 0
