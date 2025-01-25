@@ -27,8 +27,7 @@ namespace Scripting.Player
         [SerializeField] private bool debugMode;
 
         [SerializeField] private Button button;
-
-
+        
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
         private float _rotationX;
@@ -88,8 +87,10 @@ namespace Scripting.Player
             if (BlockAction) return;
 
             var moveInput = _playerInput.Game.Move.ReadValue<Vector2>();
-            var lookDelta = _playerInput.Game.Rotate.ReadValue<Vector2>();
-
+            // buggy by unity, so I have to use the old method:
+            // var lookDelta = _playerInput.Game.Rotate.ReadValue<Vector2>();
+            var lookDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+            
 #if UNITY_EDITOR
             lookDelta *= 3f;
 #else
