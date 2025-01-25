@@ -19,6 +19,9 @@ namespace Scripting
         [SerializeField] private GameObject distractionChairs;
         [SerializeField] private GameObject distractionPaintings;
 
+        [SerializeField] private GameObject baseballBat;
+        [SerializeField] private GameObject cigar;
+        
         private readonly List<CustomerMotor> _customerMotors = new();
         private CustomerMotor _currentCustomer;
         
@@ -36,6 +39,16 @@ namespace Scripting
             {
                 distractionPaintings.SetActive(true);
                 _aiSpots = _aiSpots.Concat(distractionPaintings.GetComponentsInChildren<AiSpot>()).ToList();
+            }
+
+            if (upgrades.baseballBat)
+            {
+                baseballBat.SetActive(true);
+            }
+
+            if (upgrades.cigar)
+            {
+                cigar.SetActive(true);
             }
         }
         

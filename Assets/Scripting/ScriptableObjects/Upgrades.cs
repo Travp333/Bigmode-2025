@@ -7,6 +7,8 @@ namespace Scripting.ScriptableObjects
     {
         public bool chairs;
         public bool paintings;
+        public bool baseballBat;
+        public bool cigar;
         
         public float money;
     }

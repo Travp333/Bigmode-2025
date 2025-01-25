@@ -1,5 +1,6 @@
 using System.Collections;
 using AI;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +18,9 @@ namespace Scripting.Customer
 
         private AiController _aiController;
         private float _changeTaskCooldown;
+        private bool _goingToDesk;
+        private bool _sittingAtAttorney;
+        private bool _done;
 
         public float StressMeter { get; private set; }
 
@@ -37,6 +41,31 @@ namespace Scripting.Customer
         private void Update()
         {
             if (!_aiController) return;
+
+            if (!_done)
+            {
+                StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_goingToDesk || _currentSpot ? 2f : 1f));
+            }
+
+            if (StressMeter >= 1.0f)
+            {
+                _done = true;
+
+                if (_sittingAtAttorney)
+                {
+                    _sittingAtAttorney = false;
+                    LeaveDesk();
+                    return;
+                }
+                
+                if (_goingToDesk)
+                {
+                    _goingToDesk = false;
+                }
+
+                WalkOut();
+                return;
+            }
 
             if (_goingToDesk && _target.HasValue)
             {
@@ -116,7 +145,12 @@ namespace Scripting.Customer
             }
         }
 
-        private bool _goingToDesk;
+#if UNITY_EDITOR
+        void OnDrawGizmos()
+        {
+            Handles.Label(transform.position + Vector3.up * 1.5f, "Stresslevel: " + StressMeter);
+        }
+#endif
 
         public void GoToDesk(Transform tf)
         {
@@ -145,6 +179,8 @@ namespace Scripting.Customer
 
             transform.position = sittingSpot.transform.position;
             transform.rotation = sittingSpot.transform.rotation;
+
+            _sittingAtAttorney = true;
         }
 
         private IEnumerator DoLeaveDeskAnimation()
@@ -178,6 +214,12 @@ namespace Scripting.Customer
         {
             capsuleCollider.enabled = true;
             agent.enabled = true;
+            WalkOut();
+        }
+
+        private void WalkOut()
+        {
+            _done = true;
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
         }
     }
