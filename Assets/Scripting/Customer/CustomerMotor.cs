@@ -21,6 +21,7 @@ namespace Scripting.Customer
         private bool _goingToDesk;
         private bool _sittingAtAttorney;
         private bool _done;
+        private Vector3? _target;
 
         public float StressMeter { get; private set; }
 
@@ -57,7 +58,7 @@ namespace Scripting.Customer
                     LeaveDesk();
                     return;
                 }
-                
+
                 if (_goingToDesk)
                 {
                     _goingToDesk = false;
@@ -108,8 +109,6 @@ namespace Scripting.Customer
                 }
             }
         }
-
-        private Vector3? _target;
 
         private void WalkIn()
         {
@@ -213,13 +212,14 @@ namespace Scripting.Customer
         private void DeskLeft()
         {
             capsuleCollider.enabled = true;
-            agent.enabled = true;
             WalkOut();
         }
 
         private void WalkOut()
         {
             _done = true;
+            agent.enabled = true;
+
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
         }
     }
