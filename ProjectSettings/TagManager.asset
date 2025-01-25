@@ -5,16 +5,19 @@ TagManager:
   serializedVersion: 3
   tags:
   - ChairTrigger
+  - Client
+  - Weapon
+  - EntrancePoint
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Weapon
-  - 
-  - 
+  - Customer
+  - WeaponCollision
   - 
   - 
   - 

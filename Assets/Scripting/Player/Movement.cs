@@ -1,8 +1,7 @@
 using System.Collections;
-using Objects;
+using Scripting.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace Scripting.Player
 {
@@ -18,12 +17,14 @@ namespace Scripting.Player
         [SerializeField] private Rigidbody rb;
 
         [SerializeField] private CapsuleCollider capsuleCollider;
+        [SerializeField] private SphereCollider sphereCollider;
 
         [Header("Cameras")]
         [SerializeField] private Camera cam;
 
         [Header("Sitting")]
         [SerializeField] private float cameraRotationSitting = 15f;
+
         [SerializeField] private Vector2 seatedMouseBounds = Vector2.one * 0.25f;
         [SerializeField] private Vector2 seatedCameraBounds = Vector2.one * 15.0f;
 
@@ -35,14 +36,6 @@ namespace Scripting.Player
 
         [SerializeField] private GameObject attackAnimationTarget;
 
-        [Header("Animation")]
-        [SerializeField] private AnimationCurve attackCurve;
-
-        [Header("Debug")]
-        [SerializeField] private bool debugMode;
-
-        [SerializeField] private Button button;
-
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
         private float _rotationX;
@@ -51,7 +44,7 @@ namespace Scripting.Player
         private bool _isInChairTrigger;
         private BaseballBat _baseballBat;
         private bool _canPickupBaseballBat;
-        private bool Seated = false;
+        private bool _seated;
 
         public bool BlockAction { get; private set; }
 
@@ -66,6 +59,8 @@ namespace Scripting.Player
                 rb = GetComponent<Rigidbody>();
             if (!capsuleCollider)
                 capsuleCollider = GetComponent<CapsuleCollider>();
+            if (!sphereCollider)
+                sphereCollider = GetComponent<SphereCollider>();
 
             if (moveSpeed < 0f)
             {
@@ -76,9 +71,6 @@ namespace Scripting.Player
 
         void Awake()
         {
-#if !UNITY_EDITOR
-            debugMode = false;
-#endif
             _playerInput = new PlayerInput();
 
             Cursor.lockState = CursorLockMode.Locked;
@@ -109,16 +101,23 @@ namespace Scripting.Player
 
         private void Update()
         {
-            if (Seated)
+            if (_seated)
             {
-                var targetBounds = new Vector3(Camera.main.pixelWidth, Camera.main.pixelHeight);
+                var targetBounds = new Vector3(cam.pixelWidth, cam.pixelHeight);
                 //Debug.Log("Target Bounds" + targetBounds);
-                Mouse.current.WarpCursorPosition(new Vector2(Mathf.Clamp(Input.mousePosition.x, seatedMouseBounds.x * targetBounds.x, (1 - seatedMouseBounds.x) * targetBounds.x),
-                    Mathf.Clamp(Input.mousePosition.y, seatedMouseBounds.y * targetBounds.y, (1 - seatedMouseBounds.y) * targetBounds.y)));
+                Mouse.current.WarpCursorPosition(new Vector2(
+                    Mathf.Clamp(Input.mousePosition.x, seatedMouseBounds.x * targetBounds.x,
+                        (1 - seatedMouseBounds.x) * targetBounds.x),
+                    Mathf.Clamp(Input.mousePosition.y, seatedMouseBounds.y * targetBounds.y,
+                        (1 - seatedMouseBounds.y) * targetBounds.y)));
                 var targetPosition = Input.mousePosition;
                 //Debug.Log("Target Position" + targetPosition);
-                Camera.main.transform.SetLocalPositionAndRotation(Camera.main.transform.localPosition, Quaternion.Euler(((targetPosition.y / targetBounds.y) * seatedCameraBounds.y * -1.0f) + (seatedCameraBounds.y / 2), 0, 0));
-                transform.rotation = Quaternion.Euler(0, ((targetPosition.x / targetBounds.x) * seatedCameraBounds.x) - (seatedCameraBounds.x / 2), 0);                
+                cam.transform.SetLocalPositionAndRotation(cam.transform.localPosition,
+                    Quaternion.Euler(
+                        targetPosition.y / targetBounds.y * seatedCameraBounds.y * -1.0f + seatedCameraBounds.y / 2, 0,
+                        0));
+                transform.rotation = Quaternion.Euler(0,
+                    targetPosition.x / targetBounds.x * seatedCameraBounds.x - seatedCameraBounds.x / 2, 0);
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     ExitChair();
@@ -148,6 +147,7 @@ namespace Scripting.Player
             if (_isInChairTrigger && _actionPressed)
             {
                 StartCoroutine(DoSitChairAnimation());
+                _isInChairTrigger = false;
                 if (_baseballBat)
                 {
                     _baseballBat.Drop();
@@ -158,7 +158,8 @@ namespace Scripting.Player
 
             if (_baseballBat && _attackPressed)
             {
-                StartCoroutine(DoAttackAnimation());
+                StartCoroutine(DoAttack());
+                // StartCoroutine(DoAttackAnimation());
             }
 
             Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * 1.5f, Color.red);
@@ -185,16 +186,16 @@ namespace Scripting.Player
         }
 
         // TODO: CHANGE
-        private IEnumerator DoAttackAnimation()
+        private IEnumerator DoAttack()
         {
             var elapsed = 0f;
 
             var originalTransform = weaponPosition.transform;
 
-            while (elapsed < (AnimationDuration / 4))
+            while (elapsed < AnimationDuration / 4)
             {
                 elapsed += Time.deltaTime;
-                var t = (elapsed / AnimationDuration) * 2;
+                var t = elapsed / AnimationDuration * 2;
 
                 _baseballBat.transform.position = Vector3.Slerp(_baseballBat.transform.position,
                     attackAnimationTarget.transform.position, t);
@@ -225,24 +226,14 @@ namespace Scripting.Player
 
         private void SitOnChairDone()
         {
-            // Just in case
-            if (debugMode)
-            {
-                button.gameObject.SetActive(true);
-                Cursor.lockState = CursorLockMode.Confined;
-            }
-            Seated = true;
+            Cursor.lockState = CursorLockMode.Confined;
+            _seated = true;
         }
 
         private void ExitChairStart()
         {
-            // Just in case
-            if (debugMode)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                button.gameObject.SetActive(false);
-            }
-            Seated = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            _seated = false;
         }
 
         private void ExitChairDone()
@@ -324,6 +315,10 @@ namespace Scripting.Player
             if (_isInChairTrigger)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to sit down.");
+            }
+
+            if (_seated)
+            {
                 GUI.Label(new Rect(5, 30, 200, 50), "Press 'Escape' to stand up.");
             }
 
