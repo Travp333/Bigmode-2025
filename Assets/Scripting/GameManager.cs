@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AI;
 using Scripting.Customer;
+using Scripting.ScriptableObjects;
 using UnityEngine;
 
 namespace Scripting
@@ -11,11 +13,32 @@ namespace Scripting
         [SerializeField] private List<GameObject> customerPrefabs;
 
         [SerializeField] private GameObject customerChairEnterSpot;
-        [SerializeField] private GameObject customerChairLeaveSpot;
+
+        [SerializeField] private Upgrades upgrades;
+
+        [SerializeField] private GameObject distractionChairs;
+        [SerializeField] private GameObject distractionPaintings;
 
         private readonly List<CustomerMotor> _customerMotors = new();
         private CustomerMotor _currentCustomer;
+        
+        private List<AiSpot> _aiSpots = new();
+        
+        private void Awake()
+        {
+            if (upgrades.chairs)
+            {
+                distractionChairs.SetActive(true);
+                _aiSpots = _aiSpots.Concat(distractionChairs.GetComponentsInChildren<AiSpot>()).ToList();
+            }
 
+            if (upgrades.paintings)
+            {
+                distractionPaintings.SetActive(true);
+                _aiSpots = _aiSpots.Concat(distractionPaintings.GetComponentsInChildren<AiSpot>()).ToList();
+            }
+        }
+        
         public void SpawnCustomer()
         {
             var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
@@ -41,6 +64,11 @@ namespace Scripting
             
             _currentCustomer.LeaveDesk();
             _customerMotors.Remove(_currentCustomer);
+        }
+
+        public List<AiSpot> GetDistractionSpots()
+        {
+            return _aiSpots;
         }
     }
 }
