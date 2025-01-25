@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Scripting.PDollarGestureRecognizer;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,36 +12,8 @@ namespace Scripting.Desk
         [SerializeField] private float samplingRate;
         [SerializeField] private GameObject writingSurface;
 
-        // private readonly Gesture[] _trainingsSet =
-        // {
-        //     new(new Point[] {new(0, 0, 0), new(1, 0, 0)}, "line"),
-        //     new(new Point[]
-        //     {
-        //         new(0, 0, 0), new(1, 0, 0),
-        //         new(1, 0, 1), new(1, 1, 1),
-        //         new(1, 1, 2), new(0, 1, 2),
-        //         new(0, 1, 3), new(0, 0, 3)
-        //     }, "box"),
-        //     new(new Point[]
-        //     {
-        //         new(0f, 0f, 0), new(0f, 0.5f, 0),
-        //         new(0f, 0.5f, 1), new(1f, 0f, 1),
-        //         new(1f, 0f, 2), new(0f, 0.666f, 2),
-        //         new(0f, 0.666f, 3), new(1f, 0.666f, 3),
-        //         new(1f, 0.666f, 4), new(0f, 0f, 4)
-        //     }, "pentagram")
-        // };
-
         private readonly Gesture[] _trainingsSet =
         {
-            new(new Point[]
-            {
-                new(0f, 0.0006606274f, 0), new(0f, 0.0006606274f, 0), new(0f, 0.0006606274f, 1),
-                new(0.05713511f, 0f, 1), new(0.05713511f, 0f, 2), new(0.319748f, 1f, 2), new(0.319748f, 1f, 3),
-                new(0.6821741f, 0.9995045f, 3), new(0.6821741f, 0.9995045f, 4), new(0.9717884f, 0.9998183f, 4),
-                new(0.9717884f, 0.9998183f, 5), new(1f, 0.9999505f, 5), new(1f, 0.9999505f, 6),
-                new(1f, 0.9999505f, 6)
-            }, "line"),
             new(new Point[]
             {
                 new(0.00192337f, 0.9413393f, 0), new(0.00192337f, 0.9413393f, 0), new(0.00192337f, 0.9413393f, 1),
