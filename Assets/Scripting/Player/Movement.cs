@@ -1,4 +1,5 @@
 using System.Collections;
+using Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -11,11 +12,15 @@ namespace Scripting.Player
         [Header("Input")]
         [SerializeField] private float moveSpeed = 7.5f;
 
+        [SerializeField] private float mouseSpeed = 3.0f;
+
         [Header("Components")]
         [SerializeField] private Rigidbody rb;
 
-        [SerializeField] private Camera cam;
         [SerializeField] private CapsuleCollider capsuleCollider;
+
+        [Header("Cameras")]
+        [SerializeField] private Camera cam;
 
         [Header("Sitting")]
         [SerializeField] private float cameraRotationSitting = 15f;
@@ -23,16 +28,29 @@ namespace Scripting.Player
         [SerializeField] private GameObject seatEnterPosition;
         [SerializeField] private GameObject seatExitPosition;
 
+        [Header("Markers")]
+        [SerializeField] private GameObject weaponPosition;
+
+        [SerializeField] private GameObject attackAnimationTarget;
+
+        [Header("Animation")]
+        [SerializeField] private AnimationCurve attackCurve;
+
         [Header("Debug")]
         [SerializeField] private bool debugMode;
 
         [SerializeField] private Button button;
-        
+
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
         private float _rotationX;
         private bool _actionPressed;
+        private bool _attackPressed;
         private bool _isInChairTrigger;
+        private BaseballBat _baseballBat;
+        private bool _canPickupBaseballBat;
+
+        public bool BlockAction { get; private set; }
 
         public void ExitChair()
         {
@@ -43,8 +61,6 @@ namespace Scripting.Player
         {
             if (!rb)
                 rb = GetComponent<Rigidbody>();
-            if (!cam)
-                cam = GetComponentInChildren<Camera>();
             if (!capsuleCollider)
                 capsuleCollider = GetComponent<CapsuleCollider>();
 
@@ -65,6 +81,7 @@ namespace Scripting.Player
             Cursor.lockState = CursorLockMode.Locked;
 
             _playerInput.Game.Action.performed += ActionPerformed;
+            _playerInput.Game.Attack.performed += AttackPerformed;
         }
 
         private void OnEnable()
@@ -82,6 +99,11 @@ namespace Scripting.Player
             _actionPressed = true;
         }
 
+        private void AttackPerformed(InputAction.CallbackContext context)
+        {
+            _attackPressed = true;
+        }
+
         private void Update()
         {
             if (BlockAction) return;
@@ -89,13 +111,7 @@ namespace Scripting.Player
             var moveInput = _playerInput.Game.Move.ReadValue<Vector2>();
             // buggy by unity, so I have to use the old method:
             // var lookDelta = _playerInput.Game.Rotate.ReadValue<Vector2>();
-            var lookDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-            
-#if UNITY_EDITOR
-            lookDelta *= 3f;
-#else
-            lookDelta *= 0.3f;
-#endif
+            var lookDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSpeed;
 
             var mouseX = lookDelta.x;
             var mouseY = lookDelta.y;
@@ -112,12 +128,73 @@ namespace Scripting.Player
             if (_isInChairTrigger && _actionPressed)
             {
                 StartCoroutine(DoSitChairAnimation());
+                if (_baseballBat)
+                {
+                    _baseballBat.Drop();
+                    _baseballBat = null;
+                    _actionPressed = false;
+                }
+            }
+
+            if (_baseballBat && _attackPressed)
+            {
+                StartCoroutine(DoAttackAnimation());
+            }
+
+            Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * 1.5f, Color.red);
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 1.5f))
+            {
+                var bat = hit.transform.GetComponent<BaseballBat>();
+                if (bat)
+                {
+                    _canPickupBaseballBat = true;
+                    if (_actionPressed)
+                    {
+                        _baseballBat = bat;
+                        _baseballBat.PickUp(weaponPosition.transform);
+                    }
+                }
+            }
+            else
+            {
+                _canPickupBaseballBat = false;
             }
 
             _actionPressed = false;
+            _attackPressed = false;
         }
 
-        public bool BlockAction { get; private set; }
+        // TODO: CHANGE
+        private IEnumerator DoAttackAnimation()
+        {
+            var elapsed = 0f;
+
+            var originalTransform = weaponPosition.transform;
+
+            while (elapsed < (AnimationDuration / 4))
+            {
+                elapsed += Time.deltaTime;
+                var t = (elapsed / AnimationDuration) * 2;
+
+                _baseballBat.transform.position = Vector3.Slerp(_baseballBat.transform.position,
+                    attackAnimationTarget.transform.position, t);
+                _baseballBat.transform.rotation = Quaternion.Slerp(_baseballBat.transform.rotation,
+                    attackAnimationTarget.transform.rotation, t);
+                yield return null;
+            }
+
+            while (elapsed < AnimationDuration)
+            {
+                elapsed += Time.deltaTime;
+                var t = elapsed / AnimationDuration;
+
+                _baseballBat.transform.position = Vector3.Slerp(_baseballBat.transform.position,
+                    originalTransform.transform.position, t);
+                _baseballBat.transform.rotation = Quaternion.Slerp(_baseballBat.transform.rotation,
+                    originalTransform.transform.rotation, t);
+                yield return null;
+            }
+        }
 
         private void SitOnChairStart()
         {
@@ -225,6 +302,11 @@ namespace Scripting.Player
             if (_isInChairTrigger)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to sit down.");
+            }
+
+            if (_canPickupBaseballBat)
+            {
+                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to pick up baseball bat.");
             }
         }
     }
