@@ -1,4 +1,5 @@
 using System.Collections;
+using Scripting.Desk;
 using Scripting.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -103,21 +104,22 @@ namespace Scripting.Player
         {
             if (_seated)
             {
-                var targetBounds = new Vector3(cam.pixelWidth, cam.pixelHeight);
-                //Debug.Log("Target Bounds" + targetBounds);
-                Mouse.current.WarpCursorPosition(new Vector2(
-                    Mathf.Clamp(Input.mousePosition.x, seatedMouseBounds.x * targetBounds.x,
-                        (1 - seatedMouseBounds.x) * targetBounds.x),
-                    Mathf.Clamp(Input.mousePosition.y, seatedMouseBounds.y * targetBounds.y,
-                        (1 - seatedMouseBounds.y) * targetBounds.y)));
-                var targetPosition = Input.mousePosition;
-                //Debug.Log("Target Position" + targetPosition);
-                cam.transform.SetLocalPositionAndRotation(cam.transform.localPosition,
-                    Quaternion.Euler(
-                        targetPosition.y / targetBounds.y * seatedCameraBounds.y * -1.0f + seatedCameraBounds.y / 2, 0,
-                        0));
-                transform.rotation = Quaternion.Euler(0,
-                    targetPosition.x / targetBounds.x * seatedCameraBounds.x - seatedCameraBounds.x / 2, 0);
+                // var targetBounds = new Vector3(cam.pixelWidth, cam.pixelHeight);
+                // //Debug.Log("Target Bounds" + targetBounds);
+                // Mouse.current.WarpCursorPosition(new Vector2(
+                //     Mathf.Clamp(Input.mousePosition.x, seatedMouseBounds.x * targetBounds.x,
+                //         (1 - seatedMouseBounds.x) * targetBounds.x),
+                //     Mathf.Clamp(Input.mousePosition.y, seatedMouseBounds.y * targetBounds.y,
+                //         (1 - seatedMouseBounds.y) * targetBounds.y)));
+                // var targetPosition = Input.mousePosition;
+                // //Debug.Log("Target Position" + targetPosition);
+                // cam.transform.SetLocalPositionAndRotation(cam.transform.localPosition,
+                //     Quaternion.Euler(
+                //         targetPosition.y / targetBounds.y * seatedCameraBounds.y * -1.0f + seatedCameraBounds.y / 2, 0,
+                //         0));
+                // transform.rotation = Quaternion.Euler(0,
+                //     targetPosition.x / targetBounds.x * seatedCameraBounds.x - seatedCameraBounds.x / 2, 0);
+                //
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     ExitChair();
@@ -228,12 +230,14 @@ namespace Scripting.Player
         {
             Cursor.lockState = CursorLockMode.Confined;
             _seated = true;
+            // GetComponent<Drawing>().SetActive(true);
         }
 
         private void ExitChairStart()
         {
             Cursor.lockState = CursorLockMode.Locked;
             _seated = false;
+            // GetComponent<Drawing>().SetActive(false);
         }
 
         private void ExitChairDone()

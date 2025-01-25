@@ -62,23 +62,6 @@ namespace Scripting
             _customerMotors.Add(go.GetComponent<CustomerMotor>());
         }
 
-        public void NextCustomer()
-        {
-            _currentCustomer = _customerMotors.OrderBy(n => n.StressMeter).FirstOrDefault();
-            if (_currentCustomer)
-            {
-                _currentCustomer.GoToDesk(customerChairEnterSpot.transform);
-            }
-        }
-
-        public void FinalizeCustomer()
-        {
-            if (!_currentCustomer) return;
-            
-            _currentCustomer.LeaveDesk();
-            _customerMotors.Remove(_currentCustomer);
-        }
-
         public List<AiSpot> GetDistractionSpots()
         {
             return _aiSpots;
