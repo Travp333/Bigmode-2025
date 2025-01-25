@@ -24,6 +24,8 @@ namespace Scripting.Player
 
         [Header("Sitting")]
         [SerializeField] private float cameraRotationSitting = 15f;
+        [SerializeField] private Vector2 seatedMouseBounds = Vector2.one * 0.25f;
+        [SerializeField] private Vector2 seatedCameraBounds = Vector2.one * 15.0f;
 
         [SerializeField] private GameObject seatEnterPosition;
         [SerializeField] private GameObject seatExitPosition;
@@ -49,6 +51,7 @@ namespace Scripting.Player
         private bool _isInChairTrigger;
         private BaseballBat _baseballBat;
         private bool _canPickupBaseballBat;
+        private bool Seated = false;
 
         public bool BlockAction { get; private set; }
 
@@ -106,7 +109,24 @@ namespace Scripting.Player
 
         private void Update()
         {
-            if (BlockAction) return;
+            if (Seated)
+            {
+                var targetBounds = new Vector3(Camera.main.pixelWidth, Camera.main.pixelHeight);
+                //Debug.Log("Target Bounds" + targetBounds);
+                Mouse.current.WarpCursorPosition(new Vector2(Mathf.Clamp(Input.mousePosition.x, seatedMouseBounds.x * targetBounds.x, (1 - seatedMouseBounds.x) * targetBounds.x),
+                    Mathf.Clamp(Input.mousePosition.y, seatedMouseBounds.y * targetBounds.y, (1 - seatedMouseBounds.y) * targetBounds.y)));
+                var targetPosition = Input.mousePosition;
+                //Debug.Log("Target Position" + targetPosition);
+                Camera.main.transform.SetLocalPositionAndRotation(Camera.main.transform.localPosition, Quaternion.Euler(((targetPosition.y / targetBounds.y) * seatedCameraBounds.y * -1.0f) + (seatedCameraBounds.y / 2), 0, 0));
+                transform.rotation = Quaternion.Euler(0, ((targetPosition.x / targetBounds.x) * seatedCameraBounds.x) - (seatedCameraBounds.x / 2), 0);                
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    ExitChair();
+                }
+            }
+
+            if (BlockAction)
+                return;
 
             var moveInput = _playerInput.Game.Move.ReadValue<Vector2>();
             // buggy by unity, so I have to use the old method:
@@ -211,6 +231,7 @@ namespace Scripting.Player
                 button.gameObject.SetActive(true);
                 Cursor.lockState = CursorLockMode.Confined;
             }
+            Seated = true;
         }
 
         private void ExitChairStart()
@@ -221,6 +242,7 @@ namespace Scripting.Player
                 Cursor.lockState = CursorLockMode.Locked;
                 button.gameObject.SetActive(false);
             }
+            Seated = false;
         }
 
         private void ExitChairDone()
@@ -302,6 +324,7 @@ namespace Scripting.Player
             if (_isInChairTrigger)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to sit down.");
+                GUI.Label(new Rect(5, 30, 200, 50), "Press 'Escape' to stand up.");
             }
 
             if (_canPickupBaseballBat)

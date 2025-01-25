@@ -2371,6 +2371,8 @@ MonoBehaviour:
   capsuleCollider: {fileID: 1953529834}
   cam: {fileID: 321777789}
   cameraRotationSitting: 15
+  seatedMouseBounds: {x: 0.25, y: 0.25}
+  seatedCameraBounds: {x: 120, y: 60}
   seatEnterPosition: {fileID: 296143890}
   seatExitPosition: {fileID: 1198057496}
   weaponPosition: {fileID: 1021428397}
