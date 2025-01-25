@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Objects
+namespace Scripting.Objects
 {
     public class BaseballBat : MonoBehaviour
     {
