@@ -40,10 +40,7 @@ namespace Scripting.Customer
         {
             if (!_aiController || _done) return;
 
-            if (!_done)
-            {
-                StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
-            }
+            StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
 
             if (StressMeter >= 1.0f)
             {
@@ -130,11 +127,9 @@ namespace Scripting.Customer
             // HAS TO BE IMPLEMENTED
         }
 
-        private void WalkOut()
+        public void WalkOut()
         {
             _done = true;
-            agent.enabled = true;
-            capsuleCollider.enabled = true;
 
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
         }

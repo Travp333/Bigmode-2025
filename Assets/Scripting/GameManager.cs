@@ -12,8 +12,6 @@ namespace Scripting
         [SerializeField] private List<GameObject> spawnPoints;
         [SerializeField] private List<GameObject> customerPrefabs;
 
-        [SerializeField] private GameObject customerChairEnterSpot;
-
         [SerializeField] private Upgrades upgrades;
 
         [SerializeField] private GameObject distractionChairs;
@@ -21,14 +19,34 @@ namespace Scripting
 
         [SerializeField] private GameObject baseballBat;
         [SerializeField] private GameObject cigar;
+        [SerializeField] private GameObject phone;
 
         private readonly List<CustomerMotor> _customerMotors = new();
         private CustomerMotor _currentCustomer;
+
+        private static GameManager _singleton;
+
+        public static GameManager Singleton
+        {
+            get => _singleton;
+            private set
+            {
+                if (_singleton == null)
+                    _singleton = value;
+                else if (_singleton != value)
+                {
+                    Debug.Log($"{nameof(GameManager)} instance already exists, destroying duplicate!");
+                    Destroy(value);
+                }
+            }
+        }
 
         private List<AiSpot> _aiSpots = new();
 
         private void Awake()
         {
+            Singleton = this;
+
             if (upgrades.chairs)
             {
                 distractionChairs.SetActive(true);
@@ -50,6 +68,63 @@ namespace Scripting
             {
                 cigar.SetActive(true);
             }
+
+            if (upgrades.phone)
+            {
+                phone.SetActive(true);
+            }
+        }
+
+        private float _dayTimer = 60.0f;
+        private float _spawnTimer = 0.0f;
+
+        private bool _dayOver;
+
+        void Update()
+        {
+            if (_dayOver) return;
+
+            // SPAWNRATE CALL "SpawnCustomer()";
+
+            if (upgrades.money <= 0)
+            {
+                Bankrupt();
+            }
+
+            _dayTimer -= Time.deltaTime;
+            _spawnTimer -= Time.deltaTime;
+         
+            if (_dayTimer <= 0)
+            {
+                DayFinished();
+            }
+
+            if (_spawnTimer <= 0)
+            {
+                _spawnTimer = 10.0f;
+                SpawnCustomer();
+            }
+        }
+
+        public void Bankrupt()
+        {
+            if (_dayOver) return;
+            // Wasted
+            _dayOver = true;
+        }
+
+        public void StressmeterTooHigh()
+        {
+            if (_dayOver) return;
+            // Wasted
+            _dayOver = true;
+        }
+
+        public void DayFinished()
+        {
+            if (_dayOver) return;
+            // Day is finished -> Shop-Scene
+            _dayOver = true;
         }
 
         public void SpawnCustomer()
@@ -62,11 +137,9 @@ namespace Scripting
             _customerMotors.Add(go.GetComponent<CustomerMotor>());
         }
 
-        public void FinalizeCustomer()
+        public void FinalizeCustomer(CustomerMotor customerMotor)
         {
-            if (!_currentCustomer) return;
-
-            _customerMotors.Remove(_currentCustomer);
+            _customerMotors.Remove(customerMotor);
         }
 
         public List<AiSpot> GetDistractionSpots()

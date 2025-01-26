@@ -9,6 +9,7 @@ namespace Scripting.ScriptableObjects
         public bool paintings;
         public bool baseballBat;
         public bool cigar;
+        public bool phone;
         
         public float money;
     }

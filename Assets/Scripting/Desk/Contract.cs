@@ -29,6 +29,8 @@ namespace Scripting.Desk
         private PlayerInput _playerInput;
 
         private bool _isUp;
+        
+        public bool IsUp => _isUp;
 
         private GameObject _surface;
         private const float AnimationDuration = 1.0f;
@@ -59,7 +61,7 @@ namespace Scripting.Desk
 
         private void ActionPerformed(InputAction.CallbackContext ctx)
         {
-            if (!_isActive) return;
+            if (!_isActive || Mouse.current.leftButton.isPressed) return;
             
             _isUp = !_isUp;
             StartCoroutine(_isUp ? DoUpAnimation() : DoDownSyndromeAnimation());

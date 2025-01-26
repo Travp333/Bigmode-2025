@@ -46,24 +46,24 @@ namespace Scripting.Player
         private bool _canInteractWithClient;
         private bool _seated;
 
-        [SerializeField]
-        float interactRayLength;
+        [SerializeField] private float interactRayLength;
 
-        float counter = 0f;
-        float counterMax = 5f;
+        private float _counter = 0f;
+        private float _counterMax = 5f;
 
-        [SerializeField]
-        float clientInteractDistance = 5f;
+        [SerializeField] private float clientInteractDistance = 5f;
 
-        bool countDownGate;
+        private bool _countDownGate;
 
-        [SerializeField]
-        Image radialIndicatorUI;
+        [SerializeField] private Image radialIndicatorUI;
 
-        GameObject clientInteractor;
-
-
+        private GameObject _clientInteractor;
+        
+        public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
+
+        private bool _phoneRinging;
+        private bool _isSmoking;
 
         public void ExitChair()
         {
@@ -81,6 +81,19 @@ namespace Scripting.Player
             GetComponentInChildren<Contract>()?.SetActive(false);
         }
 
+        public bool CanAct()
+        {
+            if (!_seated) return false;
+
+            var contract = GetComponentInChildren<Contract>();
+            if (contract)
+            {
+                if (contract.IsUp) return false;
+            }
+
+            return true;
+        }
+
         private void OnValidate()
         {
             if (!rb)
@@ -95,7 +108,7 @@ namespace Scripting.Player
             }
         }
 
-        void Awake()
+        private void Awake()
         {
             _playerInput = new PlayerInput();
 
@@ -134,33 +147,38 @@ namespace Scripting.Player
 
         private void Update()
         {
+            var stressChange = 0.025f;
+
             if (_seated)
             {
-                // var targetBounds = new Vector3(cam.pixelWidth, cam.pixelHeight);
-                // //Debug.Log("Target Bounds" + targetBounds);
-                // Mouse.current.WarpCursorPosition(new Vector2(
-                //     Mathf.Clamp(Input.mousePosition.x, seatedMouseBounds.x * targetBounds.x,
-                //         (1 - seatedMouseBounds.x) * targetBounds.x),
-                //     Mathf.Clamp(Input.mousePosition.y, seatedMouseBounds.y * targetBounds.y,
-                //         (1 - seatedMouseBounds.y) * targetBounds.y)));
-                // var targetPosition = Input.mousePosition;
-                // //Debug.Log("Target Position" + targetPosition);
-                // cam.transform.SetLocalPositionAndRotation(cam.transform.localPosition,
-                //     Quaternion.Euler(
-                //         targetPosition.y / targetBounds.y * seatedCameraBounds.y * -1.0f + seatedCameraBounds.y / 2, 0,
-                //         0));
-                // transform.rotation = Quaternion.Euler(0,
-                //     targetPosition.x / targetBounds.x * seatedCameraBounds.x - seatedCameraBounds.x / 2, 0);
-                //
+                stressChange /= 2f;
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
                     ExitChair();
                 }
             }
 
+            if (_phoneRinging)
+            {
+                stressChange *= 1.5f;
+            }
+
+            if (_isSmoking)
+            {
+                stressChange -= 0.05f;
+            }
+            
+            StressLevel += Time.deltaTime * stressChange;
+
+            if (StressLevel >= 1.0f)
+            {
+                BlockAction = true;
+                GameManager.Singleton.StressmeterTooHigh();
+            }
+            
             if (BlockAction)
                 return;
-
+            
             var moveInput = _playerInput.Game.Move.ReadValue<Vector2>();
             var lookDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSpeed;
 
@@ -230,13 +248,18 @@ namespace Scripting.Player
                             attachment.parent = customer.transform;
                             attachment.position = hit.point;
                             attachment.localScale = Vector3.one / 2.0f;
+
+                            GameManager.Singleton.FinalizeCustomer(customer);
+                            ChangeStressLevel(-0.25f);
+                            customer.WalkOut();
+
                             //Todo: Play Smack sound
                         }
                         else
                         {
-                            counter = 0f;
-                            countDownGate = true;
-                            clientInteractor = hit.transform.gameObject;
+                            _counter = 0f;
+                            _countDownGate = true;
+                            _clientInteractor = hit.transform.gameObject;
                         }
                     }
                 }
@@ -251,30 +274,30 @@ namespace Scripting.Player
                 _canPickupBaseballBat = false;
             }
 
-            if (countDownGate)
+            if (_countDownGate)
             {
-                if (Vector3.Distance(this.transform.position, clientInteractor.transform.position) <
+                if (Vector3.Distance(transform.position, _clientInteractor.transform.position) <
                     clientInteractDistance)
                 {
-                    if (counter < counterMax)
+                    if (_counter < _counterMax)
                     {
-                        counter += Time.deltaTime;
+                        _counter += Time.deltaTime;
                         radialIndicatorUI.enabled = true;
-                        radialIndicatorUI.fillAmount = counter / counterMax;
+                        radialIndicatorUI.fillAmount = _counter / _counterMax;
                     }
                     else
                     {
                         radialIndicatorUI.enabled = false;
-                        countDownGate = false;
-                        counter = 0f;
+                        _countDownGate = false;
+                        _counter = 0f;
                         Debug.Log("INTERACTION COMPLETE!");
                     }
                 }
                 else
                 {
                     radialIndicatorUI.enabled = false;
-                    countDownGate = false;
-                    counter = 0f;
+                    _countDownGate = false;
+                    _counter = 0f;
                     Debug.Log("INTERACTION INTERRUPTED!");
                 }
             }
@@ -284,6 +307,21 @@ namespace Scripting.Player
             _attackPressed = false;
         }
 
+
+        private void ChangeStressLevel(float value)
+        {
+            StressLevel += value;
+            if (StressLevel < 0f)
+            {
+                StressLevel = 0f;
+            }
+
+            if (StressLevel > 1f)
+            {
+                StressLevel = 1f;
+            }
+        }
+        
         // TODO: CHANGE
         private IEnumerator DoAttack()
         {
@@ -411,7 +449,7 @@ namespace Scripting.Player
                 _isInChairTrigger = false;
             }
         }
-
+        
         private void OnGUI()
         {
             if (_isInChairTrigger)
@@ -433,6 +471,28 @@ namespace Scripting.Player
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
             }
+            
+            GUI.Label(new Rect(5, Screen.height - 25, 200, 25), StressLevel.ToString());
+        }
+
+        public void NotifyPhoneRinging()
+        {
+            _phoneRinging = true;
+        }
+
+        public void NotifyPhoneStopped()
+        {
+            _phoneRinging = false;
+        }
+        
+        public void NotifyIsSmoking()
+        {
+            _isSmoking = true;
+        }
+
+        public void NotifyStoppedSmoking()
+        {
+            _isSmoking = false;
         }
     }
 }
