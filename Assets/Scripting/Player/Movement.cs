@@ -285,14 +285,14 @@ namespace Scripting.Player
         {
             Cursor.lockState = CursorLockMode.Confined;
             _seated = true;
-            // GetComponent<Drawing>().SetActive(true);
+            // GetComponent<Contract>().SetActive(true);
         }
 
         private void ExitChairStart()
         {
             Cursor.lockState = CursorLockMode.Locked;
             _seated = false;
-            // GetComponent<Drawing>().SetActive(false);
+            // GetComponent<Contract>().SetActive(false);
         }
 
         private void ExitChairDone()
