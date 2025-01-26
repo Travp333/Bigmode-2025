@@ -5,6 +5,7 @@ using Scripting.Desk;
 using Scripting.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Scripting.Player
 {
@@ -53,7 +54,14 @@ namespace Scripting.Player
         float interactRayLength;
         float counter = 0f;
         float counterMax = 5f;
+        [SerializeField]
+        float clientInteractDistance = 5f;
         bool countDownGate;
+        [SerializeField]
+        Image radialIndicatorUI;
+        GameObject clientInteractor;
+        
+        
 
         public bool BlockAction { get; private set; }
 
@@ -179,7 +187,7 @@ namespace Scripting.Player
                 // StartCoroutine(DoAttackAnimation());
             }
 
-            Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * 1.5f, Color.red);
+            Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * interactRayLength, Color.red);
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, interactRayLength))
             {
                 if(hit.transform.GetComponent<BaseballBat>() != null){
@@ -203,6 +211,7 @@ namespace Scripting.Player
                     if(_actionPressed){
                         counter = 0f;
                         countDownGate = true;
+                        clientInteractor = hit.transform.gameObject;
                     }
                 }
                 else{
@@ -215,17 +224,21 @@ namespace Scripting.Player
                 _canPickupBaseballBat = false;
             }
             if(countDownGate){
-                if(_canInteractWithClient){
+                if(Vector3.Distance(this.transform.position, clientInteractor.transform.position) < clientInteractDistance){
                     if(counter < counterMax){
                         counter += Time.deltaTime;
+                        radialIndicatorUI.enabled = true;
+                        radialIndicatorUI.fillAmount = counter / counterMax;
                     }
                     else{
+                        radialIndicatorUI.enabled = false;
                         countDownGate = false;
                         counter = 0f;
                         Debug.Log("INTERACTION COMPLETE!");
                     }
                 }
                 else{
+                    radialIndicatorUI.enabled = false;
                     countDownGate = false;
                     counter = 0f;
                     Debug.Log("INTERACTION INTERRUPTED!");
@@ -313,14 +326,14 @@ namespace Scripting.Player
                 transform.position = Vector3.Slerp(transform.position, seatEnterPosition.transform.position, t);
                 transform.rotation = Quaternion.Slerp(transform.rotation, seatEnterPosition.transform.rotation, t);
                 cam.transform.rotation =
-                    Quaternion.Euler(Mathf.Lerp(cam.transform.rotation.eulerAngles.x, cameraRotationSitting, t), 0f,
-                        0f);
+                    Quaternion.Euler(Mathf.Lerp(cam.transform.rotation.eulerAngles.x, cameraRotationSitting, t), cam.transform.rotation.eulerAngles.y,
+                        cam.transform.rotation.eulerAngles.z);
                 yield return null;
             }
 
             transform.position = seatEnterPosition.transform.position;
             transform.rotation = seatEnterPosition.transform.rotation;
-            cam.transform.rotation = Quaternion.Euler(cam.transform.rotation.eulerAngles.x, 0f, 0f);
+            //cam.transform.rotation = Quaternion.Euler(cam.transform.rotation.eulerAngles.x, cam.transform.rotation.eulerAngles.y, cam.transform.rotation.eulerAngles.z);
 
             SitOnChairDone();
         }
