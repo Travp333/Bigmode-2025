@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,6 +12,10 @@ namespace Scripting.Desk
     public class Drawing : MonoBehaviour
     {
         [SerializeField] private float samplingRate;
+        
+        
+        [SerializeField] private Transform downPoint;
+        [SerializeField] private Transform upPoint;
         
         private readonly Gesture[] _trainingsSet =
         {
@@ -218,6 +223,8 @@ namespace Scripting.Desk
         private int _nextCount;
 
         private PlayerInput _playerInput;
+
+        private bool _isUp;
         
         public void SetActive(bool value)
         {
@@ -229,8 +236,64 @@ namespace Scripting.Desk
             _lineRenderer = GetComponent<LineRenderer>();
 
             _playerInput = new PlayerInput();
+
+            _playerInput.Game.Action.performed += ActionPerformed;
         }
 
+        private void ActionPerformed(InputAction.CallbackContext ctx)
+        {
+            if (_isUp)
+            {
+                StartCoroutine(DoDownSyndromeAnimation());
+            }
+            else
+            {
+                StartCoroutine(DoUpAnimation());
+            }
+
+            _isUp = !_isUp;
+        }
+
+        private const float AnimationDuration = 1.0f;
+
+        private IEnumerator DoUpAnimation()
+        {
+            var elapsed = 0f;
+
+            while (elapsed < AnimationDuration)
+            {
+                elapsed += Time.deltaTime;
+                var t = elapsed / AnimationDuration;
+
+                transform.position = Vector3.Slerp(transform.position, upPoint.transform.position, t);
+                transform.rotation = Quaternion.Slerp(transform.rotation, upPoint.transform.rotation, t);
+
+                yield return null;
+            }
+
+            transform.position = upPoint.transform.position;
+            transform.rotation = upPoint.transform.rotation;
+        }
+
+        private IEnumerator DoDownSyndromeAnimation()
+        {
+            var elapsed = 0f;
+
+            while (elapsed < AnimationDuration)
+            {
+                elapsed += Time.deltaTime;
+                var t = elapsed / AnimationDuration;
+
+                transform.position = Vector3.Slerp(transform.position, downPoint.transform.position, t);
+                transform.rotation = Quaternion.Slerp(transform.rotation, downPoint.transform.rotation, t);
+
+                yield return null;
+            }
+
+            transform.position = downPoint.transform.position;
+            transform.rotation = downPoint.transform.rotation;
+        }
+        
         private void OnEnable()
         {
             _playerInput?.Enable();

@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   samplingRate: 0.025
+  downPoint: {fileID: 6992514841088768144}
+  upPoint: {fileID: 8157192676678996684}
 --- !u!1 &4398435606991577957
 GameObject:
   m_ObjectHideFlags: 0
