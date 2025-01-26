@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Linq;
 using AI;
 using Scripting.Player;
+using Scripting.Desk;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -31,6 +33,8 @@ namespace Scripting.Customer
         //how likely are you to play the conversation variant animation
         int converseVariantProbability = 5;
 
+        private string _contractType;
+
         private void Awake()
         {
             //needed to find direction to face
@@ -40,6 +44,9 @@ namespace Scripting.Customer
 
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = secondsUntilChangeActivity;
+
+            var list = TrainingsData.ContractTypes;
+            _contractType = list[Random.Range(0, list.Count)];
         }
 
         private void Start()
@@ -161,6 +168,7 @@ namespace Scripting.Customer
 #if UNITY_EDITOR
         void OnDrawGizmos()
         {
+            Handles.Label(transform.position + Vector3.up * 2f, "Wants: " + _contractType);
             Handles.Label(transform.position + Vector3.up * 1.5f, "Stresslevel: " + StressMeter);
         }
 #endif
@@ -168,6 +176,17 @@ namespace Scripting.Customer
         private void RemoveMoney()
         {
             // HAS TO BE IMPLEMENTED
+        }
+
+        public bool Validate()
+        {
+            var contracts = GetComponentsInChildren<Contract>();
+            if (contracts.Any(n => n.Result == _contractType))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public void WalkOut()

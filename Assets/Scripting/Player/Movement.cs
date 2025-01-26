@@ -34,6 +34,9 @@ namespace Scripting.Player
         [SerializeField] private GameObject weaponPosition;
 
         [SerializeField] private GameObject attackAnimationTarget;
+        
+        [Header("Buttons")]
+        [SerializeField] private GameObject buttons;
 
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
@@ -69,16 +72,31 @@ namespace Scripting.Player
         {
             StartCoroutine(DoExitChairAnimation());
             DeactivateContractControls();
+            var contract = GetComponentInChildren<Contract>();
+            if (contract)
+            {
+                contract.SetActive(false);
+            }
         }
 
         private void ActivateContractControls()
         {
-            GetComponentInChildren<Contract>()?.SetActive(true);
+            var contract = GetComponentInChildren<Contract>();
+            if (contract)
+            {
+                contract.SetActive(true);
+                buttons.gameObject.SetActive(true);
+            } 
         }
 
         private void DeactivateContractControls()
         {
-            GetComponentInChildren<Contract>()?.SetActive(false);
+            var contract = GetComponentInChildren<Contract>();
+            if (contract)
+            {
+                contract.SetActive(false);
+                buttons.gameObject.SetActive(false);
+            } 
         }
 
         public bool CanAct()
@@ -146,6 +164,17 @@ namespace Scripting.Player
             _attackPressed = true;
         }
 
+        public void SubmitContract()
+        {
+            GetComponentInChildren<Contract>()?.Submit();
+        }
+
+        public void ResetContract()
+        {
+            GetComponentInChildren<Contract>()?.Reset();
+            buttons.gameObject.SetActive(false);
+        }
+        
         private void Update()
         {
             var stressChange = 0.025f;
@@ -250,11 +279,19 @@ namespace Scripting.Player
                             attachment.position = hit.point;
                             attachment.localScale = Vector3.one / 2.0f;
 
-                            GameManager.Singleton.FinalizeCustomer(customer);
-                            ChangeStressLevel(-0.25f);
-                            customer.WalkOut();
+                            if (contract.Converted && customer.Validate())
+                            {
+                                GameManager.Singleton.FinalizeCustomer(customer);
 
-                            //Todo: Play Smack sound
+                                ChangeStressLevel(-0.25f);
+                                customer.WalkOut();
+
+                                //Todo: Play Smack sound
+                            }
+                            else
+                            {
+                                //Todo: Play NO Sound
+                            }
                         }
                         else
                         {

@@ -8,6 +8,7 @@ namespace Scripting.Desk
         [SerializeField] private GameObject contract;
         [SerializeField] private GameObject attachPoint;
         [SerializeField] private Movement player;
+        [SerializeField] private GameObject buttons;
         
         private PlayerInput _input;
 
@@ -40,6 +41,7 @@ namespace Scripting.Desk
                     {
                         var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
                         obj.SetActive(true);
+                        buttons.SetActive(true);
                     }
                 }
             }

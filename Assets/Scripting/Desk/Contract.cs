@@ -13,10 +13,11 @@ namespace Scripting.Desk
         [SerializeField] private float samplingRate;
         [SerializeField] private Transform downPoint;
         [SerializeField] private Transform upPoint;
-
+        [SerializeField] private List<Material> materials;
         [SerializeField] private GameObject surface;
 
         [SerializeField] private LayerMask layerMask;
+        [SerializeField] private MeshRenderer meshRenderer;
 
         private readonly Gesture[] _trainingsSet = TrainingsData.GetTrainingsData();
 
@@ -29,9 +30,11 @@ namespace Scripting.Desk
         private PlayerInput _playerInput;
 
         private bool _isUp;
-        
-        public bool IsUp => _isUp;
 
+        public bool IsUp => _isUp;
+        public string Result { get; private set; }
+        public bool Converted { get; private set; }
+        
         private GameObject _surface;
         private const float AnimationDuration = 1.0f;
 
@@ -63,7 +66,7 @@ namespace Scripting.Desk
         {
             _isUp = false;
             _isBlocked = true;
-            StartCoroutine(  DoDownSyndromeAnimation());
+            StartCoroutine(DoDownSyndromeAnimation());
         }
 
         private bool _isBlocked;
@@ -72,11 +75,11 @@ namespace Scripting.Desk
         {
             _isBlocked = false;
         }
-        
+
         private void ActionPerformed(InputAction.CallbackContext ctx)
         {
             if (!_isActive || Mouse.current.leftButton.isPressed || _isBlocked) return;
-            
+
             _isUp = !_isUp;
             StartCoroutine(_isUp ? DoUpAnimation() : DoDownSyndromeAnimation());
         }
@@ -147,7 +150,7 @@ namespace Scripting.Desk
         {
             AlignWithContract();
 
-            if (!_isActive || !_isUp) return;
+            if (!_isActive || !_isUp || Converted) return;
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
@@ -181,7 +184,7 @@ namespace Scripting.Desk
                 _nextCount = 0;
 
                 if (!_lineRenderer) return;
-                
+
                 if (_lineRenderer.positionCount < 4)
                 {
                     _surface.GetComponent<BoxCollider>().enabled = false;
@@ -206,13 +209,20 @@ namespace Scripting.Desk
                 _positions.Add(posList.ToArray());
                 _renderers.Add(_lineRenderer);
 
-                for (var i = 0; i < _lineRenderer.positionCount - 1; i++)
+                var counter = 0;
+                for (var j = 0; j < _renderers.Count; j++)
                 {
-                    var p1 = posList[i] - transformPos;
-                    var p2 = posList[i + 1] - transformPos;
+                    var lineRenderer = _renderers[j];
+                    for (var i = 0; i < lineRenderer.positionCount - 1; i++)
+                    {
+                        var p1 = _positions[j][i] - transformPos;
+                        var p2 = _positions[j][i + 1] - transformPos;
 
-                    points.Add(new Point(p1.x, p1.z, i));
-                    points.Add(new Point(p2.x, p2.z, i));
+                        points.Add(new Point(p1.x, p1.z, counter));
+                        points.Add(new Point(p2.x, p2.z, counter));
+
+                        counter++;
+                    }
                 }
 
                 points = Normalize(points);
@@ -222,7 +232,7 @@ namespace Scripting.Desk
 
                 var gesture = PointCloudRecognizer.Classify(new Gesture(points.ToArray()), _trainingsSet);
 
-                Debug.Log("that's a " + gesture);
+                Result = gesture;
 
                 _surface.GetComponent<BoxCollider>().enabled = false;
                 _surface = null;
@@ -262,6 +272,45 @@ namespace Scripting.Desk
             }
 
             return normalizedPoints;
+        }
+
+        public void Submit()
+        {
+            if (!Converted)
+            {
+                var names = TrainingsData.ContractTypes;
+                if (Result == null)
+                {
+                    Debug.Log("No gesture found!");
+                }
+                else
+                {
+                    for (var i = 0; i < names.Count; i++)
+                    {
+                        if (Result == names[i])
+                        {
+                            Converted = true;
+                            meshRenderer.material = materials[i];
+
+                            _renderers.ToList().ForEach(n => { Destroy(n.gameObject); });
+
+                            _renderers.Clear();
+                            _positions.Clear();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void Reset()
+        {
+            // _renderers.ToList().ForEach(n => { Destroy(n.gameObject); });
+            //
+            // _renderers.Clear();
+            // _positions.Clear();
+            // Result = null;
+            //
+            Destroy(gameObject);
         }
     }
 }
