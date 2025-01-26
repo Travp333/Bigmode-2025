@@ -9,7 +9,6 @@ namespace Scripting.Desk
 
         private GameObject _currentContract;
         private PlayerInput _input;
-        private bool _isUp;
         
         private void Awake()
         {
@@ -26,13 +25,38 @@ namespace Scripting.Desk
             _input?.Disable();
         }
 
-        private void OnMouseDown()
+        void Update()
         {
-            Debug.Log("OnMouseDown");
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))  
             {
-                Instantiate(contract, attachPoint.transform.position, attachPoint.transform.rotation, attachPoint.transform);
+                Debug.Log("YO");
+                
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        
+                if (Physics.Raycast(ray, out var hit))
+                {
+                    
+                    Debug.Log("YO2");
+
+                    Debug.Log(hit.transform.gameObject.name);
+
+                    // System's up, but the syndrome's down!
+                    if (hit.collider.gameObject == gameObject)
+                    {
+                        
+                        Debug.Log("Y3");
+
+                        OnObjectClicked();
+                    }
+                }
             }
+        }
+        
+        private void OnObjectClicked()
+        {  
+            Instantiate(contract, attachPoint.transform.position, attachPoint.transform.rotation, attachPoint.transform);
+   
         }
     }
 }
