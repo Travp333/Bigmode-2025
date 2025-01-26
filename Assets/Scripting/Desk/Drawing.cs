@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -216,6 +217,8 @@ namespace Scripting.Desk
 
         private int _nextCount;
 
+        private PlayerInput _playerInput;
+        
         public void SetActive(bool value)
         {
             _isActive = value;
@@ -224,8 +227,20 @@ namespace Scripting.Desk
         void Awake()
         {
             _lineRenderer = GetComponent<LineRenderer>();
+
+            _playerInput = new PlayerInput();
         }
-        
+
+        private void OnEnable()
+        {
+            _playerInput?.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _playerInput?.Disable();
+        }
+
         void Update()
         {
             if (!_isActive) return;

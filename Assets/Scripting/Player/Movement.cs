@@ -1,5 +1,4 @@
 using System.Collections;
-using Scripting.Desk;
 using Scripting.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,7 +6,7 @@ using UnityEngine.InputSystem;
 namespace Scripting.Player
 {
     [SelectionBase]
-    public class PlayerBehaviour : MonoBehaviour
+    public class Movement : MonoBehaviour
     {
         [Header("Input")]
         [SerializeField] private float moveSpeed = 7.5f;
@@ -18,16 +17,12 @@ namespace Scripting.Player
         [SerializeField] private Rigidbody rb;
 
         [SerializeField] private CapsuleCollider capsuleCollider;
-        [SerializeField] private SphereCollider sphereCollider;
 
         [Header("Cameras")]
         [SerializeField] private Camera cam;
 
         [Header("Sitting")]
         [SerializeField] private float cameraRotationSitting = 15f;
-
-        [SerializeField] private Vector2 seatedMouseBounds = Vector2.one * 0.25f;
-        [SerializeField] private Vector2 seatedCameraBounds = Vector2.one * 15.0f;
 
         [SerializeField] private GameObject seatEnterPosition;
         [SerializeField] private GameObject seatExitPosition;
@@ -60,8 +55,6 @@ namespace Scripting.Player
                 rb = GetComponent<Rigidbody>();
             if (!capsuleCollider)
                 capsuleCollider = GetComponent<CapsuleCollider>();
-            if (!sphereCollider)
-                sphereCollider = GetComponent<SphereCollider>();
 
             if (moveSpeed < 0f)
             {
