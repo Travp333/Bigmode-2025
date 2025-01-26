@@ -19,7 +19,7 @@ namespace Scripting.Desk
         [SerializeField] private LayerMask layerMask;
 
         private readonly Gesture[] _trainingsSet = TrainingsData.GetTrainingsData();
-        
+
         private bool _isActive;
         private float _lastSnapshot;
 
@@ -36,6 +36,11 @@ namespace Scripting.Desk
         public void SetActive(bool value)
         {
             _isActive = value;
+            if (!_isActive)
+            {
+                StartCoroutine(DoDownSyndromeAnimation());
+                _isUp = false;
+            }
         }
 
         private Camera _cam;
@@ -54,15 +59,10 @@ namespace Scripting.Desk
 
         private void ActionPerformed(InputAction.CallbackContext ctx)
         {
+            if (!_isActive) return;
+            
             _isUp = !_isUp;
-            if (_isUp)
-            {
-                StartCoroutine(DoUpAnimation());
-            }
-            else
-            {
-                StartCoroutine(DoDownSyndromeAnimation());
-            }
+            StartCoroutine(_isUp ? DoUpAnimation() : DoDownSyndromeAnimation());
         }
 
         private IEnumerator DoUpAnimation()
@@ -131,7 +131,7 @@ namespace Scripting.Desk
         {
             AlignWithContract();
 
-            if (!_isActive && !_isUp) return;
+            if (!_isActive || !_isUp) return;
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
@@ -164,6 +164,8 @@ namespace Scripting.Desk
             {
                 _nextCount = 0;
 
+                if (!_lineRenderer) return;
+                
                 if (_lineRenderer.positionCount < 4)
                 {
                     _surface.GetComponent<BoxCollider>().enabled = false;
@@ -185,10 +187,9 @@ namespace Scripting.Desk
                     posList.Add(_surface.transform.InverseTransformPoint(_lineRenderer.GetPosition(i)));
                 }
 
-                
                 _positions.Add(posList.ToArray());
                 _renderers.Add(_lineRenderer);
-                
+
                 for (var i = 0; i < _lineRenderer.positionCount - 1; i++)
                 {
                     var p1 = posList[i] - transformPos;

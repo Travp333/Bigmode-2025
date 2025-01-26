@@ -7,7 +7,6 @@ namespace Scripting.Desk
         [SerializeField] private GameObject contract;
         [SerializeField] private GameObject attachPoint;
 
-        private GameObject _currentContract;
         private PlayerInput _input;
 
         private void Awake()
@@ -29,13 +28,16 @@ namespace Scripting.Desk
         {
             if (Input.GetMouseButtonDown(0))
             {
+                if (attachPoint.GetComponentInChildren<Contract>()) return;
+                
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 if (Physics.Raycast(ray, out var hit))
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
-                        Instantiate(contract, attachPoint.transform);
+                        var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
+                        obj.SetActive(true);
                     }
                 }
             }

@@ -1,5 +1,6 @@
 using System.Collections;
 using Scripting.Customer;
+using Scripting.Desk;
 using Scripting.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -44,24 +45,40 @@ namespace Scripting.Player
         private bool _canPickupBaseballBat;
         private bool _canInteractWithClient;
         private bool _seated;
+
         [SerializeField]
         float interactRayLength;
+
         float counter = 0f;
         float counterMax = 5f;
+
         [SerializeField]
         float clientInteractDistance = 5f;
+
         bool countDownGate;
+
         [SerializeField]
         Image radialIndicatorUI;
+
         GameObject clientInteractor;
-        
-        
+
 
         public bool BlockAction { get; private set; }
 
         public void ExitChair()
         {
             StartCoroutine(DoExitChairAnimation());
+            DeactivateContractControls();
+        }
+
+        private void ActivateContractControls()
+        {
+            GetComponentInChildren<Contract>()?.SetActive(true);
+        }
+
+        private void DeactivateContractControls()
+        {
+            GetComponentInChildren<Contract>()?.SetActive(false);
         }
 
         private void OnValidate()
@@ -103,12 +120,12 @@ namespace Scripting.Player
         {
             _actionPressed = true;
         }
-        
+
         private void ActionReleased(InputAction.CallbackContext context)
         {
             _actionPressed = false;
         }
-        
+
 
         private void AttackPerformed(InputAction.CallbackContext context)
         {
@@ -145,8 +162,6 @@ namespace Scripting.Player
                 return;
 
             var moveInput = _playerInput.Game.Move.ReadValue<Vector2>();
-            // buggy by unity, so I have to use the old method:
-            // var lookDelta = _playerInput.Game.Rotate.ReadValue<Vector2>();
             var lookDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSpeed;
 
             var mouseX = lookDelta.x;
@@ -164,6 +179,7 @@ namespace Scripting.Player
             if (_isInChairTrigger && _actionPressed)
             {
                 StartCoroutine(DoSitChairAnimation());
+                ActivateContractControls();
                 _isInChairTrigger = false;
                 if (_baseballBat)
                 {
@@ -179,10 +195,13 @@ namespace Scripting.Player
                 // StartCoroutine(DoAttackAnimation());
             }
 
-            Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * interactRayLength, Color.red);
+            Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * interactRayLength,
+                Color.red);
+
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, interactRayLength))
             {
-                if(hit.transform.GetComponent<BaseballBat>() != null){
+                if (hit.transform.GetComponent<BaseballBat>() != null)
+                {
                     var bat = hit.transform.GetComponent<BaseballBat>();
                     if (bat)
                     {
@@ -198,38 +217,61 @@ namespace Scripting.Player
                 {
                     _canPickupBaseballBat = false;
                 }
-                if(hit.transform.GetComponent<CustomerMotor>()!=null){
+
+                if (hit.transform.TryGetComponent<CustomerMotor>(out var customer))
+                {
                     _canInteractWithClient = true;
-                    if(_actionPressed){
-                        counter = 0f;
-                        countDownGate = true;
-                        clientInteractor = hit.transform.gameObject;
+                    if (_actionPressed)
+                    {
+                        var contract = GetComponentInChildren<Contract>();
+                        if (contract)
+                        {
+                            var attachment = contract.transform.parent;
+                            attachment.parent = customer.transform;
+                            attachment.position = hit.point;
+                            attachment.localScale = Vector3.one / 2.0f;
+                            //Todo: Play Smack sound
+                        }
+                        else
+                        {
+                            counter = 0f;
+                            countDownGate = true;
+                            clientInteractor = hit.transform.gameObject;
+                        }
                     }
                 }
-                else{
+                else
+                {
                     _canInteractWithClient = false;
                 }
-
             }
-            else{
+            else
+            {
                 _canInteractWithClient = false;
                 _canPickupBaseballBat = false;
             }
-            if(countDownGate){
-                if(Vector3.Distance(this.transform.position, clientInteractor.transform.position) < clientInteractDistance){
-                    if(counter < counterMax){
+
+            if (countDownGate)
+            {
+                if (Vector3.Distance(this.transform.position, clientInteractor.transform.position) <
+                    clientInteractDistance)
+                {
+                    if (counter < counterMax)
+                    {
                         counter += Time.deltaTime;
                         radialIndicatorUI.enabled = true;
                         radialIndicatorUI.fillAmount = counter / counterMax;
                     }
-                    else{
+                    else
+                    {
                         radialIndicatorUI.enabled = false;
                         countDownGate = false;
                         counter = 0f;
                         Debug.Log("INTERACTION COMPLETE!");
                     }
                 }
-                else{
+                else
+                {
                     radialIndicatorUI.enabled = false;
                     countDownGate = false;
                     counter = 0f;
@@ -318,7 +360,8 @@ namespace Scripting.Player
                 transform.position = Vector3.Slerp(transform.position, seatEnterPosition.transform.position, t);
                 transform.rotation = Quaternion.Slerp(transform.rotation, seatEnterPosition.transform.rotation, t);
                 cam.transform.rotation =
-                    Quaternion.Euler(Mathf.Lerp(cam.transform.rotation.eulerAngles.x, cameraRotationSitting, t), cam.transform.rotation.eulerAngles.y,
+                    Quaternion.Euler(Mathf.Lerp(cam.transform.rotation.eulerAngles.x, cameraRotationSitting, t),
+                        cam.transform.rotation.eulerAngles.y,
                         cam.transform.rotation.eulerAngles.z);
                 yield return null;
             }
@@ -385,6 +428,7 @@ namespace Scripting.Player
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to pick up baseball bat.");
             }
+
             if (_canInteractWithClient)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
