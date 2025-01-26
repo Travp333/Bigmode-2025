@@ -66,7 +66,6 @@ namespace Scripting
         {
             if (!_currentCustomer) return;
 
-            _currentCustomer.LeaveDesk();
             _customerMotors.Remove(_currentCustomer);
         }
 

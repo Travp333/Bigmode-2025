@@ -11,8 +11,6 @@ namespace Scripting.Customer
         
         [SerializeField] private List<AiSpot> tableWaitingSpots;
         [SerializeField] private List<DespawnPoint> despawnPoints;
-        [SerializeField] private GameObject deskChairSpot;
-        [SerializeField] private GameObject leaveChairSpot;
         [SerializeField] private GameManager gameManager;
         
         public GameObject EntrancePoint => entrancePoint;
@@ -37,17 +35,7 @@ namespace Scripting.Customer
         {
             return tableWaitingSpots[Random.Range(0, tableWaitingSpots.Count)];
         }
-
-        public GameObject GetDeskChairSpot()
-        {
-            return deskChairSpot;
-        }
-        
-        public GameObject GetDeskLeaveSpot()
-        {
-            return leaveChairSpot;
-        }
-
+ 
         public DespawnPoint GetRandomDespawnPoint()
         {
             return despawnPoints[Random.Range(0, despawnPoints.Count)];

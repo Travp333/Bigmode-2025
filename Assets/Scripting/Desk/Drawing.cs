@@ -10,8 +10,7 @@ namespace Scripting.Desk
     public class Drawing : MonoBehaviour
     {
         [SerializeField] private float samplingRate;
-        [SerializeField] private GameObject writingSurface;
-
+        
         private readonly Gesture[] _trainingsSet =
         {
             new(new Point[]
@@ -213,30 +212,26 @@ namespace Scripting.Desk
         private LineRenderer _lineRenderer;
         private bool _isActive;
 
+        private float _lastSnapshot = 0.0f;
+
+        private int _nextCount;
+
         public void SetActive(bool value)
         {
             _isActive = value;
         }
 
-        private float _lastSnapshot = 0.0f;
-
-        private int _nextCount;
-        private GameObject _surface;
-
+        void Awake()
+        {
+            _lineRenderer = GetComponent<LineRenderer>();
+        }
+        
         void Update()
         {
             if (!_isActive) return;
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                var position = Input.mousePosition;
-
-                position.z = 10f;
-
-                var worldPoint = Camera.main.ScreenToWorldPoint(position);
-
-                _surface = Instantiate(writingSurface, worldPoint, Camera.main.transform.rotation);
-                _lineRenderer = _surface.GetComponent<LineRenderer>();
             }
 
             if (Mouse.current.leftButton.isPressed)
@@ -244,14 +239,18 @@ namespace Scripting.Desk
                 _lastSnapshot -= Time.deltaTime;
                 if (_lastSnapshot <= 0.0f)
                 {
-                    _lastSnapshot = samplingRate;
                     var position = Input.mousePosition;
-                    position.z = 10f;
-
-                    var worldPoint = Camera.main.ScreenToWorldPoint(position);
-
-                    _lineRenderer.positionCount++;
-                    _lineRenderer.SetPosition(_nextCount++, worldPoint);
+                    
+                    var x = Camera.main.ScreenPointToRay(position);
+                    if (Physics.Raycast(x.origin, x.direction, out var hit) && hit.collider.gameObject == gameObject)
+                    {
+                        _lastSnapshot = samplingRate;
+                        
+                        var worldPoint = Camera.main.ScreenToWorldPoint(hit.point);
+                        
+                        _lineRenderer.positionCount++;
+                        _lineRenderer.SetPosition(_nextCount++, worldPoint);
+                    }
                 }
             }
 
@@ -266,7 +265,7 @@ namespace Scripting.Desk
 
                 var points = new List<Point>();
 
-                var transformPos = _surface.transform.position;
+                var transformPos = transform.position;
 
                 for (var i = 0; i < _lineRenderer.positionCount - 1; i++)
                 {
@@ -288,7 +287,6 @@ namespace Scripting.Desk
 
                 Debug.Log("that's a " + gesture);
 
-                Destroy(_surface);
                 _lineRenderer = null;
             }
         }

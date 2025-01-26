@@ -18,10 +18,7 @@ namespace Scripting.Customer
 
         private AiController _aiController;
         private float _changeTaskCooldown;
-        private bool _goingToDesk;
-        private bool _sittingAtAttorney;
         private bool _done;
-        private Vector3? _target;
 
         public float StressMeter { get; private set; }
 
@@ -45,7 +42,7 @@ namespace Scripting.Customer
 
             if (!_done)
             {
-                StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_goingToDesk || _currentSpot ? 2f : 1f));
+                StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
             }
 
             if (StressMeter >= 1.0f)
@@ -53,33 +50,8 @@ namespace Scripting.Customer
                 _done = true;
 
                 RemoveMoney();
-                
-                if (_sittingAtAttorney)
-                {
-                    _sittingAtAttorney = false;
-                    LeaveDesk();
-                    return;
-                }
-
-                if (_goingToDesk)
-                {
-                    _goingToDesk = false;
-                }
 
                 WalkOut();
-                return;
-            }
-
-            if (_goingToDesk && _target.HasValue)
-            {
-                var distance = Vector3.Distance(transform.position, _target.Value);
-                if (distance < 0.1f)
-                {
-                    capsuleCollider.enabled = false;
-                    agent.enabled = false;
-                    StartCoroutine(DoSitDeskAnimation());
-                }
-
                 return;
             }
 
@@ -153,70 +125,6 @@ namespace Scripting.Customer
         }
 #endif
 
-        public void GoToDesk(Transform tf)
-        {
-            _goingToDesk = true;
-            _target = tf.position;
-            agent.destination = tf.position;
-        }
-
-        private const float AnimationDuration = 1.0f;
-
-        private IEnumerator DoSitDeskAnimation()
-        {
-            var sittingSpot = _aiController.GetDeskChairSpot();
-
-            var elapsed = 0f;
-
-            while (elapsed < AnimationDuration)
-            {
-                elapsed += Time.deltaTime;
-                var t = elapsed / AnimationDuration;
-
-                transform.position = Vector3.Slerp(transform.position, sittingSpot.transform.position, t);
-                transform.rotation = Quaternion.Slerp(transform.rotation, sittingSpot.transform.rotation, t);
-                yield return null;
-            }
-
-            transform.position = sittingSpot.transform.position;
-            transform.rotation = sittingSpot.transform.rotation;
-
-            _sittingAtAttorney = true;
-        }
-
-        private IEnumerator DoLeaveDeskAnimation()
-        {
-            var leaveSpot = _aiController.GetDeskLeaveSpot();
-
-            var elapsed = 0f;
-
-            while (elapsed < AnimationDuration)
-            {
-                elapsed += Time.deltaTime;
-                var t = elapsed / AnimationDuration;
-
-                transform.position = Vector3.Slerp(transform.position, leaveSpot.transform.position, t);
-                transform.rotation = Quaternion.Slerp(transform.rotation, leaveSpot.transform.rotation, t);
-                yield return null;
-            }
-
-            transform.position = leaveSpot.transform.position;
-            transform.rotation = leaveSpot.transform.rotation;
-
-            DeskLeft();
-        }
-
-        public void LeaveDesk()
-        {
-            StartCoroutine(DoLeaveDeskAnimation());
-        }
-
-        private void DeskLeft()
-        {
-            capsuleCollider.enabled = true;
-            WalkOut();
-        }
-
         private void RemoveMoney()
         {
             // HAS TO BE IMPLEMENTED
@@ -226,6 +134,7 @@ namespace Scripting.Customer
         {
             _done = true;
             agent.enabled = true;
+            capsuleCollider.enabled = true;
 
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
         }
