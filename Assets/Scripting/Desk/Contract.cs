@@ -59,9 +59,23 @@ namespace Scripting.Desk
             _cam = Camera.main;
         }
 
+        public void Block()
+        {
+            _isUp = false;
+            _isBlocked = true;
+            StartCoroutine(  DoDownSyndromeAnimation());
+        }
+
+        private bool _isBlocked;
+
+        public void Unblock()
+        {
+            _isBlocked = false;
+        }
+        
         private void ActionPerformed(InputAction.CallbackContext ctx)
         {
-            if (!_isActive || Mouse.current.leftButton.isPressed) return;
+            if (!_isActive || Mouse.current.leftButton.isPressed || _isBlocked) return;
             
             _isUp = !_isUp;
             StartCoroutine(_isUp ? DoUpAnimation() : DoDownSyndromeAnimation());

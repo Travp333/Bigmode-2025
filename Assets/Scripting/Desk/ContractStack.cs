@@ -1,3 +1,4 @@
+using Scripting.Player;
 using UnityEngine;
 
 namespace Scripting.Desk
@@ -6,7 +7,8 @@ namespace Scripting.Desk
     {
         [SerializeField] private GameObject contract;
         [SerializeField] private GameObject attachPoint;
-
+        [SerializeField] private Movement player;
+        
         private PlayerInput _input;
 
         private void Awake()
@@ -26,7 +28,7 @@ namespace Scripting.Desk
 
         void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && player.CanAct())
             {
                 if (attachPoint.GetComponentInChildren<Contract>()) return;
                 

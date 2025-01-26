@@ -42,7 +42,7 @@ namespace Scripting.Desk
                 StopSmoking();
             }
         }
-
+        
         private bool _isSmoking;
         
         public void StartSmoking()

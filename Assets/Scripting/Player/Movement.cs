@@ -58,7 +58,7 @@ namespace Scripting.Player
         [SerializeField] private Image radialIndicatorUI;
 
         private GameObject _clientInteractor;
-        
+
         public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
 
@@ -86,10 +86,11 @@ namespace Scripting.Player
             if (!_seated) return false;
 
             var contract = GetComponentInChildren<Contract>();
-            if (contract)
-            {
-                if (contract.IsUp) return false;
-            }
+            if (contract && contract.IsUp)
+                return false;
+
+            if (_isSmoking)
+                return false;
 
             return true;
         }
@@ -167,7 +168,7 @@ namespace Scripting.Player
             {
                 stressChange -= 0.05f;
             }
-            
+
             StressLevel += Time.deltaTime * stressChange;
 
             if (StressLevel >= 1.0f)
@@ -175,10 +176,10 @@ namespace Scripting.Player
                 BlockAction = true;
                 GameManager.Singleton.StressmeterTooHigh();
             }
-            
+
             if (BlockAction)
                 return;
-            
+
             var moveInput = _playerInput.Game.Move.ReadValue<Vector2>();
             var lookDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSpeed;
 
@@ -321,7 +322,7 @@ namespace Scripting.Player
                 StressLevel = 1f;
             }
         }
-        
+
         // TODO: CHANGE
         private IEnumerator DoAttack()
         {
@@ -449,7 +450,7 @@ namespace Scripting.Player
                 _isInChairTrigger = false;
             }
         }
-        
+
         private void OnGUI()
         {
             if (_isInChairTrigger)
@@ -471,7 +472,7 @@ namespace Scripting.Player
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
             }
-            
+
             GUI.Label(new Rect(5, Screen.height - 25, 200, 25), StressLevel.ToString());
         }
 
@@ -485,14 +486,32 @@ namespace Scripting.Player
             _phoneRinging = false;
         }
         
+        public void BlockContractDrawing(bool value)
+        {
+            var contract = GetComponentInChildren<Contract>();
+            if (!contract) return;
+            if (value)
+            { 
+                contract.Block();
+            }
+            else
+            {
+                contract.Unblock();
+            }
+        }
+        
         public void NotifyIsSmoking()
         {
             _isSmoking = true;
+
+            BlockContractDrawing(true);
         }
 
         public void NotifyStoppedSmoking()
         {
             _isSmoking = false;
+            
+            BlockContractDrawing(false);
         }
     }
 }
