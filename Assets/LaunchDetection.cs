@@ -21,7 +21,7 @@ public class LaunchDetection : MonoBehaviour
     CustomerMotor motor;
 
    
-    
+
     private void Awake() {
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
@@ -56,31 +56,31 @@ public class LaunchDetection : MonoBehaviour
         int rand = Random.Range(0,3);
         Debug.Log(rand);
         if(rand == 0){
-            Debug.Log("Playing Damage anim1");
+            //Debug.Log("Playing Damage anim1");
             anim.Play("Take Damage 1");
         }
         else if(rand == 1){
-            Debug.Log("Playing Damage anim2");
+            //Debug.Log("Playing Damage anim2");
             anim.Play("Take Damage 2");
         }
         else if(rand == 2){
-            Debug.Log("Playing Damage anim3");
+            //Debug.Log("Playing Damage anim3");
             anim.Play("Take Damage 3");
         }
         else{
-            Debug.Log("WTF");
+            //Debug.Log("WTF");
         }
     }
     private void Update() {
 
         if(lerpGate){
             if(Vector3.Distance(this.transform.position, lerpTarget) < splatDistance){
-                Debug.Log("ALREADY AT TARGET, SKIPPING");
+                //Debug.Log("ALREADY AT TARGET, SKIPPING");
                 PlayRandomDamageAnimation();
                 lerpGate = false;
             }
             else{
-                Debug.Log("Not Yet at target, lerping");
+                //Debug.Log("Not Yet at target, lerping");
                 this.transform.position = Vector3.MoveTowards(this.transform.position, lerpTarget, launchSpeed);
                 //this.transform.position = Vector3.Lerp(this.transform.position, lerpTarget, Time.deltaTime);
                 if(hitNormal != null){
@@ -91,7 +91,7 @@ public class LaunchDetection : MonoBehaviour
                     }
                 }
                 else{
-                    Debug.Log("INVALID HIT NORMAL, SKIPPING");
+                    //Debug.Log("INVALID HIT NORMAL, SKIPPING");
                     PlayRandomDamageAnimation();
                     lerpGate = false;
                 }

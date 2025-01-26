@@ -10,7 +10,9 @@ namespace Scripting.ScriptableObjects
         public bool baseballBat;
         public bool cigar;
         public bool phone;
-        
+        public bool bodyguard;
+        public bool assistant;
         public float money;
+        
     }
 }

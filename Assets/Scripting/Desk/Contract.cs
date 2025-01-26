@@ -285,6 +285,7 @@ namespace Scripting.Desk
                 }
                 else
                 {
+                    Debug.Log(Result);
                     for (var i = 0; i < names.Count; i++)
                     {
                         if (Result == names[i])

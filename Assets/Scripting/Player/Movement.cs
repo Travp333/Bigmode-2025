@@ -275,6 +275,7 @@ namespace Scripting.Player
                         if (contract)
                         {
                             var attachment = contract.transform.parent;
+                            //Change this to NPC head bone
                             attachment.parent = customer.transform;
                             attachment.position = hit.point;
                             attachment.localScale = Vector3.one / 2.0f;

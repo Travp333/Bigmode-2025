@@ -20,7 +20,8 @@ namespace Scripting
         [SerializeField] private GameObject baseballBat;
         [SerializeField] private GameObject cigar;
         [SerializeField] private GameObject phone;
-
+        [SerializeField] private GameObject assistant;
+        [SerializeField] private GameObject bodyguard;
         private readonly List<CustomerMotor> _customerMotors = new();
         private CustomerMotor _currentCustomer;
 
@@ -73,6 +74,15 @@ namespace Scripting
             {
                 phone.SetActive(true);
             }
+            if (upgrades.assistant)
+            {
+                assistant.SetActive(true);
+            }
+            if (upgrades.bodyguard)
+            {
+                bodyguard.SetActive(true);
+            }
+            
         }
 
         private float _dayTimer = 60.0f;
