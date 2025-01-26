@@ -171,11 +171,11 @@ namespace Scripting.Player
 
             StressLevel += Time.deltaTime * stressChange;
 
-            if (StressLevel >= 1.0f)
-            {
-                BlockAction = true;
-                GameManager.Singleton.StressmeterTooHigh();
-            }
+            // if (StressLevel >= 1.0f)
+            // {
+            //     BlockAction = true;
+            //     GameManager.Singleton.StressmeterTooHigh();
+            // }
 
             if (BlockAction)
                 return;
@@ -282,12 +282,14 @@ namespace Scripting.Player
                 {
                     if (_counter < _counterMax)
                     {
+                        _clientInteractor.GetComponent<CustomerMotor>().StartConversing();
                         _counter += Time.deltaTime;
                         radialIndicatorUI.enabled = true;
                         radialIndicatorUI.fillAmount = _counter / _counterMax;
                     }
                     else
                     {
+                        _clientInteractor.GetComponent<CustomerMotor>().StopConversing();
                         radialIndicatorUI.enabled = false;
                         _countDownGate = false;
                         _counter = 0f;
@@ -296,6 +298,7 @@ namespace Scripting.Player
                 }
                 else
                 {
+                    _clientInteractor.GetComponent<CustomerMotor>().StopConversing();
                     radialIndicatorUI.enabled = false;
                     _countDownGate = false;
                     _counter = 0f;

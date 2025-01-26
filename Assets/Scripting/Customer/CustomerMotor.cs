@@ -1,5 +1,6 @@
 using System.Collections;
 using AI;
+using Scripting.Player;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -23,11 +24,21 @@ namespace Scripting.Customer
         public float StressMeter { get; private set; }
 
         private AiSpot _currentSpot;
+        Animator anim;
+        bool conversing;
+        Movement player;
+        [SerializeField]
+        //how likely are you to play the conversation variant animation
+        int converseVariantProbability = 5;
 
         private void Awake()
         {
-            _aiController = FindFirstObjectByType<AiController>();
+            //needed to find direction to face
+            player = FindFirstObjectByType<Movement>();
+            //needed to aaffect animations
+            anim = GetComponent<Animator>();
 
+            _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = secondsUntilChangeActivity;
         }
 
@@ -35,12 +46,44 @@ namespace Scripting.Customer
         {
             WalkIn();
         }
+        //start conversation
+        public void StartConversing(){
+            conversing = true;
+            anim.Play("Conversing");
+        }
+        //end conversatioon
+        public void StopConversing(){
+            conversing = false;
+        }
+        //called in animation
+        public void DecideToPlayVariant(){
+            int rand = Random.Range(0, converseVariantProbability);
+            if(rand - 1 >= 0){
+                if(rand == converseVariantProbability - 1){
+                    anim.SetBool("playConverseVariant", true);
+                    anim.SetInteger("WhichConverseVariant", Random.Range(0,3));
+                    Debug.Log("Playing Variant!");
+                }
+            }
+
+        }
 
         private void Update()
         {
+
             if (!_aiController || _done) return;
 
             StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
+            //handles rotation
+            if(conversing){
+                agent.isStopped = true;
+                this.transform.rotation = Quaternion.LookRotation(-player.transform.forward, player.transform.up);
+                anim.SetBool("conversing", true);
+            }
+            else{
+                agent.isStopped = false;
+                anim.SetBool("conversing", false);
+            }
 
             if (StressMeter >= 1.0f)
             {
