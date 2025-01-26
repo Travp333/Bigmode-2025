@@ -102,10 +102,25 @@ MonoBehaviour:
   samplingRate: 0.025
   downPoint: {fileID: 6992514841088768144}
   upPoint: {fileID: 8157192676678996684}
+  materials:
+  - {fileID: 2100000, guid: d645fe935a8c85a4d8df98d685d4ae80, type: 2}
+  - {fileID: 2100000, guid: f82ca0b43a813e14c8b607fae1868bd6, type: 2}
+  - {fileID: 2100000, guid: 58eea390060d3da4393d3f0cd4bcc2aa, type: 2}
+  - {fileID: 2100000, guid: b591ae58a03b75a43a235a3878c16fa5, type: 2}
+  - {fileID: 2100000, guid: fc0794ab2a10cf040b0b2538c81a8147, type: 2}
+  - {fileID: 2100000, guid: 471561c67ea425b459a5f877c336dee7, type: 2}
+  - {fileID: 2100000, guid: b3e43b36a6ad9e64890ce56e4b0cbc0b, type: 2}
+  - {fileID: 2100000, guid: fc0794ab2a10cf040b0b2538c81a8147, type: 2}
+  - {fileID: 2100000, guid: f7c561aa5d3013f4485287f73f365415, type: 2}
+  - {fileID: 2100000, guid: 3b8266312c2f2ef41ba37b4af204fa0a, type: 2}
+  - {fileID: 2100000, guid: 5a875695e8161cc4f8cc85af3e4f1f1d, type: 2}
+  - {fileID: 2100000, guid: 8b1f8ee9120985f4b9190dde4cd76399, type: 2}
+  - {fileID: 2100000, guid: f4b958c615d6e8e49b2fcf20efe9784f, type: 2}
   surface: {fileID: 4285204946629091603, guid: b4ef4ef02e797f54cbfdba3f312180fc, type: 3}
   layerMask:
     serializedVersion: 2
     m_Bits: 512
+  meshRenderer: {fileID: 7401989179290572846}
 --- !u!1 &4398435606991577957
 GameObject:
   m_ObjectHideFlags: 0
