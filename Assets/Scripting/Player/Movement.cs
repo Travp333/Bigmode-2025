@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Scripting.Customer;
 using Scripting.Desk;
 using Scripting.Objects;
 using UnityEngine;
@@ -7,7 +9,7 @@ using UnityEngine.InputSystem;
 namespace Scripting.Player
 {
     [SelectionBase]
-    public class PlayerBehaviour : MonoBehaviour
+    public class Movement : MonoBehaviour
     {
         [Header("Input")]
         [SerializeField] private float moveSpeed = 7.5f;
@@ -45,7 +47,13 @@ namespace Scripting.Player
         private bool _isInChairTrigger;
         private BaseballBat _baseballBat;
         private bool _canPickupBaseballBat;
+        private bool _canInteractWithClient;
         private bool _seated;
+        [SerializeField]
+        float interactRayLength;
+        float counter = 0f;
+        float counterMax = 5f;
+        bool countDownGate;
 
         public bool BlockAction { get; private set; }
 
@@ -78,6 +86,7 @@ namespace Scripting.Player
 
             _playerInput.Game.Action.performed += ActionPerformed;
             _playerInput.Game.Attack.performed += AttackPerformed;
+            _playerInput.Game.Action.canceled += ActionReleased;
         }
 
         private void OnEnable()
@@ -94,6 +103,12 @@ namespace Scripting.Player
         {
             _actionPressed = true;
         }
+        
+        private void ActionReleased(InputAction.CallbackContext context)
+        {
+            _actionPressed = false;
+        }
+        
 
         private void AttackPerformed(InputAction.CallbackContext context)
         {
@@ -120,7 +135,7 @@ namespace Scripting.Player
                 // transform.rotation = Quaternion.Euler(0,
                 //     targetPosition.x / targetBounds.x * seatedCameraBounds.x - seatedCameraBounds.x / 2, 0);
                 //
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKeyDown(KeyCode.Tab))
                 {
                     ExitChair();
                 }
@@ -165,23 +180,58 @@ namespace Scripting.Player
             }
 
             Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * 1.5f, Color.red);
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 1.5f))
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, interactRayLength))
             {
-                var bat = hit.transform.GetComponent<BaseballBat>();
-                if (bat)
-                {
-                    _canPickupBaseballBat = true;
-                    if (_actionPressed)
+                if(hit.transform.GetComponent<BaseballBat>() != null){
+                    var bat = hit.transform.GetComponent<BaseballBat>();
+                    if (bat)
                     {
-                        _baseballBat = bat;
-                        _baseballBat.PickUp(weaponPosition.transform);
+                        _canPickupBaseballBat = true;
+                        if (_actionPressed)
+                        {
+                            _baseballBat = bat;
+                            _baseballBat.PickUp(weaponPosition.transform);
+                        }
                     }
                 }
+                else
+                {
+                    _canPickupBaseballBat = false;
+                }
+                if(hit.transform.GetComponent<CustomerMotor>()!=null){
+                    _canInteractWithClient = true;
+                    if(_actionPressed){
+                        counter = 0f;
+                        countDownGate = true;
+                    }
+                }
+                else{
+                    _canInteractWithClient = false;
+                }
+
             }
-            else
-            {
+            else{
+                _canInteractWithClient = false;
                 _canPickupBaseballBat = false;
             }
+            if(countDownGate){
+                if(_canInteractWithClient){
+                    if(counter < counterMax){
+                        counter += Time.deltaTime;
+                    }
+                    else{
+                        countDownGate = false;
+                        counter = 0f;
+                        Debug.Log("INTERACTION COMPLETE!");
+                    }
+                }
+                else{
+                    countDownGate = false;
+                    counter = 0f;
+                    Debug.Log("INTERACTION INTERRUPTED!");
+                }
+            }
+
 
             _actionPressed = false;
             _attackPressed = false;
@@ -323,12 +373,16 @@ namespace Scripting.Player
 
             if (_seated)
             {
-                GUI.Label(new Rect(5, 30, 200, 50), "Press 'Escape' to stand up.");
+                GUI.Label(new Rect(5, 30, 200, 50), "Press 'Tab' to stand up.");
             }
 
             if (_canPickupBaseballBat)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to pick up baseball bat.");
+            }
+            if (_canInteractWithClient)
+            {
+                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
             }
         }
     }
