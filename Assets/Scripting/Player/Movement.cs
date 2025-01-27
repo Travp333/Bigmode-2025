@@ -67,6 +67,8 @@ namespace Scripting.Player
 
         private bool _phoneRinging;
         private bool _isSmoking;
+        [SerializeField]
+        LayerMask mask;
 
         public void ExitChair()
         {
@@ -246,7 +248,7 @@ namespace Scripting.Player
             Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * interactRayLength,
                 Color.red);
 
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, interactRayLength))
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, interactRayLength, mask))
             {
                 if (hit.transform.GetComponent<BaseballBat>() != null)
                 {

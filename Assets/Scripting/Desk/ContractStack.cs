@@ -9,7 +9,10 @@ namespace Scripting.Desk
         [SerializeField] private GameObject attachPoint;
         [SerializeField] private Movement player;
         [SerializeField] private GameObject buttons;
-        
+        [SerializeField]
+        GameObject deskHands;
+        [SerializeField]
+        Animator leftHandAnim;
         private PlayerInput _input;
 
         private void Awake()
@@ -39,12 +42,18 @@ namespace Scripting.Desk
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
-                        var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
-                        obj.SetActive(true);
-                        buttons.SetActive(true);
+                        deskHands.SetActive(true);
+                        leftHandAnim.Play("Grabbing Paper");
+                        Invoke("GrabPaper", .26f);
                     }
                 }
             }
         }
+        void GrabPaper(){
+            var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
+            obj.SetActive(true);
+            buttons.SetActive(true);
+        }
     }
+
 }
