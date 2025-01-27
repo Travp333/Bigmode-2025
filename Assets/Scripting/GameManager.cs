@@ -12,16 +12,17 @@ namespace Scripting
         [SerializeField] private List<GameObject> spawnPoints;
         [SerializeField] private List<GameObject> customerPrefabs;
 
-        [SerializeField] private Upgrades upgrades;
+        [SerializeField] public Upgrades upgrades;
+        [SerializeField] public GameObject mainCanvas;
 
-        [SerializeField] private GameObject distractionChairs;
-        [SerializeField] private GameObject distractionPaintings;
+        [SerializeField] public GameObject distractionChairs;
+        [SerializeField] public GameObject distractionPaintings;
 
-        [SerializeField] private GameObject baseballBat;
-        [SerializeField] private GameObject cigar;
-        [SerializeField] private GameObject phone;
-        [SerializeField] private GameObject assistant;
-        [SerializeField] private GameObject bodyguard;
+        [SerializeField] public GameObject baseballBat;
+        [SerializeField] public GameObject cigar;
+        [SerializeField] public GameObject phone;
+        [SerializeField] public GameObject assistant;
+        [SerializeField] public GameObject bodyguard;
         private readonly List<CustomerMotor> _customerMotors = new();
         private CustomerMotor _currentCustomer;
 
@@ -42,7 +43,7 @@ namespace Scripting
             }
         }
 
-        private List<AiSpot> _aiSpots = new();
+        public List<AiSpot> _aiSpots = new();
 
         private void Awake()
         {

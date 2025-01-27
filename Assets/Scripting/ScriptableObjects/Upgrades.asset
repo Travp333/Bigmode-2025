@@ -20,3 +20,10 @@ MonoBehaviour:
   bodyguard: 0
   assistant: 1
   money: 500
+  chairsFlavorText: adds chairs
+  paintingsFlavorText: adds paintings
+  baseballBatFlavorText: adds baseball bat
+  cigarFlavorText: adds cigar
+  phoneFlavorText: adds phone
+  bodyguardFlavorText: adds bodyguard
+  assistantFlavorText: adds assistant
