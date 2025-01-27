@@ -77,7 +77,7 @@ namespace Scripting
             if (upgrades.assistant)
             {
                 assistant.SetActive(true);
-            }
+            }   
             if (upgrades.bodyguard)
             {
                 bodyguard.SetActive(true);
@@ -111,7 +111,7 @@ namespace Scripting
 
             if (_spawnTimer <= 0)
             {
-                _spawnTimer = 10.0f;
+                _spawnTimer = 5.0f;
                 SpawnCustomer();
             }
         }

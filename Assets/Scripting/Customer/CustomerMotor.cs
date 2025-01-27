@@ -61,6 +61,7 @@ namespace Scripting.Customer
         //end conversatioon
         public void StopConversing(){
             conversing = false;
+            agent.isStopped = false;
         }
         //called in animation
         public void DecideToPlayVariant(){
@@ -88,7 +89,6 @@ namespace Scripting.Customer
                 anim.SetBool("conversing", true);
             }
             else{
-                agent.isStopped = false;
                 anim.SetBool("conversing", false);
             }
 
@@ -154,7 +154,14 @@ namespace Scripting.Customer
 
         private IEnumerator DoGetHit()
         {
-            yield return new WaitForSeconds(1f);
+            Debug.Log("Stopping Agent!~");
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            //agent.enabled = false;
+            yield return new WaitForSeconds(.5f);
+            //agent.enabled = true;
+            agent.isStopped = false;
+
         }
 
         private void OnCollisionEnter(Collision collision)

@@ -51,6 +51,19 @@ public class LaunchDetection : MonoBehaviour
     }
     void OnCollisionEnter(Collision other) {
         //Debug.Log(other.gameObject);
+        if(other.gameObject.GetComponent<LaunchDetection>()!= null){
+            if(other.gameObject != this.gameObject && other.gameObject.GetComponent<LaunchDetection>().lerpGate == true && lerpGate == false){
+                if(agent.enabled){
+                    if(!agent.isStopped){
+                        motor.GetHit();
+                    }
+                }
+                Debug.Log("Hit by a flying person!");
+                this.transform.rotation = Quaternion.LookRotation(other.transform.position - this.transform.position, this.transform.up);
+                PlayRandomDamageAnimation();
+                
+            }
+        }
     }
     private void PlayRandomDamageAnimation(){
         int rand = Random.Range(0,3);
