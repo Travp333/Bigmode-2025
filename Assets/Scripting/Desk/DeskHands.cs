@@ -21,10 +21,18 @@ namespace Scripting.Desk
 
         [Header("Physics")]
         [SerializeField] private LayerMask layerMask;
-        
+ 
         [Header("Animators")]
-        [SerializeField] private Animator leftHandAnimator;
-
+        [SerializeField]
+        Animator leftHandAnim, rightHandAnim;
+        /// <summary>
+        /// Awake is called when the script instance is being loaded.
+        /// </summary>
+        private void Awake()
+        {
+            leftHandAnim = leftArm.GetComponent<Animator>();
+            rightHandAnim = rightArm.GetComponent<Animator>();
+        }
         public void BlockLeftHand()
         {
             _isBlockedLeft = true;
@@ -72,12 +80,16 @@ namespace Scripting.Desk
             var pos = Input.mousePosition;
 
             if (!_isBlockedLeft && !_isBlockedRight)
-            {
+            { 
                 if (pos.x + 50f < Screen.width / 2f && _rightHandActive || _rightHandActive == _leftHandActive)
                 {
                     _leftHandActive = true;
                     _rightHandActive = false;
 
+                    leftHandAnim.SetBool("IsPointing", true);
+                    leftHandAnim.SetBool("LeftPoint", true);
+                    rightHandAnim.SetBool("IsPointing", false);
+                    rightHandAnim.SetBool("RightPoint", false);
                     StartCoroutine(SetRigTo(1, leftArmRig, leftArm, true));
                     StartCoroutine(SetRigTo(0, rightArmRig, rightArm, false));
                 }
@@ -87,6 +99,10 @@ namespace Scripting.Desk
                     _leftHandActive = false;
                     _rightHandActive = true;
 
+                    leftHandAnim.SetBool("IsPointing", false);
+                    leftHandAnim.SetBool("LeftPoint", false);
+                    rightHandAnim.SetBool("IsPointing", true);
+                    rightHandAnim.SetBool("RightPoint", true);
                     StartCoroutine(SetRigTo(0, leftArmRig, leftArm, true));
                     StartCoroutine(SetRigTo(1, rightArmRig, rightArm, false));
                 }
@@ -129,7 +145,7 @@ namespace Scripting.Desk
 
         public void ResetContractAnimation()
         {
-            leftHandAnimator.Play("Dropping Paper");
+            leftHandAnim.Play("Dropping Paper");
         }
     }
 }
