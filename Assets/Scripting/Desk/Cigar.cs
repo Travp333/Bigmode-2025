@@ -5,6 +5,9 @@ namespace Scripting.Desk
 {
     public class Cigar : MonoBehaviour
     {
+        [SerializeField]
+        GameObject LeftArm;
+        Animator leftArmAnim;
         [SerializeField] private Movement player;
         [SerializeField] private GameObject attachPoint;
 
@@ -14,6 +17,7 @@ namespace Scripting.Desk
 
         void Awake()
         {
+            leftArmAnim = LeftArm.GetComponent<Animator>();
             _originalParent = transform.parent;
             _originalPosition = transform.position;
             _originalRotation = transform.rotation;
@@ -31,7 +35,9 @@ namespace Scripting.Desk
                     {
                         if (hit.collider.gameObject == gameObject)
                         {
-                            StartSmoking();
+                            leftArmAnim.Play("Grabbing Cigar");
+                            Invoke("StartSmoking", .33f);
+                            //StartSmoking();
                         }
                     }
                 }
@@ -39,7 +45,9 @@ namespace Scripting.Desk
 
             if (_isSmoking && Input.GetMouseButtonDown(1))
             {
-                StopSmoking();
+                leftArmAnim.Play("Dropping Cigar");
+                Invoke("StopSmoking", .33f);
+                //StopSmoking();
             }
         }
         
@@ -52,6 +60,8 @@ namespace Scripting.Desk
             transform.parent = attachPoint.transform;
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
+            //leftArmAnim.Play("Smoking Cigar");
+            //ANIMATIONS START
         }
 
         public void StopSmoking()
@@ -61,6 +71,7 @@ namespace Scripting.Desk
             transform.parent = _originalParent;
             transform.position = _originalPosition;
             transform.rotation = _originalRotation;
+            
         }
     }
 }
