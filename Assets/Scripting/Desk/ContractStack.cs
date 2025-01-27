@@ -9,10 +9,13 @@ namespace Scripting.Desk
         [SerializeField] private GameObject attachPoint;
         [SerializeField] private Movement player;
         [SerializeField] private GameObject buttons;
+
         [SerializeField]
-        GameObject deskHands;
+        private GameObject deskHands;
+
         [SerializeField]
-        Animator leftHandAnim;
+        private Animator leftHandAnim;
+
         private PlayerInput _input;
 
         private void Awake()
@@ -30,12 +33,12 @@ namespace Scripting.Desk
             _input?.Disable();
         }
 
-        void Update()
+        private void Update()
         {
             if (Input.GetMouseButtonDown(0) && player.CanAct())
             {
                 if (attachPoint.GetComponentInChildren<Contract>()) return;
-                
+
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 if (Physics.Raycast(ray, out var hit))
@@ -44,16 +47,17 @@ namespace Scripting.Desk
                     {
                         deskHands.SetActive(true);
                         leftHandAnim.Play("Grabbing Paper");
-                        Invoke("GrabPaper", .26f);
+                        Invoke(nameof(GrabPaper), .26f);
                     }
                 }
             }
         }
-        void GrabPaper(){
+
+        void GrabPaper()
+        {
             var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
             obj.SetActive(true);
             buttons.SetActive(true);
         }
     }
-
 }

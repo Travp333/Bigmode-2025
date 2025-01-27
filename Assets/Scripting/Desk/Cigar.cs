@@ -1,31 +1,37 @@
+using System.Collections;
 using Scripting.Player;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
+using UnityEngine.Serialization;
 
 namespace Scripting.Desk
 {
     public class Cigar : MonoBehaviour
     {
         [SerializeField]
-        GameObject Arms;
+        private GameObject arms;
+
         [SerializeField]
-        GameObject LeftArm;
-        Animator leftArmAnim;
+        private GameObject leftArm;
+
+        private Animator _leftArmAnim;
         [SerializeField] private Movement player;
         [SerializeField] private GameObject attachPoint;
 
         private Transform _originalParent;
         private Vector3 _originalPosition;
         private Quaternion _originalRotation;
+        private bool _isSmoking;
 
         void Awake()
         {
-            leftArmAnim = LeftArm.GetComponent<Animator>();
+            _leftArmAnim = leftArm.GetComponent<Animator>();
             _originalParent = transform.parent;
             _originalPosition = transform.position;
             _originalRotation = transform.rotation;
         }
-        
+
         void Update()
         {
             if (!_isSmoking && player.CanAct())
@@ -38,10 +44,9 @@ namespace Scripting.Desk
                     {
                         if (hit.collider.gameObject == gameObject)
                         {
-                            ShowArms();
-                            leftArmAnim.Play("Grabbing Cigar");
-                            Invoke("StartSmoking", .33f);
-                            //StartSmoking();
+                            DeactivateRig();
+                            _leftArmAnim.Play("Grabbing Cigar");
+                            Invoke(nameof(StartSmoking), .33f);
                         }
                     }
                 }
@@ -49,21 +54,38 @@ namespace Scripting.Desk
 
             if (_isSmoking && Input.GetMouseButtonDown(1))
             {
-                leftArmAnim.Play("Dropping Cigar");
-                Invoke("StopSmoking", .33f);
-                Invoke("HideArms", 1f);
-                //StopSmoking();
+                _leftArmAnim.Play("Dropping Cigar");
+                Invoke(nameof(StopSmoking), .33f);
+                Invoke(nameof(ActivateRig), 0.5f);
             }
         }
-        
-        private bool _isSmoking;
-        void ShowArms(){
-            Arms.SetActive(true);
+
+        void ActivateRig()
+        {
+            StartCoroutine(SetRigTo(1));
         }
-        void HideArms(){
-            Arms.SetActive(false);
+
+        private IEnumerator SetRigTo(float value)
+        {
+            var rig = leftArm.GetComponentInChildren<Rig>();
+
+            var elapsed = 0.0f;
+
+            while (elapsed < 0.5f)
+            {
+                elapsed += Time.deltaTime;
+
+                rig.weight = Mathf.Lerp(rig.weight, value, elapsed / 0.5f);
+
+                yield return null;
+            }
         }
-        
+
+        void DeactivateRig()
+        {
+            StartCoroutine(SetRigTo(0));
+        }
+
         public void StartSmoking()
         {
             player.NotifyIsSmoking();
@@ -77,12 +99,11 @@ namespace Scripting.Desk
 
         public void StopSmoking()
         {
-            player.NotifyStoppedSmoking(); 
+            player.NotifyStoppedSmoking();
             _isSmoking = false;
             transform.parent = _originalParent;
             transform.position = _originalPosition;
             transform.rotation = _originalRotation;
-            
         }
     }
 }

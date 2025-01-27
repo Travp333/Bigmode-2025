@@ -34,9 +34,17 @@ namespace Scripting.Player
         [SerializeField] private GameObject weaponPosition;
 
         [SerializeField] private GameObject attackAnimationTarget;
-        
-        [Header("Buttons")]
-        [SerializeField] private GameObject buttons;
+
+        [Header("Hands")]
+        [SerializeField] private GameObject leftHand;
+
+        [SerializeField] private GameObject rightHand;
+
+        [Header("Interaction")]
+        [SerializeField] private float clientInteractDistance = 5f;
+
+        [SerializeField] private float interactRayLength;
+        [SerializeField] private Image radialIndicatorUI;
 
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
@@ -48,25 +56,17 @@ namespace Scripting.Player
         private bool _canPickupBaseballBat;
         private bool _canInteractWithClient;
         private bool _seated;
-
-        [SerializeField] private float interactRayLength;
+        private bool _phoneRinging;
+        private bool _isSmoking;
 
         private float _counter = 0f;
         private float _counterMax = 5f;
-
-        [SerializeField] private float clientInteractDistance = 5f;
-
         private bool _countDownGate;
-
-        [SerializeField] private Image radialIndicatorUI;
-
         private GameObject _clientInteractor;
 
         public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
 
-        private bool _phoneRinging;
-        private bool _isSmoking;
         [SerializeField]
         LayerMask mask;
 
@@ -81,14 +81,25 @@ namespace Scripting.Player
             }
         }
 
+        void ShowHands()
+        {
+            leftHand.SetActive(true);
+            rightHand.SetActive(true);
+        }
+
+        void HideHands()
+        {
+            leftHand.SetActive(false);
+            rightHand.SetActive(false);
+        }
+
         private void ActivateContractControls()
         {
             var contract = GetComponentInChildren<Contract>();
             if (contract)
             {
                 contract.SetActive(true);
-                buttons.gameObject.SetActive(true);
-            } 
+            }
         }
 
         private void DeactivateContractControls()
@@ -97,8 +108,7 @@ namespace Scripting.Player
             if (contract)
             {
                 contract.SetActive(false);
-                buttons.gameObject.SetActive(false);
-            } 
+            }
         }
 
         public bool CanAct()
@@ -174,9 +184,8 @@ namespace Scripting.Player
         public void ResetContract()
         {
             GetComponentInChildren<Contract>()?.Reset();
-            buttons.gameObject.SetActive(false);
         }
-        
+
         private void Update()
         {
             var stressChange = 0.025f;
@@ -407,6 +416,7 @@ namespace Scripting.Player
 
         private void SitOnChairDone()
         {
+            ShowHands();
             Cursor.lockState = CursorLockMode.Confined;
             _seated = true;
             // GetComponent<Contract>().SetActive(true);
@@ -414,6 +424,7 @@ namespace Scripting.Player
 
         private void ExitChairStart()
         {
+            HideHands();
             Cursor.lockState = CursorLockMode.Locked;
             _seated = false;
             // GetComponent<Contract>().SetActive(false);
@@ -528,13 +539,13 @@ namespace Scripting.Player
         {
             _phoneRinging = false;
         }
-        
+
         public void BlockContractDrawing(bool value)
         {
             var contract = GetComponentInChildren<Contract>();
             if (!contract) return;
             if (value)
-            { 
+            {
                 contract.Block();
             }
             else
@@ -542,7 +553,7 @@ namespace Scripting.Player
                 contract.Unblock();
             }
         }
-        
+
         public void NotifyIsSmoking()
         {
             _isSmoking = true;
@@ -553,7 +564,7 @@ namespace Scripting.Player
         public void NotifyStoppedSmoking()
         {
             _isSmoking = false;
-            
+
             BlockContractDrawing(false);
         }
     }
