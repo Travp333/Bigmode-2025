@@ -1,10 +1,13 @@
 using Scripting.Player;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 namespace Scripting.Desk
 {
     public class Cigar : MonoBehaviour
     {
+        [SerializeField]
+        GameObject Arms;
         [SerializeField]
         GameObject LeftArm;
         Animator leftArmAnim;
@@ -35,6 +38,7 @@ namespace Scripting.Desk
                     {
                         if (hit.collider.gameObject == gameObject)
                         {
+                            ShowArms();
                             leftArmAnim.Play("Grabbing Cigar");
                             Invoke("StartSmoking", .33f);
                             //StartSmoking();
@@ -47,11 +51,18 @@ namespace Scripting.Desk
             {
                 leftArmAnim.Play("Dropping Cigar");
                 Invoke("StopSmoking", .33f);
+                Invoke("HideArms", 1f);
                 //StopSmoking();
             }
         }
         
         private bool _isSmoking;
+        void ShowArms(){
+            Arms.SetActive(true);
+        }
+        void HideArms(){
+            Arms.SetActive(false);
+        }
         
         public void StartSmoking()
         {
