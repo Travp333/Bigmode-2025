@@ -5298,8 +5298,8 @@ MonoBehaviour:
   attachPoint: {fileID: 1324325185}
   player: {fileID: 1953529837}
   buttons: {fileID: 563944246}
-  DeskHands: {fileID: 93350757}
-  LeftHand: {fileID: 890395733}
+  deskHands: {fileID: 93350757}
+  leftHandAnim: {fileID: 890395735}
 --- !u!65 &1907192360
 BoxCollider:
   m_ObjectHideFlags: 0
