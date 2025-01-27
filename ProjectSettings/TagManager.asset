@@ -19,8 +19,8 @@ TagManager:
   - Customer
   - WeaponCollision
   - WritingSurface
-  - 
-  - 
+  - IgnoreIKWall
+  - Hands
   - 
   - 
   - 

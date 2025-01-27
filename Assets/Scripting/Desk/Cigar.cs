@@ -23,13 +23,16 @@ namespace Scripting.Desk
         private Vector3 _originalPosition;
         private Quaternion _originalRotation;
         private bool _isSmoking;
-
+private DeskArms _deskArms;
+        
+        
         void Awake()
         {
             _leftArmAnim = leftArm.GetComponent<Animator>();
             _originalParent = transform.parent;
             _originalPosition = transform.position;
             _originalRotation = transform.rotation;
+            _deskArms = arms.GetComponent<DeskArms>();
         }
 
         void Update()
@@ -44,9 +47,9 @@ namespace Scripting.Desk
                     {
                         if (hit.collider.gameObject == gameObject)
                         {
-                            DeactivateRig();
                             _leftArmAnim.Play("Grabbing Cigar");
                             Invoke(nameof(StartSmoking), .33f);
+                            _deskArms.Block();
                         }
                     }
                 }
@@ -54,36 +57,11 @@ namespace Scripting.Desk
 
             if (_isSmoking && Input.GetMouseButtonDown(1))
             {
+                
+                _deskArms.Unblock();
                 _leftArmAnim.Play("Dropping Cigar");
                 Invoke(nameof(StopSmoking), .33f);
-                Invoke(nameof(ActivateRig), 0.5f);
             }
-        }
-
-        void ActivateRig()
-        {
-            StartCoroutine(SetRigTo(1));
-        }
-
-        private IEnumerator SetRigTo(float value)
-        {
-            var rig = leftArm.GetComponentInChildren<Rig>();
-
-            var elapsed = 0.0f;
-
-            while (elapsed < 0.5f)
-            {
-                elapsed += Time.deltaTime;
-
-                rig.weight = Mathf.Lerp(rig.weight, value, elapsed / 0.5f);
-
-                yield return null;
-            }
-        }
-
-        void DeactivateRig()
-        {
-            StartCoroutine(SetRigTo(0));
         }
 
         public void StartSmoking()

@@ -37,8 +37,8 @@ namespace Scripting.Player
 
         [Header("Hands")]
         [SerializeField] private GameObject leftHand;
-
         [SerializeField] private GameObject rightHand;
+        [SerializeField] private DeskArms bothArmsScript;
 
         [Header("Interaction")]
         [SerializeField] private float clientInteractDistance = 5f;
@@ -67,8 +67,7 @@ namespace Scripting.Player
         public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
 
-        [SerializeField]
-        LayerMask mask;
+        [SerializeField] private LayerMask mask;
 
         public void ExitChair()
         {
@@ -419,6 +418,7 @@ namespace Scripting.Player
             ShowHands();
             Cursor.lockState = CursorLockMode.Confined;
             _seated = true;
+            bothArmsScript.Unblock();
             // GetComponent<Contract>().SetActive(true);
         }
 

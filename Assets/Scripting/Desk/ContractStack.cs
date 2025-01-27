@@ -45,7 +45,7 @@ namespace Scripting.Desk
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
-                        deskHands.SetActive(true);
+                        // deskHands.SetActive(true);
                         leftHandAnim.Play("Grabbing Paper");
                         Invoke(nameof(GrabPaper), .26f);
                     }
