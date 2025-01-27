@@ -1,9 +1,5 @@
-using System.Collections;
 using Scripting.Player;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
-using UnityEngine.Serialization;
 
 namespace Scripting.Desk
 {
@@ -23,8 +19,7 @@ namespace Scripting.Desk
         private Vector3 _originalPosition;
         private Quaternion _originalRotation;
         private bool _isSmoking;
-private DeskArms _deskArms;
-        
+        private DeskArms _deskArms;
         
         void Awake()
         {
@@ -49,7 +44,7 @@ private DeskArms _deskArms;
                         {
                             _leftArmAnim.Play("Grabbing Cigar");
                             Invoke(nameof(StartSmoking), .33f);
-                            _deskArms.Block();
+                            _deskArms.BlockLeftHand();
                         }
                     }
                 }
@@ -57,8 +52,7 @@ private DeskArms _deskArms;
 
             if (_isSmoking && Input.GetMouseButtonDown(1))
             {
-                
-                _deskArms.Unblock();
+                _deskArms.UnblockLeftHand();
                 _leftArmAnim.Play("Dropping Cigar");
                 Invoke(nameof(StopSmoking), .33f);
             }

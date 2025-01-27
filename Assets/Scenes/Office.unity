@@ -218,6 +218,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
+  leftHandAnimator: {fileID: 890395735}
 --- !u!1 &94341300
 GameObject:
   m_ObjectHideFlags: 0
@@ -4334,9 +4335,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324325185}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5573493, y: 0.5573494, z: 0.55734926}
+  m_LocalRotation: {x: 0.28264984, y: -0.2273073, z: -0.24581558, w: -0.89889663}
+  m_LocalPosition: {x: -0.1702, y: -0.01265, z: 0.11773}
+  m_LocalScale: {x: 0.33034036, y: 0.3303404, z: 0.33034033}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 221424269}
@@ -4423,7 +4424,7 @@ GameObject:
   - component: {fileID: 1429580504}
   - component: {fileID: 1429580503}
   - component: {fileID: 1429580502}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Submit Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4515,7 +4516,7 @@ Transform:
   m_GameObject: {fileID: 1429580501}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.164, y: 1.572, z: -26.154}
+  m_LocalPosition: {x: -0.164, y: 1.609, z: -26.154}
   m_LocalScale: {x: 0.25092143, y: 0.06998701, z: 0.25092143}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4533,7 +4534,7 @@ GameObject:
   - component: {fileID: 1460017314}
   - component: {fileID: 1460017313}
   - component: {fileID: 1460017312}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Trash Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4625,7 +4626,7 @@ Transform:
   m_GameObject: {fileID: 1460017311}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.164, y: 1.572, z: -26.735}
+  m_LocalPosition: {x: -0.164, y: 1.641, z: -26.735}
   m_LocalScale: {x: 0.25092143, y: 0.06998701, z: 0.25092143}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5929,7 +5930,7 @@ GameObject:
   - component: {fileID: 1907192357}
   - component: {fileID: 1907192359}
   - component: {fileID: 1907192360}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: StackContracts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6019,7 +6020,9 @@ MonoBehaviour:
   contract: {fileID: 6718838338266683369, guid: 4983c2bc1f7317a4d8028f30930e8871, type: 3}
   attachPoint: {fileID: 1324325185}
   player: {fileID: 1953529837}
-  buttons: {fileID: 563944246}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4096
   deskHands: {fileID: 93350757}
   leftHandAnim: {fileID: 890395735}
 --- !u!65 &1907192360
@@ -6325,6 +6328,12 @@ MonoBehaviour:
   clientInteractDistance: 2
   interactRayLength: 3
   radialIndicatorUI: {fileID: 1718444479}
+  submit: {fileID: 1429580501}
+  reset: {fileID: 1460017311}
+  buttonLayerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  contractAttachmentPoint: {fileID: 1324325185}
   mask:
     serializedVersion: 2
     m_Bits: 1015

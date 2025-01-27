@@ -21,42 +21,77 @@ namespace Scripting.Desk
 
         [Header("Physics")]
         [SerializeField] private LayerMask layerMask;
+        
+        [Header("Animators")]
+        [SerializeField] private Animator leftHandAnimator;
 
-        public void Block()
+        public void BlockLeftHand()
         {
-            _isBlocked = true;
-            
-            StartCoroutine(SetRigTo(0, leftArmRig, leftArm, true));
-            StartCoroutine(SetRigTo(0, rightArmRig, rightArm, false));
+            _isBlockedLeft = true;
+
+            if (_leftHandActive)
+                StartCoroutine(SetRigTo(0, leftArmRig, leftArm, true));
         }
 
-        public void Unblock() => _isBlocked = false;
+        public void UnblockLeftHand()
+        {
+            _isBlockedLeft = false;
+        }
 
-        private bool _isBlocked = true;
+        public void BlockRightHand()
+        {
+            _isBlockedRight = true;
+
+            if (_rightHandActive)
+                StartCoroutine(SetRigTo(0, rightArmRig, rightArm, false));
+        }
+
+        public void UnblockRightHand()
+        {
+            _isBlockedRight = false;
+        }
+
+        public void ActivateLeftHand()
+        {
+            _leftHandActive = true;
+        }
+
+        public void DeactivateLeftHand()
+        {
+            _leftHandActive = false;
+        }
+
+        private bool _isBlockedLeft = true;
+        private bool _isBlockedRight = true;
+
         private bool _leftHandActive = true;
+        private bool _rightHandActive = true;
 
         void Update()
         {
-            if (_isBlocked) return;
-
             var pos = Input.mousePosition;
 
-            if (pos.x + 50f < Screen.width / 2f && !_leftHandActive)
+            if (!_isBlockedLeft && !_isBlockedRight)
             {
-                _leftHandActive = true;
-                
-                StartCoroutine(SetRigTo(1, leftArmRig, leftArm, true));
-                StartCoroutine(SetRigTo(0, rightArmRig, rightArm, false));
+                if (pos.x + 50f < Screen.width / 2f && _rightHandActive || _rightHandActive == _leftHandActive)
+                {
+                    _leftHandActive = true;
+                    _rightHandActive = false;
+
+                    StartCoroutine(SetRigTo(1, leftArmRig, leftArm, true));
+                    StartCoroutine(SetRigTo(0, rightArmRig, rightArm, false));
+                }
+
+                if (pos.x - 50f > Screen.width / 2f && _leftHandActive)
+                {
+                    _leftHandActive = false;
+                    _rightHandActive = true;
+
+                    StartCoroutine(SetRigTo(0, leftArmRig, leftArm, true));
+                    StartCoroutine(SetRigTo(1, rightArmRig, rightArm, false));
+                }
             }
 
-            if (pos.x - 50f > Screen.width / 2f && _leftHandActive)
-            {
-                _leftHandActive = false;
-
-                StartCoroutine(SetRigTo(0, leftArmRig, leftArm, true));
-                StartCoroutine(SetRigTo(1, rightArmRig, rightArm, false));
-            }
-            
             var cam = Camera.main!;
             var ray = cam.ScreenPointToRay(pos);
 
@@ -70,9 +105,7 @@ namespace Scripting.Desk
                 vec += other;
 
                 leftArmIk.transform.position = vec;
-                // leftArmIk.transform.forward = leftForwardVectorCopy.forward;
                 rightArmIk.transform.position = vec;
-                // leftArmIk.transform.forward = rightForwardVectorCopy.forward;
             }
         }
 
@@ -92,6 +125,11 @@ namespace Scripting.Desk
                 arm.transform.localPosition = Vector3.Lerp(arm.transform.localPosition, target, elapsed * 2.0f);
                 yield return null;
             }
+        }
+
+        public void ResetContractAnimation()
+        {
+            leftHandAnimator.Play("Dropping Paper");
         }
     }
 }

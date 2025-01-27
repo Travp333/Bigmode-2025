@@ -4,6 +4,7 @@ using Scripting.Desk;
 using Scripting.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Scripting.Player
@@ -37,6 +38,7 @@ namespace Scripting.Player
 
         [Header("Hands")]
         [SerializeField] private GameObject leftHand;
+
         [SerializeField] private GameObject rightHand;
         [SerializeField] private DeskArms bothArmsScript;
 
@@ -45,6 +47,18 @@ namespace Scripting.Player
 
         [SerializeField] private float interactRayLength;
         [SerializeField] private Image radialIndicatorUI;
+
+        [Header("DeskButtons")]
+        [SerializeField] private GameObject submit;
+
+        [SerializeField] private GameObject reset;
+        [SerializeField] private LayerMask buttonLayerMask;
+
+        [Header("ContractPoint")]
+        [SerializeField] private GameObject contractAttachmentPoint;
+
+        [Header("other")]
+        [SerializeField] private LayerMask mask;
 
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
@@ -67,13 +81,11 @@ namespace Scripting.Player
         public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
 
-        [SerializeField] private LayerMask mask;
-
         public void ExitChair()
         {
             StartCoroutine(DoExitChairAnimation());
             DeactivateContractControls();
-            var contract = GetComponentInChildren<Contract>();
+            var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
             if (contract)
             {
                 contract.SetActive(false);
@@ -94,7 +106,7 @@ namespace Scripting.Player
 
         private void ActivateContractControls()
         {
-            var contract = GetComponentInChildren<Contract>();
+            var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
             if (contract)
             {
                 contract.SetActive(true);
@@ -103,7 +115,7 @@ namespace Scripting.Player
 
         private void DeactivateContractControls()
         {
-            var contract = GetComponentInChildren<Contract>();
+            var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
             if (contract)
             {
                 contract.SetActive(false);
@@ -114,7 +126,7 @@ namespace Scripting.Player
         {
             if (!_seated) return false;
 
-            var contract = GetComponentInChildren<Contract>();
+            var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
             if (contract && contract.IsUp)
                 return false;
 
@@ -177,12 +189,47 @@ namespace Scripting.Player
 
         public void SubmitContract()
         {
-            GetComponentInChildren<Contract>()?.Submit();
+            if (!contractAttachmentPoint.GetComponentInChildren<Contract>()) return;
+            Debug.Log("Submitting contract");
+            contractAttachmentPoint.GetComponentInChildren<Contract>()?.Submit();
         }
 
         public void ResetContract()
         {
-            GetComponentInChildren<Contract>()?.Reset();
+            if (!contractAttachmentPoint.GetComponentInChildren<Contract>()) return;
+            Debug.Log("Resetting contract");
+            var deskArms = bothArmsScript.GetComponent<DeskArms>();
+
+            deskArms.UnblockLeftHand();
+            deskArms.ResetContractAnimation();
+
+            Invoke(nameof(RemoveContract), 0.5f);
+        }
+
+        private void RemoveContract()
+        {
+            contractAttachmentPoint.GetComponentInChildren<Contract>()?.Reset();
+        }
+
+        private void CheckButtons()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out var hit, Mathf.Infinity, buttonLayerMask))
+                {
+                    if (hit.collider.gameObject == submit)
+                    {
+                        SubmitContract();
+                    }
+
+                    if (hit.collider.gameObject == reset)
+                    {
+                        ResetContract();
+                    }
+                }
+            }
         }
 
         private void Update()
@@ -192,10 +239,12 @@ namespace Scripting.Player
             if (_seated)
             {
                 stressChange /= 2f;
-                if (Input.GetKeyDown(KeyCode.Tab))
+                if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking)
                 {
                     ExitChair();
                 }
+
+                CheckButtons();
             }
 
             if (_phoneRinging)
@@ -281,7 +330,7 @@ namespace Scripting.Player
                     _canInteractWithClient = true;
                     if (_actionPressed)
                     {
-                        var contract = GetComponentInChildren<Contract>();
+                        var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
                         if (contract)
                         {
                             var attachment = contract.transform.parent;
@@ -418,7 +467,8 @@ namespace Scripting.Player
             ShowHands();
             Cursor.lockState = CursorLockMode.Confined;
             _seated = true;
-            bothArmsScript.Unblock();
+            bothArmsScript.UnblockLeftHand();
+            bothArmsScript.UnblockRightHand();
             // GetComponent<Contract>().SetActive(true);
         }
 
@@ -461,7 +511,8 @@ namespace Scripting.Player
 
             transform.position = seatEnterPosition.transform.position;
             transform.rotation = seatEnterPosition.transform.rotation;
-            //cam.transform.rotation = Quaternion.Euler(cam.transform.rotation.eulerAngles.x, cam.transform.rotation.eulerAngles.y, cam.transform.rotation.eulerAngles.z);
+            cam.transform.rotation = Quaternion.Euler(cam.transform.rotation.eulerAngles.x,
+                cam.transform.rotation.eulerAngles.y, cam.transform.rotation.eulerAngles.z);
 
             SitOnChairDone();
         }
@@ -527,7 +578,7 @@ namespace Scripting.Player
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
             }
 
-            GUI.Label(new Rect(5, Screen.height - 25, 200, 25), StressLevel.ToString());
+            GUI.Label(new Rect(5, Screen.height - 25, 200, 25), "" + StressLevel);
         }
 
         public void NotifyPhoneRinging()
@@ -542,7 +593,7 @@ namespace Scripting.Player
 
         public void BlockContractDrawing(bool value)
         {
-            var contract = GetComponentInChildren<Contract>();
+            var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
             if (!contract) return;
             if (value)
             {

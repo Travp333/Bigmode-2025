@@ -8,7 +8,7 @@ namespace Scripting.Desk
         [SerializeField] private GameObject contract;
         [SerializeField] private GameObject attachPoint;
         [SerializeField] private Movement player;
-        [SerializeField] private GameObject buttons;
+        [SerializeField] private LayerMask layerMask;
 
         [SerializeField]
         private GameObject deskHands;
@@ -41,12 +41,12 @@ namespace Scripting.Desk
 
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out var hit))
+                if (Physics.Raycast(ray, out var hit, Mathf.Infinity, layerMask))
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
-                        // deskHands.SetActive(true);
                         leftHandAnim.Play("Grabbing Paper");
+                        deskHands.GetComponent<DeskArms>().BlockLeftHand();
                         Invoke(nameof(GrabPaper), .26f);
                     }
                 }
@@ -57,7 +57,6 @@ namespace Scripting.Desk
         {
             var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
             obj.SetActive(true);
-            buttons.SetActive(true);
         }
     }
 }
