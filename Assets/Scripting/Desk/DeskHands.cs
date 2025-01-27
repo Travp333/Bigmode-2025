@@ -21,7 +21,15 @@ namespace Scripting.Desk
 
         [Header("Physics")]
         [SerializeField] private LayerMask layerMask;
-
+        Animator leftHandAnim, rightHandAnim;
+        /// <summary>
+        /// Awake is called when the script instance is being loaded.
+        /// </summary>
+        private void Awake()
+        {
+            leftHandAnim = leftArm.GetComponent<Animator>();
+            rightHandAnim = rightArm.GetComponent<Animator>();
+        }
         public void Block()
         {
             _isBlocked = true;
@@ -37,14 +45,24 @@ namespace Scripting.Desk
 
         void Update()
         {
-            if (_isBlocked) return;
+            if (_isBlocked){ 
+                leftHandAnim.SetBool("IsPointing", false);
+                rightHandAnim.SetBool("IsPointing", false);
+                leftHandAnim.SetBool("LeftPoint", false);
+                rightHandAnim.SetBool("RightPoint", false);
+                return;
+            }
+
 
             var pos = Input.mousePosition;
 
             if (pos.x + 50f < Screen.width / 2f && !_leftHandActive)
             {
                 _leftHandActive = true;
-                
+                leftHandAnim.SetBool("IsPointing", true);
+                leftHandAnim.SetBool("LeftPoint", true);
+                rightHandAnim.SetBool("IsPointing", false);
+                rightHandAnim.SetBool("RightPoint", false);
                 StartCoroutine(SetRigTo(1, leftArmRig, leftArm, true));
                 StartCoroutine(SetRigTo(0, rightArmRig, rightArm, false));
             }
@@ -52,7 +70,10 @@ namespace Scripting.Desk
             if (pos.x - 50f > Screen.width / 2f && _leftHandActive)
             {
                 _leftHandActive = false;
-
+                leftHandAnim.SetBool("IsPointing", false);
+                leftHandAnim.SetBool("LeftPoint", false);
+                rightHandAnim.SetBool("IsPointing", true);
+                rightHandAnim.SetBool("RightPoint", true);
                 StartCoroutine(SetRigTo(0, leftArmRig, leftArm, true));
                 StartCoroutine(SetRigTo(1, rightArmRig, rightArm, false));
             }
