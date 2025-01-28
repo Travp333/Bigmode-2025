@@ -56,7 +56,8 @@ namespace Scripting.Customer
         //start conversation
         public void StartConversing(){
             conversing = true;
-            anim.Play("Conversing");
+            //Debug.Log("Starting Conversation");
+            //anim.Play("Conversing");
         }
         //end conversatioon
         public void StopConversing(){
@@ -68,9 +69,22 @@ namespace Scripting.Customer
             int rand = Random.Range(0, converseVariantProbability);
             if(rand - 1 >= 0){
                 if(rand == converseVariantProbability - 1){
-                    anim.SetBool("playConverseVariant", true);
-                    anim.SetInteger("WhichConverseVariant", Random.Range(0,3));
-                    Debug.Log("Playing Variant!");
+                    int rand2 = Random.Range(0,3);
+                    if(rand2 == 0){
+                        //Debug.Log("PLAYING VARIANT 1");
+                        anim.Play("Conversing Variant 1");
+                    }
+                    else if(rand2 == 1){
+                        //Debug.Log("PLAYING VARIANT 2");
+                        anim.Play("Conversing Variant 2");
+                    }
+                    else if(rand2 == 2){
+                        //Debug.Log("PLAYING VARIANT 3");
+                        anim.Play("Conversing Variant 3");
+                    }
+                    else{
+                        //Debug.Log("INVALID!!!" + rand2);
+                    }
                 }
             }
 
