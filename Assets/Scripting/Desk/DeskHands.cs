@@ -88,9 +88,7 @@ namespace Scripting.Desk
                     _leftHandActive = true;
                     _rightHandActive = false;
 
-                    leftHandAnim.SetBool("IsPointing", true);
                     leftHandAnim.SetBool("LeftPoint", true);
-                    rightHandAnim.SetBool("IsPointing", false);
                     rightHandAnim.SetBool("RightPoint", false);
                     StartCoroutine(SetRigTo(1, leftArmRig, leftArm, true));
                     StartCoroutine(SetRigTo(0, rightArmRig, rightArm, false));
@@ -101,9 +99,7 @@ namespace Scripting.Desk
                     _leftHandActive = false;
                     _rightHandActive = true;
 
-                    leftHandAnim.SetBool("IsPointing", false);
                     leftHandAnim.SetBool("LeftPoint", false);
-                    rightHandAnim.SetBool("IsPointing", true);
                     rightHandAnim.SetBool("RightPoint", true);
                     StartCoroutine(SetRigTo(0, leftArmRig, leftArm, true));
                     StartCoroutine(SetRigTo(1, rightArmRig, rightArm, false));

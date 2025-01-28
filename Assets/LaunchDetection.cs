@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class LaunchDetection : MonoBehaviour
 {
     Animator anim;
-    Vector3 distToPlayer;
     RaycastHit hit;
     public bool lerpGate;
     Vector3 lerpTarget;
@@ -19,13 +18,14 @@ public class LaunchDetection : MonoBehaviour
     float launchSpeed = .1f;
     NavMeshAgent agent;
     CustomerMotor motor;
-
+    GameObject player;
    
 
     private void Awake() {
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         motor = GetComponent<CustomerMotor>();
+        player = FindFirstObjectByType<Movement>().gameObject;
     }
     public void DisableAI(){
         agent.enabled = false;
@@ -35,11 +35,12 @@ public class LaunchDetection : MonoBehaviour
         agent.enabled = true;
         motor.enabled = true;
     }
+
     void OnTriggerEnter(Collider other) {
-        if (other.gameObject.GetComponent<Movement>() != null){
-            //Got player!
-            this.transform.rotation = Quaternion.LookRotation(-other.gameObject.transform.forward, this.transform.up);
-            if(Physics.Raycast(this.transform.position, other.gameObject.transform.forward, out hit, 999f, mask)){
+        if (other.gameObject.GetComponent<BatHitboxCollision>() != null){
+            //Got Bat Hitbox!
+            this.transform.rotation = Quaternion.LookRotation(-player.transform.forward, this.transform.up);
+            if(Physics.Raycast(this.transform.position, player.transform.forward, out hit, 999f, mask)){
                 anim.Play("AIR");
                 lerpTarget = hit.point;
                 hitNormal = hit.normal;

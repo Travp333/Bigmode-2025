@@ -80,6 +80,8 @@ namespace Scripting.Player
 
         public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
+        [SerializeField]
+        Animator handAnim;
 
         public void ExitChair()
         {
@@ -277,6 +279,13 @@ namespace Scripting.Player
             var move = transform.right * moveInput.x + transform.forward * moveInput.y;
             rb.linearVelocity = move * moveSpeed;
 
+            if( rb.linearVelocity.magnitude > 0.5f ){
+                handAnim.SetBool("Walking", true);
+            }
+            else{
+                handAnim.SetBool("Walking", false);
+            }
+
             _rotationX -= mouseY;
             _rotationX = Mathf.Clamp(_rotationX, -80f, 80f);
 
@@ -298,7 +307,8 @@ namespace Scripting.Player
 
             if (_baseballBat && _attackPressed)
             {
-                StartCoroutine(DoAttack());
+                handAnim.Play("Swing Bat Miss");
+                //StartCoroutine(DoAttack());
                 // StartCoroutine(DoAttackAnimation());
             }
 
@@ -316,7 +326,7 @@ namespace Scripting.Player
                         if (_actionPressed)
                         {
                             _baseballBat = bat;
-                            _baseballBat.PickUp(weaponPosition.transform);
+                            _baseballBat.PickUp();
                         }
                     }
                 }
