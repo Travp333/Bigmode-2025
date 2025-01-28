@@ -41,11 +41,26 @@ public class LaunchDetection : MonoBehaviour
             //Got Bat Hitbox!
             this.transform.rotation = Quaternion.LookRotation(-player.transform.forward, this.transform.up);
             if(Physics.Raycast(this.transform.position, player.transform.forward, out hit, 999f, mask)){
+                other.gameObject.GetComponent<BatHitboxCollision>().cont.DisableHitbox();
                 anim.Play("AIR");
                 lerpTarget = hit.point;
                 hitNormal = hit.normal;
                 Debug.DrawRay(this.transform.position, lerpTarget - this.transform.position, Color.yellow, 1f);
                 Debug.DrawRay(lerpTarget, hitNormal, Color.blue, 1f);
+                lerpGate = true;
+            }
+        }
+        else if (other.gameObject.GetComponent<HuellHitboxCollision>() != null){
+            //Got Huell Hitbox!
+            var huellCollision = other.gameObject.GetComponent<HuellHitboxCollision>().rootHuell;
+            this.transform.rotation = Quaternion.LookRotation(huellCollision.transform.forward, this.transform.up);
+            if(Physics.Raycast(this.transform.position, huellCollision.transform.forward, out hit, 999f, mask)){
+                huellCollision.GetComponent<HuellController>().HideHitbox();
+                anim.Play("AIR");
+                lerpTarget = hit.point;
+                hitNormal = hit.normal;
+                //Debug.DrawRay(this.transform.position, lerpTarget - this.transform.position, Color.yellow, 1f);
+                //Debug.DrawRay(lerpTarget, hitNormal, Color.blue, 1f);
                 lerpGate = true;
             }
         }
@@ -59,7 +74,7 @@ public class LaunchDetection : MonoBehaviour
                         motor.GetHit();
                     }
                 }
-                Debug.Log("Hit by a flying person!");
+                //Debug.Log("Hit by a flying person!");
                 this.transform.rotation = Quaternion.LookRotation(other.transform.position - this.transform.position, this.transform.up);
                 PlayRandomDamageAnimation();
                 
@@ -68,7 +83,7 @@ public class LaunchDetection : MonoBehaviour
     }
     private void PlayRandomDamageAnimation(){
         int rand = Random.Range(0,3);
-        Debug.Log(rand);
+        //Debug.Log(rand);
         if(rand == 0){
             //Debug.Log("Playing Damage anim1");
             anim.Play("Take Damage 1");
@@ -113,6 +128,9 @@ public class LaunchDetection : MonoBehaviour
 
         }
         else{
+            if(anim.GetCurrentAnimatorStateInfo(0).IsName("AIR")){
+                PlayRandomDamageAnimation();
+            }
             if(agent.velocity.magnitude > 0.01f){
                 anim.SetBool("isWalking", true);
             }

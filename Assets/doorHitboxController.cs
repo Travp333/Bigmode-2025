@@ -15,15 +15,15 @@ public class doorHitboxController : MonoBehaviour
             if(other.gameObject.GetComponent<LaunchDetection>()!=null){
                 //ai approacing door!
                 if(other.gameObject.GetComponent<LaunchDetection>().lerpGate){
-                    Debug.Log("NPC Flying, SLAM OPEN");
+                    //Debug.Log("NPC Flying, SLAM OPEN");
                     door.SlamOpenDoor();
                 }
                 else if(frontOrBack){
-                    Debug.Log("opening from back");
+                    //Debug.Log("opening from back");
                     door.OpenDoorFromBack();
                 }
                 else{
-                    Debug.Log("opening from front");
+                    //Debug.Log("opening from front");
                     door.OpenDoorFromFront();
                 }
             }
@@ -33,7 +33,7 @@ public class doorHitboxController : MonoBehaviour
             if(other.gameObject.GetComponent<LaunchDetection>()!=null){
                 //ai approacing door!
                 if(other.gameObject.GetComponent<LaunchDetection>().lerpGate){
-                    Debug.Log("NPC Flying, SLAM OPEN");
+                    //Debug.Log("NPC Flying, SLAM OPEN");
                     door.SlamOpenDoor();
                 }
             }

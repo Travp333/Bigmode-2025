@@ -168,7 +168,7 @@ namespace Scripting.Customer
 
         private IEnumerator DoGetHit()
         {
-            Debug.Log("Stopping Agent!~");
+            //Debug.Log("Stopping Agent!~");
             agent.isStopped = true;
             agent.velocity = Vector3.zero;
             //agent.enabled = false;
