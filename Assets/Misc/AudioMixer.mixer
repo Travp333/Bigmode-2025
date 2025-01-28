@@ -48,7 +48,15 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 2385e0f3ab33fb3438fd73641ad1d792
+    name: master
+  - guid: f6e6305a35cbcd74087ea199617b007e
+    name: music
+  - guid: 58a5a7ad489d57745b851043989e7396
+    name: sfx
+  - guid: 921fecfafedb5694a9bb277b1112b0af
+    name: speech
   m_AudioMixerGroupViews:
   - guids:
     - 028cfcd0fc73bd247aeb2684cffd20fb
@@ -143,6 +151,20 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &7917773837445955610
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 9031f500172489d47b9a10289217f640
+  m_EffectName: Send
+  m_MixLevel: 1d273dbd55819b9429e5bc0dc36fe067
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &8376155896562794720
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
