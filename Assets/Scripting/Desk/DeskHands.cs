@@ -7,6 +7,12 @@ namespace Scripting.Desk
 {
     public class DeskArms : MonoBehaviour
     {
+        [SerializeField]
+        GameObject paperBallSpawnPos;
+        [SerializeField]
+        GameObject paperBallPrefab;
+        [SerializeField]
+        float paperBallSpeed;
         [Header("leftArm")]
         [SerializeField] private GameObject leftArmIk;
 
@@ -193,6 +199,8 @@ namespace Scripting.Desk
 
         public void ResetContractAnimation()
         {
+            var ball = Instantiate(paperBallPrefab, paperBallSpawnPos.transform.position, Quaternion.identity);
+            ball.GetComponent<Rigidbody>().AddForce(this.transform.forward * paperBallSpeed);
             leftHandAnim.Play("Dropping Paper");
         }
     }
