@@ -34,7 +34,7 @@ namespace Scripting.Desk
         public bool IsUp => _isUp;
         public string Result { get; private set; }
         public bool Converted { get; private set; }
-        
+
         private GameObject _surface;
         private const float AnimationDuration = 1.0f;
 
@@ -43,11 +43,18 @@ namespace Scripting.Desk
             _isActive = value;
             if (!_isActive)
             {
-                if(gameObject.activeInHierarchy){
+                if (gameObject.activeInHierarchy)
+                {
                     StartCoroutine(DoDownSyndromeAnimation());
                 }
-                _isUp = false;
             }
+            else
+            {
+                transform.position = downPoint.transform.position;
+                transform.rotation = downPoint.transform.rotation;
+            }
+
+            _isUp = false;
         }
 
         private Camera _cam;
@@ -64,23 +71,9 @@ namespace Scripting.Desk
             _cam = Camera.main;
         }
 
-        public void Block()
-        {
-            _isUp = false;
-            _isBlocked = true;
-            StartCoroutine(DoDownSyndromeAnimation());
-        }
-
-        private bool _isBlocked;
-
-        public void Unblock()
-        {
-            _isBlocked = false;
-        }
-
         private void ActionPerformed(InputAction.CallbackContext ctx)
         {
-            if (!_isActive || Mouse.current.leftButton.isPressed || _isBlocked) return;
+            if (!_isActive || Mouse.current.leftButton.isPressed) return;
 
             _isUp = !_isUp;
             StartCoroutine(_isUp ? DoUpAnimation() : DoDownSyndromeAnimation());
@@ -295,7 +288,7 @@ namespace Scripting.Desk
                             Converted = true;
                             meshRenderer.material = materials[i];
 
-                            _renderers.ToList().ForEach(n => { Destroy(n.gameObject); });
+                            _renderers.ToList().ForEach(n => Destroy(n.gameObject));
 
                             _renderers.Clear();
                             _positions.Clear();
@@ -307,12 +300,6 @@ namespace Scripting.Desk
 
         public void Reset()
         {
-            // _renderers.ToList().ForEach(n => { Destroy(n.gameObject); });
-            //
-            // _renderers.Clear();
-            // _positions.Clear();
-            // Result = null;
-            //
             Destroy(gameObject);
         }
     }

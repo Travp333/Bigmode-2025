@@ -21,11 +21,25 @@ namespace Scripting.Desk
 
         [Header("Physics")]
         [SerializeField] private LayerMask layerMask;
+        [SerializeField] private LayerMask layerMaskContract;
 
         [Header("Animators")]
         [SerializeField]
         Animator leftHandAnim, rightHandAnim;
 
+        public bool HasContract => Contract;
+
+        public Contract Contract => GetComponentInChildren<Contract>();
+        
+        public void PutDownContract()
+        {
+            var contract = Contract;
+            if (contract)
+            {
+                contract.SetActive(false);
+            }
+        }
+        
         /// <summary>
         /// Awake is called when the script instance is being loaded.
         /// </summary>
@@ -108,7 +122,34 @@ namespace Scripting.Desk
 
             var cam = Camera.main!;
             var ray = cam.ScreenPointToRay(pos);
+            
+            if (Physics.Raycast(ray, out var hitContract, Mathf.Infinity, layerMaskContract))
+            {
+                var vec = hitContract.point;
+                var directionreturn = ray.direction;
 
+                // directionreturn.y = 0;
+
+                leftArmIk.transform.position = vec + directionreturn * 0.75f;
+                leftArmIk.transform.LookAt(vec);
+
+                var rotationVec = leftArmIk.transform.rotation.eulerAngles;
+                rotationVec.z = -270;
+                rotationVec.y += 80;
+
+                leftArmIk.transform.rotation = Quaternion.Euler(rotationVec);
+
+                rightArmIk.transform.position = vec + directionreturn * 0.75f;
+                rightArmIk.transform.LookAt(vec);
+
+                rotationVec = rightArmIk.transform.rotation.eulerAngles;
+                rotationVec.z = 270;
+                rotationVec.y -= 80;
+
+                rightArmIk.transform.rotation = Quaternion.Euler(rotationVec);
+                return;
+            }
+            
             if (Physics.Raycast(ray, out var hit, Mathf.Infinity, layerMask))
             {
                 var vec = hit.point;

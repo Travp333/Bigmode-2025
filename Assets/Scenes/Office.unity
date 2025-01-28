@@ -218,6 +218,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
+  layerMaskContract:
+    serializedVersion: 2
+    m_Bits: 8192
   leftHandAnim: {fileID: 890395735}
   rightHandAnim: {fileID: 919132147520673185}
 --- !u!1 &95011011

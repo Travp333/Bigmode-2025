@@ -71,5 +71,52 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2ffe64693d63640498bfc25d064d3d45, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3615965104412366567}
   m_SourcePrefab: {fileID: 100100000, guid: 2ffe64693d63640498bfc25d064d3d45, type: 3}
+--- !u!1 &2353169020923104824 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2ffe64693d63640498bfc25d064d3d45, type: 3}
+  m_PrefabInstance: {fileID: 3200171542862263145}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3615965104412366567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353169020923104824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b5b8bba4e61a649a8fe6302a0be752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  samplingRate: 0.025
+  downPoint: {fileID: 0}
+  upPoint: {fileID: 0}
+  materials:
+  - {fileID: 2100000, guid: 8fd090f9aa352b04784210e23ff343bd, type: 2}
+  - {fileID: 2100000, guid: ed485cb77ae95fd49afe25e9eeaf9664, type: 2}
+  - {fileID: 2100000, guid: 4f5e267329a8b494188144b067ac78dc, type: 2}
+  - {fileID: 2100000, guid: 6cae0b80889607f48982ff1234624ec4, type: 2}
+  - {fileID: 2100000, guid: 6b6b44f50d1c32642afa7a216f78a8c9, type: 2}
+  - {fileID: 2100000, guid: ef02801676493ba429bfe8e1ff267bae, type: 2}
+  - {fileID: 2100000, guid: dc62386ea41f84343b48fe546297a4c7, type: 2}
+  - {fileID: 2100000, guid: 65c2eca0fe22ce84bbc745a10d06c4bf, type: 2}
+  - {fileID: 2100000, guid: d364392acb4f9424ea4029ac9ed8f85f, type: 2}
+  - {fileID: 2100000, guid: d439651a9bf60da47bec7d6538437335, type: 2}
+  - {fileID: 2100000, guid: d73e51ddb58d7c84bbcd81f6504f9bce, type: 2}
+  - {fileID: 2100000, guid: f68326c398ca68b49930ac49c4ce24e3, type: 2}
+  - {fileID: 2100000, guid: 209e0fa738043c64cae91820a5d120eb, type: 2}
+  surface: {fileID: 4285204946629091603, guid: b4ef4ef02e797f54cbfdba3f312180fc, type: 3}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  meshRenderer: {fileID: 4298930700179795949}
+--- !u!23 &4298930700179795949 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 2ffe64693d63640498bfc25d064d3d45, type: 3}
+  m_PrefabInstance: {fileID: 3200171542862263145}
+  m_PrefabAsset: {fileID: 0}

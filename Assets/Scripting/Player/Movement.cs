@@ -4,7 +4,6 @@ using Scripting.Desk;
 using Scripting.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Scripting.Player
@@ -80,20 +79,18 @@ namespace Scripting.Player
 
         public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
+        public bool HasContract => _currentContract;
+
         [SerializeField]
-        GameObject playerHands;
+        private GameObject playerHands;
+
         [SerializeField]
-        Animator handAnim;
+        private Animator handAnim;
 
         public void ExitChair()
         {
             StartCoroutine(DoExitChairAnimation());
             DeactivateContractControls();
-            var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
-            if (contract)
-            {
-                contract.SetActive(false);
-            }
         }
 
         void ShowHands()
@@ -110,28 +107,23 @@ namespace Scripting.Player
 
         private void ActivateContractControls()
         {
-            var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
-            if (contract)
-            {
-                contract.SetActive(true);
-            }
+            _currentContract?.SetActive(true);
         }
+
+        private Contract _currentContract;
+
+        public void SetActiveContract(Contract contract) => _currentContract = contract;
 
         private void DeactivateContractControls()
         {
-            var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
-            if (contract)
-            {
-                contract.SetActive(false);
-            }
+            _currentContract?.SetActive(false);
         }
 
         public bool CanAct()
         {
             if (!_seated) return false;
 
-            var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
-            if (contract && contract.IsUp)
+            if (_currentContract?.IsUp ?? false)
                 return false;
 
             if (_isSmoking)
@@ -185,7 +177,6 @@ namespace Scripting.Player
             _actionPressed = false;
         }
 
-
         private void AttackPerformed(InputAction.CallbackContext context)
         {
             _attackPressed = true;
@@ -193,9 +184,8 @@ namespace Scripting.Player
 
         public void SubmitContract()
         {
-            if (!contractAttachmentPoint.GetComponentInChildren<Contract>()) return;
-            Debug.Log("Submitting contract");
-            contractAttachmentPoint.GetComponentInChildren<Contract>()?.Submit();
+            Debug.Log("Try Submitting contract");
+            _currentContract?.Submit();
         }
 
         public void ResetContract()
@@ -212,7 +202,8 @@ namespace Scripting.Player
 
         private void RemoveContract()
         {
-            contractAttachmentPoint.GetComponentInChildren<Contract>()?.Reset();
+            _currentContract?.Reset();
+            _currentContract = null;
         }
 
         private void CheckButtons()
@@ -245,6 +236,7 @@ namespace Scripting.Player
                 stressChange /= 2f;
                 if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking)
                 {
+                    bothArmsScript.PutDownContract();
                     ExitChair();
                 }
 
@@ -281,10 +273,12 @@ namespace Scripting.Player
             var move = transform.right * moveInput.x + transform.forward * moveInput.y;
             rb.linearVelocity = move * moveSpeed;
 
-            if( rb.linearVelocity.magnitude > 0.5f ){
+            if (rb.linearVelocity.magnitude > 0.5f)
+            {
                 handAnim.SetBool("Walking", true);
             }
-            else{
+            else
+            {
                 handAnim.SetBool("Walking", false);
             }
 
@@ -297,7 +291,11 @@ namespace Scripting.Player
             if (_isInChairTrigger && _actionPressed)
             {
                 StartCoroutine(DoSitChairAnimation());
-                ActivateContractControls();
+                if (_currentContract)
+                {
+                    ActivateContractControls();
+                }
+
                 _isInChairTrigger = false;
                 if (_baseballBat)
                 {
@@ -481,7 +479,11 @@ namespace Scripting.Player
             ShowHands();
             Cursor.lockState = CursorLockMode.Confined;
             _seated = true;
-            bothArmsScript.UnblockLeftHand();
+            if (!bothArmsScript.HasContract)
+            {
+                bothArmsScript.UnblockLeftHand();
+            }
+
             bothArmsScript.UnblockRightHand();
             // GetComponent<Contract>().SetActive(true);
         }
@@ -492,7 +494,6 @@ namespace Scripting.Player
             Cursor.lockState = CursorLockMode.Locked;
             _seated = false;
             // GetComponent<Contract>().SetActive(false);
-            
         }
 
         private void ExitChairDone()
@@ -501,11 +502,13 @@ namespace Scripting.Player
             rb.isKinematic = false;
             capsuleCollider.enabled = true;
 
-            var contTest = bothArmsScript.GetComponentInChildren<Contract>();
-            if(contTest){
+            var contTest = bothArmsScript.HasContract;
+            if (contTest)
+            {
                 handAnim.SetBool("HoldingDocument", true);
             }
-            else{
+            else
+            {
                 handAnim.SetBool("HoldingDocument", false);
             }
         }
@@ -614,32 +617,14 @@ namespace Scripting.Player
             _phoneRinging = false;
         }
 
-        public void BlockContractDrawing(bool value)
-        {
-            var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
-            if (!contract) return;
-            if (value)
-            {
-                contract.Block();
-            }
-            else
-            {
-                contract.Unblock();
-            }
-        }
-
         public void NotifyIsSmoking()
         {
             _isSmoking = true;
-
-            BlockContractDrawing(true);
         }
 
         public void NotifyStoppedSmoking()
         {
             _isSmoking = false;
-
-            BlockContractDrawing(false);
         }
     }
 }

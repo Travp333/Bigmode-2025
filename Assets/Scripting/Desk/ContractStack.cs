@@ -37,7 +37,7 @@ namespace Scripting.Desk
         {
             if (Input.GetMouseButtonDown(0) && player.CanAct())
             {
-                if (attachPoint.GetComponentInChildren<Contract>()) return;
+                if (player.HasContract) return;
 
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -57,6 +57,8 @@ namespace Scripting.Desk
         {
             var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
             obj.SetActive(true);
+
+            player.SetActiveContract(obj);
         }
     }
 }
