@@ -21,10 +21,11 @@ namespace Scripting.Desk
 
         [Header("Physics")]
         [SerializeField] private LayerMask layerMask;
- 
+
         [Header("Animators")]
         [SerializeField]
         Animator leftHandAnim, rightHandAnim;
+
         /// <summary>
         /// Awake is called when the script instance is being loaded.
         /// </summary>
@@ -33,6 +34,7 @@ namespace Scripting.Desk
             leftHandAnim = leftArm.GetComponent<Animator>();
             rightHandAnim = rightArm.GetComponent<Animator>();
         }
+
         public void BlockLeftHand()
         {
             _isBlockedLeft = true;
@@ -80,7 +82,7 @@ namespace Scripting.Desk
             var pos = Input.mousePosition;
 
             if (!_isBlockedLeft && !_isBlockedRight)
-            { 
+            {
                 if (pos.x + 50f < Screen.width / 2f && _rightHandActive || _rightHandActive == _leftHandActive)
                 {
                     _leftHandActive = true;
@@ -116,12 +118,27 @@ namespace Scripting.Desk
                 var vec = hit.point;
                 vec.y = 1.80f;
 
-                var other = (cam.transform.position - hit.point).normalized * 0.05f;
-                other.y = 0f;
-                vec += other;
+                var directionreturn = ray.direction * -1;
 
-                leftArmIk.transform.position = vec;
-                rightArmIk.transform.position = vec;
+                directionreturn.y = 0;
+
+                leftArmIk.transform.position = vec + directionreturn * 0.75f;
+                leftArmIk.transform.LookAt(vec);
+
+                var rotationVec = leftArmIk.transform.rotation.eulerAngles;
+                rotationVec.z = -270;
+                rotationVec.y += 80;
+
+                leftArmIk.transform.rotation = Quaternion.Euler(rotationVec);
+
+                rightArmIk.transform.position = vec + directionreturn * 0.75f;
+                rightArmIk.transform.LookAt(vec);
+
+                rotationVec = rightArmIk.transform.rotation.eulerAngles;
+                rotationVec.z = 270;
+                rotationVec.y -= 80;
+
+                rightArmIk.transform.rotation = Quaternion.Euler(rotationVec);
             }
         }
 
