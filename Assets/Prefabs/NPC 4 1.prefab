@@ -431,7 +431,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   splatDistance: 0.3
-  launchSpeed: 0.2
+  launchSpeed: 20
 --- !u!114 &2694308992514289484
 MonoBehaviour:
   m_ObjectHideFlags: 0

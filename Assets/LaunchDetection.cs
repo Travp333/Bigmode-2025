@@ -95,7 +95,7 @@ public class LaunchDetection : MonoBehaviour
             }
             else{
                 //Debug.Log("Not Yet at target, lerping");
-                this.transform.position = Vector3.MoveTowards(this.transform.position, lerpTarget, launchSpeed);
+                this.transform.position = Vector3.MoveTowards(this.transform.position, lerpTarget, launchSpeed * Time.deltaTime);
                 //this.transform.position = Vector3.Lerp(this.transform.position, lerpTarget, Time.deltaTime);
                 if(hitNormal != null){
                     if(Vector3.Distance(this.transform.position, lerpTarget) < splatDistance){
