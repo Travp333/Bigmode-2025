@@ -21,6 +21,7 @@ namespace Scripting.Desk
 
         [Header("Physics")]
         [SerializeField] private LayerMask layerMask;
+
         [SerializeField] private LayerMask layerMaskContract;
 
         [Header("Animators")]
@@ -30,7 +31,7 @@ namespace Scripting.Desk
         public bool HasContract => Contract;
 
         public Contract Contract => GetComponentInChildren<Contract>();
-        
+
         public void PutDownContract()
         {
             var contract = Contract;
@@ -39,7 +40,7 @@ namespace Scripting.Desk
                 contract.SetActive(false);
             }
         }
-        
+
         /// <summary>
         /// Awake is called when the script instance is being loaded.
         /// </summary>
@@ -122,34 +123,27 @@ namespace Scripting.Desk
 
             var cam = Camera.main!;
             var ray = cam.ScreenPointToRay(pos);
-            
+
             if (Physics.Raycast(ray, out var hitContract, Mathf.Infinity, layerMaskContract))
             {
                 var vec = hitContract.point;
-                var directionreturn = ray.direction;
+                var directionreturn =  Vector3.forward * 0.24f + Vector3.left * 0.15f + Vector3.down * 0.41f;
 
-                // directionreturn.y = 0;
-
-                leftArmIk.transform.position = vec + directionreturn * 0.75f;
-                leftArmIk.transform.LookAt(vec);
-
-                var rotationVec = leftArmIk.transform.rotation.eulerAngles;
-                rotationVec.z = -270;
-                rotationVec.y += 80;
-
-                leftArmIk.transform.rotation = Quaternion.Euler(rotationVec);
-
-                rightArmIk.transform.position = vec + directionreturn * 0.75f;
+                rightArmIk.transform.position = vec + directionreturn;
                 rightArmIk.transform.LookAt(vec);
 
-                rotationVec = rightArmIk.transform.rotation.eulerAngles;
-                rotationVec.z = 270;
-                rotationVec.y -= 80;
+                var rotationVec = rightArmIk.transform.rotation.eulerAngles;
+  
+                // x: 8, y: -91.2, 343.1
 
+                rotationVec.z = 343.1f;
+                rotationVec.y = 91.2f;
+                rotationVec.x = 8f;
+     
                 rightArmIk.transform.rotation = Quaternion.Euler(rotationVec);
                 return;
             }
-            
+
             if (Physics.Raycast(ray, out var hit, Mathf.Infinity, layerMask))
             {
                 var vec = hit.point;

@@ -41,20 +41,6 @@ namespace Scripting.Desk
         public void SetActive(bool value)
         {
             _isActive = value;
-            if (!_isActive)
-            {
-                if (gameObject.activeInHierarchy)
-                {
-                    StartCoroutine(DoDownSyndromeAnimation());
-                }
-            }
-            else
-            {
-                transform.position = downPoint.transform.position;
-                transform.rotation = downPoint.transform.rotation;
-            }
-
-            _isUp = false;
         }
 
         private Camera _cam;
@@ -64,67 +50,7 @@ namespace Scripting.Desk
 
         void Awake()
         {
-            _playerInput = new PlayerInput();
-
-            _playerInput.Game.Action.performed += ActionPerformed;
-
             _cam = Camera.main;
-        }
-
-        private void ActionPerformed(InputAction.CallbackContext ctx)
-        {
-            if (!_isActive || Mouse.current.leftButton.isPressed) return;
-
-            _isUp = !_isUp;
-            StartCoroutine(_isUp ? DoUpAnimation() : DoDownSyndromeAnimation());
-        }
-
-        private IEnumerator DoUpAnimation()
-        {
-            var elapsed = 0f;
-
-            while (elapsed < AnimationDuration && _isUp)
-            {
-                elapsed += Time.deltaTime;
-                var t = elapsed / AnimationDuration;
-
-                transform.position = Vector3.Slerp(transform.position, upPoint.transform.position, t);
-                transform.rotation = Quaternion.Slerp(transform.rotation, upPoint.transform.rotation, t);
-
-                yield return null;
-            }
-
-            transform.position = upPoint.transform.position;
-            transform.rotation = upPoint.transform.rotation;
-        }
-
-        private IEnumerator DoDownSyndromeAnimation()
-        {
-            var elapsed = 0f;
-
-            while (elapsed < AnimationDuration && !_isUp)
-            {
-                elapsed += Time.deltaTime;
-                var t = elapsed / AnimationDuration;
-
-                transform.position = Vector3.Slerp(transform.position, downPoint.transform.position, t);
-                transform.rotation = Quaternion.Slerp(transform.rotation, downPoint.transform.rotation, t);
-
-                yield return null;
-            }
-
-            transform.position = downPoint.transform.position;
-            transform.rotation = downPoint.transform.rotation;
-        }
-
-        private void OnEnable()
-        {
-            _playerInput?.Enable();
-        }
-
-        private void OnDisable()
-        {
-            _playerInput?.Disable();
         }
 
         private void AlignWithContract()
@@ -145,7 +71,7 @@ namespace Scripting.Desk
         {
             AlignWithContract();
 
-            if (!_isActive || !_isUp || Converted) return;
+            if (!_isActive || Converted) return;
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
