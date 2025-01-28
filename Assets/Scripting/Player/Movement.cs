@@ -478,14 +478,12 @@ namespace Scripting.Player
         {
             ShowHands();
             Cursor.lockState = CursorLockMode.Confined;
-            _seated = true;
-            if (!bothArmsScript.HasContract)
+            _seated = true;  
+            bothArmsScript.UnblockRightHand(); 
+            if (!bothArmsScript.GetComponentInChildren<Contract>())
             {
                 bothArmsScript.UnblockLeftHand();
             }
-
-            bothArmsScript.UnblockRightHand();
-            // GetComponent<Contract>().SetActive(true);
         }
 
         private void ExitChairStart()
@@ -501,10 +499,10 @@ namespace Scripting.Player
             BlockAction = false;
             rb.isKinematic = false;
             capsuleCollider.enabled = true;
-
+ 
             var contTest = bothArmsScript.HasContract;
             if (contTest)
-            {
+            { 
                 handAnim.SetBool("HoldingDocument", true);
             }
             else
