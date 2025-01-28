@@ -81,6 +81,8 @@ namespace Scripting.Player
         public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
         [SerializeField]
+        GameObject playerHands;
+        [SerializeField]
         Animator handAnim;
 
         public void ExitChair()
@@ -470,6 +472,8 @@ namespace Scripting.Player
             BlockAction = true;
             rb.isKinematic = true;
             capsuleCollider.enabled = false;
+            handAnim.Play("IDLE");
+            handAnim.SetBool("Walking", false);
         }
 
         private void SitOnChairDone()
@@ -488,6 +492,7 @@ namespace Scripting.Player
             Cursor.lockState = CursorLockMode.Locked;
             _seated = false;
             // GetComponent<Contract>().SetActive(false);
+            
         }
 
         private void ExitChairDone()
@@ -495,6 +500,14 @@ namespace Scripting.Player
             BlockAction = false;
             rb.isKinematic = false;
             capsuleCollider.enabled = true;
+
+            var contTest = bothArmsScript.GetComponentInChildren<Contract>();
+            if(contTest){
+                handAnim.SetBool("HoldingDocument", true);
+            }
+            else{
+                handAnim.SetBool("HoldingDocument", false);
+            }
         }
 
         private const float AnimationDuration = 1f;
