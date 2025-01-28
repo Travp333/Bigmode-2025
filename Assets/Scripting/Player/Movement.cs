@@ -481,9 +481,12 @@ namespace Scripting.Player
             ShowHands();
             Cursor.lockState = CursorLockMode.Confined;
             _seated = true;
-            bothArmsScript.UnblockLeftHand();
             bothArmsScript.UnblockRightHand();
             // GetComponent<Contract>().SetActive(true);
+            if (!bothArmsScript.GetComponentInChildren<Contract>())
+            {
+                bothArmsScript.UnblockLeftHand();
+            }
         }
 
         private void ExitChairStart()
@@ -500,6 +503,8 @@ namespace Scripting.Player
             BlockAction = false;
             rb.isKinematic = false;
             capsuleCollider.enabled = true;
+
+            
 
             var contTest = bothArmsScript.GetComponentInChildren<Contract>();
             if(contTest){

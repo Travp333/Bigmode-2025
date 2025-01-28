@@ -34,7 +34,7 @@ namespace Scripting.Objects
             this.GetComponent<CapsuleCollider>().enabled = true;
             meMesh.enabled = true;
             handAnim.SetBool("HoldingBat", false);
-            handBat.SetActive(true);
+            handBat.SetActive(false);
           //  transform.parent = null;
           //  transform.position = new Vector3(5.796f, 0.489f, -5.296f);
           //  transform.rotation = Quaternion.Euler(0.0f, 0.0f, -16.817f);
