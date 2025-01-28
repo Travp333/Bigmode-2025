@@ -43,7 +43,9 @@ namespace Scripting.Desk
             _isActive = value;
             if (!_isActive)
             {
-                StartCoroutine(DoDownSyndromeAnimation());
+                if(gameObject.activeInHierarchy){
+                    StartCoroutine(DoDownSyndromeAnimation());
+                }
                 _isUp = false;
             }
         }
