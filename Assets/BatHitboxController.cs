@@ -4,10 +4,10 @@ public class BatHitboxController : MonoBehaviour
 {
     [SerializeField]
     BoxCollider hitBox;
-    void EnableHitbox(){
+    public void EnableHitbox(){
         hitBox.enabled = true;
     }
-    void DisableHitbox(){
+    public void DisableHitbox(){
         hitBox.enabled = false;
     }
 }
