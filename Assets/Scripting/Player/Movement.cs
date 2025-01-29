@@ -70,7 +70,7 @@ namespace Scripting.Player
         private bool _canInteractWithClient;
         private bool _seated;
         private bool _phoneRinging;
-        private bool onPhone;
+        public bool onPhone;
         private bool _isSmoking;
 
         private float _counter = 0f;
@@ -416,6 +416,7 @@ namespace Scripting.Player
                     Debug.Log("INTERACTION INTERRUPTED!");
                 }
             }
+
 
 
             _actionPressed = false;

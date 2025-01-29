@@ -178,6 +178,7 @@ namespace Scripting.Desk
 
                 rightArmIk.transform.rotation = Quaternion.Euler(rotationVec);
             }
+
         }
 
         private IEnumerator SetRigTo(float value, Rig rig, GameObject arm, bool isLeft)
@@ -197,13 +198,16 @@ namespace Scripting.Desk
                 yield return null;
             }
         }
-
-        public void ResetContractAnimation()
-        {
+        void SpawnBall(){
             var ball = Instantiate(paperBallPrefab, paperBallSpawnPos.transform.position, Quaternion.identity);
             ball.GetComponent<Rigidbody>().AddForce(this.transform.forward * paperBallSpeed);
             ball.GetComponent<Rigidbody>().AddTorque(this.transform.right * paperBallSpeed);
+        }
+
+        public void ResetContractAnimation()
+        {
             leftHandAnim.Play("Dropping Paper");
+            Invoke("SpawnBall",.65f);
         }
     }
 }

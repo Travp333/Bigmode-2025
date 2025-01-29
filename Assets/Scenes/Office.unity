@@ -5305,7 +5305,7 @@ Transform:
   m_GameObject: {fileID: 1439597620}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.00000035762784}
-  m_LocalPosition: {x: 0, y: 3.563, z: -1.4279999}
+  m_LocalPosition: {x: 0, y: 3.284, z: -1.4279999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7957,7 +7957,7 @@ Transform:
   m_GameObject: {fileID: 1849555916}
   serializedVersion: 2
   m_LocalRotation: {x: 0.70710677, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.463, y: 1.57, z: -27.343}
+  m_LocalPosition: {x: 1.463, y: 1.57, z: -27.37}
   m_LocalScale: {x: 0.25092143, y: 0.06998701, z: 0.25092143}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8414,6 +8414,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 1015
+  onPhone: 0
   playerHands: {fileID: 1252999414}
   handAnim: {fileID: 1252999416}
 --- !u!54 &1953529838

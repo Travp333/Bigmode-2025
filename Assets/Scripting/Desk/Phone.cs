@@ -52,12 +52,34 @@ namespace Scripting.Desk
                     }
                 }
             }
+            if (player.onPhone && Input.GetMouseButtonDown(1))
+            {
+                _deskArms.UnblockLeftHand();
+                ConversationEndEarly();
+                //CancelInvoke();
+            }
+        }
+        void ConversationEndEarly(){
+            if(player.onPhone){
+                handAnim.Play("Dropping Phone"); 
+                Invoke("ConversationNOReward", 1f);
+            }
+
+        }
+        void ConversationNOReward(){
+            callBlocker = false;
+            _telephoneTimer = 15f;
+            player.NotifyNotOnPhone(); 
+            //NO Money!! 
         }
 
         private bool _isRinging;
         void ConversationEnd(){
-            handAnim.Play("Dropping Phone"); 
-            Invoke("ConversationReward", 1f);
+            if(player.onPhone){
+                handAnim.Play("Dropping Phone"); 
+                Invoke("ConversationReward", 1f);
+            }
+
         }
         void ConversationReward(){
             callBlocker = false;
