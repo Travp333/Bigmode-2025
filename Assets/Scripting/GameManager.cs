@@ -25,11 +25,17 @@ namespace Scripting
         [SerializeField] public GameObject bodyguard;
         private readonly List<CustomerMotor> _customerMotors = new();
         private CustomerMotor _currentCustomer;
+        
+        public List<AiSpot> _aiSpots = new();
 
         private static GameManager _singleton;
+        
+        private ShiftManager _shiftManager;
 
         [SerializeField]
         public float dayLength = 60.0f;
+        
+        [SerializeField] public bool _dayOver;
 
         public static GameManager Singleton
         {
@@ -46,12 +52,12 @@ namespace Scripting
             }
         }
 
-        public List<AiSpot> _aiSpots = new();
-
         private void Awake()
         {
             Singleton = this;
 
+            _shiftManager = GetComponent<ShiftManager>();
+            
             if (upgrades.chairs)
             {
                 distractionChairs.SetActive(true);
@@ -91,9 +97,7 @@ namespace Scripting
         }
 
         private float _dayTimer;
-        private float _spawnTimer = 0.0f;
-
-        public bool _dayOver;
+        private float _spawnTimer;
 
         private void Update()
         {
