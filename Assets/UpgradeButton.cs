@@ -106,26 +106,21 @@ public class UpgradeButton : MonoBehaviour
                 break;
         }
 
-        /*
-            dismissal,
-            hellishContract,
-            powerFistRequisition,
-            loanAgreement,
-            temporaryEmploymentContract,
-            endOfLifePlan
-        */
-
         beenPressed = true;
-        if(testTexture != null)
+        if (testTexture != null)
         {
-            this.GetComponent<MeshRenderer>().material.mainTexture = testTexture;
+            var tempRenderer = this.GetComponent<MeshRenderer>();
+            tempRenderer.material.mainTexture = testTexture;
+            tempRenderer.material.DisableKeyword("_EMISSION");
         }
-        if(twin != null)
+        if (twin != null)
         {
             twin.beenPressed = beenPressed;
-            if(twin.testTexture != null)
+            if (twin.testTexture != null)
             {
-                twin.GetComponent<MeshRenderer>().material.mainTexture = testTexture;
+                var tempRenderer = twin.GetComponent<MeshRenderer>();
+                tempRenderer.material.mainTexture = testTexture;
+                tempRenderer.material.DisableKeyword("_EMISSION");
             }
         }
         //Destroy(gameObject);
@@ -135,6 +130,41 @@ public class UpgradeButton : MonoBehaviour
     {
         _bShowFlavorText = true;
         _flavorTextCountdown = 10;
+    }
+
+    public string FetchFlavorText()
+    {
+        switch (myUpgradeType)
+        {
+            case Upgrades.UpgradeTypes.chairs:
+                return GameManager.Singleton.upgrades.chairsFlavorText;
+            case Upgrades.UpgradeTypes.paintings:
+                return GameManager.Singleton.upgrades.paintingsFlavorText;
+            case Upgrades.UpgradeTypes.baseballBat:
+                return GameManager.Singleton.upgrades.baseballBatFlavorText;
+            case Upgrades.UpgradeTypes.cigar:
+                return GameManager.Singleton.upgrades.cigarFlavorText;
+            case Upgrades.UpgradeTypes.phone:
+                return GameManager.Singleton.upgrades.phoneFlavorText;
+            case Upgrades.UpgradeTypes.bodyguard:
+                return GameManager.Singleton.upgrades.bodyguardFlavorText;
+            case Upgrades.UpgradeTypes.assistant:
+                return GameManager.Singleton.upgrades.assistantFlavorText;
+            case Upgrades.UpgradeTypes.dismissal:
+                return GameManager.Singleton.upgrades.dismissalFlavorText;
+            case Upgrades.UpgradeTypes.hellishContract:
+                return GameManager.Singleton.upgrades.hellishContractFlavorText;
+            case Upgrades.UpgradeTypes.powerFistRequisition:
+                return GameManager.Singleton.upgrades.powerFistRequisitionFlavorText;
+            case Upgrades.UpgradeTypes.loanAgreement:
+                return GameManager.Singleton.upgrades.loanAgreementFlavorText;
+            case Upgrades.UpgradeTypes.temporaryEmploymentContract:
+                return GameManager.Singleton.upgrades.temporaryEmploymentContractFlavorText;
+            case Upgrades.UpgradeTypes.endOfLifePlan:
+                return GameManager.Singleton.upgrades.endOfLifePlanFlavorText;
+            default:
+                return "error";
+        }
     }
 
     private void OnGUI()

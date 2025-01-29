@@ -24,7 +24,8 @@ public class StorePicker : MonoBehaviour
                 if (temp.beenPressed == false)
                 {
                     //show flavor text
-                    temp.ShowFlavorText();
+                    //temp.ShowFlavorText();
+                    FlavorTextManager.Singleton.updateFlavorText(temp);
 
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -34,6 +35,20 @@ public class StorePicker : MonoBehaviour
                 }
             }
 
+            lightSwitch tempTemp;
+            if(hit.collider.gameObject.TryGetComponent<lightSwitch>(out tempTemp))
+            {
+                //tempTemp.ShowFlavorText();
+                FlavorTextManager.Singleton.updateFlavorText(tempTemp);
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    tempTemp.pressed();
+                }
+                break;
+            }
+
+            FlavorTextManager.Singleton.clearFlavorText();
         }
     }
 

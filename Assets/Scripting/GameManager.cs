@@ -28,6 +28,9 @@ namespace Scripting
 
         private static GameManager _singleton;
 
+        [SerializeField]
+        public float dayLength = 60.0f;
+
         public static GameManager Singleton
         {
             get => _singleton;
@@ -83,13 +86,14 @@ namespace Scripting
             {
                 bodyguard.SetActive(true);
             }
-            
+
+            _dayTimer = dayLength;
         }
 
-        private float _dayTimer = 60.0f;
+        private float _dayTimer;
         private float _spawnTimer = 0.0f;
 
-        private bool _dayOver;
+        public bool _dayOver;
 
         void Update()
         {
@@ -122,6 +126,14 @@ namespace Scripting
             if (_dayOver) return;
             // Wasted
             _dayOver = true;
+        }
+
+        public void NextDay()
+        {
+            _dayOver = false;
+            _dayTimer = dayLength;
+            specialStoreManager.Singleton.newDay();
+
         }
 
         public void StressmeterTooHigh()
