@@ -3795,15 +3795,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b3e43b36a6ad9e64890ce56e4b0cbc0b, type: 2}
     - target: {fileID: -2639638324218457063, guid: 4b428097fd1deb14c8eb4d10ba55468a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 89.59485
+      value: 89.391464
       objectReference: {fileID: 0}
     - target: {fileID: -2639638324218457063, guid: 4b428097fd1deb14c8eb4d10ba55468a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 46.666702
+      value: -80
       objectReference: {fileID: 0}
     - target: {fileID: -2639638324218457063, guid: 4b428097fd1deb14c8eb4d10ba55468a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 46.666702
+      value: -80
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4b428097fd1deb14c8eb4d10ba55468a, type: 3}
       propertyPath: m_Name

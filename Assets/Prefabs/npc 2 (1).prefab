@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4335871904764193119
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8643733368007191588}
+    m_Modifications:
+    - target: {fileID: 6216241922980145972, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_Name
+      value: Want Bubble Base
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.038360972
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.5409465
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0480158
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+--- !u!4 &7082054141696278102 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+  m_PrefabInstance: {fileID: 4335871904764193119}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8105930461907192783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -762,7 +824,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1b12f226871046047ab43b9fb1813a96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7082054141696278102}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1b12f226871046047ab43b9fb1813a96, type: 3}
       insertIndex: -1
@@ -789,6 +854,11 @@ PrefabInstance:
 --- !u!137 &337335948001087057 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8417361359673230750, guid: 1b12f226871046047ab43b9fb1813a96, type: 3}
+  m_PrefabInstance: {fileID: 8105930461907192783}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8643733368007191588 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1b12f226871046047ab43b9fb1813a96, type: 3}
   m_PrefabInstance: {fileID: 8105930461907192783}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8989014566146029214 stripped
@@ -830,7 +900,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5f2a0412529a1947919a6bdbba59915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpGate: 0
   mask:
     serializedVersion: 2
     m_Bits: 1
@@ -839,6 +908,7 @@ MonoBehaviour:
   hellPortalPrefab: {fileID: 5624878940118680805, guid: 035e83667527f2f45afca94b3bab7e4e, type: 3}
   myMesh: {fileID: 337335948001087057}
   stoneFistPrefab: {fileID: 114746762879566936, guid: 01e8cf4900b963f4e958e866101bd732, type: 3}
+  lerpGate: 0
 --- !u!114 &1961091437732004517
 MonoBehaviour:
   m_ObjectHideFlags: 0
