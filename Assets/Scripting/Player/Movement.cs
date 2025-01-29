@@ -258,6 +258,14 @@ namespace Scripting.Player
                     ExitChair();
                 if (rageMode)
                     EndRageMode();
+
+                if (_baseballBat)
+                {
+                    _baseballBat.Drop();
+                    _baseballBat = null;
+                }
+                
+                _actionPressed = false;
             }
 
             else
@@ -366,7 +374,7 @@ namespace Scripting.Player
             cam.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
             transform.Rotate(Vector3.up * mouseX);
 
-            if (_isInChairTrigger && _actionPressed)
+            if (_isInChairTrigger && _actionPressed && !GameManager.Singleton.IsNightTime)
             {
                 var contract = GetComponentInChildren<Contract>();
                 if (contract)
@@ -399,9 +407,9 @@ namespace Scripting.Player
             Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * interactRayLength,
                 Color.red);
 
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, interactRayLength, mask))
+            if (!GameManager.Singleton.IsNightTime && Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, interactRayLength, mask))
             {
-                if (hit.transform.GetComponent<BaseballBat>() != null)
+                if (hit.transform.GetComponent<BaseballBat>())
                 {
                     var bat = hit.transform.GetComponent<BaseballBat>();
                     if (bat)
@@ -666,7 +674,7 @@ namespace Scripting.Player
 
         private void OnGUI()
         {
-            if (_isInChairTrigger)
+            if (_isInChairTrigger && !GameManager.Singleton.IsNightTime)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to sit down.");
             }
@@ -676,12 +684,12 @@ namespace Scripting.Player
                 GUI.Label(new Rect(5, 30, 200, 50), "Press 'Tab' to stand up.");
             }
 
-            if (_canPickupBaseballBat)
+            if (_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to pick up baseball bat.");
             }
 
-            if (_canInteractWithClient)
+            if (_canInteractWithClient && !GameManager.Singleton.IsNightTime)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
             }
