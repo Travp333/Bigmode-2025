@@ -838,6 +838,7 @@ MonoBehaviour:
   launchSpeed: 20
   hellPortalPrefab: {fileID: 5624878940118680805, guid: 035e83667527f2f45afca94b3bab7e4e, type: 3}
   myMesh: {fileID: 337335948001087057}
+  stoneFistPrefab: {fileID: 114746762879566936, guid: 01e8cf4900b963f4e958e866101bd732, type: 3}
 --- !u!114 &1961091437732004517
 MonoBehaviour:
   m_ObjectHideFlags: 0
