@@ -201,7 +201,7 @@ namespace Scripting.Player
             StressLevel = 0f;
         }
 
-        public void ResetContract()
+        public void ResetContract(bool immediate = false)
         {
             if (!contractAttachmentPoint.GetComponentInChildren<Contract>()) return;
             Debug.Log("Resetting contract");
@@ -210,7 +210,15 @@ namespace Scripting.Player
             deskArms.UnblockLeftHand();
             deskArms.ResetContractAnimation();
 
-            Invoke(nameof(RemoveContract), 0.5f);
+            if (immediate)
+            {
+                _currentContract?.Reset();
+                _currentContract = null;
+            }
+            else
+            {
+                Invoke(nameof(RemoveContract), 0.5f);
+            }
         }
 
         private void RemoveContract()
@@ -251,7 +259,7 @@ namespace Scripting.Player
             if (GameManager.Singleton.IsNightTime)
             {
                 if (_currentContract)
-                    ResetContract();
+                    ResetContract(true);
                 if (StressLevel > 0f)
                     ResetStressLevel();
                 if (_seated)
@@ -291,11 +299,12 @@ namespace Scripting.Player
 
                     CheckButtons();
                 }
-                if(_currentContract){
-                    RemoveContract();
-                    handAnim.SetBool("HoldingDocument", false);
+                
+                // if(_currentContract){
+                    // RemoveContract();
+                    // handAnim.SetBool("HoldingDocument", false);
                     //bothArmsScript.PutDownContract();
-                }
+                // }
 
                 if (rageMode)
                 {
