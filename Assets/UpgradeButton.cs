@@ -1,6 +1,9 @@
 using AI;
+using NUnit.Framework;
 using Scripting;
 using Scripting.ScriptableObjects;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -14,7 +17,16 @@ public class UpgradeButton : MonoBehaviour
     private Rect _flavorRect;
     [SerializeField]
     UpgradeButton twin;
+    Texture defaultTexture;
     [SerializeField] Texture testTexture;
+    MeshRenderer myMeshRenderer;
+    public bool special = false;
+
+    private void Awake()
+    {
+        myMeshRenderer = this.GetComponent<MeshRenderer>();
+        defaultTexture = myMeshRenderer.material.mainTexture;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -107,20 +119,27 @@ public class UpgradeButton : MonoBehaviour
         }
 
         beenPressed = true;
-        if (testTexture != null)
+        if (special)
         {
-            var tempRenderer = this.GetComponent<MeshRenderer>();
-            tempRenderer.material.mainTexture = testTexture;
-            tempRenderer.material.DisableKeyword("_EMISSION");
+            List<Material> temp = myMeshRenderer.materials.ToList();
+            temp[1] = specialStoreManager.Singleton.fetchUpgradeMaterial(14);
+            myMeshRenderer.SetMaterials(temp);
         }
-        if (twin != null)
+        else
         {
-            twin.beenPressed = beenPressed;
-            if (twin.testTexture != null)
+            if (testTexture != null)
             {
-                var tempRenderer = twin.GetComponent<MeshRenderer>();
-                tempRenderer.material.mainTexture = testTexture;
-                tempRenderer.material.DisableKeyword("_EMISSION");
+                myMeshRenderer.material.mainTexture = testTexture;
+                myMeshRenderer.material.DisableKeyword("_EMISSION");
+            }
+            if (twin != null)
+            {
+                twin.beenPressed = beenPressed;
+                if (twin.testTexture != null)
+                {
+                    myMeshRenderer.material.mainTexture = testTexture;
+                    myMeshRenderer.material.DisableKeyword("_EMISSION");
+                }
             }
         }
         //Destroy(gameObject);
@@ -218,6 +237,30 @@ public class UpgradeButton : MonoBehaviour
             }
 
             GUI.Label(_flavorRect, relevantText);
+        }
+    }
+
+    public void unpress()
+    {
+        if (beenPressed)
+        {
+            correctMaterial();
+            beenPressed = false;
+        }
+    }
+
+    public void correctMaterial()
+    {
+        if (special)
+        {
+            List<Material> temp = myMeshRenderer.materials.ToList();
+            temp[1] = specialStoreManager.Singleton.fetchUpgradeMaterial(myUpgradeType);
+            myMeshRenderer.SetMaterials(temp);
+        }
+        else
+        {
+            myMeshRenderer.material.mainTexture = defaultTexture;
+            myMeshRenderer.material.EnableKeyword("_EMISSION");
         }
     }
 }

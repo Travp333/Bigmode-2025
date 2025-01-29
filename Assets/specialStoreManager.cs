@@ -7,7 +7,9 @@ using UnityEngine;
 public class specialStoreManager : MonoBehaviour
 {
     [SerializeField]
-    List<UpgradeButton> upgradeButtons = new List<UpgradeButton>();
+    UpgradeButton upgradeButtons;// = new List<UpgradeButton>();
+    [SerializeField]
+    List<Material> materials = new List<Material>();
     private static specialStoreManager _singleton;
 
     public static specialStoreManager Singleton
@@ -33,23 +35,33 @@ public class specialStoreManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        upgradeButtons.special = true;
         newDay();
+        upgradeButtons.correctMaterial();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void newDay()
     {
         //8-13 inclusive
         UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
-        int temp = UnityEngine.Random.Range(8, 14); //(int minInclusive, int maxExclusive)
-        foreach (UpgradeButton upgradeButton in upgradeButtons)
-        {
-            upgradeButton.myUpgradeType = (Upgrades.UpgradeTypes)temp;
-        }
+        int temp = UnityEngine.Random.Range(8, 14); //(int minInclusive, int maxExclusive)        
+        upgradeButtons.myUpgradeType = (Upgrades.UpgradeTypes)temp;
+        upgradeButtons.unpress();
+    }
+
+    public Material fetchUpgradeMaterial(int x)
+    {
+        return materials[(int)(x - 8)];
+    }
+
+    public Material fetchUpgradeMaterial(Upgrades.UpgradeTypes x)
+    {
+        return fetchUpgradeMaterial((int)(x));
     }
 }
