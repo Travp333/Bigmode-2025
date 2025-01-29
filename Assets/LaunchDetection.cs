@@ -23,6 +23,8 @@ public class LaunchDetection : MonoBehaviour
     GameObject hellPortalPrefab;
     [SerializeField]
     SkinnedMeshRenderer myMesh;
+    [SerializeField]
+    GameObject stoneFistPrefab;
    
 
     private void Awake() {
@@ -68,9 +70,9 @@ public class LaunchDetection : MonoBehaviour
                 }
             }
             else{
-                //TESTING HELL DOCUMENT
+                //TESTING FIST DOCUMENT
                 this.transform.rotation = Quaternion.LookRotation(-player.transform.forward, this.transform.up);
-                var portal = Instantiate(hellPortalPrefab, this.transform.position, Quaternion.identity);
+                var portal = Instantiate(stoneFistPrefab, this.transform.position, Quaternion.identity);
                 portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh = myMesh.sharedMesh;
                 portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials = myMesh.sharedMaterials;
                 portal.transform.localScale = this.transform.localScale;
