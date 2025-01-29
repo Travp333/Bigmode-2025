@@ -20,8 +20,8 @@ namespace Scripting.Desk
         private Quaternion _originalRotation;
         private bool _isSmoking;
         private DeskArms _deskArms;
-        
-        void Awake()
+
+        private void Awake()
         {
             _leftArmAnim = leftArm.GetComponent<Animator>();
             _originalParent = transform.parent;
@@ -30,7 +30,7 @@ namespace Scripting.Desk
             _deskArms = arms.GetComponent<DeskArms>();
         }
 
-        void Update()
+        private void Update()
         {
             if (!_isSmoking && player.CanAct())
             {

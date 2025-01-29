@@ -1,12 +1,9 @@
-using Scripting.Customer;
 using UnityEngine;
 
-public class doorHitboxController : MonoBehaviour
+public class DoorHitboxController : MonoBehaviour
 {
-    [SerializeField]
-    doorAnimController door;
-    [SerializeField]
-    bool frontOrBack;
+    [SerializeField] private DoorAnimController door;
+    [SerializeField] private bool frontOrBack;
 
 
     private void OnTriggerEnter(Collider other)
@@ -42,7 +39,7 @@ public class doorHitboxController : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         {
             
@@ -50,7 +47,7 @@ public class doorHitboxController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         
     }

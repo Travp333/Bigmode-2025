@@ -5,24 +5,19 @@ using UnityEngine;
 using UnityEngine.AI;
 public class LaunchDetection : MonoBehaviour
 {
-    Animator anim;
-    RaycastHit hit;
+    private Animator anim;
+    private RaycastHit hit;
     public bool lerpGate;
-    Vector3 lerpTarget;
-    [SerializeField]
-    LayerMask mask;
-    Vector3 hitNormal;
-    [SerializeField]
-    float splatDistance = .1f;
-    [SerializeField]
-    float launchSpeed = .1f;
-    NavMeshAgent agent;
-    CustomerMotor motor;
-    GameObject player;
-    [SerializeField]
-    GameObject hellPortalPrefab;
-    [SerializeField]
-    SkinnedMeshRenderer myMesh;
+    private Vector3 lerpTarget;
+    [SerializeField] private LayerMask mask;
+    private Vector3 hitNormal;
+    [SerializeField] private float splatDistance = .1f;
+    [SerializeField] private float launchSpeed = .1f;
+    private NavMeshAgent agent;
+    private CustomerMotor motor;
+    private GameObject player;
+    [SerializeField] private GameObject hellPortalPrefab;
+    [SerializeField] private SkinnedMeshRenderer myMesh;
    
 
     private void Awake() {
@@ -40,7 +35,7 @@ public class LaunchDetection : MonoBehaviour
         motor.enabled = true;
     }
 
-    void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other) {
         if (other.gameObject.GetComponent<BatHitboxCollision>() != null){
             //Got Bat Hitbox!
             this.transform.rotation = Quaternion.LookRotation(-player.transform.forward, this.transform.up);
@@ -93,7 +88,8 @@ public class LaunchDetection : MonoBehaviour
             }
         }
     }
-    void OnCollisionEnter(Collision other) {
+
+    private void OnCollisionEnter(Collision other) {
         //Debug.Log(other.gameObject);
         if(other.gameObject.GetComponent<LaunchDetection>()!= null){
             if(other.gameObject != this.gameObject && other.gameObject.GetComponent<LaunchDetection>().lerpGate == true && lerpGate == false){

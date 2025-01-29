@@ -4,15 +4,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class specialStoreManager : MonoBehaviour
+public class SpecialStoreManager : MonoBehaviour
 {
-    [SerializeField]
-    UpgradeButton upgradeButtons;// = new List<UpgradeButton>();
-    [SerializeField]
-    List<Material> materials = new List<Material>();
-    private static specialStoreManager _singleton;
+    [SerializeField] private UpgradeButton upgradeButtons; // = new List<UpgradeButton>();
+    [SerializeField] private List<Material> materials = new();
+    private static SpecialStoreManager _singleton;
 
-    public static specialStoreManager Singleton
+    public static SpecialStoreManager Singleton
     {
         get => _singleton;
         private set
@@ -33,7 +31,7 @@ public class specialStoreManager : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         upgradeButtons.special = true;
         newDay();
@@ -41,27 +39,26 @@ public class specialStoreManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
     }
 
     public void newDay()
     {
         //8-13 inclusive
-        UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
+        UnityEngine.Random.InitState((int) DateTime.Now.Ticks);
         int temp = UnityEngine.Random.Range(8, 14); //(int minInclusive, int maxExclusive)        
-        upgradeButtons.myUpgradeType = (Upgrades.UpgradeTypes)temp;
+        upgradeButtons.myUpgradeType = (Upgrades.UpgradeTypes) temp;
         upgradeButtons.unpress();
     }
 
     public Material fetchUpgradeMaterial(int x)
     {
-        return materials[(int)(x - 8)];
+        return materials[(int) (x - 8)];
     }
 
     public Material fetchUpgradeMaterial(Upgrades.UpgradeTypes x)
     {
-        return fetchUpgradeMaterial((int)(x));
+        return fetchUpgradeMaterial((int) (x));
     }
 }

@@ -4,13 +4,10 @@ namespace Scripting.Objects
 {
     public class BaseballBat : MonoBehaviour
     {
-        [SerializeField]
-        Animator handAnim;
-        [SerializeField]
-        GameObject handBat;
+        [SerializeField] private Animator handAnim;
+        [SerializeField] private GameObject handBat;
         [SerializeField] private CapsuleCollider capsuleCollider;
-        [SerializeField]
-        MeshRenderer meMesh;
+        [SerializeField] private MeshRenderer meMesh;
 
         private void OnValidate()
         {

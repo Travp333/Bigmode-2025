@@ -1,5 +1,3 @@
-using NUnit.Framework;
-using System;
 using UnityEngine;
 
 namespace Scripting.ScriptableObjects
@@ -10,20 +8,20 @@ namespace Scripting.ScriptableObjects
         //upgrade types here
         public enum UpgradeTypes
         {
-            chairs,
-            paintings,
-            baseballBat,
-            cigar,
-            phone,
-            bodyguard,
-            assistant,
-            money,
-            dismissal,
-            hellishContract,
-            powerFistRequisition,
-            loanAgreement,
-            temporaryEmploymentContract,
-            endOfLifePlan
+            Chairs,
+            Paintings,
+            BaseballBat,
+            Cigar,
+            Phone,
+            Bodyguard,
+            Assistant,
+            Money,
+            Dismissal,
+            HellishContract,
+            PowerFistRequisition,
+            LoanAgreement,
+            TemporaryEmploymentContract,
+            EndOfLifePlan
         }
 
         //upgrade status here?
@@ -58,5 +56,4 @@ namespace Scripting.ScriptableObjects
         public string temporaryEmploymentContractFlavorText = "adds temporary employment contract";
         public string endOfLifePlanFlavorText = "adds end of life plan";
     }
-
 }

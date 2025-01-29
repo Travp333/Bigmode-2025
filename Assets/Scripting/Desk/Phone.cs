@@ -5,15 +5,13 @@ namespace Scripting.Desk
 {
     public class Phone : MonoBehaviour
     {
-        [SerializeField]
-        float phoneCallLowerBound, phoneCallUpperBound;
-        bool callBlocker;
+        [SerializeField] private float phoneCallLowerBound, phoneCallUpperBound;
+        private bool callBlocker;
         private DeskArms _deskArms;
         [SerializeField]
         private GameObject arms;
         
-        [SerializeField]
-        Animator handAnim;
+        [SerializeField] private Animator handAnim;
         [SerializeField] private Movement player;
 
         // Update is called once per frame
@@ -22,7 +20,7 @@ namespace Scripting.Desk
             _deskArms = arms.GetComponent<DeskArms>();
         }
 
-        void Update()
+        private void Update()
         {
             _telephoneTimer -= Time.deltaTime;
 
@@ -46,7 +44,7 @@ namespace Scripting.Desk
                             _deskArms.BlockLeftHand();  
                             handAnim.Play("Grabbing Phone");    
                             callBlocker = true;     
-                            Invoke("ConversationEnd", Random.Range(phoneCallLowerBound, phoneCallUpperBound));
+                            Invoke(nameof(ConversationEnd), Random.Range(phoneCallLowerBound, phoneCallUpperBound));
                             player.NotifyOnPhone();             
                         }
                     }
@@ -62,7 +60,7 @@ namespace Scripting.Desk
         public void ConversationEndEarly(){
             if(player.onPhone){
                 handAnim.Play("Dropping Phone"); 
-                Invoke("ConversationNOReward", 1f);
+                Invoke(nameof(ConversationNOReward), 1f);
             }
 
         }
@@ -74,14 +72,16 @@ namespace Scripting.Desk
         }
 
         private bool _isRinging;
-        void ConversationEnd(){
+
+        private void ConversationEnd(){
             if(player.onPhone){
                 handAnim.Play("Dropping Phone"); 
-                Invoke("ConversationReward", 1f);
+                Invoke(nameof(ConversationReward), 1f);
             }
 
         }
-        void ConversationReward(){
+
+        private void ConversationReward(){
             callBlocker = false;
             _telephoneTimer = 15f;
             player.NotifyNotOnPhone(); 

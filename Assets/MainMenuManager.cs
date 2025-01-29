@@ -42,7 +42,7 @@ public class MainMenuManager : MonoBehaviour
     private float _newSfxVolume;
     private float _newSpeechVolume;
 
-    void Awake()
+    private void Awake()
     {
         mainMenuButtons.SetActive(false);
         optionsPanel.SetActive(false);

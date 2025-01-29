@@ -26,12 +26,12 @@ namespace Scripting.Customer
         public float StressMeter { get; private set; }
 
         private AiSpot _currentSpot;
-        Animator anim;
-        bool conversing;
-        Movement player;
+        private Animator anim;
+        private bool conversing;
+        private Movement player;
         [SerializeField]
         //how likely are you to play the conversation variant animation
-        int converseVariantProbability = 5;
+        private int converseVariantProbability = 5;
 
         private string _contractType;
 
@@ -187,7 +187,7 @@ namespace Scripting.Customer
         }
 
 #if UNITY_EDITOR
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             Handles.Label(transform.position + Vector3.up * 2f, "Wants: " + _contractType);
             Handles.Label(transform.position + Vector3.up * 1.5f, "Stresslevel: " + StressMeter);

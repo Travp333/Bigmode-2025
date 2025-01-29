@@ -17,7 +17,7 @@ namespace Scripting.Customer
 
         private List<AiSpot> _distractionSpots;
 
-        void Start()
+        private void Start()
         {
             _distractionSpots = gameManager.GetDistractionSpots();
         }

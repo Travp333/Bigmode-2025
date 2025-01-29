@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class BatHitboxController : MonoBehaviour
 {
-    [SerializeField]
-    BoxCollider hitBox;
+    [SerializeField] private BoxCollider hitBox;
     public void EnableHitbox(){
         hitBox.enabled = true;
     }

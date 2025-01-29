@@ -1,8 +1,6 @@
 using AI;
-using NUnit.Framework;
 using Scripting;
 using Scripting.ScriptableObjects;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,11 +13,10 @@ public class UpgradeButton : MonoBehaviour
     private bool _bShowFlavorText = false;
     private int _flavorTextCountdown = 0;
     private Rect _flavorRect;
-    [SerializeField]
-    UpgradeButton twin;
-    Texture defaultTexture;
-    [SerializeField] Texture testTexture;
-    MeshRenderer myMeshRenderer;
+    [SerializeField] private UpgradeButton twin;
+    private Texture defaultTexture;
+    [SerializeField] private Texture testTexture;
+    private MeshRenderer myMeshRenderer;
     public bool special = false;
 
     private void Awake()
@@ -63,55 +60,55 @@ public class UpgradeButton : MonoBehaviour
 
         switch (myUpgradeType)
         {
-            case Upgrades.UpgradeTypes.chairs:
+            case Upgrades.UpgradeTypes.Chairs:
                 GameManager.Singleton.upgrades.chairs = true;
                 GameManager.Singleton.distractionChairs.SetActive(true);
                 GameManager.Singleton._aiSpots = GameManager.Singleton._aiSpots.Concat(GameManager.Singleton.distractionChairs.GetComponentsInChildren<AiSpot>()).ToList();
                 break;
-            case Upgrades.UpgradeTypes.paintings:
+            case Upgrades.UpgradeTypes.Paintings:
                 GameManager.Singleton.upgrades.paintings = true;
                 GameManager.Singleton.distractionPaintings.SetActive(true);
                 GameManager.Singleton._aiSpots = GameManager.Singleton._aiSpots.Concat(GameManager.Singleton.distractionPaintings.GetComponentsInChildren<AiSpot>()).ToList();
                 break;
-            case Upgrades.UpgradeTypes.baseballBat:
+            case Upgrades.UpgradeTypes.BaseballBat:
                 GameManager.Singleton.upgrades.baseballBat = true;
                 GameManager.Singleton.baseballBat.SetActive(true);
                 break;
-            case Upgrades.UpgradeTypes.cigar:
+            case Upgrades.UpgradeTypes.Cigar:
                 GameManager.Singleton.upgrades.cigar = true;
                 GameManager.Singleton.cigar.SetActive(true);
                 break;
-            case Upgrades.UpgradeTypes.phone:
+            case Upgrades.UpgradeTypes.Phone:
                 GameManager.Singleton.upgrades.phone = true;
                 GameManager.Singleton.phone.SetActive(true);
                 break;
-            case Upgrades.UpgradeTypes.bodyguard:
+            case Upgrades.UpgradeTypes.Bodyguard:
                 GameManager.Singleton.upgrades.bodyguard = true;
                 GameManager.Singleton.bodyguard.SetActive(true);
                 break;
-            case Upgrades.UpgradeTypes.assistant:
+            case Upgrades.UpgradeTypes.Assistant:
                 GameManager.Singleton.upgrades.assistant = true;
                 GameManager.Singleton.assistant.SetActive(true);
                 break;
-            case Upgrades.UpgradeTypes.money:
+            case Upgrades.UpgradeTypes.Money:
                 GameManager.Singleton.upgrades.money += moneyAmount;
                 break;
-            case Upgrades.UpgradeTypes.dismissal:
+            case Upgrades.UpgradeTypes.Dismissal:
                 GameManager.Singleton.upgrades.dismissal = true;
                 break;
-            case Upgrades.UpgradeTypes.hellishContract:
+            case Upgrades.UpgradeTypes.HellishContract:
                 GameManager.Singleton.upgrades.hellishContract = true;
                 break;
-            case Upgrades.UpgradeTypes.powerFistRequisition:
+            case Upgrades.UpgradeTypes.PowerFistRequisition:
                 GameManager.Singleton.upgrades.powerFistRequisition = true;
                 break;
-            case Upgrades.UpgradeTypes.loanAgreement:
+            case Upgrades.UpgradeTypes.LoanAgreement:
                 GameManager.Singleton.upgrades.loanAgreement = true;
                 break;
-            case Upgrades.UpgradeTypes.temporaryEmploymentContract:
+            case Upgrades.UpgradeTypes.TemporaryEmploymentContract:
                 GameManager.Singleton.upgrades.temporaryEmploymentContract = true;
                 break;
-            case Upgrades.UpgradeTypes.endOfLifePlan:
+            case Upgrades.UpgradeTypes.EndOfLifePlan:
                 GameManager.Singleton.upgrades.endOfLifePlan = true;
                 break;
             default:
@@ -122,7 +119,7 @@ public class UpgradeButton : MonoBehaviour
         if (special)
         {
             List<Material> temp = myMeshRenderer.materials.ToList();
-            temp[1] = specialStoreManager.Singleton.fetchUpgradeMaterial(14);
+            temp[1] = SpecialStoreManager.Singleton.fetchUpgradeMaterial(14);
             myMeshRenderer.SetMaterials(temp);
         }
         else
@@ -155,31 +152,31 @@ public class UpgradeButton : MonoBehaviour
     {
         switch (myUpgradeType)
         {
-            case Upgrades.UpgradeTypes.chairs:
+            case Upgrades.UpgradeTypes.Chairs:
                 return GameManager.Singleton.upgrades.chairsFlavorText;
-            case Upgrades.UpgradeTypes.paintings:
+            case Upgrades.UpgradeTypes.Paintings:
                 return GameManager.Singleton.upgrades.paintingsFlavorText;
-            case Upgrades.UpgradeTypes.baseballBat:
+            case Upgrades.UpgradeTypes.BaseballBat:
                 return GameManager.Singleton.upgrades.baseballBatFlavorText;
-            case Upgrades.UpgradeTypes.cigar:
+            case Upgrades.UpgradeTypes.Cigar:
                 return GameManager.Singleton.upgrades.cigarFlavorText;
-            case Upgrades.UpgradeTypes.phone:
+            case Upgrades.UpgradeTypes.Phone:
                 return GameManager.Singleton.upgrades.phoneFlavorText;
-            case Upgrades.UpgradeTypes.bodyguard:
+            case Upgrades.UpgradeTypes.Bodyguard:
                 return GameManager.Singleton.upgrades.bodyguardFlavorText;
-            case Upgrades.UpgradeTypes.assistant:
+            case Upgrades.UpgradeTypes.Assistant:
                 return GameManager.Singleton.upgrades.assistantFlavorText;
-            case Upgrades.UpgradeTypes.dismissal:
+            case Upgrades.UpgradeTypes.Dismissal:
                 return GameManager.Singleton.upgrades.dismissalFlavorText;
-            case Upgrades.UpgradeTypes.hellishContract:
+            case Upgrades.UpgradeTypes.HellishContract:
                 return GameManager.Singleton.upgrades.hellishContractFlavorText;
-            case Upgrades.UpgradeTypes.powerFistRequisition:
+            case Upgrades.UpgradeTypes.PowerFistRequisition:
                 return GameManager.Singleton.upgrades.powerFistRequisitionFlavorText;
-            case Upgrades.UpgradeTypes.loanAgreement:
+            case Upgrades.UpgradeTypes.LoanAgreement:
                 return GameManager.Singleton.upgrades.loanAgreementFlavorText;
-            case Upgrades.UpgradeTypes.temporaryEmploymentContract:
+            case Upgrades.UpgradeTypes.TemporaryEmploymentContract:
                 return GameManager.Singleton.upgrades.temporaryEmploymentContractFlavorText;
-            case Upgrades.UpgradeTypes.endOfLifePlan:
+            case Upgrades.UpgradeTypes.EndOfLifePlan:
                 return GameManager.Singleton.upgrades.endOfLifePlanFlavorText;
             default:
                 return "error";
@@ -193,43 +190,43 @@ public class UpgradeButton : MonoBehaviour
             var relevantText = "";
             switch (myUpgradeType)
             {
-                case Upgrades.UpgradeTypes.chairs:
+                case Upgrades.UpgradeTypes.Chairs:
                     relevantText = GameManager.Singleton.upgrades.chairsFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.paintings:
+                case Upgrades.UpgradeTypes.Paintings:
                     relevantText = GameManager.Singleton.upgrades.paintingsFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.baseballBat:
+                case Upgrades.UpgradeTypes.BaseballBat:
                     relevantText = GameManager.Singleton.upgrades.baseballBatFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.cigar:
+                case Upgrades.UpgradeTypes.Cigar:
                     relevantText = GameManager.Singleton.upgrades.cigarFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.phone:
+                case Upgrades.UpgradeTypes.Phone:
                     relevantText = GameManager.Singleton.upgrades.phoneFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.bodyguard:
+                case Upgrades.UpgradeTypes.Bodyguard:
                     relevantText = GameManager.Singleton.upgrades.bodyguardFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.assistant:
+                case Upgrades.UpgradeTypes.Assistant:
                     relevantText = GameManager.Singleton.upgrades.assistantFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.dismissal:
+                case Upgrades.UpgradeTypes.Dismissal:
                     relevantText = GameManager.Singleton.upgrades.dismissalFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.hellishContract:
+                case Upgrades.UpgradeTypes.HellishContract:
                     relevantText = GameManager.Singleton.upgrades.hellishContractFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.powerFistRequisition:
+                case Upgrades.UpgradeTypes.PowerFistRequisition:
                     relevantText = GameManager.Singleton.upgrades.powerFistRequisitionFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.loanAgreement:
+                case Upgrades.UpgradeTypes.LoanAgreement:
                     relevantText = GameManager.Singleton.upgrades.loanAgreementFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.temporaryEmploymentContract:
+                case Upgrades.UpgradeTypes.TemporaryEmploymentContract:
                     relevantText = GameManager.Singleton.upgrades.temporaryEmploymentContractFlavorText;
                     break;
-                case Upgrades.UpgradeTypes.endOfLifePlan:
+                case Upgrades.UpgradeTypes.EndOfLifePlan:
                     relevantText = GameManager.Singleton.upgrades.endOfLifePlanFlavorText;
                     break;
                 default:
@@ -254,7 +251,7 @@ public class UpgradeButton : MonoBehaviour
         if (special)
         {
             List<Material> temp = myMeshRenderer.materials.ToList();
-            temp[1] = specialStoreManager.Singleton.fetchUpgradeMaterial(myUpgradeType);
+            temp[1] = SpecialStoreManager.Singleton.fetchUpgradeMaterial(myUpgradeType);
             myMeshRenderer.SetMaterials(temp);
         }
         else

@@ -71,8 +71,7 @@ namespace Scripting.Player
         private bool _seated;
         private bool _phoneRinging;
         public bool onPhone;
-        [SerializeField]
-        Phone phone;
+        [SerializeField] private Phone phone;
         private bool _isSmoking;
 
         private float _counter = 0f;
@@ -90,8 +89,7 @@ namespace Scripting.Player
         [SerializeField]
         private Animator handAnim;
         public bool rageMode;
-        [SerializeField]
-        float rageModeTimer = 5f;
+        [SerializeField] private float rageModeTimer = 5f;
 
         public void ExitChair()
         {
@@ -99,13 +97,13 @@ namespace Scripting.Player
             DeactivateContractControls();
         }
 
-        void ShowHands()
+        private void ShowHands()
         {
             leftHand.SetActive(true);
             rightHand.SetActive(true);
         }
 
-        void HideHands()
+        private void HideHands()
         {
             leftHand.SetActive(false);
             rightHand.SetActive(false);
@@ -235,7 +233,8 @@ namespace Scripting.Player
                 }
             }
         }
-        void EndRageMode(){
+
+        private void EndRageMode(){
             handAnim.SetBool("RAGE", false);
             rageMode = false;
         }
@@ -293,7 +292,7 @@ namespace Scripting.Player
                 handAnim.SetBool("RAGE", true);
                 GameManager.Singleton.StressmeterTooHigh();
                 StressLevel = 0f;
-                Invoke("EndRageMode", rageModeTimer);
+                Invoke(nameof(EndRageMode), rageModeTimer);
 
             }
 

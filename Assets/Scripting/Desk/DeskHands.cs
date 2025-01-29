@@ -8,12 +8,9 @@ namespace Scripting.Desk
     public class DeskArms : MonoBehaviour
     {
         
-        [SerializeField]
-        GameObject paperBallSpawnPos;
-        [SerializeField]
-        GameObject paperBallPrefab;
-        [SerializeField]
-        float paperBallSpeed;
+        [SerializeField] private GameObject paperBallSpawnPos;
+        [SerializeField] private GameObject paperBallPrefab;
+        [SerializeField] private float paperBallSpeed;
         [Header("leftArm")]
         [SerializeField] private GameObject leftArmIk;
 
@@ -33,7 +30,7 @@ namespace Scripting.Desk
 
         [Header("Animators")]
         [SerializeField]
-        Animator leftHandAnim, rightHandAnim;
+        private Animator leftHandAnim, rightHandAnim;
 
         public bool HasContract => Contract;
 
@@ -99,7 +96,7 @@ namespace Scripting.Desk
         private bool _leftHandActive = true;
         private bool _rightHandActive = true;
 
-        void Update()
+        private void Update()
         {
             var pos = Input.mousePosition;
 
@@ -198,7 +195,8 @@ namespace Scripting.Desk
                 yield return null;
             }
         }
-        void SpawnBall(){
+
+        private void SpawnBall(){
             var ball = Instantiate(paperBallPrefab, paperBallSpawnPos.transform.position, Quaternion.identity);
             ball.GetComponent<Rigidbody>().AddForce(this.transform.forward * paperBallSpeed);
             ball.GetComponent<Rigidbody>().AddTorque(this.transform.right * paperBallSpeed);
@@ -207,7 +205,7 @@ namespace Scripting.Desk
         public void ResetContractAnimation()
         {
             leftHandAnim.Play("Dropping Paper");
-            Invoke("SpawnBall",.65f);
+            Invoke(nameof(SpawnBall),.65f);
         }
     }
 }

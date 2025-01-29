@@ -1,11 +1,9 @@
-using Scripting;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FlavorTextManager : MonoBehaviour
 {
-    TextMeshProUGUI myTextField;
+    private TextMeshProUGUI _myTextField;
     private static FlavorTextManager _singleton;
 
     public static FlavorTextManager Singleton
@@ -17,7 +15,7 @@ public class FlavorTextManager : MonoBehaviour
                 _singleton = value;
             else if (_singleton != value)
             {
-                Debug.Log($"{nameof(GameManager)} instance already exists, destroying duplicate!");
+                Debug.Log($"{nameof(FlavorTextManager)} instance already exists, destroying duplicate!");
                 Destroy(value);
             }
         }
@@ -26,46 +24,44 @@ public class FlavorTextManager : MonoBehaviour
     private void Awake()
     {
         Singleton = this;
-        myTextField = this.GetComponent<TextMeshProUGUI>();
+        _myTextField = GetComponent<TextMeshProUGUI>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
     }
 
-    public void updateFlavorText(string newFlavorText)
+    public void UpdateFlavorText(string newFlavorText)
     {
-        if (myTextField != null)
+        if (_myTextField)
         {
-            myTextField.text = newFlavorText;
+            _myTextField.text = newFlavorText;
         }
         else
             Debug.Log("myTextField is null!!!!!!!!!!");
     }
 
-    public void updateFlavorText(UpgradeButton relevantButton)
+    public void UpdateFlavorText(UpgradeButton relevantButton)
     {
-        updateFlavorText(relevantButton.FetchFlavorText());
+        UpdateFlavorText(relevantButton.FetchFlavorText());
     }
 
-    public void updateFlavorText(lightSwitch relevantLightSwitch)
+    public void UpdateFlavorText(LightSwitch relevantLightSwitch)
     {
-        updateFlavorText(relevantLightSwitch.FetchFlavorText());
+        UpdateFlavorText(relevantLightSwitch.FetchFlavorText());
     }
 
-    public void clearFlavorText()
+    public void ClearFlavorText()
     {
-        if (myTextField != null)
+        if (_myTextField != null)
         {
-            myTextField.text = "";
+            _myTextField.text = "";
         }
     }
 }

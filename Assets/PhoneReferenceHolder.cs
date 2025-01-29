@@ -3,25 +3,27 @@ using UnityEngine;
 
 public class PhoneReferenceHolder : MonoBehaviour
 {
-    [SerializeField]
-    GameObject deskReciever;
-    [SerializeField]
-    GameObject handReciever;
-    [SerializeField]
-    DeskArms arms; 
+    [SerializeField] private GameObject deskReciever;
+    [SerializeField] private GameObject handReciever;
+    [SerializeField] private DeskArms arms;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void PickupPhone(){
+    private void PickupPhone()
+    {
         arms.BlockLeftHand();
         deskReciever.SetActive(false);
         handReciever.SetActive(true);
     }
-    void HangupPhone(){
-        Invoke("DelayedUnBlock", .3f);
+
+    private void HangupPhone()
+    {
+        Invoke(nameof(DelayedUnBlock), .3f);
         deskReciever.SetActive(true);
         handReciever.SetActive(false);
     }
-    void DelayedUnBlock(){
+
+    private void DelayedUnBlock()
+    {
         arms.UnblockLeftHand();
     }
-
 }

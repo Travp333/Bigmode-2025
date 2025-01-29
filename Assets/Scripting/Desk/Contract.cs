@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -48,7 +47,7 @@ namespace Scripting.Desk
         private readonly List<LineRenderer> _renderers = new();
         private readonly List<Vector3[]> _positions = new();
 
-        void Awake()
+        private void Awake()
         {
             _cam = Camera.main;
         }
@@ -67,7 +66,7 @@ namespace Scripting.Desk
             }
         }
 
-        void Update()
+        private void Update()
         {
             AlignWithContract();
 

@@ -53,7 +53,7 @@ namespace Scripting.Desk
             }
         }
 
-        void GrabPaper()
+        private void GrabPaper()
         {
             var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
             obj.SetActive(true);

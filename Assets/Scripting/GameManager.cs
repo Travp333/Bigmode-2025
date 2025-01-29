@@ -95,7 +95,7 @@ namespace Scripting
 
         public bool _dayOver;
 
-        void Update()
+        private void Update()
         {
             if (_dayOver) return;
 
@@ -132,7 +132,7 @@ namespace Scripting
         {
             _dayOver = false;
             _dayTimer = dayLength;
-            specialStoreManager.Singleton.newDay();
+            SpecialStoreManager.Singleton.newDay();
 
         }
 
