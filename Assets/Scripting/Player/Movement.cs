@@ -128,17 +128,14 @@ namespace Scripting.Player
 
         public bool CanAct()
         {
-            if (!_seated) return false;
-
-            if (_currentContract?.IsUp ?? false)
+            if (!_seated) 
                 return false;
-
+            if (_currentContract)
+                return false;
             if (_isSmoking)
                 return false;
             if (onPhone)
-            {
                 return false;
-            }
 
             return true;
         }
@@ -199,6 +196,11 @@ namespace Scripting.Player
             _currentContract?.Submit();
         }
 
+        public void ResetStressLevel()
+        {
+            StressLevel = 0f;
+        }
+
         public void ResetContract()
         {
             if (!contractAttachmentPoint.GetComponentInChildren<Contract>()) return;
@@ -246,72 +248,48 @@ namespace Scripting.Player
 
         private void Update()
         {
-            var stressChange = 0.025f;
-
-            if (_seated)
+            if (GameManager.Singleton.IsNightTime)
             {
-                stressChange /= 2f;
-                if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking && !onPhone)
-                {
-                    var contract = bothArmsScript.GetContractObject();
-
-                    if (contract)
-                    {
-                        contract.transform.parent = attachmentPointContract.transform;
-                        contract.transform.localPosition = Vector3.zero;
-                        contract.transform.localRotation = Quaternion.identity;
-                        handAnim.Play("IdleWithDocument");
-                        handAnim.SetBool("HoldingDocument", true);
-                    }
-
+                if (_currentContract)
+                    ResetContract();
+                if (StressLevel > 0f)
+                    ResetStressLevel();
+                if (_seated)
                     ExitChair();
-                }
+                if (rageMode)
+                    EndRageMode();
 
-                CheckButtons();
-            }
-
-            if (rageMode)
-            {
-                stressChange = 0f;
-            }
-
-            if (_phoneRinging)
-            {
-                stressChange *= 1.5f;
-            }
-
-            if (_isSmoking)
-            {
-                stressChange -= 0.05f;
-            }
-
-            StressLevel += Time.deltaTime * stressChange;
-
-            if (StressLevel >= 1.0f)
-            {
                 if (_baseballBat)
                 {
                     _baseballBat.Drop();
                     _baseballBat = null;
-                    _actionPressed = false;
                 }
+                
+                _actionPressed = false;
+            }
 
-                if (onPhone)
-                {
-                    phone.ConversationEndEarly();
-                }
+            else
+            {
+                var stressChange = 0.025f;
 
                 if (_seated)
                 {
-                    if(bothArmsScript.GetContractObject() != null){
+                    stressChange /= 2f;
+                    if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking && !onPhone)
+                    {
                         var contract = bothArmsScript.GetContractObject();
-                        contract.transform.parent = attachmentPointContract.transform;
-                        contract.transform.localPosition = Vector3.zero;
-                        contract.transform.localRotation = Quaternion.identity;
-                        bothArmsScript.PutDownContract();
+
+                        if (contract)
+                        {
+                            contract.transform.parent = attachmentPointContract.transform;
+                            contract.transform.localPosition = Vector3.zero;
+                            contract.transform.localRotation = Quaternion.identity;
+                        }
+
+                        ExitChair();
                     }
 
-                    ExitChair();
+                    CheckButtons();
                 }
                 if(_currentContract){
                     RemoveContract();
@@ -319,13 +297,58 @@ namespace Scripting.Player
                     //bothArmsScript.PutDownContract();
                 }
 
-                //BlockAction = true;
-                rageMode = true;
-                handAnim.Play("RAGEMODE");
-                handAnim.SetBool("RAGE", true);
-                GameManager.Singleton.StressmeterTooHigh();
-                StressLevel = 0f;
-                Invoke(nameof(EndRageMode), rageModeTimer);
+                if (rageMode)
+                {
+                    stressChange = 0f;
+                }
+
+                if (_phoneRinging)
+                {
+                    stressChange *= 1.5f;
+                }
+
+                if (_isSmoking)
+                {
+                    stressChange -= 0.05f;
+                }
+
+                StressLevel += Time.deltaTime * stressChange;
+
+                if (StressLevel >= 1.0f)
+                {
+                    if (_baseballBat)
+                    {
+                        _baseballBat.Drop();
+                        _baseballBat = null;
+                        _actionPressed = false;
+                    }
+
+                    if (onPhone)
+                    {
+                        phone.ConversationEndEarly();
+                    }
+
+                    if (_seated)
+                    {
+                        // bothArmsScript.PutDownContract();
+
+                        var contract = bothArmsScript.GetContractObject();
+
+                        contract.transform.parent = attachmentPointContract.transform;
+                        contract.transform.localPosition = Vector3.zero;
+                        contract.transform.localRotation = Quaternion.identity;
+
+                        ExitChair();
+                    }
+
+                    //BlockAction = true;
+                    rageMode = true;
+                    handAnim.Play("RAGEMODE");
+                    handAnim.SetBool("RAGE", true);
+                    GameManager.Singleton.StressmeterTooHigh();
+                    StressLevel = 0f;
+                    Invoke(nameof(EndRageMode), rageModeTimer);
+                }
             }
 
 
@@ -356,7 +379,7 @@ namespace Scripting.Player
             cam.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
             transform.Rotate(Vector3.up * mouseX);
 
-            if (_isInChairTrigger && _actionPressed)
+            if (_isInChairTrigger && _actionPressed && !GameManager.Singleton.IsNightTime)
             {
                 var contract = GetComponentInChildren<Contract>();
                 if (contract)
@@ -393,9 +416,9 @@ namespace Scripting.Player
             Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * interactRayLength,
                 Color.red);
 
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, interactRayLength, mask))
+            if (!GameManager.Singleton.IsNightTime && Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, interactRayLength, mask))
             {
-                if (hit.transform.GetComponent<BaseballBat>() != null)
+                if (hit.transform.GetComponent<BaseballBat>())
                 {
                     var bat = hit.transform.GetComponent<BaseballBat>();
                     if (bat)
@@ -672,7 +695,7 @@ namespace Scripting.Player
 
         private void OnGUI()
         {
-            if (_isInChairTrigger)
+            if (_isInChairTrigger && !GameManager.Singleton.IsNightTime)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to sit down.");
             }
@@ -682,12 +705,12 @@ namespace Scripting.Player
                 GUI.Label(new Rect(5, 30, 200, 50), "Press 'Tab' to stand up.");
             }
 
-            if (_canPickupBaseballBat)
+            if (_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to pick up baseball bat.");
             }
 
-            if (_canInteractWithClient)
+            if (_canInteractWithClient && !GameManager.Singleton.IsNightTime)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
             }

@@ -10,25 +10,48 @@ namespace Scripting.Desk
         [SerializeField] private float phoneCallLowerBound, phoneCallUpperBound;
         private bool callBlocker;
         private DeskArms _deskArms;
+
         [SerializeField]
         private GameObject arms;
-        
+
+        [SerializeField] private float telephoneCooldown = 35f;
+
         [SerializeField] private Animator handAnim;
         [SerializeField] private Movement player;
 
         // Update is called once per frame
-        private float _telephoneTimer = 15.0f;
-        private void Awake() {
+        private float _telephoneTimer;
+
+        private void Awake()
+        {
             _deskArms = arms.GetComponent<DeskArms>();
+
+            _telephoneTimer = telephoneCooldown;
         }
 
         private void Update()
         {
+            if (GameManager.Singleton.IsNightTime)
+            {
+                if (_isRinging)
+                    StopRinging();
+
+                if (player.onPhone)
+                {
+                    handAnim.Play("Dropping Phone");
+                    Invoke(nameof(ConversationReward), 1f);
+                }
+
+                _telephoneTimer = telephoneCooldown;
+
+                return;
+            }
+
             _telephoneTimer -= Time.deltaTime;
 
             if (_telephoneTimer <= 0 && !callBlocker)
             {
-                _telephoneTimer = 15.0f;
+                _telephoneTimer = telephoneCooldown;
                 Ring();
             }
 
@@ -43,15 +66,16 @@ namespace Scripting.Desk
                         if (hit.collider.gameObject == gameObject)
                         {
                             StopRinging();
-                            _deskArms.BlockLeftHand();  
-                            handAnim.Play("Grabbing Phone");    
-                            callBlocker = true;     
+                            _deskArms.BlockLeftHand();
+                            handAnim.Play("Grabbing Phone");
+                            callBlocker = true;
                             Invoke(nameof(ConversationEnd), Random.Range(phoneCallLowerBound, phoneCallUpperBound));
-                            player.NotifyOnPhone();             
+                            player.NotifyOnPhone();
                         }
                     }
                 }
             }
+
             if (player.onPhone && Input.GetMouseButtonDown(1))
             {
                 _deskArms.UnblockLeftHand();
@@ -59,34 +83,40 @@ namespace Scripting.Desk
                 //CancelInvoke();
             }
         }
-        public void ConversationEndEarly(){
-            if(player.onPhone){
-                handAnim.Play("Dropping Phone"); 
+
+        public void ConversationEndEarly()
+        {
+            if (player.onPhone)
+            {
+                handAnim.Play("Dropping Phone");
                 Invoke(nameof(ConversationNOReward), 1f);
             }
-
         }
-        public void ConversationNOReward(){
+
+        public void ConversationNOReward()
+        {
             callBlocker = false;
             _telephoneTimer = 15f;
-            player.NotifyNotOnPhone(); 
+            player.NotifyNotOnPhone();
             //NO Money!! 
         }
 
         private bool _isRinging;
 
-        private void ConversationEnd(){
-            if(player.onPhone){
-                handAnim.Play("Dropping Phone"); 
+        private void ConversationEnd()
+        {
+            if (player.onPhone)
+            {
+                handAnim.Play("Dropping Phone");
                 Invoke(nameof(ConversationReward), 1f);
             }
-
         }
 
-        private void ConversationReward(){
+        private void ConversationReward()
+        {
             callBlocker = false;
             _telephoneTimer = 15f;
-            player.NotifyNotOnPhone(); 
+            player.NotifyNotOnPhone();
             //Money!! 
         }
 

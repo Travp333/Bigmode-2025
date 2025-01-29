@@ -14,7 +14,7 @@ namespace Scripting
 
         [SerializeField] private Light[] nightSpotLights;
 
-        [SerializeField] [Range(0, 1)] private float debug;
+        // [SerializeField] [Range(0, 1)] private float debug;
         [SerializeField] private bool isNightTime;
 
         private Material _skybox;
@@ -33,7 +33,6 @@ namespace Scripting
             _ceilings = skybox.materials[0];
             _skybox =
                 skybox.materials[6];
-
             
             LerpShiftState(0);
             _isNightTime = true;
@@ -104,13 +103,13 @@ namespace Scripting
                     spotLights[i].intensity = 10f - elapsed * 10f;
                 }
 
-                _ceilings.SetColor(EmissionColor, Color.white * (1f - elapsed) * 0.5f); 
-
                 for (var i = 0; i < nightSpotLights.Length; i++)
                 {
                     nightSpotLights[i].intensity = elapsed * 20f;
                 }
- 
+                
+                _ceilings.SetColor(EmissionColor, Color.white * (1f - elapsed) * 0.5f); 
+                
                 yield return null;
             }
 
@@ -150,12 +149,12 @@ namespace Scripting
 
         private bool _isAnimating;
 
-        private void Update()
-        {
-            if (!_isNightTime && !_isAnimating)
-                LerpShiftState(debug);
-
-            SetIsNightTime(isNightTime);
-        }
+        // private void Update()
+        // {
+        //     if (!_isNightTime && !_isAnimating)
+        //         LerpShiftState(debug);
+        //
+        //     SetIsNightTime(isNightTime);
+        // }
     }
 }

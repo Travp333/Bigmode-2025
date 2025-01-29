@@ -17,9 +17,9 @@ public class LightSwitch : MonoBehaviour
 
     public void Pressed()
     {
-        if (GameManager.Singleton._dayOver)
+        if (GameManager.Singleton.IsNightTime)
         {
-            GameManager.Singleton.NextDay();
+            GameManager.Singleton.StartDay();
         }
     }
 
