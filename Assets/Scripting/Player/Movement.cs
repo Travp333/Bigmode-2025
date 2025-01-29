@@ -342,10 +342,12 @@ namespace Scripting.Player
                         // bothArmsScript.PutDownContract();
 
                         var contract = bothArmsScript.GetContractObject();
-
-                        contract.transform.parent = attachmentPointContract.transform;
-                        contract.transform.localPosition = Vector3.zero;
-                        contract.transform.localRotation = Quaternion.identity;
+                        if (contract)
+                        {
+                            contract.transform.parent = attachmentPointContract.transform;
+                            contract.transform.localPosition = Vector3.zero;
+                            contract.transform.localRotation = Quaternion.identity;
+                        }
 
                         ExitChair();
                     }
@@ -466,18 +468,22 @@ namespace Scripting.Player
                             handAnim.SetBool("HoldingDocument", false);
                             //bothArmsScript.PutDownContract();
 
-
-                            if (contract.Converted && customer.Validate())
+                            _currentContract = null;
+                            if (contract.Converted)
                             {
-                                GameManager.Singleton.FinalizeCustomer(customer);
-                                ChangeStressLevel(-0.25f);
-                                customer.WalkOut();
-
-                                //Todo: Play Smack sound
-                            }
-                            else
-                            {
-                                //Todo: Play NO Sound
+                                if (customer.Validate())
+                                {
+                                    GameManager.Singleton.RemoveCustomer(customer);
+                                    ChangeStressLevel(-0.25f);
+                                    customer.WalkOut();
+                                
+                                
+                                    //Todo: Play Smack sound
+                                }
+                                else
+                                {
+                                    //Todo: Play NO Sound
+                                }
                             }
                         }
                         else
