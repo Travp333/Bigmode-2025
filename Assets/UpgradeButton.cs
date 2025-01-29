@@ -8,9 +8,13 @@ public class UpgradeButton : MonoBehaviour
 {
     public Upgrades.UpgradeTypes myUpgradeType;
     public float moneyAmount = 0;
+    public bool beenPressed = false;
     private bool _bShowFlavorText = false;
     private int _flavorTextCountdown = 0;
     private Rect _flavorRect;
+    [SerializeField]
+    UpgradeButton twin;
+    [SerializeField] Texture testTexture;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -40,6 +44,11 @@ public class UpgradeButton : MonoBehaviour
 
     public void Pressed()
     {
+        if (beenPressed)
+        {
+            return;
+        }
+
         switch (myUpgradeType)
         {
             case Upgrades.UpgradeTypes.chairs:
@@ -79,7 +88,20 @@ public class UpgradeButton : MonoBehaviour
                 break;
         }
 
-        Destroy(gameObject);
+        beenPressed = true;
+        if(testTexture != null)
+        {
+            this.GetComponent<MeshRenderer>().material.mainTexture = testTexture;
+        }
+        if(twin != null)
+        {
+            twin.beenPressed = beenPressed;
+            if(twin.testTexture != null)
+            {
+                twin.GetComponent<MeshRenderer>().material.mainTexture = testTexture;
+            }
+        }
+        //Destroy(gameObject);
     }
 
     public void ShowFlavorText()

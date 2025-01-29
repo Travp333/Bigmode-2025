@@ -21,14 +21,17 @@ public class StorePicker : MonoBehaviour
             UpgradeButton temp;
             if (hit.collider.gameObject.TryGetComponent<UpgradeButton>(out temp))
             {
-                //show flavor text
-                temp.ShowFlavorText();
-
-                if (Input.GetMouseButtonDown(0))
+                if (temp.beenPressed == false)
                 {
-                    temp.Pressed();
+                    //show flavor text
+                    temp.ShowFlavorText();
+
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        temp.Pressed();
+                    }
+                    break;
                 }
-                break;
             }
 
         }

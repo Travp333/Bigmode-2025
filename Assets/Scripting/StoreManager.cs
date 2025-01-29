@@ -4,6 +4,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// /////////////////////////////////////////DEPRECATED/////////////////////////////////////////
+/// </summary>
+
 public class StoreManager : MonoBehaviour
 {
     [SerializeField]
