@@ -1,18 +1,13 @@
 using UnityEngine;
 
-public class die : MonoBehaviour
+public class PortalManager : MonoBehaviour
 {
     [SerializeField]
-    float deathLowerBound = 1f;
-    [SerializeField]
-    float deathUpperBound = 3f;
+    public GameObject mesh;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Invoke("Die", Random.Range(deathLowerBound,deathUpperBound));
-    }
-    void Die(){
-        Destroy(this.gameObject);
+        
     }
 
     // Update is called once per frame

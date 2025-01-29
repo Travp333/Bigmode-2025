@@ -398,6 +398,8 @@ MonoBehaviour:
     m_Bits: 1
   splatDistance: 0.3
   launchSpeed: 20
+  hellPortalPrefab: {fileID: 5624878940118680805, guid: 035e83667527f2f45afca94b3bab7e4e, type: 3}
+  myMesh: {fileID: 8631833733191792279}
 --- !u!114 &5174399231538379774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,3 +486,8 @@ CapsuleCollider:
   m_Height: 3.27
   m_Direction: 1
   m_Center: {x: 0, y: 2.51, z: 0}
+--- !u!137 &8631833733191792279 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8417361359673230750, guid: b5a84bfefb82a994394ce6ef8ac98802, type: 3}
+  m_PrefabInstance: {fileID: 223515884450050825}
+  m_PrefabAsset: {fileID: 0}

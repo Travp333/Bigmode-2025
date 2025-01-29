@@ -89,7 +89,7 @@ namespace Scripting.Player
 
         [SerializeField]
         private Animator handAnim;
-        bool rageMode;
+        public bool rageMode;
         [SerializeField]
         float rageModeTimer = 5f;
 

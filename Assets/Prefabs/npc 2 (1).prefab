@@ -786,6 +786,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5341291093858956811}
   m_SourcePrefab: {fileID: 100100000, guid: 1b12f226871046047ab43b9fb1813a96, type: 3}
+--- !u!137 &337335948001087057 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8417361359673230750, guid: 1b12f226871046047ab43b9fb1813a96, type: 3}
+  m_PrefabInstance: {fileID: 8105930461907192783}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8989014566146029214 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1b12f226871046047ab43b9fb1813a96, type: 3}
@@ -831,6 +836,8 @@ MonoBehaviour:
     m_Bits: 1
   splatDistance: 0.3
   launchSpeed: 20
+  hellPortalPrefab: {fileID: 5624878940118680805, guid: 035e83667527f2f45afca94b3bab7e4e, type: 3}
+  myMesh: {fileID: 337335948001087057}
 --- !u!114 &1961091437732004517
 MonoBehaviour:
   m_ObjectHideFlags: 0

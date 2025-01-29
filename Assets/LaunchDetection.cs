@@ -19,6 +19,10 @@ public class LaunchDetection : MonoBehaviour
     NavMeshAgent agent;
     CustomerMotor motor;
     GameObject player;
+    [SerializeField]
+    GameObject hellPortalPrefab;
+    [SerializeField]
+    SkinnedMeshRenderer myMesh;
    
 
     private void Awake() {
@@ -48,6 +52,30 @@ public class LaunchDetection : MonoBehaviour
                 Debug.DrawRay(this.transform.position, lerpTarget - this.transform.position, Color.yellow, 1f);
                 Debug.DrawRay(lerpTarget, hitNormal, Color.blue, 1f);
                 lerpGate = true;
+            }
+        }
+        if (other.gameObject.GetComponent<Movement>() != null){
+            //Got Player Hitbox!
+            if(other.gameObject.GetComponent<Movement>().rageMode == true){
+                this.transform.rotation = Quaternion.LookRotation(-player.transform.forward, this.transform.up);
+                if(Physics.Raycast(this.transform.position, player.transform.forward, out hit, 999f, mask)){
+                    anim.Play("AIR");
+                    lerpTarget = hit.point;
+                    hitNormal = hit.normal;
+                    Debug.DrawRay(this.transform.position, lerpTarget - this.transform.position, Color.yellow, 1f);
+                    Debug.DrawRay(lerpTarget, hitNormal, Color.blue, 1f);
+                    lerpGate = true;
+                }
+            }
+            else{
+                //TESTING HELL DOCUMENT
+                this.transform.rotation = Quaternion.LookRotation(-player.transform.forward, this.transform.up);
+                var portal = Instantiate(hellPortalPrefab, this.transform.position, Quaternion.identity);
+                portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh = myMesh.sharedMesh;
+                portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials = myMesh.sharedMaterials;
+                portal.transform.localScale = this.transform.localScale;
+                Destroy(this.gameObject);
+
             }
         }
         else if (other.gameObject.GetComponent<HuellHitboxCollision>() != null){
