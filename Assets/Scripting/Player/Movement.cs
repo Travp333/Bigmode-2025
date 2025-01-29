@@ -59,6 +59,8 @@ namespace Scripting.Player
         [Header("other")]
         [SerializeField] private LayerMask mask;
 
+        [SerializeField] private GameObject attachmentPointContract;
+
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
         private float _rotationX;
@@ -88,6 +90,7 @@ namespace Scripting.Player
 
         [SerializeField]
         private Animator handAnim;
+
         public bool rageMode;
         [SerializeField] private float rageModeTimer = 5f;
 
@@ -132,7 +135,8 @@ namespace Scripting.Player
 
             if (_isSmoking)
                 return false;
-            if(onPhone){
+            if (onPhone)
+            {
                 return false;
             }
 
@@ -234,7 +238,8 @@ namespace Scripting.Player
             }
         }
 
-        private void EndRageMode(){
+        private void EndRageMode()
+        {
             handAnim.SetBool("RAGE", false);
             rageMode = false;
         }
@@ -248,13 +253,23 @@ namespace Scripting.Player
                 stressChange /= 2f;
                 if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking && !onPhone)
                 {
-                    bothArmsScript.PutDownContract();
+                    var contract = bothArmsScript.GetContractObject();
+
+                    if (contract)
+                    {
+                        contract.transform.parent = attachmentPointContract.transform;
+                        contract.transform.localPosition = Vector3.zero;
+                        contract.transform.localRotation = Quaternion.identity;
+                    }
+
                     ExitChair();
                 }
 
                 CheckButtons();
             }
-            if(rageMode){
+
+            if (rageMode)
+            {
                 stressChange = 0f;
             }
 
@@ -278,14 +293,25 @@ namespace Scripting.Player
                     _baseballBat = null;
                     _actionPressed = false;
                 }
-                if(onPhone){
+
+                if (onPhone)
+                {
                     phone.ConversationEndEarly();
                 }
-                if(_seated){
-                    bothArmsScript.PutDownContract();
+
+                if (_seated)
+                {
+                    // bothArmsScript.PutDownContract();
+
+                    var contract = bothArmsScript.GetContractObject();
+
+                    contract.transform.parent = attachmentPointContract.transform;
+                    contract.transform.localPosition = Vector3.zero;
+                    contract.transform.localRotation = Quaternion.identity;
+
                     ExitChair();
                 }
-                
+
                 //BlockAction = true;
                 rageMode = true;
                 handAnim.Play("RAGEMODE");
@@ -293,7 +319,6 @@ namespace Scripting.Player
                 GameManager.Singleton.StressmeterTooHigh();
                 StressLevel = 0f;
                 Invoke(nameof(EndRageMode), rageModeTimer);
-
             }
 
 
@@ -326,6 +351,12 @@ namespace Scripting.Player
 
             if (_isInChairTrigger && _actionPressed)
             {
+                var contract = GetComponentInChildren<Contract>();
+                if (contract)
+                {
+                    bothArmsScript.SetContractObject(contract.transform.parent);
+                }
+
                 StartCoroutine(DoSitChairAnimation());
                 if (_currentContract)
                 {
@@ -450,7 +481,6 @@ namespace Scripting.Player
             }
 
 
-
             _actionPressed = false;
             _attackPressed = false;
         }
@@ -515,8 +545,8 @@ namespace Scripting.Player
         {
             ShowHands();
             Cursor.lockState = CursorLockMode.Confined;
-            _seated = true;  
-            bothArmsScript.UnblockRightHand(); 
+            _seated = true;
+            bothArmsScript.UnblockRightHand();
             if (!bothArmsScript.GetComponentInChildren<Contract>())
             {
                 bothArmsScript.UnblockLeftHand();
@@ -536,10 +566,10 @@ namespace Scripting.Player
             BlockAction = false;
             rb.isKinematic = false;
             capsuleCollider.enabled = true;
- 
+
             var contTest = bothArmsScript.HasContract;
             if (contTest)
-            { 
+            {
                 handAnim.SetBool("HoldingDocument", true);
             }
             else
@@ -641,6 +671,7 @@ namespace Scripting.Player
 
             GUI.Label(new Rect(5, Screen.height - 25, 200, 25), "" + StressLevel);
         }
+
         public void NotifyOnPhone()
         {
             onPhone = true;

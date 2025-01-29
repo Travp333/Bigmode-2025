@@ -7,10 +7,10 @@ namespace Scripting.Desk
 {
     public class DeskArms : MonoBehaviour
     {
-        
         [SerializeField] private GameObject paperBallSpawnPos;
         [SerializeField] private GameObject paperBallPrefab;
         [SerializeField] private float paperBallSpeed;
+
         [Header("leftArm")]
         [SerializeField] private GameObject leftArmIk;
 
@@ -32,6 +32,9 @@ namespace Scripting.Desk
         [SerializeField]
         private Animator leftHandAnim, rightHandAnim;
 
+
+        [SerializeField] private GameObject contractAttachmentPoint;
+
         public bool HasContract => Contract;
 
         public Contract Contract => GetComponentInChildren<Contract>();
@@ -43,6 +46,18 @@ namespace Scripting.Desk
             {
                 contract.SetActive(false);
             }
+        }
+
+        public Transform GetContractObject()
+        {
+            return Contract.transform.parent;
+        }
+
+        public void SetContractObject(Transform contract)
+        {
+            contract.transform.parent = contractAttachmentPoint.transform;
+            contract.transform.localPosition = Vector3.zero;
+            contract.transform.localRotation = Quaternion.identity;
         }
 
         /// <summary>
@@ -65,6 +80,7 @@ namespace Scripting.Desk
         public void UnblockLeftHand()
         {
             _isBlockedLeft = false;
+            leftHandAnim.SetBool("LeftPoint", false);
         }
 
         public void BlockRightHand()
@@ -131,19 +147,19 @@ namespace Scripting.Desk
             if (Physics.Raycast(ray, out var hitContract, Mathf.Infinity, layerMaskContract))
             {
                 var vec = hitContract.point;
-                var directionreturn =  Vector3.forward * 0.24f + Vector3.left * 0.15f + Vector3.down * 0.41f;
+                var directionreturn = Vector3.forward * 0.24f + Vector3.left * 0.15f + Vector3.down * 0.41f;
 
                 rightArmIk.transform.position = vec + directionreturn;
                 rightArmIk.transform.LookAt(vec);
 
                 var rotationVec = rightArmIk.transform.rotation.eulerAngles;
-  
+
                 // x: 8, y: -91.2, 343.1
 
                 rotationVec.z = 343.1f;
                 rotationVec.y = 91.2f;
                 rotationVec.x = 8f;
-     
+
                 rightArmIk.transform.rotation = Quaternion.Euler(rotationVec);
                 return;
             }
@@ -175,7 +191,6 @@ namespace Scripting.Desk
 
                 rightArmIk.transform.rotation = Quaternion.Euler(rotationVec);
             }
-
         }
 
         private IEnumerator SetRigTo(float value, Rig rig, GameObject arm, bool isLeft)
@@ -196,7 +211,8 @@ namespace Scripting.Desk
             }
         }
 
-        private void SpawnBall(){
+        private void SpawnBall()
+        {
             var ball = Instantiate(paperBallPrefab, paperBallSpawnPos.transform.position, Quaternion.identity);
             ball.GetComponent<Rigidbody>().AddForce(this.transform.forward * paperBallSpeed);
             ball.GetComponent<Rigidbody>().AddTorque(this.transform.right * paperBallSpeed);
@@ -205,7 +221,7 @@ namespace Scripting.Desk
         public void ResetContractAnimation()
         {
             leftHandAnim.Play("Dropping Paper");
-            Invoke(nameof(SpawnBall),.65f);
+            Invoke(nameof(SpawnBall), .65f);
         }
     }
 }
