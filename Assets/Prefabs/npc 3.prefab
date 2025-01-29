@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7645910361393159890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7568553401888693284}
+  m_Layer: 7
+  m_Name: Document Attach Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7568553401888693284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7645910361393159890}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.006726628, y: -0.98492616, z: 0.0062765446, w: 0.17273046}
+  m_LocalPosition: {x: -0.001, y: 0.305, z: 0.379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 908343350315438617}
+  m_LocalEulerAnglesHint: {x: 0.575, y: -160.101, z: 0.884}
 --- !u!1001 &223515884450050825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -306,6 +337,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: b5a84bfefb82a994394ce6ef8ac98802, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2055157371633806805}
+    - targetCorrespondingSourceObject: {fileID: 1117178536989204752, guid: b5a84bfefb82a994394ce6ef8ac98802, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7568553401888693284}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b5a84bfefb82a994394ce6ef8ac98802, type: 3}
       insertIndex: -1
@@ -332,6 +366,11 @@ PrefabInstance:
 --- !u!4 &328956279344076002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b5a84bfefb82a994394ce6ef8ac98802, type: 3}
+  m_PrefabInstance: {fileID: 223515884450050825}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &908343350315438617 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1117178536989204752, guid: b5a84bfefb82a994394ce6ef8ac98802, type: 3}
   m_PrefabInstance: {fileID: 223515884450050825}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1142646924294245976 stripped
@@ -421,6 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ded3b1a105843488577c9ceeba7841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  documentAttachPoint: {fileID: 7645910361393159890}
   rb: {fileID: 378181778106604756}
   agent: {fileID: 5416921607039692496}
   secondsUntilFreakOut: 20

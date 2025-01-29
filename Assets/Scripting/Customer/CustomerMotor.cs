@@ -11,6 +11,8 @@ namespace Scripting.Customer
 {
     public class CustomerMotor : MonoBehaviour
     {
+        [SerializeField]
+        public GameObject documentAttachPoint;
         [SerializeField] private Rigidbody rb;
         [SerializeField] private NavMeshAgent agent;
 

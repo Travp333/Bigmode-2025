@@ -50,7 +50,12 @@ namespace Scripting.Desk
 
         public Transform GetContractObject()
         {
-            return Contract.transform.parent;
+            if(Contract){
+                return Contract.transform.parent;
+            }
+            else{
+                return null;
+            }
         }
 
         public void SetContractObject(Transform contract)

@@ -260,6 +260,8 @@ namespace Scripting.Player
                         contract.transform.parent = attachmentPointContract.transform;
                         contract.transform.localPosition = Vector3.zero;
                         contract.transform.localRotation = Quaternion.identity;
+                        handAnim.Play("IdleWithDocument");
+                        handAnim.SetBool("HoldingDocument", true);
                     }
 
                     ExitChair();
@@ -301,15 +303,20 @@ namespace Scripting.Player
 
                 if (_seated)
                 {
-                    // bothArmsScript.PutDownContract();
-
-                    var contract = bothArmsScript.GetContractObject();
-
-                    contract.transform.parent = attachmentPointContract.transform;
-                    contract.transform.localPosition = Vector3.zero;
-                    contract.transform.localRotation = Quaternion.identity;
+                    if(bothArmsScript.GetContractObject() != null){
+                        var contract = bothArmsScript.GetContractObject();
+                        contract.transform.parent = attachmentPointContract.transform;
+                        contract.transform.localPosition = Vector3.zero;
+                        contract.transform.localRotation = Quaternion.identity;
+                        bothArmsScript.PutDownContract();
+                    }
 
                     ExitChair();
+                }
+                if(_currentContract){
+                    RemoveContract();
+                    handAnim.SetBool("HoldingDocument", false);
+                    //bothArmsScript.PutDownContract();
                 }
 
                 //BlockAction = true;
@@ -354,12 +361,16 @@ namespace Scripting.Player
                 var contract = GetComponentInChildren<Contract>();
                 if (contract)
                 {
+                    Debug.Log("Re entering seat while holding this document" + contract);
                     bothArmsScript.SetContractObject(contract.transform.parent);
+                    handAnim.Play("IDLE");
+                    handAnim.SetBool("HoldingDocument", false);
                 }
 
                 StartCoroutine(DoSitChairAnimation());
                 if (_currentContract)
                 {
+                    _currentContract.GetComponent<BoxCollider>().enabled = true;
                     ActivateContractControls();
                 }
 
@@ -404,22 +415,29 @@ namespace Scripting.Player
 
                 if (hit.transform.TryGetComponent<CustomerMotor>(out var customer))
                 {
+                    //Debug.Log("Looking at client!");
                     _canInteractWithClient = true;
+                    //LMB would be better
                     if (_actionPressed)
                     {
                         var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
+                        //Debug.Log(contract);
                         if (contract)
                         {
                             var attachment = contract.transform.parent;
-                            //Change this to NPC head bone
-                            attachment.parent = customer.transform;
-                            attachment.position = hit.point;
+                            attachment.parent = customer.documentAttachPoint.transform;
+                            attachment.position = customer.documentAttachPoint.transform.position;
                             attachment.localScale = Vector3.one / 2.0f;
+                            //Debug.Log("Interacting with document!");
+                            //RemoveContract();
+                            handAnim.Play("Staple");
+                            handAnim.SetBool("HoldingDocument", false);
+                            //bothArmsScript.PutDownContract();
+
 
                             if (contract.Converted && customer.Validate())
                             {
                                 GameManager.Singleton.FinalizeCustomer(customer);
-
                                 ChangeStressLevel(-0.25f);
                                 customer.WalkOut();
 
@@ -432,6 +450,7 @@ namespace Scripting.Player
                         }
                         else
                         {
+                            Debug.Log("Interacting with no document!");
                             _counter = 0f;
                             _countDownGate = true;
                             _clientInteractor = hit.transform.gameObject;
@@ -451,15 +470,25 @@ namespace Scripting.Player
 
             if (_countDownGate)
             {
-                if (Vector3.Distance(transform.position, _clientInteractor.transform.position) <
-                    clientInteractDistance)
-                {
-                    if (_counter < _counterMax)
+                if(_clientInteractor != null){
+                    if (Vector3.Distance(transform.position, _clientInteractor.transform.position) <
+                        clientInteractDistance)
                     {
-                        _clientInteractor.GetComponent<CustomerMotor>().StartConversing();
-                        _counter += Time.deltaTime;
-                        radialIndicatorUI.enabled = true;
-                        radialIndicatorUI.fillAmount = _counter / _counterMax;
+                        if (_counter < _counterMax)
+                        {
+                            _clientInteractor.GetComponent<CustomerMotor>().StartConversing();
+                            _counter += Time.deltaTime;
+                            radialIndicatorUI.enabled = true;
+                            radialIndicatorUI.fillAmount = _counter / _counterMax;
+                        }
+                        else
+                        {
+                            _clientInteractor.GetComponent<CustomerMotor>().StopConversing();
+                            radialIndicatorUI.enabled = false;
+                            _countDownGate = false;
+                            _counter = 0f;
+                            Debug.Log("INTERACTION COMPLETE!");
+                        }
                     }
                     else
                     {
@@ -467,16 +496,8 @@ namespace Scripting.Player
                         radialIndicatorUI.enabled = false;
                         _countDownGate = false;
                         _counter = 0f;
-                        Debug.Log("INTERACTION COMPLETE!");
+                        Debug.Log("INTERACTION INTERRUPTED!");
                     }
-                }
-                else
-                {
-                    _clientInteractor.GetComponent<CustomerMotor>().StopConversing();
-                    radialIndicatorUI.enabled = false;
-                    _countDownGate = false;
-                    _counter = 0f;
-                    Debug.Log("INTERACTION INTERRUPTED!");
                 }
             }
 
@@ -567,13 +588,15 @@ namespace Scripting.Player
             rb.isKinematic = false;
             capsuleCollider.enabled = true;
 
-            var contTest = bothArmsScript.HasContract;
-            if (contTest)
+            //var contTest = bothArmsScript.HasContract;
+            if (_currentContract)
             {
                 handAnim.SetBool("HoldingDocument", true);
+                _currentContract.GetComponent<BoxCollider>().enabled = false;
             }
             else
             {
+                
                 handAnim.SetBool("HoldingDocument", false);
             }
         }
