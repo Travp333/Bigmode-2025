@@ -50,6 +50,7 @@ public class specialStoreManager : MonoBehaviour
         foreach (UpgradeButton upgradeButton in upgradeButtons)
         {
             upgradeButton.myUpgradeType = (Upgrades.UpgradeTypes)temp;
+            upgradeButton.unpress();
         }
     }
 }

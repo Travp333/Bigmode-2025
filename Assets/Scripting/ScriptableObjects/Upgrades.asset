@@ -20,6 +20,12 @@ MonoBehaviour:
   bodyguard: 0
   assistant: 0
   money: 500
+  dismissal: 0
+  hellishContract: 0
+  powerFistRequisition: 0
+  loanAgreement: 0
+  temporaryEmploymentContract: 0
+  endOfLifePlan: 0
   chairsFlavorText: adds chairs
   paintingsFlavorText: adds paintings
   baseballBatFlavorText: adds baseball bat
@@ -27,3 +33,9 @@ MonoBehaviour:
   phoneFlavorText: adds phone
   bodyguardFlavorText: adds bodyguard
   assistantFlavorText: adds assistant
+  dismissalFlavorText: adds dismissal
+  hellishContractFlavorText: adds hellish contract
+  powerFistRequisitionFlavorText: adds power fist requisition
+  loanAgreementFlavorText: adds loan agreement
+  temporaryEmploymentContractFlavorText: adds temporary employment contract
+  endOfLifePlanFlavorText: adds end of life plan

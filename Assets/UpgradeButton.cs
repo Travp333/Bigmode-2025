@@ -14,7 +14,15 @@ public class UpgradeButton : MonoBehaviour
     private Rect _flavorRect;
     [SerializeField]
     UpgradeButton twin;
+    Texture defaultTexture;
     [SerializeField] Texture testTexture;
+    MeshRenderer myMeshRenderer;
+
+    private void Awake()
+    {
+        myMeshRenderer = this.GetComponent<MeshRenderer>();
+        defaultTexture = myMeshRenderer.material.mainTexture;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -109,18 +117,16 @@ public class UpgradeButton : MonoBehaviour
         beenPressed = true;
         if (testTexture != null)
         {
-            var tempRenderer = this.GetComponent<MeshRenderer>();
-            tempRenderer.material.mainTexture = testTexture;
-            tempRenderer.material.DisableKeyword("_EMISSION");
+            myMeshRenderer.material.mainTexture = testTexture;
+            myMeshRenderer.material.DisableKeyword("_EMISSION");
         }
         if (twin != null)
         {
             twin.beenPressed = beenPressed;
             if (twin.testTexture != null)
             {
-                var tempRenderer = twin.GetComponent<MeshRenderer>();
-                tempRenderer.material.mainTexture = testTexture;
-                tempRenderer.material.DisableKeyword("_EMISSION");
+                myMeshRenderer.material.mainTexture = testTexture;
+                myMeshRenderer.material.DisableKeyword("_EMISSION");
             }
         }
         //Destroy(gameObject);
@@ -218,6 +224,16 @@ public class UpgradeButton : MonoBehaviour
             }
 
             GUI.Label(_flavorRect, relevantText);
+        }
+    }
+
+    public void unpress()
+    {
+        if (beenPressed)
+        {
+            myMeshRenderer.material.mainTexture = defaultTexture;
+            myMeshRenderer.material.EnableKeyword("_EMISSION");
+            beenPressed = false;
         }
     }
 }
