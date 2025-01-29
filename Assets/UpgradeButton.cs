@@ -1,6 +1,9 @@
 using AI;
+using NUnit.Framework;
 using Scripting;
 using Scripting.ScriptableObjects;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -17,6 +20,7 @@ public class UpgradeButton : MonoBehaviour
     Texture defaultTexture;
     [SerializeField] Texture testTexture;
     MeshRenderer myMeshRenderer;
+    public bool special = false;
 
     private void Awake()
     {
@@ -115,18 +119,27 @@ public class UpgradeButton : MonoBehaviour
         }
 
         beenPressed = true;
-        if (testTexture != null)
+        if (special)
         {
-            myMeshRenderer.material.mainTexture = testTexture;
-            myMeshRenderer.material.DisableKeyword("_EMISSION");
+            List<Material> temp = myMeshRenderer.materials.ToList();
+            temp[1] = specialStoreManager.Singleton.fetchUpgradeMaterial(14);
+            myMeshRenderer.SetMaterials(temp);
         }
-        if (twin != null)
+        else
         {
-            twin.beenPressed = beenPressed;
-            if (twin.testTexture != null)
+            if (testTexture != null)
             {
                 myMeshRenderer.material.mainTexture = testTexture;
                 myMeshRenderer.material.DisableKeyword("_EMISSION");
+            }
+            if (twin != null)
+            {
+                twin.beenPressed = beenPressed;
+                if (twin.testTexture != null)
+                {
+                    myMeshRenderer.material.mainTexture = testTexture;
+                    myMeshRenderer.material.DisableKeyword("_EMISSION");
+                }
             }
         }
         //Destroy(gameObject);
@@ -231,9 +244,23 @@ public class UpgradeButton : MonoBehaviour
     {
         if (beenPressed)
         {
+            correctMaterial();
+            beenPressed = false;
+        }
+    }
+
+    public void correctMaterial()
+    {
+        if (special)
+        {
+            List<Material> temp = myMeshRenderer.materials.ToList();
+            temp[1] = specialStoreManager.Singleton.fetchUpgradeMaterial(myUpgradeType);
+            myMeshRenderer.SetMaterials(temp);
+        }
+        else
+        {
             myMeshRenderer.material.mainTexture = defaultTexture;
             myMeshRenderer.material.EnableKeyword("_EMISSION");
-            beenPressed = false;
         }
     }
 }
