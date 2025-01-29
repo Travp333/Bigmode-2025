@@ -32,6 +32,22 @@ namespace Scripting.Desk
 
         private void Update()
         {
+            if (_isSmoking && GameManager.Singleton.IsNightTime)
+            {
+                _deskArms.UnblockLeftHand();
+                _leftArmAnim.Play("Dropping Cigar");
+                player.NotifyStoppedSmoking();
+                _isSmoking = false;
+                transform.parent = _originalParent;
+                transform.position = _originalPosition;
+                transform.rotation = _originalRotation;
+            }
+
+            if (_isSmoking && Input.GetMouseButtonDown(1))
+            {
+                RunStopSmoking();
+            }
+
             if (!_isSmoking && player.CanAct())
             {
                 if (Input.GetMouseButtonDown(0))
@@ -49,13 +65,13 @@ namespace Scripting.Desk
                     }
                 }
             }
+        }
 
-            if (_isSmoking && Input.GetMouseButtonDown(1))
-            {
-                _deskArms.UnblockLeftHand();
-                _leftArmAnim.Play("Dropping Cigar");
-                Invoke(nameof(StopSmoking), .33f);
-            }
+        private void RunStopSmoking()
+        {
+            _deskArms.UnblockLeftHand();
+            _leftArmAnim.Play("Dropping Cigar");
+            Invoke(nameof(StopSmoking), .33f);
         }
 
         public void StartSmoking()

@@ -128,17 +128,14 @@ namespace Scripting.Player
 
         public bool CanAct()
         {
-            if (!_seated) return false;
-
-            if (_currentContract?.IsUp ?? false)
+            if (!_seated) 
                 return false;
-
+            if (_currentContract)
+                return false;
             if (_isSmoking)
                 return false;
             if (onPhone)
-            {
                 return false;
-            }
 
             return true;
         }
@@ -199,6 +196,11 @@ namespace Scripting.Player
             _currentContract?.Submit();
         }
 
+        public void ResetStressLevel()
+        {
+            StressLevel = 0f;
+        }
+
         public void ResetContract()
         {
             if (!contractAttachmentPoint.GetComponentInChildren<Contract>()) return;
@@ -246,79 +248,94 @@ namespace Scripting.Player
 
         private void Update()
         {
-            var stressChange = 0.025f;
-
-            if (_seated)
+            if (GameManager.Singleton.IsNightTime)
             {
-                stressChange /= 2f;
-                if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking && !onPhone)
-                {
-                    var contract = bothArmsScript.GetContractObject();
-
-                    if (contract)
-                    {
-                        contract.transform.parent = attachmentPointContract.transform;
-                        contract.transform.localPosition = Vector3.zero;
-                        contract.transform.localRotation = Quaternion.identity;
-                    }
-
+                if (_currentContract)
+                    ResetContract();
+                if (StressLevel > 0f)
+                    ResetStressLevel();
+                if (_seated)
                     ExitChair();
-                }
-
-                CheckButtons();
+                if (rageMode)
+                    EndRageMode();
             }
 
-            if (rageMode)
+            else
             {
-                stressChange = 0f;
-            }
-
-            if (_phoneRinging)
-            {
-                stressChange *= 1.5f;
-            }
-
-            if (_isSmoking)
-            {
-                stressChange -= 0.05f;
-            }
-
-            StressLevel += Time.deltaTime * stressChange;
-
-            if (StressLevel >= 1.0f)
-            {
-                if (_baseballBat)
-                {
-                    _baseballBat.Drop();
-                    _baseballBat = null;
-                    _actionPressed = false;
-                }
-
-                if (onPhone)
-                {
-                    phone.ConversationEndEarly();
-                }
+                var stressChange = 0.025f;
 
                 if (_seated)
                 {
-                    // bothArmsScript.PutDownContract();
+                    stressChange /= 2f;
+                    if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking && !onPhone)
+                    {
+                        var contract = bothArmsScript.GetContractObject();
 
-                    var contract = bothArmsScript.GetContractObject();
+                        if (contract)
+                        {
+                            contract.transform.parent = attachmentPointContract.transform;
+                            contract.transform.localPosition = Vector3.zero;
+                            contract.transform.localRotation = Quaternion.identity;
+                        }
 
-                    contract.transform.parent = attachmentPointContract.transform;
-                    contract.transform.localPosition = Vector3.zero;
-                    contract.transform.localRotation = Quaternion.identity;
+                        ExitChair();
+                    }
 
-                    ExitChair();
+                    CheckButtons();
                 }
 
-                //BlockAction = true;
-                rageMode = true;
-                handAnim.Play("RAGEMODE");
-                handAnim.SetBool("RAGE", true);
-                GameManager.Singleton.StressmeterTooHigh();
-                StressLevel = 0f;
-                Invoke(nameof(EndRageMode), rageModeTimer);
+                if (rageMode)
+                {
+                    stressChange = 0f;
+                }
+
+                if (_phoneRinging)
+                {
+                    stressChange *= 1.5f;
+                }
+
+                if (_isSmoking)
+                {
+                    stressChange -= 0.05f;
+                }
+
+                StressLevel += Time.deltaTime * stressChange;
+
+                if (StressLevel >= 1.0f)
+                {
+                    if (_baseballBat)
+                    {
+                        _baseballBat.Drop();
+                        _baseballBat = null;
+                        _actionPressed = false;
+                    }
+
+                    if (onPhone)
+                    {
+                        phone.ConversationEndEarly();
+                    }
+
+                    if (_seated)
+                    {
+                        // bothArmsScript.PutDownContract();
+
+                        var contract = bothArmsScript.GetContractObject();
+
+                        contract.transform.parent = attachmentPointContract.transform;
+                        contract.transform.localPosition = Vector3.zero;
+                        contract.transform.localRotation = Quaternion.identity;
+
+                        ExitChair();
+                    }
+
+                    //BlockAction = true;
+                    rageMode = true;
+                    handAnim.Play("RAGEMODE");
+                    handAnim.SetBool("RAGE", true);
+                    GameManager.Singleton.StressmeterTooHigh();
+                    StressLevel = 0f;
+                    Invoke(nameof(EndRageMode), rageModeTimer);
+                }
             }
 
 

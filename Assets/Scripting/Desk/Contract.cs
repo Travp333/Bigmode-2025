@@ -28,14 +28,10 @@ namespace Scripting.Desk
 
         private PlayerInput _playerInput;
 
-        private bool _isUp;
-
-        public bool IsUp => _isUp;
         public string Result { get; private set; }
         public bool Converted { get; private set; }
 
         private GameObject _surface;
-        private const float AnimationDuration = 1.0f;
 
         public void SetActive(bool value)
         {

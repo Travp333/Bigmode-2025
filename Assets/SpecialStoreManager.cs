@@ -34,7 +34,7 @@ public class SpecialStoreManager : MonoBehaviour
     private void Start()
     {
         upgradeButtons.special = true;
-        newDay();
+        SetRandomUpgrade();
         upgradeButtons.correctMaterial();
     }
 
@@ -43,7 +43,7 @@ public class SpecialStoreManager : MonoBehaviour
     {
     }
 
-    public void newDay()
+    public void SetRandomUpgrade()
     {
         //8-13 inclusive
         UnityEngine.Random.InitState((int) DateTime.Now.Ticks);
@@ -54,11 +54,11 @@ public class SpecialStoreManager : MonoBehaviour
 
     public Material fetchUpgradeMaterial(int x)
     {
-        return materials[(int) (x - 8)];
+        return materials[x - materials.Count];
     }
 
     public Material fetchUpgradeMaterial(Upgrades.UpgradeTypes x)
     {
-        return fetchUpgradeMaterial((int) (x));
+        return fetchUpgradeMaterial((int) x);
     }
 }

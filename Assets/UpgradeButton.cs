@@ -1,4 +1,3 @@
-using AI;
 using Scripting;
 using Scripting.ScriptableObjects;
 using System.Collections.Generic;
@@ -8,27 +7,27 @@ using UnityEngine;
 public class UpgradeButton : MonoBehaviour
 {
     public Upgrades.UpgradeTypes myUpgradeType;
-    public float moneyAmount = 0;
-    public bool beenPressed = false;
-    private bool _bShowFlavorText = false;
-    private int _flavorTextCountdown = 0;
+    public float moneyAmount;
+    public bool beenPressed;
+    private bool _bShowFlavorText;
+    private int _flavorTextCountdown;
     private Rect _flavorRect;
     [SerializeField] private UpgradeButton twin;
-    private Texture defaultTexture;
+    private Texture _defaultTexture;
     [SerializeField] private Texture testTexture;
-    private MeshRenderer myMeshRenderer;
-    public bool special = false;
+    private MeshRenderer _myMeshRenderer;
+    public bool special;
 
     private void Awake()
     {
-        myMeshRenderer = this.GetComponent<MeshRenderer>();
-        defaultTexture = myMeshRenderer.material.mainTexture;
+        _myMeshRenderer = GetComponent<MeshRenderer>();
+        _defaultTexture = _myMeshRenderer.material.mainTexture;
     }
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        var temp = GameManager.Singleton.mainCanvas.GetComponent<RectTransform>();
+        var temp = GameManager.Singleton.MainCanvas.GetComponent<RectTransform>();
         var tempTemp = new Rect(temp.rect.width / 2, temp.rect.height - 20.0f, 100.0f, 20.0f);
         //Debug.Log("Flavor text location: " + tempTemp.ToString());
         _flavorRect = tempTemp;
@@ -63,12 +62,12 @@ public class UpgradeButton : MonoBehaviour
             case Upgrades.UpgradeTypes.Chairs:
                 GameManager.Singleton.upgrades.chairs = true;
                 GameManager.Singleton.distractionChairs.SetActive(true);
-                GameManager.Singleton._aiSpots = GameManager.Singleton._aiSpots.Concat(GameManager.Singleton.distractionChairs.GetComponentsInChildren<AiSpot>()).ToList();
+                // GameManager.Singleton._aiSpots = GameManager.Singleton._aiSpots.Concat(GameManager.Singleton.distractionChairs.GetComponentsInChildren<AiSpot>()).ToList();
                 break;
             case Upgrades.UpgradeTypes.Paintings:
                 GameManager.Singleton.upgrades.paintings = true;
                 GameManager.Singleton.distractionPaintings.SetActive(true);
-                GameManager.Singleton._aiSpots = GameManager.Singleton._aiSpots.Concat(GameManager.Singleton.distractionPaintings.GetComponentsInChildren<AiSpot>()).ToList();
+                // GameManager.Singleton._aiSpots = GameManager.Singleton._aiSpots.Concat(GameManager.Singleton.distractionPaintings.GetComponentsInChildren<AiSpot>()).ToList();
                 break;
             case Upgrades.UpgradeTypes.BaseballBat:
                 GameManager.Singleton.upgrades.baseballBat = true;
@@ -118,24 +117,24 @@ public class UpgradeButton : MonoBehaviour
         beenPressed = true;
         if (special)
         {
-            List<Material> temp = myMeshRenderer.materials.ToList();
+            List<Material> temp = _myMeshRenderer.materials.ToList();
             temp[1] = SpecialStoreManager.Singleton.fetchUpgradeMaterial(14);
-            myMeshRenderer.SetMaterials(temp);
+            _myMeshRenderer.SetMaterials(temp);
         }
         else
         {
             if (testTexture != null)
             {
-                myMeshRenderer.material.mainTexture = testTexture;
-                myMeshRenderer.material.DisableKeyword("_EMISSION");
+                _myMeshRenderer.material.mainTexture = testTexture;
+                _myMeshRenderer.material.DisableKeyword("_EMISSION");
             }
             if (twin != null)
             {
                 twin.beenPressed = beenPressed;
                 if (twin.testTexture != null)
                 {
-                    myMeshRenderer.material.mainTexture = testTexture;
-                    myMeshRenderer.material.DisableKeyword("_EMISSION");
+                    _myMeshRenderer.material.mainTexture = testTexture;
+                    _myMeshRenderer.material.DisableKeyword("_EMISSION");
                 }
             }
         }
@@ -250,14 +249,14 @@ public class UpgradeButton : MonoBehaviour
     {
         if (special)
         {
-            List<Material> temp = myMeshRenderer.materials.ToList();
+            List<Material> temp = _myMeshRenderer.materials.ToList();
             temp[1] = SpecialStoreManager.Singleton.fetchUpgradeMaterial(myUpgradeType);
-            myMeshRenderer.SetMaterials(temp);
+            _myMeshRenderer.SetMaterials(temp);
         }
         else
         {
-            myMeshRenderer.material.mainTexture = defaultTexture;
-            myMeshRenderer.material.EnableKeyword("_EMISSION");
+            _myMeshRenderer.material.mainTexture = _defaultTexture;
+            _myMeshRenderer.material.EnableKeyword("_EMISSION");
         }
     }
 }
