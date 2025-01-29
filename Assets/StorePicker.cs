@@ -16,6 +16,11 @@ public class StorePicker : MonoBehaviour
         var screenRay = Camera.main.ScreenPointToRay(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0));
         //var rayResults = Physics.BoxCastAll(screenRay.GetPoint(0.0f), Vector3.one * 0.1f, screenRay.GetPoint(2.0f));
         var rayResults = Physics.RaycastAll(screenRay, 2.0f);
+        if (rayResults.Length <= 0)
+        {
+            FlavorTextManager.Singleton.clearFlavorText();
+            return;
+        }
         foreach (var hit in rayResults)
         {
             UpgradeButton temp;
@@ -36,7 +41,7 @@ public class StorePicker : MonoBehaviour
             }
 
             lightSwitch tempTemp;
-            if(hit.collider.gameObject.TryGetComponent<lightSwitch>(out tempTemp))
+            if (hit.collider.gameObject.TryGetComponent<lightSwitch>(out tempTemp))
             {
                 //tempTemp.ShowFlavorText();
                 FlavorTextManager.Singleton.updateFlavorText(tempTemp);
