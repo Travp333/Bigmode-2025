@@ -59,14 +59,14 @@ namespace Scripting.Desk
                 //CancelInvoke();
             }
         }
-        void ConversationEndEarly(){
+        public void ConversationEndEarly(){
             if(player.onPhone){
                 handAnim.Play("Dropping Phone"); 
                 Invoke("ConversationNOReward", 1f);
             }
 
         }
-        void ConversationNOReward(){
+        public void ConversationNOReward(){
             callBlocker = false;
             _telephoneTimer = 15f;
             player.NotifyNotOnPhone(); 

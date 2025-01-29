@@ -8800,7 +8800,7 @@ Transform:
   m_GameObject: {fileID: 1953529832}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00000058114523}
-  m_LocalPosition: {x: 1.366, y: 1.225, z: -24.6}
+  m_LocalPosition: {x: -1.53, y: 1, z: -24.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8922,8 +8922,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1015
   onPhone: 0
+  phone: {fileID: 110708417}
   playerHands: {fileID: 1252999414}
   handAnim: {fileID: 1252999416}
+  rageModeTimer: 5
 --- !u!54 &1953529838
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10912,6 +10914,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[3]'
       value: 
       objectReference: {fileID: 2100000, guid: 6051c1caca045754aaf6e545d851f697, type: 2}
+    - target: {fileID: 3818595782518435592, guid: 1b073df2267ddec4aafe43a946af95a3, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 80246ace7f895554e9e821df911dc85b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

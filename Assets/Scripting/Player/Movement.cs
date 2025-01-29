@@ -71,6 +71,8 @@ namespace Scripting.Player
         private bool _seated;
         private bool _phoneRinging;
         public bool onPhone;
+        [SerializeField]
+        Phone phone;
         private bool _isSmoking;
 
         private float _counter = 0f;
@@ -87,6 +89,9 @@ namespace Scripting.Player
 
         [SerializeField]
         private Animator handAnim;
+        bool rageMode;
+        [SerializeField]
+        float rageModeTimer = 5f;
 
         public void ExitChair()
         {
@@ -230,6 +235,10 @@ namespace Scripting.Player
                 }
             }
         }
+        void EndRageMode(){
+            handAnim.SetBool("RAGE", false);
+            rageMode = false;
+        }
 
         private void Update()
         {
@@ -246,6 +255,9 @@ namespace Scripting.Player
 
                 CheckButtons();
             }
+            if(rageMode){
+                stressChange = 0f;
+            }
 
             if (_phoneRinging)
             {
@@ -259,11 +271,32 @@ namespace Scripting.Player
 
             StressLevel += Time.deltaTime * stressChange;
 
-            // if (StressLevel >= 1.0f)
-            // {
-            //     BlockAction = true;
-            //     GameManager.Singleton.StressmeterTooHigh();
-            // }
+            if (StressLevel >= 1.0f)
+            {
+                if (_baseballBat)
+                {
+                    _baseballBat.Drop();
+                    _baseballBat = null;
+                    _actionPressed = false;
+                }
+                if(onPhone){
+                    phone.ConversationEndEarly();
+                }
+                if(_seated){
+                    bothArmsScript.PutDownContract();
+                    ExitChair();
+                }
+                
+                //BlockAction = true;
+                rageMode = true;
+                handAnim.Play("RAGEMODE");
+                handAnim.SetBool("RAGE", true);
+                GameManager.Singleton.StressmeterTooHigh();
+                StressLevel = 0f;
+                Invoke("EndRageMode", rageModeTimer);
+
+            }
+
 
             if (BlockAction)
                 return;
