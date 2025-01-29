@@ -34,13 +34,7 @@ namespace Scripting.Desk
         {
             if (_isSmoking && GameManager.Singleton.IsNightTime)
             {
-                _deskArms.UnblockLeftHand();
-                _leftArmAnim.Play("Dropping Cigar");
-                player.NotifyStoppedSmoking();
-                _isSmoking = false;
-                transform.parent = _originalParent;
-                transform.position = _originalPosition;
-                transform.rotation = _originalRotation;
+                RunStopSmoking();
             }
 
             if (_isSmoking && Input.GetMouseButtonDown(1))
