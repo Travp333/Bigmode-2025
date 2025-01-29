@@ -17,7 +17,13 @@ namespace Scripting.ScriptableObjects
             phone,
             bodyguard,
             assistant,
-            money
+            money,
+            dismissal,
+            hellishContract,
+            powerFistRequisition,
+            loanAgreement,
+            temporaryEmploymentContract,
+            endOfLifePlan
         }
 
         //upgrade status here?
@@ -30,6 +36,13 @@ namespace Scripting.ScriptableObjects
         public bool assistant;
         public float money;
 
+        public bool dismissal;
+        public bool hellishContract;
+        public bool powerFistRequisition;
+        public bool loanAgreement;
+        public bool temporaryEmploymentContract;
+        public bool endOfLifePlan;
+
         public string chairsFlavorText = "adds chairs";
         public string paintingsFlavorText = "adds paintings";
         public string baseballBatFlavorText = "adds baseball bat";
@@ -37,6 +50,13 @@ namespace Scripting.ScriptableObjects
         public string phoneFlavorText = "adds phone";
         public string bodyguardFlavorText = "adds bodyguard";
         public string assistantFlavorText = "adds assistant";
+
+        public string dismissalFlavorText = "adds dismissal";
+        public string hellishContractFlavorText = "adds hellish contract";
+        public string powerFistRequisitionFlavorText = "adds power fist requisition";
+        public string loanAgreementFlavorText = "adds loan agreement";
+        public string temporaryEmploymentContractFlavorText = "adds temporary employment contract";
+        public string endOfLifePlanFlavorText = "adds end of life plan";
     }
 
 }

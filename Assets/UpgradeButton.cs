@@ -84,9 +84,36 @@ public class UpgradeButton : MonoBehaviour
             case Upgrades.UpgradeTypes.money:
                 GameManager.Singleton.upgrades.money += moneyAmount;
                 break;
+            case Upgrades.UpgradeTypes.dismissal:
+                GameManager.Singleton.upgrades.dismissal = true;
+                break;
+            case Upgrades.UpgradeTypes.hellishContract:
+                GameManager.Singleton.upgrades.hellishContract = true;
+                break;
+            case Upgrades.UpgradeTypes.powerFistRequisition:
+                GameManager.Singleton.upgrades.powerFistRequisition = true;
+                break;
+            case Upgrades.UpgradeTypes.loanAgreement:
+                GameManager.Singleton.upgrades.loanAgreement = true;
+                break;
+            case Upgrades.UpgradeTypes.temporaryEmploymentContract:
+                GameManager.Singleton.upgrades.temporaryEmploymentContract = true;
+                break;
+            case Upgrades.UpgradeTypes.endOfLifePlan:
+                GameManager.Singleton.upgrades.endOfLifePlan = true;
+                break;
             default:
                 break;
         }
+
+        /*
+            dismissal,
+            hellishContract,
+            powerFistRequisition,
+            loanAgreement,
+            temporaryEmploymentContract,
+            endOfLifePlan
+        */
 
         beenPressed = true;
         if(testTexture != null)
@@ -137,6 +164,24 @@ public class UpgradeButton : MonoBehaviour
                     break;
                 case Upgrades.UpgradeTypes.assistant:
                     relevantText = GameManager.Singleton.upgrades.assistantFlavorText;
+                    break;
+                case Upgrades.UpgradeTypes.dismissal:
+                    relevantText = GameManager.Singleton.upgrades.dismissalFlavorText;
+                    break;
+                case Upgrades.UpgradeTypes.hellishContract:
+                    relevantText = GameManager.Singleton.upgrades.hellishContractFlavorText;
+                    break;
+                case Upgrades.UpgradeTypes.powerFistRequisition:
+                    relevantText = GameManager.Singleton.upgrades.powerFistRequisitionFlavorText;
+                    break;
+                case Upgrades.UpgradeTypes.loanAgreement:
+                    relevantText = GameManager.Singleton.upgrades.loanAgreementFlavorText;
+                    break;
+                case Upgrades.UpgradeTypes.temporaryEmploymentContract:
+                    relevantText = GameManager.Singleton.upgrades.temporaryEmploymentContractFlavorText;
+                    break;
+                case Upgrades.UpgradeTypes.endOfLifePlan:
+                    relevantText = GameManager.Singleton.upgrades.endOfLifePlanFlavorText;
                     break;
                 default:
                     break;
