@@ -168,6 +168,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1189072354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &76944650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 76944651}
+  m_Layer: 11
+  m_Name: AttachPointContract
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &76944651
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76944650}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.51633835, y: -0.503405, z: 0.058064684, w: -0.69036704}
+  m_LocalPosition: {x: -0.089, y: 0.54, z: 0.232}
+  m_LocalScale: {x: 0.3303404, y: 0.3303404, z: 0.3303404}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1829381558}
+  m_LocalEulerAnglesHint: {x: -139.121, y: 273.036, z: 127.478}
 --- !u!1 &77590072
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +371,7 @@ MonoBehaviour:
     m_Bits: 8192
   leftHandAnim: {fileID: 890395735}
   rightHandAnim: {fileID: 919132147520673185}
+  contractAttachmentPoint: {fileID: 0}
 --- !u!1 &95011011
 GameObject:
   m_ObjectHideFlags: 0
@@ -7755,6 +7787,9 @@ PrefabInstance:
     - {fileID: 65702495048144492, guid: 02c10bed8028e5149acad24f5a32a13e, type: 3}
     - {fileID: -1314872803122130754, guid: 02c10bed8028e5149acad24f5a32a13e, type: 3}
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 479042912168022369, guid: 02c10bed8028e5149acad24f5a32a13e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 76944651}
     - targetCorrespondingSourceObject: {fileID: 200573791891160905, guid: 02c10bed8028e5149acad24f5a32a13e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 973806667}
@@ -10044,6 +10079,11 @@ Transform:
   - {fileID: 1507873767}
   m_Father: {fileID: 1465797730}
   m_LocalEulerAnglesHint: {x: -19.008692, y: -18.484205, z: 68.08447}
+--- !u!4 &1829381558 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 479042912168022369, guid: 02c10bed8028e5149acad24f5a32a13e, type: 3}
+  m_PrefabInstance: {fileID: 1483959586}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1848658479 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 771626412682069054, guid: 1b073df2267ddec4aafe43a946af95a3, type: 3}
@@ -10655,6 +10695,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 1015
+  attachmentPointContract: {fileID: 76944650}
   onPhone: 0
   phone: {fileID: 110708417}
   playerHands: {fileID: 1252999414}
