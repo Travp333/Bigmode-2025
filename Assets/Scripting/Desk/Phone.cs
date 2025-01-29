@@ -5,6 +5,8 @@ namespace Scripting.Desk
 {
     public class Phone : MonoBehaviour
     {
+        [SerializeField]
+        Animator phoneAnim;
         [SerializeField] private float phoneCallLowerBound, phoneCallUpperBound;
         private bool callBlocker;
         private DeskArms _deskArms;
@@ -122,12 +124,14 @@ namespace Scripting.Desk
         {
             _isRinging = true;
             player.NotifyPhoneRinging();
+            phoneAnim.Play("Phone Ringing");
         }
 
         private void StopRinging()
         {
             _isRinging = false;
             player.NotifyPhoneStopped();
+            phoneAnim.Play("Phone Not Ringing");
         }
 
         private void OnGUI()
