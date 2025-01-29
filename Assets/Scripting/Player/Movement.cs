@@ -70,6 +70,7 @@ namespace Scripting.Player
         private bool _canInteractWithClient;
         private bool _seated;
         private bool _phoneRinging;
+        private bool onPhone;
         private bool _isSmoking;
 
         private float _counter = 0f;
@@ -128,6 +129,9 @@ namespace Scripting.Player
 
             if (_isSmoking)
                 return false;
+            if(onPhone){
+                return false;
+            }
 
             return true;
         }
@@ -234,7 +238,7 @@ namespace Scripting.Player
             if (_seated)
             {
                 stressChange /= 2f;
-                if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking)
+                if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking && !onPhone)
                 {
                     bothArmsScript.PutDownContract();
                     ExitChair();
@@ -603,6 +607,15 @@ namespace Scripting.Player
             }
 
             GUI.Label(new Rect(5, Screen.height - 25, 200, 25), "" + StressLevel);
+        }
+        public void NotifyOnPhone()
+        {
+            onPhone = true;
+        }
+
+        public void NotifyNotOnPhone()
+        {
+            onPhone = false;
         }
 
         public void NotifyPhoneRinging()

@@ -5,16 +5,28 @@ namespace Scripting.Desk
 {
     public class Phone : MonoBehaviour
     {
+        [SerializeField]
+        float phoneCallLowerBound, phoneCallUpperBound;
+        bool callBlocker;
+        private DeskArms _deskArms;
+        [SerializeField]
+        private GameObject arms;
+        
+        [SerializeField]
+        Animator handAnim;
         [SerializeField] private Movement player;
 
         // Update is called once per frame
         private float _telephoneTimer = 15.0f;
+        private void Awake() {
+            _deskArms = arms.GetComponent<DeskArms>();
+        }
 
         void Update()
         {
             _telephoneTimer -= Time.deltaTime;
 
-            if (_telephoneTimer <= 0)
+            if (_telephoneTimer <= 0 && !callBlocker)
             {
                 _telephoneTimer = 15.0f;
                 Ring();
@@ -31,6 +43,11 @@ namespace Scripting.Desk
                         if (hit.collider.gameObject == gameObject)
                         {
                             StopRinging();
+                            _deskArms.BlockLeftHand();  
+                            handAnim.Play("Grabbing Phone");    
+                            callBlocker = true;     
+                            Invoke("ConversationEnd", Random.Range(phoneCallLowerBound, phoneCallUpperBound));
+                            player.NotifyOnPhone();             
                         }
                     }
                 }
@@ -38,6 +55,16 @@ namespace Scripting.Desk
         }
 
         private bool _isRinging;
+        void ConversationEnd(){
+            handAnim.Play("Dropping Phone"); 
+            Invoke("ConversationReward", 1f);
+        }
+        void ConversationReward(){
+            callBlocker = false;
+            _telephoneTimer = 15f;
+            player.NotifyNotOnPhone(); 
+            //Money!! 
+        }
 
         private void Ring()
         {
