@@ -203,6 +203,63 @@ namespace Scripting.Desk
                 }
                 else
                 {
+                    if (GetIsPowerContract())
+                    {
+                        var gameManager = GameManager.Singleton;
+                        var player = gameManager.Player;
+                        switch (Result)
+                        {
+                            case "pentagramm":
+                                if (!gameManager.upgrades.hellishContract)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                            case "ds":
+                                if (!GameManager.Singleton.upgrades.dismissal)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                            case "pfr":
+                                if (!GameManager.Singleton.upgrades.powerFistRequisition)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                            case "la":
+                                if (!GameManager.Singleton.upgrades.loanAgreement)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                            case "tec":
+                                if (!GameManager.Singleton.upgrades.temporaryEmploymentContract)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                            case "eel":
+                                if (!GameManager.Singleton.upgrades.endOfLifePlan)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                        }
+                    }
+
                     Debug.Log(Result);
                     for (var i = 0; i < names.Count; i++)
                     {
@@ -247,12 +304,12 @@ namespace Scripting.Desk
                     break;
             }
         }
-        
+
         // "returns true or false if was power effect"
         public bool ExecuteEffect(CustomerMotor customer, Movement player)
         {
             player.ChangeStressLevel(-0.25f);
-            
+
             if (GetIsPowerContract())
             {
                 switch (Result)
@@ -261,7 +318,7 @@ namespace Scripting.Desk
                         GameManager.Singleton.DoPentagrammLogic();
                         GameManager.Singleton.RemoveCustomer(customer);
                         customer.gameObject.GetComponent<LaunchDetection>().GetHellGrabbed();
-                        break;  
+                        break;
                     case "pfr":
                         GameManager.Singleton.DoFistStuff();
                         GameManager.Singleton.RemoveCustomer(customer);

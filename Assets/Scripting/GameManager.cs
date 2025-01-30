@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AI;
 using Scripting.Customer;
+using Scripting.Player;
 using Scripting.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Scripting
 {
@@ -43,8 +46,13 @@ namespace Scripting
         [SerializeField] public GameObject phone;
         [SerializeField] public GameObject assistant;
         [SerializeField] public GameObject bodyguard;
+        
+        [Header("Player")]
+        [SerializeField] private Movement player;
 
         public GameObject MainCanvas => mainCanvas;
+        
+        public Movement Player => player;
 
         private readonly List<CustomerMotor> _customerMotors = new();
         private CustomerMotor _currentCustomer;
@@ -54,12 +62,7 @@ namespace Scripting
         private float _loanAgreementRunning;
         
         public bool IsLoanAgreementRunning => _loanAgreementRunning > 0f;
-        
-        public void ActivateLoanAgreement()
-        {
-            _loanAgreementRunning = loanAgreementTime;
-        }
-        
+ 
         public static GameManager Singleton
         {
             get => _singleton;
@@ -75,8 +78,29 @@ namespace Scripting
             }
         }
 
+        private void SetInitValues()
+        {
+            upgrades.money = 1000f;
+            
+            upgrades.chairs = false;
+            upgrades.paintings = false;
+            upgrades.baseballBat = false;
+            upgrades.cigar = false;
+            upgrades.phone = false;
+            upgrades.bodyguard = false;
+            upgrades.assistant = false;
+            upgrades.dismissal = false;
+            upgrades.hellishContract = false;
+            upgrades.powerFistRequisition = false;
+            upgrades.loanAgreement = false;
+            upgrades.temporaryEmploymentContract = false;
+            upgrades.endOfLifePlan = false;
+        }
+        
         private void Awake()
         {
+            SetInitValues();
+            
             Singleton = this;
             IsNightTime = true;
             
@@ -238,6 +262,12 @@ namespace Scripting
         }
 
         #endregion graveyard
+       
+        public void ActivateLoanAgreement()
+        {
+            _loanAgreementRunning = loanAgreementTime;
+            upgrades.loanAgreement = false;
+        }
 
         public void Dismissal()
         {
@@ -248,26 +278,53 @@ namespace Scripting
             });
             
             _customerMotors.Clear();
+            
+            upgrades.dismissal = false;
         }
 
         public void DoPentagrammLogic()
         {
             // TODO: implement
+            
+            
+            upgrades.hellishContract = false;
         }
 
         public void DoFistStuff()
         {
             // TODO: implement
+            
+            upgrades.powerFistRequisition = false;
         }
 
         public void SpawnTec()
         {
             // TODO: implement - is part of AI and Balancing
+            
+            upgrades.temporaryEmploymentContract = false;
         }
 
         public void GetExtraLife()
         {
             // TODO: implement
+            
+            upgrades.endOfLifePlan = false;
+        }
+
+        private void OnGUI()
+        {
+            var text = string.Empty;
+            
+            text += "Active Power: \n";
+            
+            text += $"La: {upgrades.loanAgreement}\n";
+            text += $"Tec: {upgrades.temporaryEmploymentContract}\n";
+            text += $"Eel: {upgrades.endOfLifePlan}\n";
+            text += $"Ds: {upgrades.dismissal}\n";
+            text += $"Penta: {upgrades.hellishContract}\n";
+            text += $"Fist: {upgrades.powerFistRequisition}\n";
+            
+            GUI.Label(new Rect(5, Screen.height/2f, 200, 500),text);
         }
     }
 }

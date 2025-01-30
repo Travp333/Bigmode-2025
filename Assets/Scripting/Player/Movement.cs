@@ -203,7 +203,7 @@ namespace Scripting.Player
             StressLevel = 0f;
         }
 
-        public void ResetContract(bool immediate = false)
+        public void ResetContract()
         {
             if (!_currentContract) return;
             Debug.Log("Resetting contract");
@@ -213,19 +213,7 @@ namespace Scripting.Player
             var x = _currentContract;
 
             _currentContract = null;
-          //  if (immediate)
-          //  {
             x?.Reset();
-           // }
-          //  else
-          //  {
-                //Invoke(nameof(RemoveContract), 0.5f);
-           // }
-        }
-
-        private void RemoveContract()
-        {
-            _currentContract?.Reset();
         }
 
         private void CheckButtons()
@@ -263,7 +251,7 @@ namespace Scripting.Player
                 {
                     handAnim.SetBool("HoldingDocument", false);
                     handAnim.Play("IDLE");
-                    ResetContract(true);
+                    ResetContract();
                 }
                 if (StressLevel > 0f)
                     ResetStressLevel();
@@ -346,7 +334,7 @@ namespace Scripting.Player
                     {
                         handAnim.SetBool("HoldingDocument", false);
                         handAnim.Play("IDLE");
-                        ResetContract(true);
+                        ResetContract();
                     }
 
                     if (_seated)
