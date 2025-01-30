@@ -260,7 +260,11 @@ namespace Scripting.Player
             if (GameManager.Singleton.IsNightTime)
             {
                 if (_currentContract)
+                {
+                    handAnim.SetBool("HoldingDocument", false);
+                    handAnim.Play("IDLE");
                     ResetContract(true);
+                }
                 if (StressLevel > 0f)
                     ResetStressLevel();
                 if (_seated)
@@ -337,6 +341,12 @@ namespace Scripting.Player
                     if (onPhone)
                     {
                         phone.ConversationEndEarly();
+                    }
+                    if (_currentContract)
+                    {
+                        handAnim.SetBool("HoldingDocument", false);
+                        handAnim.Play("IDLE");
+                        ResetContract(true);
                     }
 
                     if (_seated)
