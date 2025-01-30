@@ -40,6 +40,22 @@ public class LaunchDetection : MonoBehaviour
         _agent.enabled = true;
         _motor.enabled = true;
     }
+    public void GetPowerFisted(){
+        this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
+        var portal = Instantiate(stoneFistPrefab, this.transform.position, Quaternion.identity);
+        portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh = myMesh.sharedMesh;
+        portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials = myMesh.sharedMaterials;
+        portal.transform.localScale = this.transform.localScale;
+        Destroy(this.gameObject);
+    }
+    public void GetHellGrabbed(){
+        this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
+        var portal = Instantiate(hellPortalPrefab, this.transform.position, Quaternion.identity);
+        portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh = myMesh.sharedMesh;
+        portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials = myMesh.sharedMaterials;
+        portal.transform.localScale = this.transform.localScale;
+        Destroy(this.gameObject);
+    }
 
     private void OnTriggerEnter(Collider other)
     {

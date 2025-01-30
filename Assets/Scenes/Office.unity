@@ -2973,6 +2973,29 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f9e6c129977695d448b694a932e29aae, type: 3}
   m_PrefabInstance: {fileID: 2034457355}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &606294645
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606294639}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.71
+  m_Height: 4.2682595
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.139452, z: 0}
 --- !u!1 &608796499
 GameObject:
   m_ObjectHideFlags: 0
@@ -9617,7 +9640,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 5435dea16483ac14384dd0377ff171cf, type: 2}
     - target: {fileID: 919132149155446097, guid: 8ba2a593d3ef1ec4ba3960f65ddb1655, type: 3}
       propertyPath: m_Name
-      value: mAILBOX
+      value: Mailbox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12232,6 +12255,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f9e6c129977695d448b694a932e29aae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 606294643}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f9e6c129977695d448b694a932e29aae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 606294645}
     - targetCorrespondingSourceObject: {fileID: -5568371526223589888, guid: f9e6c129977695d448b694a932e29aae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1562349712}

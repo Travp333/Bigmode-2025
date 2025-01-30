@@ -240,7 +240,7 @@ namespace Scripting.Desk
                     case "pentagramm":
                         GameManager.Singleton.DoPentagrammLogic();
                         GameManager.Singleton.RemoveCustomer(customer);
-                        // TODO: Customer.PlayPentagrammAnimation
+                        customer.gameObject.GetComponent<LaunchDetection>().GetHellGrabbed();
                         break;
                     case "ds":
                         GameManager.Singleton.Dismissal();
@@ -252,7 +252,7 @@ namespace Scripting.Desk
                     case "pfr":
                         GameManager.Singleton.DoFistStuff();
                         GameManager.Singleton.RemoveCustomer(customer);
-                        // TODO: Customer.PlayFistingAnimation
+                        customer.gameObject.GetComponent<LaunchDetection>().GetPowerFisted();
                         break;
                     case "tec":
                         GameManager.Singleton.SpawnTec();

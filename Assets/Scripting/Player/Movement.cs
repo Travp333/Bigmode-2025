@@ -206,7 +206,6 @@ namespace Scripting.Player
             if (!_currentContract) return;
             Debug.Log("Resetting contract");
             var deskArms = bothArmsScript.GetComponent<DeskArms>();
-
             deskArms.UnblockLeftHand();
             deskArms.ResetContractAnimation();
             var x = _currentContract;
