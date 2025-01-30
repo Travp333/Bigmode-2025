@@ -2,12 +2,12 @@ using Scripting;
 using Scripting.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
+using Scripting.Customer;
 using UnityEngine;
 
 public class UpgradeButton : MonoBehaviour
 {
     public Upgrades.UpgradeTypes myUpgradeType;
-    public float moneyAmount;
     public bool beenPressed;
     private bool _bShowFlavorText;
     private int _flavorTextCountdown;
@@ -62,11 +62,13 @@ public class UpgradeButton : MonoBehaviour
             case Upgrades.UpgradeTypes.Chairs:
                 GameManager.Singleton.upgrades.chairs = true;
                 GameManager.Singleton.distractionChairs.SetActive(true);
+                AiController.Singleton.ActivateChairDistractionSpots();
                 // GameManager.Singleton._aiSpots = GameManager.Singleton._aiSpots.Concat(GameManager.Singleton.distractionChairs.GetComponentsInChildren<AiSpot>()).ToList();
                 break;
             case Upgrades.UpgradeTypes.Paintings:
                 GameManager.Singleton.upgrades.paintings = true;
                 GameManager.Singleton.distractionPaintings.SetActive(true);
+                AiController.Singleton.ActivatePaintingDistractionSpots();
                 // GameManager.Singleton._aiSpots = GameManager.Singleton._aiSpots.Concat(GameManager.Singleton.distractionPaintings.GetComponentsInChildren<AiSpot>()).ToList();
                 break;
             case Upgrades.UpgradeTypes.BaseballBat:
@@ -88,9 +90,7 @@ public class UpgradeButton : MonoBehaviour
             case Upgrades.UpgradeTypes.Assistant:
                 GameManager.Singleton.upgrades.assistant = true;
                 GameManager.Singleton.assistant.SetActive(true);
-                break;
-            case Upgrades.UpgradeTypes.Money:
-                GameManager.Singleton.upgrades.money += moneyAmount;
+                AiController.Singleton.SetAssistantActive();
                 break;
             case Upgrades.UpgradeTypes.Dismissal:
                 GameManager.Singleton.upgrades.dismissal = true;
