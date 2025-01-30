@@ -1,15 +1,33 @@
 using UnityEngine;
 
 public class Billboard : MonoBehaviour
-{   
-    [SerializeField]
-    Sprite[]sprites;
-    public void SetSprite(int index){
-        this.GetComponent<SpriteRenderer>().sprite = sprites[index];
+{
+    [SerializeField] private Sprite[] sprites;
+
+    private int? _index;
+
+    private SpriteRenderer _renderer;
+
+    void Awake()
+    {
+        _renderer = GetComponent<SpriteRenderer>();
+        _renderer.enabled = false;
     }
 
+    public void SetSprite(int? index)
+    {
+        _index = index;
+        if (index.HasValue)
+        {
+            _renderer.enabled = true;
+            _renderer.sprite = sprites[_index.Value];
+        }
+        else
+        {
+            _renderer.enabled = false;
+        }
+    }
 
-    // Update is called once per frame
     void LateUpdate()
     {
         transform.LookAt(Camera.main.transform.position, Vector3.up);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AI;
@@ -30,7 +29,6 @@ namespace Scripting
 
         [SerializeField] private List<AiSpot> aiSpots;
         [SerializeField] private List<GameObject> customerPrefabs;
-        [SerializeField] private uint maxCustomers = 10;
 
         [Header("Graphics")]
         [SerializeField] private GameObject mainCanvas;
@@ -62,7 +60,11 @@ namespace Scripting
         private float _loanAgreementRunning;
         
         public bool IsLoanAgreementRunning => _loanAgreementRunning > 0f;
- 
+
+        private int _maxCustomers;
+
+        private int _level = 0;
+        
         public static GameManager Singleton
         {
             get => _singleton;
@@ -121,7 +123,7 @@ namespace Scripting
             {
                 elapsedTime += Time.deltaTime;
 
-                var fadeValue = (2f - elapsedTime);
+                var fadeValue = 2f - elapsedTime;
                 if (fadeValue < 0) fadeValue = 0;
 
                 fade.color = new Color(fade.color.r, fade.color.g, fade.color.b, fadeValue);
@@ -141,6 +143,9 @@ namespace Scripting
             
             shiftManager.SetIsNightTime(false);
             _dayTimer = dayLength;
+            _level++;
+            
+            _maxCustomers = _level * 5 + _level;
         }
 
         private void Update()
@@ -167,7 +172,7 @@ namespace Scripting
 
             if (_spawnTimer <= 0)
             {
-                _spawnTimer = 5.0f;
+                _spawnTimer = 10.0f;
                 SpawnCustomer();
             }
         }
@@ -198,7 +203,7 @@ namespace Scripting
 
         public void SpawnCustomer()
         {
-            if (_customerMotors.Count <= maxCustomers)
+            if (_customerMotors.Count <= _maxCustomers)
             {
                 var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
                 var customerPrefab = customerPrefabs[Random.Range(0, customerPrefabs.Count)];
@@ -323,8 +328,21 @@ namespace Scripting
             text += $"Ds: {upgrades.dismissal}\n";
             text += $"Penta: {upgrades.hellishContract}\n";
             text += $"Fist: {upgrades.powerFistRequisition}\n";
+            text += $"Money: {upgrades.money}\n";
             
             GUI.Label(new Rect(5, Screen.height/2f, 200, 500),text);
+        }
+
+        private List<GameObject> _vandalismSpots = new();
+        
+        public void RegisterVandalismSpot(GameObject aiSpot)
+        {
+            _vandalismSpots.Add(aiSpot);
+        }
+
+        public void RemoveVandalismSpot(GameObject aiSpot)
+        {
+            _vandalismSpots.Remove(aiSpot);
         }
     }
 }

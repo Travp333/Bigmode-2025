@@ -46,6 +46,7 @@ namespace Scripting.Player
 
         [SerializeField] private float interactRayLength;
         [SerializeField] private Image radialIndicatorUI;
+        [SerializeField] private Image graffitiRemoveProgress;
 
         [Header("DeskButtons")]
         [SerializeField] private GameObject submit;
@@ -59,8 +60,10 @@ namespace Scripting.Player
         [Header("other")]
         [SerializeField] private LayerMask mask;
 
+        [SerializeField] private LayerMask graffitiMask;
         [SerializeField] private GameObject attachmentPointContract;
 
+        [SerializeField] private Phone phone;
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
         private float _rotationX;
@@ -70,14 +73,18 @@ namespace Scripting.Player
         private BaseballBat _baseballBat;
         private bool _canPickupBaseballBat;
         private bool _canInteractWithClient;
+        private bool _canInteractWithGraffiti;
         private bool _seated;
         private bool _phoneRinging;
         public bool onPhone;
-        [SerializeField] private Phone phone;
         private bool _isSmoking;
+        private VandalismSpot _currentGraffiti;
 
         private float _counter = 0f;
-        private float _counterMax = 5f;
+        private float _counterMax = 1.5f;
+
+        private float _graffitiRemoveCounter = 1.5f;
+
         private bool _countDownGate;
         private GameObject _clientInteractor;
 
@@ -92,8 +99,10 @@ namespace Scripting.Player
         private Animator handAnim;
 
         public bool rageMode;
+
         [SerializeField]
         GameObject staplerMesh;
+
         [SerializeField] private float rageModeTimer = 5f;
 
         public void ExitChair()
@@ -245,6 +254,35 @@ namespace Scripting.Player
 
         private void Update()
         {
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward,
+                    out var hitGraffiti, interactRayLength, graffitiMask))
+            {
+                _currentGraffiti = hitGraffiti.transform.GetComponent<VandalismSpot>();
+
+                if (_currentGraffiti.IsVisible)
+                {
+                    if (!_removingGraffiti)
+                    {
+                        _canInteractWithGraffiti = true;
+                        if (_actionPressed)
+                        {
+                            StartCoroutine(RemoveGraffiti());
+                        }
+                    }
+                }
+                else
+                {
+                    graffitiRemoveProgress.enabled = false;
+                    _canInteractWithGraffiti = false;
+                }
+            }
+            else
+            {
+                _currentGraffiti = null;
+                graffitiRemoveProgress.enabled = false;
+                _canInteractWithGraffiti = false;
+            }
+
             if (GameManager.Singleton.IsNightTime)
             {
                 if (_currentContract)
@@ -253,6 +291,7 @@ namespace Scripting.Player
                     handAnim.Play("IDLE");
                     ResetContract();
                 }
+
                 if (StressLevel > 0f)
                     ResetStressLevel();
                 if (_seated)
@@ -272,7 +311,7 @@ namespace Scripting.Player
 
             else
             {
-                var stressChange = 0.025f;
+                var stressChange = 0.025f / 2f;
 
                 if (_seated)
                 {
@@ -312,10 +351,15 @@ namespace Scripting.Player
 
                 if (_isSmoking)
                 {
-                    stressChange -= 0.05f;
+                    stressChange -= 0.15f;
                 }
 
                 StressLevel += Time.deltaTime * stressChange;
+
+                if (StressLevel < 0.0f)
+                {
+                    StressLevel = 0f;
+                }
 
                 if (StressLevel >= 1.0f)
                 {
@@ -330,6 +374,7 @@ namespace Scripting.Player
                     {
                         phone.ConversationEndEarly();
                     }
+
                     if (_currentContract)
                     {
                         handAnim.SetBool("HoldingDocument", false);
@@ -361,7 +406,6 @@ namespace Scripting.Player
                     Invoke(nameof(EndRageMode), rageModeTimer);
                 }
             }
-
 
             if (BlockAction)
                 return;
@@ -463,7 +507,7 @@ namespace Scripting.Player
                         }
                     }
                 }
-                
+
                 if (hit.transform.TryGetComponent<CustomerMotor>(out var customer))
                 {
                     //Debug.Log("Looking at client!");
@@ -473,7 +517,8 @@ namespace Scripting.Player
                     {
                         if (_currentContract && !_currentContract.GetIsMailBoxContract())
                         {
-                            customer.transform.rotation = Quaternion.LookRotation(-this.transform.forward, this.transform.up);
+                            customer.transform.rotation =
+                                Quaternion.LookRotation(-this.transform.forward, this.transform.up);
                             var attachment = _currentContract.transform.parent;
                             attachment.parent = customer.documentAttachPoint.transform;
                             attachment.position = customer.documentAttachPoint.transform.position;
@@ -539,7 +584,9 @@ namespace Scripting.Player
                         }
                         else
                         {
-                            _clientInteractor.GetComponent<CustomerMotor>().StopConversing();
+                            var customer = _clientInteractor.GetComponent<CustomerMotor>();
+                            customer.StopConversing();
+                            customer.ShowBubble();
                             radialIndicatorUI.enabled = false;
                             _countDownGate = false;
                             _counter = 0f;
@@ -557,11 +604,35 @@ namespace Scripting.Player
                 }
             }
 
-
             _actionPressed = false;
             _attackPressed = false;
         }
-        void HideStaplerMesh(){
+
+        private bool _removingGraffiti;
+
+        private IEnumerator RemoveGraffiti()
+        {
+            var elapsed = 0.0f;
+
+            graffitiRemoveProgress.enabled = true;
+            _removingGraffiti = true;
+
+            while (elapsed < _graffitiRemoveCounter && _currentGraffiti)
+            {
+                elapsed += Time.deltaTime;
+
+                graffitiRemoveProgress.fillAmount = elapsed / _graffitiRemoveCounter;
+                yield return true;
+            }
+
+            graffitiRemoveProgress.enabled = false;
+            _removingGraffiti = false;
+
+            _currentGraffiti?.Remove();
+        }
+
+        void HideStaplerMesh()
+        {
             staplerMesh.SetActive(false);
         }
 
@@ -752,6 +823,11 @@ namespace Scripting.Player
             if (_canInteractWithClient && !GameManager.Singleton.IsNightTime)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
+            }
+
+            if (_canInteractWithGraffiti)
+            {
+                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to remove this piece of (sh)art");
             }
 
             GUI.Label(new Rect(5, Screen.height - 25, 200, 25), "" + StressLevel);

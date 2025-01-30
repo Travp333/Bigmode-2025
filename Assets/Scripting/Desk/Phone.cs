@@ -14,7 +14,7 @@ namespace Scripting.Desk
         [SerializeField]
         private GameObject arms;
 
-        [SerializeField] private float telephoneCooldown = 35f;
+        [SerializeField] private float telephoneCooldown = 60f;
 
         [SerializeField] private Animator handAnim;
         [SerializeField] private Movement player;

@@ -905,8 +905,8 @@ MonoBehaviour:
   documentAttachPoint: {fileID: 262206639457615534}
   rb: {fileID: 7285601450041262385}
   agent: {fileID: 537305280254338008}
-  secondsUntilFreakOut: 20
-  secondsUntilChangeActivity: 5
+  secondsUntilFreakOut: 60
+  secondsUntilChangeActivity: 10
   capsuleCollider: {fileID: 337501975747246263}
   anim: {fileID: 6864961575593516411}
   converseVariantProbability: 2

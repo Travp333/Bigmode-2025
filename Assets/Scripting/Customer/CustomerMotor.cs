@@ -18,8 +18,8 @@ namespace Scripting.Customer
         [SerializeField] private Rigidbody rb;
         [SerializeField] private NavMeshAgent agent;
 
-        [SerializeField] private float secondsUntilFreakOut = 20.0f;
-        [SerializeField] private float secondsUntilChangeActivity = 5.0f;
+        [SerializeField] private float secondsUntilFreakOut = 60.0f;
+        [SerializeField] private float secondsUntilChangeActivity = 10.0f;
 
         [SerializeField] private CapsuleCollider capsuleCollider;
 
@@ -30,60 +30,44 @@ namespace Scripting.Customer
         public float StressMeter { get; private set; }
 
         private AiSpot _currentSpot;
-        public  Animator anim;
-        private bool conversing;
-        private Movement player;
+        public Animator anim;
+        private bool _conversing;
+        private Movement _player;
 
         [SerializeField]
         //how likely are you to play the conversation variant animation
         private int converseVariantProbability = 5;
 
+        private List<string> _standardDocuments = new();
         private string _contractType;
-        List<string> standardDocuments = new List<string>();
-        private string randomStandardDocument;
 
         private float _paymentAmount;
-        [SerializeField]
-        Billboard bubble;
+
+        private int _index;
+
+        [SerializeField] private Billboard bubble;
+
         private void Awake()
         {
+            // DUDE i don't want to set it on every NPC so i set it here as hardcode bruv
+            secondsUntilFreakOut = 60;
+            secondsUntilChangeActivity = 10;
+
             //needed to find direction to face
-            player = FindFirstObjectByType<Movement>();
+            _player = FindFirstObjectByType<Movement>();
             //needed to aaffect animations
             anim = GetComponent<Animator>();
 
             // TODO: AI
-            _paymentAmount = 3.0f;
+            _paymentAmount = 20000.0f + UnityEngine.Random.Range(-5000f, 5000.0f);
 
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = secondsUntilChangeActivity;
 
-            var list = TrainingsData.ContractTypes;
-            _contractType = list[Random.Range(0, list.Count)];
-            foreach (string s in list){
-                if(s == "f" ||s == "cd" || s == "not" || s == "bos" || s == "ma" || s == "will"){
-                    standardDocuments.Add(s);
-                }
-            }
-            randomStandardDocument = standardDocuments[Random.Range(0, standardDocuments.Count)];
-            if(randomStandardDocument == "f"){
-                bubble.SetSprite(0);
-            }
-            else if (randomStandardDocument == "cd"){
-                bubble.SetSprite(1);
-            }
-            else if (randomStandardDocument == "not"){
-                bubble.SetSprite(2);
-            }
-            else if (randomStandardDocument == "bos"){
-                bubble.SetSprite(3);
-            }
-            else if (randomStandardDocument == "ma"){
-                bubble.SetSprite(4);
-            }
-            else if (randomStandardDocument == "will"){
-                bubble.SetSprite(5);
-            }
+            _standardDocuments = TrainingsData.StandardContractTypes;
+            _index = Random.Range(0, _standardDocuments.Count);
+
+            _contractType = _standardDocuments[_index];
         }
 
         private void Start()
@@ -94,7 +78,7 @@ namespace Scripting.Customer
         //start conversation
         public void StartConversing()
         {
-            conversing = true;
+            _conversing = true;
             //Debug.Log("Starting Conversation");
             //anim.Play("Conversing");
         }
@@ -102,8 +86,13 @@ namespace Scripting.Customer
         //end conversatioon
         public void StopConversing()
         {
-            conversing = false;
+            _conversing = false;
             agent.isStopped = false;
+        }
+
+        public void ShowBubble()
+        {
+            bubble.SetSprite(_index);
         }
 
         //called in animation
@@ -144,10 +133,10 @@ namespace Scripting.Customer
 
             StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
             //handles rotation
-            if (conversing)
+            if (_conversing)
             {
                 agent.isStopped = true;
-                this.transform.rotation = Quaternion.LookRotation(-player.transform.forward, player.transform.up);
+                this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
                 anim.SetBool("conversing", true);
             }
             else
@@ -237,7 +226,7 @@ namespace Scripting.Customer
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            Handles.Label(transform.position + Vector3.up * 2f, "Wants: " + randomStandardDocument);
+            Handles.Label(transform.position + Vector3.up * 2f, "Wants: " + _contractType);
             Handles.Label(transform.position + Vector3.up * 1.5f, "Stresslevel: " + StressMeter);
         }
 #endif
@@ -247,7 +236,8 @@ namespace Scripting.Customer
             // HAS TO BE IMPLEMENTED
         }
 
-        public bool Validate(Contract contract) => contract.Result == randomStandardDocument || contract.GetIsPowerContract();
+        public bool Validate(Contract contract) =>
+            contract.Result == _contractType || contract.GetIsPowerContract();
 
         public void WalkOut()
         {
