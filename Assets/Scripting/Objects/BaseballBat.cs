@@ -18,6 +18,7 @@ namespace Scripting.Objects
         {
             handAnim.Play("PickupBat");
             handAnim.SetBool("HoldingBat", true);
+            
             handBat.SetActive(true);
             this.GetComponent<CapsuleCollider>().enabled = false;
             meMesh.enabled = false;
@@ -31,6 +32,7 @@ namespace Scripting.Objects
             this.GetComponent<CapsuleCollider>().enabled = true;
             meMesh.enabled = true;
             handAnim.SetBool("HoldingBat", false);
+            handAnim.Play("IDLE");
             handBat.SetActive(false);
           //  transform.parent = null;
           //  transform.position = new Vector3(5.796f, 0.489f, -5.296f);

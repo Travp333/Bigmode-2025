@@ -54,7 +54,7 @@ public class SpecialStoreManager : MonoBehaviour
 
     public Material fetchUpgradeMaterial(int x)
     {
-        return materials[x - materials.Count];
+        return materials[x - materials.Count-1];
     }
 
     public Material fetchUpgradeMaterial(Upgrades.UpgradeTypes x)

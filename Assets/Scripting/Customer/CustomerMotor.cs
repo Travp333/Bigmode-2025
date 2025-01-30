@@ -30,7 +30,7 @@ namespace Scripting.Customer
         public float StressMeter { get; private set; }
 
         private AiSpot _currentSpot;
-        private Animator anim;
+        public  Animator anim;
         private bool conversing;
         private Movement player;
 
@@ -43,7 +43,8 @@ namespace Scripting.Customer
         private string randomStandardDocument;
 
         private float _paymentAmount;
-
+        [SerializeField]
+        Billboard bubble;
         private void Awake()
         {
             //needed to find direction to face
@@ -65,6 +66,24 @@ namespace Scripting.Customer
                 }
             }
             randomStandardDocument = standardDocuments[Random.Range(0, standardDocuments.Count)];
+            if(randomStandardDocument == "f"){
+                bubble.SetSprite(0);
+            }
+            else if (randomStandardDocument == "cd"){
+                bubble.SetSprite(1);
+            }
+            else if (randomStandardDocument == "not"){
+                bubble.SetSprite(2);
+            }
+            else if (randomStandardDocument == "bos"){
+                bubble.SetSprite(3);
+            }
+            else if (randomStandardDocument == "ma"){
+                bubble.SetSprite(4);
+            }
+            else if (randomStandardDocument == "will"){
+                bubble.SetSprite(5);
+            }
         }
 
         private void Start()

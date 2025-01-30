@@ -24,13 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4361766486008417579}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00891959, y: -0.77952105, z: 0.0022544155, w: 0.6263085}
-  m_LocalPosition: {x: 0.009, y: 0.318, z: 0.327}
+  m_LocalRotation: {x: -0.009024855, y: -0.7458561, z: 0.0017869384, w: 0.6660435}
+  m_LocalPosition: {x: 0.017026529, y: 0.3179405, z: 0.3290577}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5586712193555653484}
-  m_LocalEulerAnglesHint: {x: -0.439, y: -102.443, z: 0.959}
+  m_LocalEulerAnglesHint: {x: -0.536, y: -96.475, z: 0.908}
 --- !u!1001 &4757770252393431676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -505,7 +505,9 @@ MonoBehaviour:
   secondsUntilFreakOut: 20
   secondsUntilChangeActivity: 5
   capsuleCollider: {fileID: 3674404600559198404}
+  anim: {fileID: 1220446794337724160}
   converseVariantProbability: 2
+  bubble: {fileID: 5893639449685182289}
 --- !u!136 &3674404600559198404
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -582,21 +584,53 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5011459286302827927}
     m_Modifications:
+    - target: {fileID: 2485184661413281784, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c88d244c4ec55b840ae2aec4cedf927e, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: sprites.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 21300000, guid: e191c2e5c9159db4ca05ac1b5c782b8b, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[1]'
+      value: 
+      objectReference: {fileID: 21300000, guid: a2d9a841c9468df418a7a0801f670db4, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[2]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 09f15b69d86d58740837de1b4dbc9b66, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[3]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 636600be766141d489f6040ced65a017, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[4]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 0742d4cced7015c478ff8263635381cd, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[5]'
+      value: 
+      objectReference: {fileID: 21300000, guid: f2f4f31a2161c5a44a6f8b53243981e4, type: 3}
     - target: {fileID: 6216241922980145972, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_Name
       value: Want Bubble Base
       objectReference: {fileID: 0}
     - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.4141524
+      value: 0.340772
       objectReference: {fileID: 0}
     - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4141524
+      value: 0.340772
       objectReference: {fileID: 0}
     - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.4141524
+      value: 0.340772
       objectReference: {fileID: 0}
     - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -604,7 +638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.075
+      value: 4.96
       objectReference: {fileID: 0}
     - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -648,3 +682,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
   m_PrefabInstance: {fileID: 8893526708600408290}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5893639449685182289 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+  m_PrefabInstance: {fileID: 8893526708600408290}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a190c6bc4d1a96741ae286a3ca5fde14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
