@@ -6,6 +6,7 @@ using Scripting.Desk;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 namespace Scripting.Customer
 {
@@ -38,6 +39,8 @@ namespace Scripting.Customer
         private int converseVariantProbability = 5;
 
         private string _contractType;
+        List<string> standardDocuments = new List<string>();
+        private string randomStandardDocument;
 
         private float _paymentAmount;
 
@@ -56,6 +59,12 @@ namespace Scripting.Customer
 
             var list = TrainingsData.ContractTypes;
             _contractType = list[Random.Range(0, list.Count)];
+            foreach (string s in list){
+                if(s == "f" ||s == "cd" || s == "not" || s == "bos" || s == "ma" || s == "will"){
+                    standardDocuments.Add(s);
+                }
+            }
+            randomStandardDocument = standardDocuments[Random.Range(0, standardDocuments.Count)];
         }
 
         private void Start()
@@ -209,7 +218,7 @@ namespace Scripting.Customer
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            Handles.Label(transform.position + Vector3.up * 2f, "Wants: " + _contractType);
+            Handles.Label(transform.position + Vector3.up * 2f, "Wants: " + randomStandardDocument);
             Handles.Label(transform.position + Vector3.up * 1.5f, "Stresslevel: " + StressMeter);
         }
 #endif
@@ -219,7 +228,7 @@ namespace Scripting.Customer
             // HAS TO BE IMPLEMENTED
         }
 
-        public bool Validate(Contract contract) => contract.Result == _contractType || contract.GetIsPowerContract();
+        public bool Validate(Contract contract) => contract.Result == randomStandardDocument || contract.GetIsPowerContract();
 
         public void WalkOut()
         {

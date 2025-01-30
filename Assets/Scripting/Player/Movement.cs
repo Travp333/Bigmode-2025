@@ -270,6 +270,7 @@ namespace Scripting.Player
                 {
                     _baseballBat.Drop();
                     _baseballBat = null;
+                    _actionPressed = false;
                 }
 
                 _actionPressed = false;
@@ -394,7 +395,7 @@ namespace Scripting.Player
                 var contract = GetComponentInChildren<Contract>();
                 if (contract)
                 {
-                    Debug.Log("Re entering seat while holding this document" + contract);
+                    //Debug.Log("Re entering seat while holding this document" + contract);
                     bothArmsScript.SetContractObject(contract.transform.parent);
                     handAnim.Play("IDLE");
                     handAnim.SetBool("HoldingDocument", false);
