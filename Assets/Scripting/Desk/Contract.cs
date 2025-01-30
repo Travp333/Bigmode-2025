@@ -312,6 +312,7 @@ namespace Scripting.Desk
 
             if (GetIsPowerContract())
             {
+                customer.Pay();
                 switch (Result)
                 {
                     case "pentagramm":
@@ -330,6 +331,7 @@ namespace Scripting.Desk
             }
 
             GameManager.Singleton.RemoveCustomer(customer);
+            customer.Pay();
             customer.WalkOut();
 
             return false;

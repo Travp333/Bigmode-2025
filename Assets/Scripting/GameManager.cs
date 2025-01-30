@@ -267,7 +267,7 @@ namespace Scripting
         {
             _customerMotors.ToList().ForEach(n =>
             {
-                 n.Pay();
+                n.Pay();
                 n.WalkOut();
             });
             

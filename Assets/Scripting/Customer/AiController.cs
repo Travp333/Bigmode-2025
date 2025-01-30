@@ -26,7 +26,7 @@ namespace Scripting.Customer
 
         public Transform EntrancePoint => entrancePoint;
 
-        private List<AiSpot> _distractionSpots;
+        private List<AiSpot> _distractionSpots = new();
 
         private static AiController _singleton;
 

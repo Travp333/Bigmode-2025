@@ -514,7 +514,7 @@ namespace Scripting.Player
                     }
                 }
 
-                if (hit.transform.TryGetComponent<CustomerMotor>(out var customer))
+                if (hit.transform.TryGetComponent<CustomerMotor>(out var customer) && !customer.IsMotherfucker)
                 {
                     //Debug.Log("Looking at client!");
                     _canInteractWithClient = true;

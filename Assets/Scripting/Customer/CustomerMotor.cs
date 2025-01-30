@@ -24,6 +24,14 @@ namespace Scripting.Customer
 
         [SerializeField] private CapsuleCollider capsuleCollider;
 
+        [SerializeField]
+        //how likely are you to play the conversation variant animation
+        private int converseVariantProbability = 5;
+
+        [SerializeField] private Billboard bubble;
+
+        public bool IsMotherfucker => _isMotherfucker;
+
         private AiController _aiController;
         private float _changeTaskCooldown;
         private bool _done;
@@ -35,10 +43,8 @@ namespace Scripting.Customer
         private bool _conversing;
         private Movement _player;
         private bool _isMotherfucker;
+        private VandalismSpot _vandalismSpot;
 
-        [SerializeField]
-        //how likely are you to play the conversation variant animation
-        private int converseVariantProbability = 5;
 
         private List<string> _standardDocuments = new();
         private string _contractType;
@@ -48,8 +54,6 @@ namespace Scripting.Customer
         private bool _runOut;
 
         private int _index;
-
-        [SerializeField] private Billboard bubble;
 
         private void Awake()
         {
@@ -66,7 +70,7 @@ namespace Scripting.Customer
 
             _paymentAmount = 20000.0f + Random.Range(-5000f, 5000.0f);
             _penalty = 7000.0f * Random.Range(-500f, 500.0f);
-            _isMotherfucker = _aiController.HasVandalismSpots; // && Random.Range(0, 5) == 0;
+            _isMotherfucker = _aiController.HasVandalismSpots && Random.Range(0, 5) == 0;
 
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = secondsUntilChangeActivity;
@@ -209,8 +213,6 @@ namespace Scripting.Customer
             }
         }
 
-        private VandalismSpot _vandalismSpot;
-
         private IEnumerator GoToTargetWithCallback(Vector3 position, Action callback = null, float delay = 0)
         {
             agent.SetDestination(position);
@@ -271,8 +273,10 @@ namespace Scripting.Customer
         {
             Handles.Label(transform.position + Vector3.up * 2.5f,
                 "Is Motherfucker: " + (_isMotherfucker ? "Yes" : "No"));
-            Handles.Label(transform.position + Vector3.up * 2f, "Wants: " + _contractType);
-            Handles.Label(transform.position + Vector3.up * 1.5f, "Stresslevel: " + StressMeter);
+            Handles.Label(transform.position + Vector3.up * 2f,
+                "Wants: " + (_isMotherfucker ? "trouble" : _contractType));
+            Handles.Label(transform.position + Vector3.up * 1.5f,
+                "Stresslevel: " + (_isMotherfucker ? "unlimited" : StressMeter));
         }
 #endif
 
@@ -298,7 +302,7 @@ namespace Scripting.Customer
             _runOut = true;
 
             // TODO: CHANGE ANIMATION
-            
+
             agent.speed *= 2f;
             // TODO: Change Agent Speed
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
