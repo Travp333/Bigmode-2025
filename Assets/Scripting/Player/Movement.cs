@@ -203,10 +203,11 @@ namespace Scripting.Player
 
         public void ResetContract(bool immediate = false)
         {
-            if (!contractAttachmentPoint.GetComponentInChildren<Contract>()) return;
+            if (!_currentContract) return;
             Debug.Log("Resetting contract");
             var deskArms = bothArmsScript.GetComponent<DeskArms>();
 
+            
             deskArms.UnblockLeftHand();
             deskArms.ResetContractAnimation();
 
@@ -606,9 +607,14 @@ namespace Scripting.Player
             Cursor.lockState = CursorLockMode.Confined;
             _seated = true;
             bothArmsScript.UnblockRightHand();
-            if (!bothArmsScript.GetComponentInChildren<Contract>())
+            if (!_currentContract)
             {
-                bothArmsScript.UnblockLeftHand();
+                bothArmsScript.ResetHands();
+            }
+            else
+            {
+                bothArmsScript.BlockLeftHand();
+                bothArmsScript.ShowContractUp();
             }
         }
 

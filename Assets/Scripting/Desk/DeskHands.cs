@@ -85,7 +85,7 @@ namespace Scripting.Desk
         public void UnblockLeftHand()
         {
             _isBlockedLeft = false;
-            leftHandAnim.SetBool("LeftPoint", false);
+            leftHandAnim.SetBool("LeftPoint", true);
         }
 
         public void BlockRightHand()
@@ -99,6 +99,7 @@ namespace Scripting.Desk
         public void UnblockRightHand()
         {
             _isBlockedRight = false;
+            rightHandAnim.SetBool("RightPoint", true);
         }
 
         public void ActivateLeftHand()
@@ -227,6 +228,20 @@ namespace Scripting.Desk
         {
             leftHandAnim.Play("Dropping Paper");
             Invoke(nameof(SpawnBall), .65f);
+        }
+
+        public void ResetHands()
+        {
+            UnblockLeftHand();
+            UnblockRightHand();
+        }
+        
+        public void ShowContractUp()
+        {
+            leftHandAnim.Play("Holding Paper Idle");
+            rightHandAnim.SetBool("RightPoint", true);
+            UnblockRightHand();
+            BlockLeftHand();
         }
     }
 }
