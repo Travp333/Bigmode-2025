@@ -2548,7 +2548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 546466382}
   m_Layer: 0
-  m_Name: Sounds
+  m_Name: AmbientSounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5013,7 +5013,7 @@ GameObject:
   - component: {fileID: 1035944793}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8063,13 +8063,13 @@ AudioSource:
   m_GameObject: {fileID: 1495703880}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1148890516458439654, guid: c05f93e47532ddd48b29c3b653f60c05, type: 2}
+  m_audioClip: {fileID: 8300000, guid: e4d22d56dc5c1e74aaa2a244af41874d, type: 3}
+  m_Resource: {fileID: 8300000, guid: e4d22d56dc5c1e74aaa2a244af41874d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -10860,7 +10860,7 @@ GameObject:
   - component: {fileID: 1953529839}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
