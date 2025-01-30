@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-6721974550497830703
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Office_Footstep_NPC_Female_06_{-6721974550497830703}
+  m_AudioClip: {fileID: 8300000, guid: c725a7ffe9cbe594e872e24b434023c4, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-6715841491244560171
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Office_Footstep_NPC_Female_05_{-6715841491244560171}
+  m_AudioClip: {fileID: 8300000, guid: 0e924b299aa4aff4b924cc135898713d, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-3742333825098662878
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Office_Footstep_NPC_Female_04_{-3742333825098662878}
+  m_AudioClip: {fileID: 8300000, guid: 469c6ebb127c7e541a7b2ad32b68aed0, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &3223264049971558339
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Office_Footstep_NPC_Female_01_{3223264049971558339}
+  m_AudioClip: {fileID: 8300000, guid: 4f9fed2c9a09d934abd32bfc405f23d9, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &4299340401372672727
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Office_Footstep_NPC_Female_03_{4299340401372672727}
+  m_AudioClip: {fileID: 8300000, guid: 656813afb275bfa47a74a5b22919571a, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FemaleFootstep
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: 0, y: 0}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: 3223264049971558339}
+  - {fileID: 7194550124695220612}
+  - {fileID: 4299340401372672727}
+  - {fileID: -3742333825098662878}
+  - {fileID: -6715841491244560171}
+  - {fileID: -6721974550497830703}
+  m_AvoidRepeatingLast: 1
+  m_PlaybackMode: 2
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 0
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0
+--- !u!1233149941 &7194550124695220612
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Office_Footstep_NPC_Female_02_{7194550124695220612}
+  m_AudioClip: {fileID: 8300000, guid: 7cabd2224f0fe0d41873ad6769119d34, type: 3}
+  m_Volume: 0
+  m_Enabled: 1

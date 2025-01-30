@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-8453177068778702689
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_02_{-8453177068778702689}
+  m_AudioClip: {fileID: 8300000, guid: d1cff57093a20b54f904eb1f4393a90e, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-6664314293052566947
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_05_{-6664314293052566947}
+  m_AudioClip: {fileID: 8300000, guid: 17207d3750353274c90c2f3f5f2d0252, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-6498895776581418279
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_06_{-6498895776581418279}
+  m_AudioClip: {fileID: 8300000, guid: b9b95375d57135847917d4811b652493, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-3999070630168768208
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_04_{-3999070630168768208}
+  m_AudioClip: {fileID: 8300000, guid: 4d9e3892471aea345a96f768db8f7976, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5752841634023947801
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_01_{5752841634023947801}
+  m_AudioClip: {fileID: 8300000, guid: 18dbbbf58a59b9b46a345c1765444153, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RandomFemale
+  m_Volume: -20
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 3
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: 0, y: 0}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: 5752841634023947801}
+  - {fileID: -8453177068778702689}
+  - {fileID: 8980263516039784130}
+  - {fileID: -3999070630168768208}
+  - {fileID: -6664314293052566947}
+  - {fileID: -6498895776581418279}
+  m_AvoidRepeatingLast: 1
+  m_PlaybackMode: 2
+  m_TriggerMode: 1
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 0
+  m_VolumeRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 0
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0
+--- !u!1233149941 &8980263516039784130
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_03_{8980263516039784130}
+  m_AudioClip: {fileID: 8300000, guid: 6cdbce4d357b2bf44a0ae606ad852f14, type: 3}
+  m_Volume: 0
+  m_Enabled: 1

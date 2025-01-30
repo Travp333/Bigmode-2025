@@ -11,7 +11,10 @@ public class LaunchDetection : MonoBehaviour
     [SerializeField] private GameObject hellPortalPrefab;
     [SerializeField] private SkinnedMeshRenderer myMesh;
     [SerializeField] private GameObject stoneFistPrefab;
-    
+    [SerializeField] AudioSource talkAudio;
+    [SerializeField] AudioSource hurtAudio;
+    [SerializeField] AudioSource screamAudio;
+
     private Animator _anim;
     private RaycastHit _hit;
     public bool lerpGate;
@@ -20,7 +23,7 @@ public class LaunchDetection : MonoBehaviour
     private NavMeshAgent _agent;
     private CustomerMotor _motor;
     private GameObject _player;
-    
+
     private void Awake()
     {
         _anim = GetComponent<Animator>();
@@ -40,7 +43,8 @@ public class LaunchDetection : MonoBehaviour
         _agent.enabled = true;
         _motor.enabled = true;
     }
-    public void GetPowerFisted(){
+    public void GetPowerFisted()
+    {
         this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
         var portal = Instantiate(stoneFistPrefab, this.transform.position, Quaternion.identity);
         portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh = myMesh.sharedMesh;
@@ -48,7 +52,8 @@ public class LaunchDetection : MonoBehaviour
         portal.transform.localScale = this.transform.localScale;
         Destroy(this.gameObject);
     }
-    public void GetHellGrabbed(){
+    public void GetHellGrabbed()
+    {
         this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
         var portal = Instantiate(hellPortalPrefab, this.transform.position, Quaternion.identity);
         portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh = myMesh.sharedMesh;
@@ -65,6 +70,7 @@ public class LaunchDetection : MonoBehaviour
             this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
             if (Physics.Raycast(this.transform.position, _player.transform.forward, out _hit, 999f, mask))
             {
+                StartScreamAudio();
                 other.gameObject.GetComponent<BatHitboxCollision>().cont.DisableHitbox();
                 _anim.Play("AIR");
                 _lerpTarget = _hit.point;
@@ -83,6 +89,7 @@ public class LaunchDetection : MonoBehaviour
                 this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
                 if (Physics.Raycast(this.transform.position, _player.transform.forward, out _hit, 999f, mask))
                 {
+                    StartScreamAudio();
                     _anim.Play("AIR");
                     _lerpTarget = _hit.point;
                     _hitNormal = _hit.normal;
@@ -96,12 +103,12 @@ public class LaunchDetection : MonoBehaviour
                 //TESTING FIST DOCUMENT
                 //this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
                 //var portal = Instantiate(stoneFistPrefab, this.transform.position, Quaternion.identity);
-               // portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh =
-               //     myMesh.sharedMesh;
-               // portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials =
-               //     myMesh.sharedMaterials;
-               // portal.transform.localScale = this.transform.localScale;
-              //  Destroy(this.gameObject);
+                // portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh =
+                //     myMesh.sharedMesh;
+                // portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials =
+                //     myMesh.sharedMaterials;
+                // portal.transform.localScale = this.transform.localScale;
+                //  Destroy(this.gameObject);
             }
         }
         else if (other.gameObject.GetComponent<HuellHitboxCollision>() != null)
@@ -111,6 +118,7 @@ public class LaunchDetection : MonoBehaviour
             this.transform.rotation = Quaternion.LookRotation(huellCollision.transform.forward, this.transform.up);
             if (Physics.Raycast(this.transform.position, huellCollision.transform.forward, out _hit, 999f, mask))
             {
+                StartScreamAudio();
                 huellCollision.GetComponent<HuellController>().HideHitbox();
                 _anim.Play("AIR");
                 _lerpTarget = _hit.point;
@@ -148,6 +156,8 @@ public class LaunchDetection : MonoBehaviour
 
     private void PlayRandomDamageAnimation()
     {
+        StartHurtAudio();
+
         int rand = Random.Range(0, 3);
         //Debug.Log(rand);
         if (rand == 0)
@@ -206,6 +216,10 @@ public class LaunchDetection : MonoBehaviour
         }
         else
         {
+            if (screamAudio.isPlaying)
+            {
+                screamAudio.Stop();
+            }
             if (_anim.GetCurrentAnimatorStateInfo(0).IsName("AIR"))
             {
                 PlayRandomDamageAnimation();
@@ -220,5 +234,38 @@ public class LaunchDetection : MonoBehaviour
                 _anim.SetBool("isWalking", false);
             }
         }
+
+        StartTalkAudio();
+    }
+
+    private void StartHurtAudio()
+    {
+        //if (!hurtAudio.isPlaying)
+        //{
+        talkAudio.Stop();
+        hurtAudio.Play();
+        //}
+    }
+
+    private void StartTalkAudio()
+    {
+        if (!hurtAudio.isPlaying && !talkAudio.isPlaying && !screamAudio.isPlaying)
+        {
+            talkAudio.Play();
+        }
+    }
+
+    public bool IsWalking()
+    {
+        return _anim.GetBool("isWalking");
+    }
+
+    private void StartScreamAudio()
+    {
+        //if (!screamAudio.isPlaying)
+        //{
+        talkAudio.Stop();
+        screamAudio.Play();
+        //}
     }
 }

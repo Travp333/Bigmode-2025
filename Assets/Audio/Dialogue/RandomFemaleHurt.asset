@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-8791270579106854414
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_Hurt_01_{-8791270579106854414}
+  m_AudioClip: {fileID: 8300000, guid: 51c21fd781dcdde4ba21a84962cab058, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-3682173090375105271
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_Hurt_02_{-3682173090375105271}
+  m_AudioClip: {fileID: 8300000, guid: 741a0ce1bca275d40b041607138807d1, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-3681321973116864224
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_Hurt_05_{-3681321973116864224}
+  m_AudioClip: {fileID: 8300000, guid: c99dffa8deff1ea4ca1451b73ec1d1be, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-2462679621734966693
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_Hurt_03_{-2462679621734966693}
+  m_AudioClip: {fileID: 8300000, guid: 2eb4684090e298d4b9569f6c92ea92ce, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RandomFemaleHurt
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: 0, y: 0}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: -8791270579106854414}
+  - {fileID: -3682173090375105271}
+  - {fileID: -2462679621734966693}
+  - {fileID: 8755258522345911258}
+  - {fileID: -3681321973116864224}
+  m_AvoidRepeatingLast: 1
+  m_PlaybackMode: 2
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 0
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0
+--- !u!1233149941 &8755258522345911258
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_FEMALE_Hurt_04_{8755258522345911258}
+  m_AudioClip: {fileID: 8300000, guid: e2f066a2e6db0214b9fca33f72c35092, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
