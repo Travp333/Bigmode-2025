@@ -169,7 +169,7 @@ namespace Scripting
             _customerMotors.Add(go.GetComponent<CustomerMotor>());
         }
 
-        public void FinalizeCustomer(CustomerMotor customerMotor)
+        public void RemoveCustomer(CustomerMotor customerMotor)
         {
             _customerMotors.Remove(customerMotor);
         }
