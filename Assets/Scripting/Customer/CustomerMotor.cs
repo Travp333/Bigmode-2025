@@ -324,6 +324,8 @@ namespace Scripting.Customer
             if (_runOut) return;
             _runOut = true;
             anim.SetBool("isRunning", true);
+            GameManager.Singleton.RemoveCustomer(this);
+
             // TODO: CHANGE ANIMATION
 
             agent.speed *= 2f;
