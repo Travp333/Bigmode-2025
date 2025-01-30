@@ -227,6 +227,26 @@ namespace Scripting.Desk
         }
 
         public bool GetIsMailBoxContract() => Converted && Result is "ds" or "eel" or "la" or "tec";
+
+        public void ExecuteMailboxEffect(Movement player)
+        {
+            switch (Result)
+            {
+                case "ds":
+                    GameManager.Singleton.Dismissal();
+                    player.SetStressLevel(0);
+                    break;
+                case "la":
+                    GameManager.Singleton.ActivateLoanAgreement();
+                    break;
+                case "tec":
+                    GameManager.Singleton.SpawnTec();
+                    break;
+                case "eel":
+                    GameManager.Singleton.GetExtraLife();
+                    break;
+            }
+        }
         
         // "returns true or false if was power effect"
         public bool ExecuteEffect(CustomerMotor customer, Movement player)
@@ -241,24 +261,11 @@ namespace Scripting.Desk
                         GameManager.Singleton.DoPentagrammLogic();
                         GameManager.Singleton.RemoveCustomer(customer);
                         customer.gameObject.GetComponent<LaunchDetection>().GetHellGrabbed();
-                        break;
-                    case "ds":
-                        GameManager.Singleton.Dismissal();
-                        player.SetStressLevel(0);
-                        break;
-                    case "la":
-                        GameManager.Singleton.ActivateLoanAgreement();
-                        break;
+                        break;  
                     case "pfr":
                         GameManager.Singleton.DoFistStuff();
                         GameManager.Singleton.RemoveCustomer(customer);
                         customer.gameObject.GetComponent<LaunchDetection>().GetPowerFisted();
-                        break;
-                    case "tec":
-                        GameManager.Singleton.SpawnTec();
-                        break;
-                    case "eel":
-                        GameManager.Singleton.GetExtraLife();
                         break;
                 }
 

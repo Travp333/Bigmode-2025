@@ -8,6 +8,7 @@ TagManager:
   - Client
   - Weapon
   - EntrancePoint
+  - Mailbox
   layers:
   - Default
   - TransparentFX

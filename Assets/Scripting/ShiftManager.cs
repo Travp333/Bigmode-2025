@@ -33,7 +33,7 @@ namespace Scripting
             _ceilings = skybox.materials[0];
             _skybox =
                 skybox.materials[6];
-            
+
             LerpShiftState(0);
             _isNightTime = true;
             StartCoroutine(AnimateToNightTime());
@@ -47,7 +47,7 @@ namespace Scripting
             _skybox.SetColor(EmissionColor,
                 Color.Lerp(Color.black, Color.white, lightIntensity.Evaluate(value) * lightIntensity.Evaluate(value)));
             _skybox.SetColor(Color1, Color.Lerp(Color.black, Color.white, lightIntensity.Evaluate(value)));
-            
+
             _ceilings.SetColor(EmissionColor, Color.white * (1f - lightIntensity.Evaluate(value) * 0.5f));
 
             for (var i = 0; i < insideLights.Length; i++)
@@ -107,9 +107,9 @@ namespace Scripting
                 {
                     nightSpotLights[i].intensity = elapsed * 20f;
                 }
-                
-                _ceilings.SetColor(EmissionColor, Color.white * (1f - elapsed) * 0.5f); 
-                
+
+                _ceilings.SetColor(EmissionColor, Color.white * (1f - elapsed) * 0.5f);
+
                 yield return null;
             }
 
@@ -139,7 +139,7 @@ namespace Scripting
                     nightSpotLights[i].intensity = 20f - elapsed * 20f;
                 }
 
-                _ceilings.SetColor(EmissionColor, Color.white * elapsed * 0.5f); 
+                _ceilings.SetColor(EmissionColor, Color.white * elapsed * 0.5f);
 
                 yield return null;
             }

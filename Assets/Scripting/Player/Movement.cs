@@ -460,6 +460,22 @@ namespace Scripting.Player
                     _canPickupBaseballBat = false;
                 }
 
+                if (hit.transform.gameObject.CompareTag("Mailbox"))
+                {
+                    if (_actionPressed)
+                    {
+                        if (_currentContract && _currentContract.GetIsMailBoxContract())
+                        {
+                            var abc = _currentContract;
+
+                            abc.ExecuteMailboxEffect(this);
+                            handAnim.SetBool("HoldingDocument", false);
+                            Destroy(_currentContract.gameObject);
+                            _currentContract = null;
+                        }
+                    }
+                }
+                
                 if (hit.transform.TryGetComponent<CustomerMotor>(out var customer))
                 {
                     //Debug.Log("Looking at client!");
@@ -478,7 +494,7 @@ namespace Scripting.Player
                             //RemoveContract();
                             staplerMesh.SetActive(true);
                             handAnim.Play("Staple");
-                            Invoke("HideStaplerMesh", 1f);
+                            Invoke(nameof(HideStaplerMesh), 1f);
                             handAnim.SetBool("HoldingDocument", false);
                             customer.anim.Play("GetStapled");
                             //bothArmsScript.PutDownContract();
