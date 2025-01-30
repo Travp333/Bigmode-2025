@@ -316,6 +316,7 @@ namespace Scripting.Customer
         {
             if (_runOut) return;
             _runOut = true;
+            GameManager.Singleton.RemoveCustomer(this);
 
             // TODO: CHANGE ANIMATION
 
