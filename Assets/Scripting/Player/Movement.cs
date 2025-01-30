@@ -203,7 +203,7 @@ namespace Scripting.Player
             StressLevel = 0f;
         }
 
-        public void ResetContract(bool immediate = false)
+        public void ResetContract()
         {
             if (!_currentContract) return;
             Debug.Log("Resetting contract");
@@ -213,19 +213,7 @@ namespace Scripting.Player
             var x = _currentContract;
 
             _currentContract = null;
-          //  if (immediate)
-          //  {
             x?.Reset();
-           // }
-          //  else
-          //  {
-                //Invoke(nameof(RemoveContract), 0.5f);
-           // }
-        }
-
-        private void RemoveContract()
-        {
-            _currentContract?.Reset();
         }
 
         private void CheckButtons()
@@ -263,7 +251,7 @@ namespace Scripting.Player
                 {
                     handAnim.SetBool("HoldingDocument", false);
                     handAnim.Play("IDLE");
-                    ResetContract(true);
+                    ResetContract();
                 }
                 if (StressLevel > 0f)
                     ResetStressLevel();
@@ -346,7 +334,7 @@ namespace Scripting.Player
                     {
                         handAnim.SetBool("HoldingDocument", false);
                         handAnim.Play("IDLE");
-                        ResetContract(true);
+                        ResetContract();
                     }
 
                     if (_seated)
@@ -460,6 +448,22 @@ namespace Scripting.Player
                     _canPickupBaseballBat = false;
                 }
 
+                if (hit.transform.gameObject.CompareTag("Mailbox"))
+                {
+                    if (_actionPressed)
+                    {
+                        if (_currentContract && _currentContract.GetIsMailBoxContract())
+                        {
+                            var abc = _currentContract;
+
+                            abc.ExecuteMailboxEffect(this);
+                            handAnim.SetBool("HoldingDocument", false);
+                            Destroy(_currentContract.gameObject);
+                            _currentContract = null;
+                        }
+                    }
+                }
+                
                 if (hit.transform.TryGetComponent<CustomerMotor>(out var customer))
                 {
                     //Debug.Log("Looking at client!");
@@ -478,7 +482,7 @@ namespace Scripting.Player
                             //RemoveContract();
                             staplerMesh.SetActive(true);
                             handAnim.Play("Staple");
-                            Invoke("HideStaplerMesh", 1f);
+                            Invoke(nameof(HideStaplerMesh), 1f);
                             handAnim.SetBool("HoldingDocument", false);
                             customer.anim.Play("GetStapled");
                             //bothArmsScript.PutDownContract();

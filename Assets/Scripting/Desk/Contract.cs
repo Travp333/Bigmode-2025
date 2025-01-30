@@ -203,6 +203,63 @@ namespace Scripting.Desk
                 }
                 else
                 {
+                    if (GetIsPowerContract())
+                    {
+                        var gameManager = GameManager.Singleton;
+                        var player = gameManager.Player;
+                        switch (Result)
+                        {
+                            case "pentagramm":
+                                if (!gameManager.upgrades.hellishContract)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                            case "ds":
+                                if (!GameManager.Singleton.upgrades.dismissal)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                            case "pfr":
+                                if (!GameManager.Singleton.upgrades.powerFistRequisition)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                            case "la":
+                                if (!GameManager.Singleton.upgrades.loanAgreement)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                            case "tec":
+                                if (!GameManager.Singleton.upgrades.temporaryEmploymentContract)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                            case "eel":
+                                if (!GameManager.Singleton.upgrades.endOfLifePlan)
+                                {
+                                    player.ResetContract();
+                                    return;
+                                }
+
+                                break;
+                        }
+                    }
+
                     Debug.Log(Result);
                     for (var i = 0; i < names.Count; i++)
                     {
@@ -227,12 +284,32 @@ namespace Scripting.Desk
         }
 
         public bool GetIsMailBoxContract() => Converted && Result is "ds" or "eel" or "la" or "tec";
-        
+
+        public void ExecuteMailboxEffect(Movement player)
+        {
+            switch (Result)
+            {
+                case "ds":
+                    GameManager.Singleton.Dismissal();
+                    player.SetStressLevel(0);
+                    break;
+                case "la":
+                    GameManager.Singleton.ActivateLoanAgreement();
+                    break;
+                case "tec":
+                    GameManager.Singleton.SpawnTec();
+                    break;
+                case "eel":
+                    GameManager.Singleton.GetExtraLife();
+                    break;
+            }
+        }
+
         // "returns true or false if was power effect"
         public bool ExecuteEffect(CustomerMotor customer, Movement player)
         {
             player.ChangeStressLevel(-0.25f);
-            
+
             if (GetIsPowerContract())
             {
                 switch (Result)
@@ -242,23 +319,10 @@ namespace Scripting.Desk
                         GameManager.Singleton.RemoveCustomer(customer);
                         customer.gameObject.GetComponent<LaunchDetection>().GetHellGrabbed();
                         break;
-                    case "ds":
-                        GameManager.Singleton.Dismissal();
-                        player.SetStressLevel(0);
-                        break;
-                    case "la":
-                        GameManager.Singleton.ActivateLoanAgreement();
-                        break;
                     case "pfr":
                         GameManager.Singleton.DoFistStuff();
                         GameManager.Singleton.RemoveCustomer(customer);
                         customer.gameObject.GetComponent<LaunchDetection>().GetPowerFisted();
-                        break;
-                    case "tec":
-                        GameManager.Singleton.SpawnTec();
-                        break;
-                    case "eel":
-                        GameManager.Singleton.GetExtraLife();
                         break;
                 }
 
