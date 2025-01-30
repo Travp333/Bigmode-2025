@@ -205,6 +205,10 @@ namespace Scripting.Customer
                     StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
                         () =>
                         {
+                            // TODO: Do Spray Animation here
+                        },
+                        () =>
+                        {
                             _vandalismSpot.Spray();
                             RunOut();
                         }, 3f));
@@ -213,7 +217,8 @@ namespace Scripting.Customer
             }
         }
 
-        private IEnumerator GoToTargetWithCallback(Vector3 position, Action callback = null, float delay = 0)
+        private IEnumerator GoToTargetWithCallback(Vector3 position, Action start = null, Action callback = null,
+            float delay = 0)
         {
             agent.SetDestination(position);
 
@@ -222,9 +227,13 @@ namespace Scripting.Customer
                 yield return null;
             }
 
-            yield return new WaitForSeconds(delay);
+            if (!_done && !_runOut && !_sprayInterrupted)
+                start?.Invoke();
+            
+            if (!_done && !_runOut && !_sprayInterrupted)
+                yield return new WaitForSeconds(delay);
 
-            if (!_done && !_runOut)
+            if (!_done && !_runOut && !_sprayInterrupted)
                 callback?.Invoke();
         }
 
@@ -236,6 +245,13 @@ namespace Scripting.Customer
             agent.SetDestination(entrance);
         }
 
+        private bool _sprayInterrupted = false;
+
+        public void InterruptSpraying()
+        {
+            _sprayInterrupted = true;
+        }
+        
         private void OnValidate()
         {
             if (rb)
