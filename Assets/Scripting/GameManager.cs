@@ -27,6 +27,7 @@ namespace Scripting
 
         [SerializeField] private List<AiSpot> aiSpots;
         [SerializeField] private List<GameObject> customerPrefabs;
+        [SerializeField] private uint maxCustomers = 10;
 
         [Header("Graphics")]
         [SerializeField] private GameObject mainCanvas;
@@ -173,12 +174,15 @@ namespace Scripting
 
         public void SpawnCustomer()
         {
-            var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
-            var customerPrefab = customerPrefabs[Random.Range(0, customerPrefabs.Count)];
+            if (_customerMotors.Count <= maxCustomers)
+            {
+                var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+                var customerPrefab = customerPrefabs[Random.Range(0, customerPrefabs.Count)];
 
-            var go = Instantiate(customerPrefab, spawnPoint.transform.position, Quaternion.identity);
+                var go = Instantiate(customerPrefab, spawnPoint.transform.position, Quaternion.identity);
 
-            _customerMotors.Add(go.GetComponent<CustomerMotor>());
+                _customerMotors.Add(go.GetComponent<CustomerMotor>());
+            }
         }
 
         public void RemoveCustomer(CustomerMotor customerMotor)
