@@ -474,10 +474,8 @@ namespace Scripting.Player
                             {
                                 if (customer.Validate())
                                 {
-                                    GameManager.Singleton.RemoveCustomer(customer);
-                                    ChangeStressLevel(-0.25f);
-                                    customer.WalkOut();
                                 
+                                        contract.ExecuteEffect(customer, this); 
                                 
                                     //Todo: Play Smack sound
                                 }
@@ -546,7 +544,7 @@ namespace Scripting.Player
         }
 
 
-        private void ChangeStressLevel(float value)
+        public void ChangeStressLevel(float value)
         {
             StressLevel += value;
             if (StressLevel < 0f)
@@ -767,6 +765,11 @@ namespace Scripting.Player
         public void NotifyStoppedSmoking()
         {
             _isSmoking = false;
+        }
+
+        public void SetStressLevel(float value)
+        {
+            StressLevel = value;
         }
     }
 }

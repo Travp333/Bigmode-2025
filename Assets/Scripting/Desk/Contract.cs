@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Scripting.Customer;
 using Scripting.PDollarGestureRecognizer;
+using Scripting.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -223,5 +225,33 @@ namespace Scripting.Desk
         {
             Destroy(gameObject);
         }
+
+        // "returns true or false if was power effect"
+        public bool ExecuteEffect(CustomerMotor customer, Movement player)
+        {
+            if (GetIsPowerContract())
+            {
+                switch (Result)
+                {
+                    case "pentagramm":
+                        break;
+                    case "ds":
+                        GameManager.Singleton.Dismissal();
+                        player.SetStressLevel(0);
+                        break;
+                }
+
+                return true;
+            }
+       
+                GameManager.Singleton.RemoveCustomer(customer);
+                customer.WalkOut();
+                player.ChangeStressLevel(-0.25f);
+
+            return false;
+        }
+
+        public bool GetIsPowerContract() =>
+            Result is "pentagramm" or "ds" or "pfr" or "la" or "tec" or "eel";
     }
 }

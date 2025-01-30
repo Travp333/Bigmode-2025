@@ -222,5 +222,16 @@ namespace Scripting
         }
 
         #endregion graveyard
+
+        public void Dismissal()
+        {
+            _customerMotors.ToList().ForEach(n =>
+            {
+                 n.Pay();
+                n.WalkOut();
+            });
+            
+            _customerMotors.Clear();
+        }
     }
 }

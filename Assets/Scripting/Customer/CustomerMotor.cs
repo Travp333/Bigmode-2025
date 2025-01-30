@@ -37,12 +37,17 @@ namespace Scripting.Customer
 
         private string _contractType;
 
+        private float _paymentAmount;
+        
         private void Awake()
         {
             //needed to find direction to face
             player = FindFirstObjectByType<Movement>();
             //needed to aaffect animations
             anim = GetComponent<Animator>();
+
+            // TODO: AI
+            _paymentAmount = 3.0f;
 
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = secondsUntilChangeActivity;
@@ -204,7 +209,7 @@ namespace Scripting.Customer
         public bool Validate()
         {
             var contracts = GetComponentsInChildren<Contract>();
-            if (contracts.Any(n => n.Result == _contractType))
+            if (contracts.Any(n => n.Result == _contractType || n.GetIsPowerContract()))
             {
                 return true;
             }
@@ -217,6 +222,11 @@ namespace Scripting.Customer
             _done = true;
 
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
+        }
+
+        public void Pay()
+        {
+            GameManager.Singleton.upgrades.money += _paymentAmount;
         }
     }
 }
