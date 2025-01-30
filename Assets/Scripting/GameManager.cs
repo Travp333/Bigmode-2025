@@ -17,6 +17,8 @@ namespace Scripting
         [Header("Gameplay")]
         [SerializeField] private float dayLength = 60.0f * 2.5f;
 
+        [SerializeField] private float loanAgreementTime = 30.0f;
+
         [Header("Components")]
         [SerializeField] private ShiftManager shiftManager;
 
@@ -48,6 +50,15 @@ namespace Scripting
 
         private static GameManager _singleton;
 
+        private float _loanAgreementRunning;
+        
+        public bool IsLoanAgreementRunning => _loanAgreementRunning > 0f;
+        
+        public void ActivateLoanAgreement()
+        {
+            _loanAgreementRunning = loanAgreementTime;
+        }
+        
         public static GameManager Singleton
         {
             get => _singleton;
@@ -112,6 +123,7 @@ namespace Scripting
             if (IsNightTime) return;
 
             _dayTimer -= Time.deltaTime;
+            _loanAgreementRunning -= Time.deltaTime;
 
             shiftManager.LerpShiftState((dayLength - _dayTimer) / dayLength);
 
@@ -232,6 +244,26 @@ namespace Scripting
             });
             
             _customerMotors.Clear();
+        }
+
+        public void DoPentagrammLogic()
+        {
+            // TODO: implement
+        }
+
+        public void DoFistStuff()
+        {
+            // TODO: implement
+        }
+
+        public void SpawnTec()
+        {
+            // TODO: implement - is part of AI and Balancing
+        }
+
+        public void GetExtraLife()
+        {
+            // TODO: implement
         }
     }
 }

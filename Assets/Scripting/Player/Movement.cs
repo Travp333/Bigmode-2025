@@ -128,7 +128,7 @@ namespace Scripting.Player
 
         public bool CanAct()
         {
-            if (!_seated) 
+            if (!_seated)
                 return false;
             if (_currentContract)
                 return false;
@@ -207,7 +207,7 @@ namespace Scripting.Player
             Debug.Log("Resetting contract");
             var deskArms = bothArmsScript.GetComponent<DeskArms>();
 
-            
+
             deskArms.UnblockLeftHand();
             deskArms.ResetContractAnimation();
 
@@ -273,7 +273,7 @@ namespace Scripting.Player
                     _baseballBat.Drop();
                     _baseballBat = null;
                 }
-                
+
                 _actionPressed = false;
             }
 
@@ -300,11 +300,11 @@ namespace Scripting.Player
 
                     CheckButtons();
                 }
-                
+
                 // if(_currentContract){
-                    // RemoveContract();
-                    // handAnim.SetBool("HoldingDocument", false);
-                    //bothArmsScript.PutDownContract();
+                // RemoveContract();
+                // handAnim.SetBool("HoldingDocument", false);
+                //bothArmsScript.PutDownContract();
                 // }
 
                 if (rageMode)
@@ -428,7 +428,8 @@ namespace Scripting.Player
             Debug.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * interactRayLength,
                 Color.red);
 
-            if (!GameManager.Singleton.IsNightTime && Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, interactRayLength, mask))
+            if (!GameManager.Singleton.IsNightTime && Physics.Raycast(cam.transform.position, cam.transform.forward,
+                    out var hit, interactRayLength, mask))
             {
                 if (hit.transform.GetComponent<BaseballBat>())
                 {
@@ -455,11 +456,9 @@ namespace Scripting.Player
                     //LMB would be better
                     if (_actionPressed)
                     {
-                        var contract = contractAttachmentPoint.GetComponentInChildren<Contract>();
-                        //Debug.Log(contract);
-                        if (contract)
+                        if (_currentContract && !_currentContract.GetIsMailBoxContract())
                         {
-                            var attachment = contract.transform.parent;
+                            var attachment = _currentContract.transform.parent;
                             attachment.parent = customer.documentAttachPoint.transform;
                             attachment.position = customer.documentAttachPoint.transform.position;
                             attachment.localScale = Vector3.one / 2.0f;
@@ -469,14 +468,14 @@ namespace Scripting.Player
                             handAnim.SetBool("HoldingDocument", false);
                             //bothArmsScript.PutDownContract();
 
+                            var abc = _currentContract;
                             _currentContract = null;
-                            if (contract.Converted)
+                            if (abc.Converted)
                             {
-                                if (customer.Validate())
+                                if (customer.Validate(abc))
                                 {
-                                
-                                        contract.ExecuteEffect(customer, this); 
-                                
+                                    abc.ExecuteEffect(customer, this);
+
                                     //Todo: Play Smack sound
                                 }
                                 else
@@ -507,7 +506,8 @@ namespace Scripting.Player
 
             if (_countDownGate)
             {
-                if(_clientInteractor != null){
+                if (_clientInteractor != null)
+                {
                     if (Vector3.Distance(transform.position, _clientInteractor.transform.position) <
                         clientInteractDistance)
                     {
@@ -638,7 +638,6 @@ namespace Scripting.Player
             }
             else
             {
-                
                 handAnim.SetBool("HoldingDocument", false);
             }
         }

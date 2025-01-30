@@ -13,6 +13,7 @@ namespace Scripting.Customer
     {
         [SerializeField]
         public GameObject documentAttachPoint;
+
         [SerializeField] private Rigidbody rb;
         [SerializeField] private NavMeshAgent agent;
 
@@ -31,6 +32,7 @@ namespace Scripting.Customer
         private Animator anim;
         private bool conversing;
         private Movement player;
+
         [SerializeField]
         //how likely are you to play the conversation variant animation
         private int converseVariantProbability = 5;
@@ -38,7 +40,7 @@ namespace Scripting.Customer
         private string _contractType;
 
         private float _paymentAmount;
-        
+
         private void Awake()
         {
             //needed to find direction to face
@@ -60,56 +62,68 @@ namespace Scripting.Customer
         {
             WalkIn();
         }
+
         //start conversation
-        public void StartConversing(){
+        public void StartConversing()
+        {
             conversing = true;
             //Debug.Log("Starting Conversation");
             //anim.Play("Conversing");
         }
+
         //end conversatioon
-        public void StopConversing(){
+        public void StopConversing()
+        {
             conversing = false;
             agent.isStopped = false;
         }
+
         //called in animation
-        public void DecideToPlayVariant(){
+        public void DecideToPlayVariant()
+        {
             int rand = Random.Range(0, converseVariantProbability);
-            if(rand - 1 >= 0){
-                if(rand == converseVariantProbability - 1){
-                    int rand2 = Random.Range(0,3);
-                    if(rand2 == 0){
+            if (rand - 1 >= 0)
+            {
+                if (rand == converseVariantProbability - 1)
+                {
+                    int rand2 = Random.Range(0, 3);
+                    if (rand2 == 0)
+                    {
                         //Debug.Log("PLAYING VARIANT 1");
                         anim.Play("Conversing Variant 1");
                     }
-                    else if(rand2 == 1){
+                    else if (rand2 == 1)
+                    {
                         //Debug.Log("PLAYING VARIANT 2");
                         anim.Play("Conversing Variant 2");
                     }
-                    else if(rand2 == 2){
+                    else if (rand2 == 2)
+                    {
                         //Debug.Log("PLAYING VARIANT 3");
                         anim.Play("Conversing Variant 3");
                     }
-                    else{
+                    else
+                    {
                         //Debug.Log("INVALID!!!" + rand2);
                     }
                 }
             }
-
         }
 
         private void Update()
         {
-
             if (!_aiController || _done) return;
 
             StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
             //handles rotation
-            if(conversing){
+            if (conversing)
+            {
                 agent.isStopped = true;
                 this.transform.rotation = Quaternion.LookRotation(-player.transform.forward, player.transform.up);
                 anim.SetBool("conversing", true);
             }
-            else{
+            else
+            {
                 anim.SetBool("conversing", false);
             }
 
@@ -182,7 +196,6 @@ namespace Scripting.Customer
             yield return new WaitForSeconds(.5f);
             //agent.enabled = true;
             agent.isStopped = false;
-
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -206,16 +219,7 @@ namespace Scripting.Customer
             // HAS TO BE IMPLEMENTED
         }
 
-        public bool Validate()
-        {
-            var contracts = GetComponentsInChildren<Contract>();
-            if (contracts.Any(n => n.Result == _contractType || n.GetIsPowerContract()))
-            {
-                return true;
-            }
-
-            return false;
-        }
+        public bool Validate(Contract contract) => contract.Result == _contractType || contract.GetIsPowerContract();
 
         public void WalkOut()
         {
@@ -226,7 +230,8 @@ namespace Scripting.Customer
 
         public void Pay()
         {
-            GameManager.Singleton.upgrades.money += _paymentAmount;
+            GameManager.Singleton.upgrades.money +=
+                _paymentAmount * (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
         }
     }
 }

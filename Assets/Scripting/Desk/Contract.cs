@@ -226,27 +226,47 @@ namespace Scripting.Desk
             Destroy(gameObject);
         }
 
+        public bool GetIsMailBoxContract() => Converted && Result is "ds" or "eel" or "la" or "tec";
+        
         // "returns true or false if was power effect"
         public bool ExecuteEffect(CustomerMotor customer, Movement player)
         {
+            player.ChangeStressLevel(-0.25f);
+            
             if (GetIsPowerContract())
             {
                 switch (Result)
                 {
                     case "pentagramm":
+                        GameManager.Singleton.DoPentagrammLogic();
+                        GameManager.Singleton.RemoveCustomer(customer);
+                        // TODO: Customer.PlayPentagrammAnimation
                         break;
                     case "ds":
                         GameManager.Singleton.Dismissal();
                         player.SetStressLevel(0);
                         break;
+                    case "la":
+                        GameManager.Singleton.ActivateLoanAgreement();
+                        break;
+                    case "pfr":
+                        GameManager.Singleton.DoFistStuff();
+                        GameManager.Singleton.RemoveCustomer(customer);
+                        // TODO: Customer.PlayFistingAnimation
+                        break;
+                    case "tec":
+                        GameManager.Singleton.SpawnTec();
+                        break;
+                    case "eel":
+                        GameManager.Singleton.GetExtraLife();
+                        break;
                 }
 
                 return true;
             }
-       
-                GameManager.Singleton.RemoveCustomer(customer);
-                customer.WalkOut();
-                player.ChangeStressLevel(-0.25f);
+
+            GameManager.Singleton.RemoveCustomer(customer);
+            customer.WalkOut();
 
             return false;
         }
