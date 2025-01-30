@@ -39,9 +39,53 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2965465463175760981}
     m_Modifications:
+    - target: {fileID: 2485184661413281784, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c88d244c4ec55b840ae2aec4cedf927e, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: sprites.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 21300000, guid: e191c2e5c9159db4ca05ac1b5c782b8b, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[1]'
+      value: 
+      objectReference: {fileID: 21300000, guid: a2d9a841c9468df418a7a0801f670db4, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[2]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 09f15b69d86d58740837de1b4dbc9b66, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[3]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 636600be766141d489f6040ced65a017, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[4]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 0742d4cced7015c478ff8263635381cd, type: 3}
+    - target: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: 'sprites.Array.data[5]'
+      value: 
+      objectReference: {fileID: 21300000, guid: f2f4f31a2161c5a44a6f8b53243981e4, type: 3}
     - target: {fileID: 6216241922980145972, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_Name
       value: Want Bubble Base
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.31824097
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.31824097
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.31824097
       objectReference: {fileID: 0}
     - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -49,7 +93,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.5409465
+      value: 4.95
       objectReference: {fileID: 0}
     - target: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -88,6 +132,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+--- !u!114 &3059414054954931393 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3073230319489732531, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
+  m_PrefabInstance: {fileID: 59521439137028978}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a190c6bc4d1a96741ae286a3ca5fde14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6825179193496259707 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6801735327719560969, guid: b6a88c67ddf60794cbdc4e8933f10cc3, type: 3}
@@ -526,7 +581,9 @@ MonoBehaviour:
   secondsUntilFreakOut: 20
   secondsUntilChangeActivity: 5
   capsuleCollider: {fileID: 5549943557999183335}
+  anim: {fileID: 286850515412282306}
   converseVariantProbability: 2
+  bubble: {fileID: 3059414054954931393}
 --- !u!136 &5549943557999183335
 CapsuleCollider:
   m_ObjectHideFlags: 0

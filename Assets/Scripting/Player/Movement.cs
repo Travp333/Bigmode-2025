@@ -92,6 +92,8 @@ namespace Scripting.Player
         private Animator handAnim;
 
         public bool rageMode;
+        [SerializeField]
+        GameObject staplerMesh;
         [SerializeField] private float rageModeTimer = 5f;
 
         public void ExitChair()
@@ -457,14 +459,18 @@ namespace Scripting.Player
                     {
                         if (_currentContract && !_currentContract.GetIsMailBoxContract())
                         {
+                            customer.transform.rotation = Quaternion.LookRotation(-this.transform.forward, this.transform.up);
                             var attachment = _currentContract.transform.parent;
                             attachment.parent = customer.documentAttachPoint.transform;
                             attachment.position = customer.documentAttachPoint.transform.position;
                             attachment.localScale = Vector3.one / 2.0f;
                             //Debug.Log("Interacting with document!");
                             //RemoveContract();
+                            staplerMesh.SetActive(true);
                             handAnim.Play("Staple");
+                            Invoke("HideStaplerMesh", 1f);
                             handAnim.SetBool("HoldingDocument", false);
+                            customer.anim.Play("GetStapled");
                             //bothArmsScript.PutDownContract();
 
                             var abc = _currentContract;
@@ -485,7 +491,7 @@ namespace Scripting.Player
                         }
                         else
                         {
-                            Debug.Log("Interacting with no document!");
+                            //Debug.Log("Interacting with no document!");
                             _counter = 0f;
                             _countDownGate = true;
                             _clientInteractor = hit.transform.gameObject;
@@ -541,7 +547,9 @@ namespace Scripting.Player
             _actionPressed = false;
             _attackPressed = false;
         }
-
+        void HideStaplerMesh(){
+            staplerMesh.SetActive(false);
+        }
 
         public void ChangeStressLevel(float value)
         {
