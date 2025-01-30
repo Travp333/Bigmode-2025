@@ -78,14 +78,14 @@ public class LaunchDetection : MonoBehaviour
             else
             {
                 //TESTING FIST DOCUMENT
-                this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
-                var portal = Instantiate(stoneFistPrefab, this.transform.position, Quaternion.identity);
-                portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh =
-                    myMesh.sharedMesh;
-                portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials =
-                    myMesh.sharedMaterials;
-                portal.transform.localScale = this.transform.localScale;
-                Destroy(this.gameObject);
+                //this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
+                //var portal = Instantiate(stoneFistPrefab, this.transform.position, Quaternion.identity);
+               // portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh =
+               //     myMesh.sharedMesh;
+               // portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials =
+               //     myMesh.sharedMaterials;
+               // portal.transform.localScale = this.transform.localScale;
+              //  Destroy(this.gameObject);
             }
         }
         else if (other.gameObject.GetComponent<HuellHitboxCollision>() != null)
