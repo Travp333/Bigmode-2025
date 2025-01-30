@@ -102,16 +102,6 @@ namespace Scripting.Desk
             rightHandAnim.SetBool("RightPoint", true);
         }
 
-        public void ActivateLeftHand()
-        {
-            _leftHandActive = true;
-        }
-
-        public void DeactivateLeftHand()
-        {
-            _leftHandActive = false;
-        }
-
         private bool _isBlockedLeft = true;
         private bool _isBlockedRight = true;
 
