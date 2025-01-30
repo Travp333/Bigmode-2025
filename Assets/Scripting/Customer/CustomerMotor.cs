@@ -54,6 +54,8 @@ namespace Scripting.Customer
         private bool _runOut;
 
         private int _index;
+        [SerializeField]
+        int motherFuckerOdds = 1;
 
         private void Awake()
         {
@@ -70,7 +72,7 @@ namespace Scripting.Customer
 
             _paymentAmount = 20000.0f + Random.Range(-5000f, 5000.0f);
             _penalty = 7000.0f * Random.Range(-500f, 500.0f);
-            _isMotherfucker = _aiController.HasVandalismSpots && Random.Range(0, 5) == 0;
+            _isMotherfucker = _aiController.HasVandalismSpots && Random.Range(0, motherFuckerOdds) == 0;
 
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = secondsUntilChangeActivity;
@@ -205,16 +207,21 @@ namespace Scripting.Customer
                     StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
                         () =>
                         {
+                            anim.Play("SprayPaint");
                             // TODO: Do Spray Animation here
                         },
                         () =>
                         {
-                            _vandalismSpot.Spray();
+                            anim.Play("RUN");
+                            
                             RunOut();
-                        }, 3f));
+                        }, 30f));
                     // TODO: Change the 3f to a value that you want!
                 }
             }
+        }
+        public void FinishPaint(){
+            _vandalismSpot.Spray();
         }
 
         private IEnumerator GoToTargetWithCallback(Vector3 position, Action start = null, Action callback = null,
@@ -316,7 +323,7 @@ namespace Scripting.Customer
         {
             if (_runOut) return;
             _runOut = true;
-
+            anim.SetBool("isRunning", true);
             // TODO: CHANGE ANIMATION
 
             agent.speed *= 2f;

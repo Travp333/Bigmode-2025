@@ -23,6 +23,7 @@ public class LaunchDetection : MonoBehaviour
     private NavMeshAgent _agent;
     private CustomerMotor _motor;
     private GameObject _player;
+    private bool scared;
 
     private void Awake()
     {
@@ -40,6 +41,9 @@ public class LaunchDetection : MonoBehaviour
 
     public void EnableAI()
     {
+        if(scared){
+            _motor.RunOut();
+        }
         _agent.enabled = true;
         _motor.enabled = true;
     }
@@ -96,19 +100,8 @@ public class LaunchDetection : MonoBehaviour
                     Debug.DrawRay(this.transform.position, _lerpTarget - this.transform.position, Color.yellow, 1f);
                     Debug.DrawRay(_lerpTarget, _hitNormal, Color.blue, 1f);
                     lerpGate = true;
+                    scared = true;
                 }
-            }
-            else
-            {
-                //TESTING FIST DOCUMENT
-                //this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
-                //var portal = Instantiate(stoneFistPrefab, this.transform.position, Quaternion.identity);
-                // portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh =
-                //     myMesh.sharedMesh;
-                // portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials =
-                //     myMesh.sharedMaterials;
-                // portal.transform.localScale = this.transform.localScale;
-                //  Destroy(this.gameObject);
             }
         }
         else if (other.gameObject.GetComponent<HuellHitboxCollision>() != null)
@@ -204,6 +197,7 @@ public class LaunchDetection : MonoBehaviour
                         this.transform.rotation = Quaternion.LookRotation(_hitNormal, this.transform.up);
                         _anim.Play("WALLSPLAT");
                         lerpGate = false;
+                        
                     }
                 }
                 else
@@ -227,16 +221,21 @@ public class LaunchDetection : MonoBehaviour
 
             if (_agent.velocity.magnitude > 0.01f)
             {
+                if(_anim.GetBool("isWalking") == false){
                 _anim.SetBool("isWalking", true);
+                }
             }
             else if (_agent.velocity.magnitude < 0.01f)
             {
+                if(_anim.GetBool("isWalking") == true){
                 _anim.SetBool("isWalking", false);
+                }
             }
         }
 
         StartTalkAudio();
     }
+
 
     private void StartHurtAudio()
     {
@@ -262,6 +261,7 @@ public class LaunchDetection : MonoBehaviour
 
     private void StartScreamAudio()
     {
+        
         //if (!screamAudio.isPlaying)
         //{
         talkAudio.Stop();
