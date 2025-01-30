@@ -236,11 +236,17 @@ namespace Scripting.Player
                     if (hit.collider.gameObject == submit)
                     {
                         SubmitContract();
+                        if(hit.collider.gameObject.GetComponent<Animator>()!=null){
+                            hit.collider.gameObject.GetComponent<Animator>().Play("ButtonAnim");
+                        }
                     }
 
                     if (hit.collider.gameObject == reset)
                     {
                         ResetContract();
+                        if(hit.collider.gameObject.GetComponent<Animator>()!=null){
+                            hit.collider.gameObject.GetComponent<Animator>().Play("ButtonAnim");
+                        }
                     }
                 }
             }
