@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Linq;
 using Scripting.Player;
 using Scripting.Desk;
 using UnityEditor;
@@ -176,7 +175,7 @@ namespace Scripting.Customer
 
                 if (_changeTaskCooldown <= 0)
                 {
-                    _changeTaskCooldown = secondsUntilChangeActivity;
+                    _changeTaskCooldown = secondsUntilChangeActivity + Random.Range(-3f, 3f);
 
                     var nextSpot = _aiController.GetFreeSpot();
 
@@ -298,6 +297,7 @@ namespace Scripting.Customer
 
         private void RemoveMoney()
         {
+            GameManager.Singleton.upgrades.money -= _penalty;
             // HAS TO BE IMPLEMENTED
         }
 

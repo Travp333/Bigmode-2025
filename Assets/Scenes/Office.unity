@@ -7812,7 +7812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgrades: {fileID: 11400000, guid: 428cb30234fa46e44b67103fff65a4a7, type: 2}
-  dayLength: 100
+  dayLength: 50
   loanAgreementTime: 30
   shiftManager: {fileID: 1035944793}
   spawnPoints:
