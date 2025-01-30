@@ -19,7 +19,7 @@ public class SpecialStoreManager : MonoBehaviour
                 _singleton = value;
             else if (_singleton != value)
             {
-                Debug.Log($"{nameof(GameManager)} instance already exists, destroying duplicate!");
+                Debug.Log($"{nameof(SpecialStoreManager)} instance already exists, destroying duplicate!");
                 Destroy(value);
             }
         }

@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Linq;
-using AI;
 using Scripting.Player;
 using Scripting.Desk;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 namespace Scripting.Customer
 {
@@ -33,6 +34,7 @@ namespace Scripting.Customer
         public Animator anim;
         private bool _conversing;
         private Movement _player;
+        private bool _isMotherfucker;
 
         [SerializeField]
         //how likely are you to play the conversation variant animation
@@ -42,6 +44,8 @@ namespace Scripting.Customer
         private string _contractType;
 
         private float _paymentAmount;
+        private float _penalty;
+        private bool _runOut;
 
         private int _index;
 
@@ -49,17 +53,20 @@ namespace Scripting.Customer
 
         private void Awake()
         {
+            _aiController = AiController.Singleton;
+
             // DUDE i don't want to set it on every NPC so i set it here as hardcode bruv
             secondsUntilFreakOut = 60;
             secondsUntilChangeActivity = 10;
 
             //needed to find direction to face
             _player = FindFirstObjectByType<Movement>();
-            //needed to aaffect animations
+            //needed to affect animations
             anim = GetComponent<Animator>();
 
-            // TODO: AI
-            _paymentAmount = 20000.0f + UnityEngine.Random.Range(-5000f, 5000.0f);
+            _paymentAmount = 20000.0f + Random.Range(-5000f, 5000.0f);
+            _penalty = 7000.0f * Random.Range(-500f, 500.0f);
+            _isMotherfucker = _aiController.HasVandalismSpots; // && Random.Range(0, 5) == 0;
 
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = secondsUntilChangeActivity;
@@ -127,60 +134,96 @@ namespace Scripting.Customer
             }
         }
 
-        private void Update()
+        private void HandleConversing()
         {
-            if (!_aiController || _done) return;
-
-            StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
-            //handles rotation
             if (_conversing)
             {
                 agent.isStopped = true;
-                this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
+                transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
                 anim.SetBool("conversing", true);
             }
             else
             {
                 anim.SetBool("conversing", false);
             }
+        }
 
-            if (StressMeter >= 1.0f)
+        private void Update()
+        {
+            if (!_aiController || _done) return;
+
+            if (!_isMotherfucker)
             {
-                _done = true;
+                StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
+                //handles rotation
+                HandleConversing();
 
-                RemoveMoney();
+                if (StressMeter >= 1.0f)
+                {
+                    _done = true;
 
-                WalkOut();
-                return;
+                    RemoveMoney();
+
+                    WalkOut();
+                    return;
+                }
+
+                _changeTaskCooldown -= Time.deltaTime;
+
+                if (_changeTaskCooldown <= 0)
+                {
+                    _changeTaskCooldown = secondsUntilChangeActivity;
+
+                    var nextSpot = _aiController.GetFreeSpot();
+
+                    if (_currentSpot)
+                    {
+                        _currentSpot.Leave();
+                    }
+
+                    if (nextSpot)
+                    {
+                        nextSpot.Arrive();
+                        _currentSpot = nextSpot;
+                        agent.SetDestination(nextSpot.transform.position);
+                    }
+                    else
+                    {
+                        agent.SetDestination(_aiController.GetRandomWaitingSpot());
+                    }
+                }
+            }
+            else
+            {
+                if (!_vandalismSpot)
+                {
+                    _vandalismSpot = _aiController.GetRandomVandalismSpot();
+                    StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
+                        () =>
+                        {
+                            _vandalismSpot.Spray();
+                            RunOut();
+                        }, 3f));
+                    // TODO: Change the 3f to a value that you want!
+                }
+            }
+        }
+
+        private VandalismSpot _vandalismSpot;
+
+        private IEnumerator GoToTargetWithCallback(Vector3 position, Action callback = null, float delay = 0)
+        {
+            agent.SetDestination(position);
+
+            while (agent.remainingDistance > 0.1f && !_done && !_runOut)
+            {
+                yield return null;
             }
 
-            _changeTaskCooldown -= Time.deltaTime;
+            yield return new WaitForSeconds(delay);
 
-            if (_changeTaskCooldown <= 0)
-            {
-                _changeTaskCooldown = secondsUntilChangeActivity;
-
-                var nextSpot = _aiController.GetFreeSpot();
-
-                if (_currentSpot)
-                {
-                    _currentSpot.SetIsOccupied(false);
-                }
-
-                if (nextSpot)
-                {
-                    nextSpot.SetIsOccupied(true);
-                    _currentSpot = nextSpot;
-                    agent.SetDestination(nextSpot.transform.position);
-                }
-                else
-                {
-                    var tableSpot = _aiController.GetTableSpot();
-                    tableSpot.SetIsOccupied(true);
-                    _currentSpot = tableSpot;
-                    agent.SetDestination(tableSpot.transform.position);
-                }
-            }
+            if (!_done && !_runOut)
+                callback?.Invoke();
         }
 
         private void WalkIn()
@@ -226,6 +269,8 @@ namespace Scripting.Customer
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
+            Handles.Label(transform.position + Vector3.up * 2.5f,
+                "Is Motherfucker: " + (_isMotherfucker ? "Yes" : "No"));
             Handles.Label(transform.position + Vector3.up * 2f, "Wants: " + _contractType);
             Handles.Label(transform.position + Vector3.up * 1.5f, "Stresslevel: " + StressMeter);
         }
@@ -243,6 +288,19 @@ namespace Scripting.Customer
         {
             _done = true;
 
+            agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
+        }
+
+        // TODO: CALL THIS WHEN GET HIT
+        public void RunOut()
+        {
+            if (_runOut) return;
+            _runOut = true;
+
+            // TODO: CHANGE ANIMATION
+            
+            agent.speed *= 2f;
+            // TODO: Change Agent Speed
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
         }
 

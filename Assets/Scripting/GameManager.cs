@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AI;
 using Scripting.Customer;
 using Scripting.Player;
 using Scripting.ScriptableObjects;
@@ -23,13 +22,10 @@ namespace Scripting
 
         [Header("Components")]
         [SerializeField] private ShiftManager shiftManager;
-
+        
         [Header("Map")]
         [SerializeField] private List<GameObject> spawnPoints;
-
-        [SerializeField] private List<AiSpot> aiSpots;
-        [SerializeField] private List<GameObject> customerPrefabs;
-
+        
         [Header("Graphics")]
         [SerializeField] private GameObject mainCanvas;
 
@@ -47,23 +43,23 @@ namespace Scripting
         
         [Header("Player")]
         [SerializeField] private Movement player;
+        
+        [Header("Enemies")]
+        
+        [SerializeField] private List<GameObject> customerPrefabs;
+
 
         public GameObject MainCanvas => mainCanvas;
-        
         public Movement Player => player;
-
-        private readonly List<CustomerMotor> _customerMotors = new();
-        private CustomerMotor _currentCustomer;
-
-        private static GameManager _singleton;
-
-        private float _loanAgreementRunning;
-        
         public bool IsLoanAgreementRunning => _loanAgreementRunning > 0f;
+        
+        private readonly List<CustomerMotor> _customerMotors = new();
 
         private int _maxCustomers;
-
-        private int _level = 0;
+        private int _level;
+        private float _loanAgreementRunning;
+        
+        private static GameManager _singleton;
         
         public static GameManager Singleton
         {
@@ -218,12 +214,7 @@ namespace Scripting
         {
             _customerMotors.Remove(customerMotor);
         }
-
-        public List<AiSpot> GetDistractionSpots()
-        {
-            return aiSpots;
-        }
-
+        
         #region graveyard
 
         private void InitialUpgrades()
@@ -231,13 +222,11 @@ namespace Scripting
             if (upgrades.chairs)
             {
                 distractionChairs.SetActive(true);
-                aiSpots = aiSpots.Concat(distractionChairs.GetComponentsInChildren<AiSpot>()).ToList();
             }
 
             if (upgrades.paintings)
             {
                 distractionPaintings.SetActive(true);
-                aiSpots = aiSpots.Concat(distractionPaintings.GetComponentsInChildren<AiSpot>()).ToList();
             }
 
             if (upgrades.baseballBat)
