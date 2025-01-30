@@ -207,25 +207,24 @@ namespace Scripting.Player
             Debug.Log("Resetting contract");
             var deskArms = bothArmsScript.GetComponent<DeskArms>();
 
-
             deskArms.UnblockLeftHand();
             deskArms.ResetContractAnimation();
+            var x = _currentContract;
 
-            if (immediate)
-            {
-                _currentContract?.Reset();
-                _currentContract = null;
-            }
-            else
-            {
-                Invoke(nameof(RemoveContract), 0.5f);
-            }
+            _currentContract = null;
+          //  if (immediate)
+          //  {
+            x?.Reset();
+           // }
+          //  else
+          //  {
+                //Invoke(nameof(RemoveContract), 0.5f);
+           // }
         }
 
         private void RemoveContract()
         {
             _currentContract?.Reset();
-            _currentContract = null;
         }
 
         private void CheckButtons()

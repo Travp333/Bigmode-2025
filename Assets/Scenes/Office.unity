@@ -5008,7 +5008,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgrades: {fileID: 11400000, guid: 428cb30234fa46e44b67103fff65a4a7, type: 2}
-  dayLength: 150
+  dayLength: 30
+  loanAgreementTime: 30
   shiftManager: {fileID: 1035944793}
   spawnPoints:
   - {fileID: 96794678}
@@ -6618,6 +6619,32 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5.0010786, y: 1.137675, z: 5.1929436}
   m_Center: {x: 0.00000006993278, y: -0.007992538, z: 2.6235814}
+--- !u!1 &1405313944 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8ba2a593d3ef1ec4ba3960f65ddb1655, type: 3}
+  m_PrefabInstance: {fileID: 1723263478}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1405313945
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405313944}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.6552958, y: 2.2352886, z: 3.8348985}
+  m_Center: {x: -0.00000004924873, y: 0.11764416, z: 1.99889}
 --- !u!1 &1409868108
 GameObject:
   m_ObjectHideFlags: 0
@@ -9595,7 +9622,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8ba2a593d3ef1ec4ba3960f65ddb1655, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1405313945}
   m_SourcePrefab: {fileID: 100100000, guid: 8ba2a593d3ef1ec4ba3960f65ddb1655, type: 3}
 --- !u!1 &1758233789
 GameObject:
