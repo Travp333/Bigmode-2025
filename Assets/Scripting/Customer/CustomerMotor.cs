@@ -323,7 +323,7 @@ _initialAgentSpeed = agent.speed;
                             () =>
                             {
                                 _stolenMoney = 20; // TODO SET NEW VALUE
-                                GameManager.Singleton.ChangeMoneyInSafe(-_stolenMoney);
+                                GameManager.Singleton.MoneyStolen(_stolenMoney);
                                 SneakOut();
                                 _isStealing = false;
                             }, 3f)); // TODO: SET TIEM
@@ -510,7 +510,7 @@ _initialAgentSpeed = agent.speed;
         { 
             if (_stolenMoney > 0)
             {
-                GameManager.Singleton.ChangeMoneyInSafe(_stolenMoney);
+                GameManager.Singleton.ReturnStolenMoney(_stolenMoney);
                 _stolenMoney = 0;
             }
         }

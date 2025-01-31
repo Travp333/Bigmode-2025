@@ -237,9 +237,16 @@ namespace Scripting
 
         private bool _endOfLifePlan;
 
-        public void ChangeMoneyInSafe(int value)
+        public void MoneyStolen(int value)
         {
-            _moneyInSafe += value;
+            upgrades.money -= value;
+            OnMoneyUpdated?.Invoke(upgrades.money, -value);
+        }
+        
+        public void ReturnStolenMoney(int value)
+        {
+            upgrades.money += value;
+            OnMoneyUpdated?.Invoke(upgrades.money, value);
         }
         
         public void DayFinished()
