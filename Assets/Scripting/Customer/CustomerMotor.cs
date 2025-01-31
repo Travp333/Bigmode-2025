@@ -325,7 +325,7 @@ _initialAgentSpeed = agent.speed;
                             },
                             () =>
                             {
-                                _stolenMoney = 20; // TODO SET NEW VALUE
+                                _stolenMoney = Math.Min(GameManager.Singleton.GetMoney(), 20);
                                 GameManager.Singleton.MoneyStolen(_stolenMoney);
                                 SneakOut();
                                 _isStealing = false;
