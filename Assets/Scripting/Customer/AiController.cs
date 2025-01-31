@@ -32,6 +32,14 @@ namespace Scripting.Customer
 
         public bool AssistantActive { get; private set; }
 
+        public bool AssistantLocked { get; set; }
+
+        public void UnlockEverything()
+        {
+            AssistantLocked = false;
+            _distractionSpots.ForEach(n => n.Leave());
+        }
+
         public static AiController Singleton
         {
             get => _singleton;
@@ -96,10 +104,11 @@ namespace Scripting.Customer
 
         public VandalismSpot GetRandomVandalismSpot()
         {
-            var availableSpots = vandalismSpots.Where(n => !n.IsVisible).ToArray();
+            var availableSpots = vandalismSpots.Where(n => !n.IsLocked).ToArray();
             return availableSpots[Random.Range(0, availableSpots.Length)];
         }
 
         public bool HasVandalismSpots => vandalismSpots.Any(n => !n.IsVisible);
+        public GameObject AssistantSpot => assistantSpot;
     }
 }

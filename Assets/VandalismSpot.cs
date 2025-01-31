@@ -13,7 +13,8 @@ public class VandalismSpot : MonoBehaviour
     [SerializeField] private Movement player;
 
     public bool IsVisible => spriteRenderer.enabled;
-    
+    public bool IsLocked { get; set; }
+
     void Awake()
     {
         boxCollider.enabled = false;
@@ -26,6 +27,7 @@ public class VandalismSpot : MonoBehaviour
         spriteRenderer.enabled = true;
         spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
         GameManager.Singleton.RemoveVandalismSpot(aiSpot);
+        IsLocked = true;
     }
 
     public void Remove()
@@ -33,5 +35,6 @@ public class VandalismSpot : MonoBehaviour
         boxCollider.enabled = false;
         spriteRenderer.enabled = false;
         GameManager.Singleton.RegisterVandalismSpot(aiSpot);
+        IsLocked = false;
     }
 }

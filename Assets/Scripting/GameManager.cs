@@ -5,6 +5,7 @@ using Scripting.Customer;
 using Scripting.Player;
 using Scripting.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -190,6 +191,7 @@ namespace Scripting
         public void DayFinished()
         {
             IsNightTime = true;
+            AiController.Singleton.UnlockEverything();
             SpecialStoreManager.Singleton.SetRandomUpgrade();
             shiftManager.SetIsNightTime(true);
             
@@ -305,6 +307,11 @@ namespace Scripting
             upgrades.endOfLifePlan = false;
         }
 
+        public void ResetScene()
+        {
+            SceneManager.LoadScene("Office", LoadSceneMode.Single);
+        }
+        
         private void OnGUI()
         {
             var text = string.Empty;

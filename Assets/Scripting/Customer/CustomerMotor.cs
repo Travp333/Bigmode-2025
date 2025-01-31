@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using Random = UnityEngine.Random;
 
 namespace Scripting.Customer
@@ -19,7 +20,7 @@ namespace Scripting.Customer
         [SerializeField] private NavMeshAgent agent;
 
         [SerializeField] private float secondsUntilFreakOut = 60.0f;
-        [SerializeField] private float secondsUntilChangeActivity = 10.0f;
+        [SerializeField] private float secondsUntilChangeActivity = 3.0f;
 
         [SerializeField] private CapsuleCollider capsuleCollider;
 
@@ -32,7 +33,7 @@ namespace Scripting.Customer
         public bool IsMotherfucker => _isMotherfucker;
 
         private AiController _aiController;
-        private float _changeTaskCooldown;
+        private float _changeTaskCooldown = 3.0f;
         private bool _done;
 
         public float StressMeter { get; private set; }
@@ -43,8 +44,7 @@ namespace Scripting.Customer
         private Movement _player;
         private bool _isMotherfucker;
         private VandalismSpot _vandalismSpot;
-
-
+        
         private List<string> _standardDocuments = new();
         private string _contractType;
 
@@ -53,8 +53,9 @@ namespace Scripting.Customer
         private bool _runOut;
 
         private int _index;
+
         [SerializeField]
-        int motherFuckerOdds = 1;
+        int motherFuckerOdds = 5;
 
         private void Awake()
         {
@@ -71,7 +72,7 @@ namespace Scripting.Customer
 
             _paymentAmount = 20000.0f + Random.Range(-5000f, 5000.0f);
             _penalty = 7000.0f * Random.Range(-500f, 500.0f);
-            _isMotherfucker = _aiController.HasVandalismSpots && Random.Range(0, motherFuckerOdds) == 0;
+            _isMotherfucker = _aiController.HasVandalismSpots && Random.Range(0, 5) == 0;
 
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = secondsUntilChangeActivity;
@@ -105,7 +106,10 @@ namespace Scripting.Customer
         public void ShowBubble()
         {
             bubble.SetSprite(_index);
+            _isBubbleVisible = true;
         }
+
+        private bool _isBubbleVisible = false;
 
         //called in animation
         public void DecideToPlayVariant()
@@ -155,7 +159,10 @@ namespace Scripting.Customer
 
         private void Update()
         {
-            if (!_aiController || _done) return;
+            if (!_aiController || _done || _runOut)
+            {
+                return;
+            }
 
             if (!_isMotherfucker)
             {
@@ -179,6 +186,25 @@ namespace Scripting.Customer
                 {
                     _changeTaskCooldown = secondsUntilChangeActivity + Random.Range(-3f, 3f);
 
+
+                    if (_aiController.AssistantActive && !_aiController.AssistantLocked && !_isBubbleVisible)
+                    {
+                        _aiController.AssistantLocked = true;
+
+                        StartCoroutine(GoToTargetWithCallback(_aiController.AssistantSpot.transform.position, () =>
+                            {
+                                // TODO: Play Talk Animation with Assistant
+                            },
+                            () =>
+                            {
+                                // TODO: Stop Talk Animation with Assistant
+                                ShowBubble();
+                                _aiController.AssistantLocked = false;
+                            }, 2.5f));
+
+                        return;
+                    }
+                    
                     var nextSpot = _aiController.GetFreeSpot();
 
                     if (_currentSpot)
@@ -203,23 +229,21 @@ namespace Scripting.Customer
                 if (!_vandalismSpot)
                 {
                     _vandalismSpot = _aiController.GetRandomVandalismSpot();
+                    _vandalismSpot.IsLocked = true;
                     StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
-                        () =>
-                        {
-                            anim.Play("SprayPaint");
-                            // TODO: Do Spray Animation here
-                        },
+                        () => { anim.Play("SprayPaint"); },
                         () =>
                         {
                             anim.Play("RUN");
-                            
+
                             RunOut();
                         }, 30f));
-                    // TODO: Change the 3f to a value that you want!
                 }
             }
         }
-        public void FinishPaint(){
+
+        public void FinishPaint()
+        {
             _vandalismSpot.Spray();
         }
 
@@ -228,14 +252,16 @@ namespace Scripting.Customer
         {
             agent.SetDestination(position);
 
-            while (agent.remainingDistance > 0.1f && !_done && !_runOut)
+            yield return null;
+            
+            while (agent.remainingDistance > 0.1f && !_done && !_runOut && !_sprayInterrupted)
             {
                 yield return null;
             }
 
             if (!_done && !_runOut && !_sprayInterrupted)
                 start?.Invoke();
-            
+
             if (!_done && !_runOut && !_sprayInterrupted)
                 yield return new WaitForSeconds(delay);
 
@@ -257,7 +283,7 @@ namespace Scripting.Customer
         {
             _sprayInterrupted = true;
         }
-        
+
         private void OnValidate()
         {
             if (rb)
@@ -315,7 +341,14 @@ namespace Scripting.Customer
         {
             _done = true;
 
-            agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
+            try
+            {
+                agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
+            }
+            catch (Exception)
+            {
+                Destroy(gameObject);
+            }
         }
 
         // TODO: CALL THIS WHEN GET HIT
