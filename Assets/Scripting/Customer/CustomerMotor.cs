@@ -238,7 +238,6 @@ _initialAgentSpeed = agent.speed;
                 {
                     _changeTaskCooldown = secondsUntilChangeActivity + Random.Range(-3f, 3f);
 
-
                     if (_aiController.AssistantActive && !_aiController.AssistantLocked && !_isBubbleVisible)
                     {
                         _aiController.AssistantLocked = true;
@@ -246,14 +245,18 @@ _initialAgentSpeed = agent.speed;
                         StartCoroutine(GoToTargetWithCallback(_aiController.AssistantSpot.transform.position, () =>
                             {
                                 // TODO: Play Talk Animation with Assistant
+
+                                DecideToPlayVariant();
                             },
                             () =>
                             {
                                 // TODO: Stop Talk Animation with Assistant
                                 Assistant.Singleton.PayBubbleGum();
                                 ShowBubble();
+                            }, 2.5f, () =>
+                            {
                                 _aiController.AssistantLocked = false;
-                            }, 2.5f));
+                            }));
 
                         return;
                     }
@@ -348,7 +351,7 @@ _initialAgentSpeed = agent.speed;
         }
 
         private IEnumerator GoToTargetWithCallback(Vector3 position, Action start = null, Action callback = null,
-            float delay = 0)
+            float delay = 0, Action onFinally = null)
         {
             agent.SetDestination(position);
 
@@ -369,7 +372,7 @@ _initialAgentSpeed = agent.speed;
             if (!_done && !_runOut && !_sprayInterrupted && !_sneakOut && !_stealInterrupted)
                 callback?.Invoke();
 
-            _aiController.AssistantLocked = false;
+            onFinally?.Invoke();
         }
 
         private void WalkIn()
