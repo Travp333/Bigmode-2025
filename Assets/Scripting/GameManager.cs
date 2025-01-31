@@ -55,6 +55,11 @@ namespace Scripting
 
         [Header("Enemies")]
         [SerializeField] private List<GameObject> customerPrefabs;
+        
+        [Header("Huell")]
+        [SerializeField] private GameObject huell;
+
+        [SerializeField] private int numHuells = 3;
 
 
         public GameObject MainCanvas => mainCanvas;
@@ -100,7 +105,7 @@ namespace Scripting
             upgrades.hellishContract = false;
             upgrades.powerFistRequisition = false;
             upgrades.loanAgreement = false;
-            upgrades.temporaryEmploymentContract = false;
+            upgrades.temporaryEmploymentContract = true;
             upgrades.endOfLifePlan = false;
         }
 
@@ -195,6 +200,8 @@ namespace Scripting
             // IsNightTime = true;
         }
 
+        private bool _endOfLifePlan;
+
         public void DayFinished()
         {
             IsNightTime = true;
@@ -211,9 +218,9 @@ namespace Scripting
             }
             else
             {
-                if (upgrades.endOfLifePlan)
+                if (_endOfLifePlan)
                 {
-                    upgrades.endOfLifePlan = false;
+                    _endOfLifePlan = false;
                     _moneyInSafe += todaysQuota;
                     upgrades.money = 0;
                     Debug.Log("END OF LIFE PLAN ACTIVATED");
@@ -225,7 +232,7 @@ namespace Scripting
             }
 
             _level++;
-            
+
             _customerMotors.ForEach(n => n.WalkOut());
             _customerMotors.Clear();
         }
@@ -331,8 +338,9 @@ namespace Scripting
 
         public void SpawnTec()
         {
-            // TODO: implement - is part of AI and Balancing
-
+            for (var i = 0; i < numHuells; i++)
+                SpawnTecHuell();
+            
             upgrades.temporaryEmploymentContract = false;
         }
 
@@ -340,7 +348,20 @@ namespace Scripting
         {
             // TODO: implement
 
+            _endOfLifePlan = true;
+            
             upgrades.endOfLifePlan = false;
+        }
+
+        private void SpawnTecHuell()
+        {
+            // Der Typ ist so hässlich xD
+            var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+            var instance = Instantiate(huell, spawnPoint.transform.position, Quaternion.identity);
+            instance.SetActive(true);
+            var huellScript = instance.GetComponent<HuellController>();
+
+            huellScript.TecMode = true;
         }
 
         public void PlayDeathScene()

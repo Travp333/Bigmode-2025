@@ -11,6 +11,8 @@ namespace Scripting.Player
     [SelectionBase]
     public class Movement : MonoBehaviour
     {
+        private static readonly int HoldingDocument = Animator.StringToHash("HoldingDocument");
+
         [SerializeField]
         Image crosshair;
         [SerializeField]
@@ -526,7 +528,7 @@ namespace Scripting.Player
                             var abc = _currentContract;
 
                             abc.ExecuteMailboxEffect(this);
-                            handAnim.SetBool("HoldingDocument", false);
+                            handAnim.SetBool(HoldingDocument, false);
                             Destroy(_currentContract.gameObject);
                             _currentContract = null;
                         }
@@ -553,7 +555,7 @@ namespace Scripting.Player
                             staplerMesh.SetActive(true);
                             handAnim.Play("Staple");
                             Invoke(nameof(HideStaplerMesh), 1f);
-                            handAnim.SetBool("HoldingDocument", false);
+                            handAnim.SetBool(HoldingDocument, false);
                             customer.anim.Play("GetStapled");
                             //bothArmsScript.PutDownContract();
 

@@ -61,6 +61,8 @@ namespace Scripting.Customer
         [SerializeField]
         int motherFuckerOdds = 5;
 
+        public bool IsHuellTarget { get; set; }
+
         private void Awake()
         {
             _aiController = AiController.Singleton;
@@ -254,18 +256,27 @@ namespace Scripting.Customer
                 if (!_vandalismSpot)
                 {
                     _vandalismSpot = _aiController.GetRandomVandalismSpot();
-                    _vandalismSpot.IsLocked = true;
-                    StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
-                        () =>
-                        {
-                            anim.Play("SprayPaint");
-                            _isSpraying = true;
-                        },
-                        () =>
-                        {
-                            RunOut();
-                            _isSpraying = false;
-                        }, 30f));
+                    if (_vandalismSpot)
+                    {
+                        _vandalismSpot.IsLocked = true;
+                        StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
+                            () =>
+                            {
+                                anim.Play("SprayPaint");
+                                _isSpraying = true;
+                            },
+                            () =>
+                            {
+                                RunOut();
+                                _isSpraying = false;
+                            }, 30f));
+                    }
+                    else
+                    {
+                        // No spot left because of bug or something,
+                        // i don't know, just ignore and go normal
+                        _isMotherfucker = false;
+                    }
                 }
             }
         }
