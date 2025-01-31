@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Scripting.Customer;
@@ -100,7 +101,7 @@ namespace Scripting
 
         private void SetInitValues()
         {
-            upgrades.money = 1000f;
+            upgrades.money = 1000;
 
             upgrades.chairs = false;
             upgrades.paintings = false;
@@ -128,6 +129,10 @@ namespace Scripting
             StartCoroutine(FadeOut());
         }
 
+        public int GetMoney() => upgrades.money;
+
+        public Action<int, int> OnMoneyUpdated;
+        
         private void Start()
         {
             SpecialStoreManager.Singleton.SetRandomUpgrade();
@@ -275,9 +280,9 @@ namespace Scripting
             _customerMotors.Clear();
         }
 
-        public float GetCurrentQuota()
+        public int GetCurrentQuota()
         {
-            return 40000f * Mathf.Pow(1.165f, _level - 1);
+            return 40000 * (int)Math.Ceiling(Mathf.Pow(1.165f, _level - 1));
         }
 
         public void SpawnCustomer()
@@ -554,6 +559,7 @@ namespace Scripting
             if (upgrades.priceAssistant <= upgrades.money)
             {
                 upgrades.money -= upgrades.priceAssistant;
+                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceAssistant);
                 return true;
             }
 
@@ -565,6 +571,7 @@ namespace Scripting
             if (upgrades.priceBodyguard <= upgrades.money)
             {
                 upgrades.money -= upgrades.priceBodyguard;
+                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceBodyguard);
                 return true;
             }
 
@@ -576,6 +583,7 @@ namespace Scripting
             if (upgrades.pricePhone <= upgrades.money)
             {
                 upgrades.money -= upgrades.pricePhone;
+                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.pricePhone);
                 return true;
             }
 
@@ -587,6 +595,7 @@ namespace Scripting
             if (upgrades.priceCigar <= upgrades.money)
             {
                 upgrades.money -= upgrades.priceCigar;
+                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceCigar);
                 return true;
             }
 
@@ -598,6 +607,7 @@ namespace Scripting
             if (upgrades.priceBaseballBat <= upgrades.money)
             {
                 upgrades.money -= upgrades.priceBaseballBat;
+                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceBaseballBat);
                 return true;
             }
             return false;
@@ -608,6 +618,7 @@ namespace Scripting
             if (upgrades.pricePaintings <= upgrades.money)
             {
                 upgrades.money -= upgrades.pricePaintings;
+                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.pricePaintings);
                 return true;
             }
             return false;
@@ -618,6 +629,7 @@ namespace Scripting
             if (upgrades.priceChairs <= upgrades.money)
             {
                 upgrades.money -= upgrades.priceChairs;
+                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceChairs);
                 return true;
             }
             return false;

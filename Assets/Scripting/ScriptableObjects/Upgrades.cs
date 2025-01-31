@@ -33,7 +33,7 @@ namespace Scripting.ScriptableObjects
         public bool bodyguard;
         public bool assistant;
         
-        public float money;
+        public int money;
 
         public int priceChairs = 1;
         public int pricePaintings = 1;

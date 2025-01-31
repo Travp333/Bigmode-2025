@@ -57,8 +57,8 @@ namespace Scripting.Customer
         private List<string> _standardDocuments = new();
         private string _contractType;
 
-        private float _paymentAmount;
-        private float _penalty;
+        private int _paymentAmount;
+        private int _penalty;
         public bool _runOut;
 
         private int _index;
@@ -83,9 +83,9 @@ namespace Scripting.Customer
             //needed to affect animations
             anim = GetComponent<Animator>();
 
-            _paymentAmount = 20000.0f + Random.Range(-5000f, 5000.0f);
-            _penalty = 7000.0f * Random.Range(-500f, 500.0f);
-            _isMotherfucker = _aiController.HasVandalismSpots && Random.Range(0, 1) == 0;
+            _paymentAmount = 20000 + Random.Range(-5000, 5000);
+            _penalty = 7000  * Random.Range(-500 , 500 );
+            _isMotherfucker = _aiController.HasVandalismSpots && Random.Range(0, 10) == 0;
 
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = secondsUntilChangeActivity;
@@ -384,6 +384,7 @@ namespace Scripting.Customer
         private void RemoveMoney()
         {
             GameManager.Singleton.upgrades.money -= _penalty;
+            GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, -_penalty);
             // HAS TO BE IMPLEMENTED
         }
 
@@ -433,8 +434,10 @@ namespace Scripting.Customer
 
         public void Pay()
         {
-            GameManager.Singleton.upgrades.money +=
-                _paymentAmount * (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            var value = _paymentAmount * (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+
+            GameManager.Singleton.upgrades.money += value;
+            GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, value);
         }
     }
 }
