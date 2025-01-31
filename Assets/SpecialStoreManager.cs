@@ -9,6 +9,7 @@ public class SpecialStoreManager : MonoBehaviour
     [SerializeField] private UpgradeButton upgradeButtons; // = new List<UpgradeButton>();
     [SerializeField] private List<Material> materials = new();
     private static SpecialStoreManager _singleton;
+    int tempNum;
 
     public static SpecialStoreManager Singleton
     {
@@ -47,9 +48,15 @@ public class SpecialStoreManager : MonoBehaviour
     {
         //8-13 inclusive
         UnityEngine.Random.InitState((int) DateTime.Now.Ticks);
-        int temp = UnityEngine.Random.Range(8, 14); //(int minInclusive, int maxExclusive)        
-        upgradeButtons.myUpgradeType = (Upgrades.UpgradeTypes) temp;
-        upgradeButtons.unpress();
+        int temp = UnityEngine.Random.Range(8, 14); //(int minInclusive, int maxExclusive)     
+        if(upgradeButtons.myUpgradeType != (Upgrades.UpgradeTypes) temp){
+            upgradeButtons.myUpgradeType = (Upgrades.UpgradeTypes) temp;
+            upgradeButtons.unpress();
+        }   
+        else{
+            SetRandomUpgrade();
+        }
+
     }
 
     public Material fetchUpgradeMaterial(int x)

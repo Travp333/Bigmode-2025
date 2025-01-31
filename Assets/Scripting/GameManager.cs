@@ -13,6 +13,8 @@ namespace Scripting
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField]
+        GameObject uiPowerDocumentHell, uiPowerDocumentDismissal, uiPowerDocumentFist, uiPowerDocumentLoan, uiPowerDocumentTEC, uiPowerDocumentEOL;
         [Header("Data")]
         [SerializeField] public Upgrades upgrades;
 
@@ -314,16 +316,56 @@ namespace Scripting
         
         private void OnGUI()
         {
+
+            if(upgrades.loanAgreement){
+                uiPowerDocumentLoan.SetActive(true);
+            }
+            else{
+                uiPowerDocumentLoan.SetActive(false);
+
+            }
+            if(upgrades.temporaryEmploymentContract){
+                uiPowerDocumentTEC.SetActive(true);
+            }
+            else{
+                uiPowerDocumentTEC.SetActive(false);
+
+            }
+            if(upgrades.endOfLifePlan){
+                uiPowerDocumentEOL.SetActive(true);
+            }
+            else{
+                uiPowerDocumentEOL.SetActive(false);
+
+            }
+            if(upgrades.dismissal){
+                uiPowerDocumentDismissal.SetActive(true);
+            }
+            else{
+                uiPowerDocumentDismissal.SetActive(false);
+
+            }
+            if(upgrades.hellishContract){
+                uiPowerDocumentHell.SetActive(true);
+            }
+            else{
+                uiPowerDocumentHell.SetActive(false);       
+                
+            }
+            if(upgrades.powerFistRequisition){
+                uiPowerDocumentFist.SetActive(true);
+            }
+            else{
+                uiPowerDocumentFist.SetActive(false);
+            }
             var text = string.Empty;
-            
             text += "Active Power: \n";
-            
-            text += $"La: {upgrades.loanAgreement}\n";
-            text += $"Tec: {upgrades.temporaryEmploymentContract}\n";
-            text += $"Eel: {upgrades.endOfLifePlan}\n";
-            text += $"Ds: {upgrades.dismissal}\n";
-            text += $"Penta: {upgrades.hellishContract}\n";
-            text += $"Fist: {upgrades.powerFistRequisition}\n";
+           // text += $"La: {upgrades.loanAgreement}\n";
+           // text += $"Tec: {upgrades.temporaryEmploymentContract}\n";
+           // text += $"Eel: {upgrades.endOfLifePlan}\n";
+           // text += $"Ds: {upgrades.dismissal}\n";
+           // text += $"Penta: {upgrades.hellishContract}\n";
+           // text += $"Fist: {upgrades.powerFistRequisition}\n";
             text += $"Money: {upgrades.money}\n";
             
             GUI.Label(new Rect(5, Screen.height/2f, 200, 500),text);

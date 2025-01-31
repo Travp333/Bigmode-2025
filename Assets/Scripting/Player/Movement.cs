@@ -12,6 +12,8 @@ namespace Scripting.Player
     public class Movement : MonoBehaviour
     {
         [SerializeField]
+        Image crosshair;
+        [SerializeField]
         Image rageModeUIFrontBase, rageModeUIFrontOVERFULL, rageModeUIFillBase, rageModeUIFillOVERFULL;
         [Header("Input")]
         [SerializeField] private float moveSpeed = 7.5f;
@@ -259,10 +261,10 @@ namespace Scripting.Player
         {
             handAnim.SetBool("RAGE", false);
             rageMode = false;
-            rageModeUIFillBase.enabled = true;
-            rageModeUIFrontBase.enabled = true;
-            rageModeUIFillOVERFULL.enabled = false;
-            rageModeUIFrontOVERFULL.enabled = false;
+            rageModeUIFillBase.gameObject.SetActive(true);
+            rageModeUIFrontBase.gameObject.SetActive(true);
+            rageModeUIFillOVERFULL.gameObject.SetActive(false);
+            rageModeUIFrontOVERFULL.gameObject.SetActive(false);
             
         }
 
@@ -329,6 +331,7 @@ namespace Scripting.Player
 
                 if (_seated)
                 {
+                    crosshair.gameObject.SetActive(false);
                     stressChange /= 2f;
                     if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking && !onPhone)
                     {
@@ -413,10 +416,10 @@ namespace Scripting.Player
 
                         ExitChair();
                     }
-                    rageModeUIFillBase.enabled = false;
-                    rageModeUIFrontBase.enabled = false;
-                    rageModeUIFillOVERFULL.enabled = true;
-                    rageModeUIFrontOVERFULL.enabled = true;
+                    rageModeUIFillBase.gameObject.SetActive(false);
+                    rageModeUIFrontBase.gameObject.SetActive(false);
+                    rageModeUIFillOVERFULL.gameObject.SetActive(true);
+                    rageModeUIFrontOVERFULL.gameObject.SetActive(true);
                     //UI HERE
                     //BlockAction = true;
                     rageMode = true;
@@ -670,8 +673,6 @@ namespace Scripting.Player
             {
                 StressLevel = 1f;
             }
-            
-            //UI HERE
         }
 
         // TODO: CHANGE
@@ -737,6 +738,7 @@ namespace Scripting.Player
             HideHands();
             Cursor.lockState = CursorLockMode.Locked;
             _seated = false;
+            crosshair.gameObject.SetActive(true);
             // GetComponent<Contract>().SetActive(false);
         }
 
@@ -841,6 +843,7 @@ namespace Scripting.Player
 
             if (_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
             {
+                
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to pick up baseball bat.");
             }
 
