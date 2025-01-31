@@ -17,6 +17,8 @@ public class UpgradeButton : MonoBehaviour
     [SerializeField] private Texture testTexture;
     private MeshRenderer _myMeshRenderer;
     public bool special;
+    [SerializeField]
+    bool blocked;
 
     private void Awake()
     {
@@ -52,6 +54,9 @@ public class UpgradeButton : MonoBehaviour
 
     public void Pressed()
     {
+        if(blocked){
+            return;
+        }
         if (beenPressed)
         {
             return;
