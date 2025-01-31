@@ -8,6 +8,7 @@ namespace Scripting.Objects
         [SerializeField] private GameObject handBat;
         [SerializeField] private CapsuleCollider capsuleCollider;
         [SerializeField] private MeshRenderer meMesh;
+        [SerializeField] private AudioSource myPickupBatSound;
 
         private void OnValidate()
         {
@@ -16,6 +17,7 @@ namespace Scripting.Objects
 
         public void PickUp()
         {
+            myPickupBatSound.Play();
             handAnim.Play("PickupBat");
             handAnim.SetBool("HoldingBat", true);
             

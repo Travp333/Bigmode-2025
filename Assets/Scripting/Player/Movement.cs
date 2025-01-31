@@ -64,6 +64,7 @@ namespace Scripting.Player
 
         [SerializeField] private LayerMask graffitiMask;
         [SerializeField] private GameObject attachmentPointContract;
+        [SerializeField] private AudioSource myBatSwingSound;
 
         [SerializeField] private Phone phone;
         private Vector3 _moveInput;
@@ -483,6 +484,7 @@ namespace Scripting.Player
 
             if (_baseballBat && _attackPressed)
             {
+                myBatSwingSound.Play();
                 handAnim.Play("Swing Bat Miss");
                 //StartCoroutine(DoAttack());
                 // StartCoroutine(DoAttackAnimation());
