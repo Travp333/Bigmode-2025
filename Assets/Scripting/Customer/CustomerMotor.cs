@@ -50,7 +50,7 @@ namespace Scripting.Customer
 
         private float _paymentAmount;
         private float _penalty;
-        private bool _runOut;
+        public bool _runOut;
 
         private int _index;
 
@@ -234,8 +234,6 @@ namespace Scripting.Customer
                         () => { anim.Play("SprayPaint"); },
                         () =>
                         {
-                            anim.Play("RUN");
-
                             RunOut();
                         }, 30f));
                 }
@@ -354,7 +352,12 @@ namespace Scripting.Customer
         // TODO: CALL THIS WHEN GET HIT
         public void RunOut()
         {
-            if (_runOut) return;
+            if(!agent.enabled){
+                agent.enabled = true;
+            }
+            if (_runOut){
+                return;
+            } 
             _runOut = true;
             anim.SetBool("isRunning", true);
             GameManager.Singleton.RemoveCustomer(this);

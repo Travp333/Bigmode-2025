@@ -66,6 +66,21 @@ public class LaunchDetection : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    void LaunchNPC(Collider other){
+        if(_motor.IsMotherfucker){
+            _motor.InterruptSpraying();
+        }
+        _motor._runOut = false;
+        StartScreamAudio();
+        _anim.Play("AIR");
+        _lerpTarget = _hit.point;
+        _hitNormal = _hit.normal;
+        //Debug.DrawRay(this.transform.position, _lerpTarget - this.transform.position, Color.yellow, 1f);
+        //Debug.DrawRay(_lerpTarget, _hitNormal, Color.blue, 1f);
+        lerpGate = true;
+        scared = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<BatHitboxCollision>() != null)
@@ -74,14 +89,8 @@ public class LaunchDetection : MonoBehaviour
             this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
             if (Physics.Raycast(this.transform.position, _player.transform.forward, out _hit, 999f, mask))
             {
-                StartScreamAudio();
                 other.gameObject.GetComponent<BatHitboxCollision>().cont.DisableHitbox();
-                _anim.Play("AIR");
-                _lerpTarget = _hit.point;
-                _hitNormal = _hit.normal;
-                Debug.DrawRay(this.transform.position, _lerpTarget - this.transform.position, Color.yellow, 1f);
-                Debug.DrawRay(_lerpTarget, _hitNormal, Color.blue, 1f);
-                lerpGate = true;
+                LaunchNPC(other);
             }
         }
 
@@ -93,14 +102,7 @@ public class LaunchDetection : MonoBehaviour
                 this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
                 if (Physics.Raycast(this.transform.position, _player.transform.forward, out _hit, 999f, mask))
                 {
-                    StartScreamAudio();
-                    _anim.Play("AIR");
-                    _lerpTarget = _hit.point;
-                    _hitNormal = _hit.normal;
-                    Debug.DrawRay(this.transform.position, _lerpTarget - this.transform.position, Color.yellow, 1f);
-                    Debug.DrawRay(_lerpTarget, _hitNormal, Color.blue, 1f);
-                    lerpGate = true;
-                    scared = true;
+                    LaunchNPC(other);
                 }
             }
         }
@@ -111,14 +113,7 @@ public class LaunchDetection : MonoBehaviour
             this.transform.rotation = Quaternion.LookRotation(huellCollision.transform.forward, this.transform.up);
             if (Physics.Raycast(this.transform.position, huellCollision.transform.forward, out _hit, 999f, mask))
             {
-                StartScreamAudio();
-                huellCollision.GetComponent<HuellController>().HideHitbox();
-                _anim.Play("AIR");
-                _lerpTarget = _hit.point;
-                _hitNormal = _hit.normal;
-                //Debug.DrawRay(this.transform.position, lerpTarget - this.transform.position, Color.yellow, 1f);
-                //Debug.DrawRay(lerpTarget, hitNormal, Color.blue, 1f);
-                lerpGate = true;
+                LaunchNPC(other);
             }
         }
     }
