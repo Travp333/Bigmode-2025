@@ -97,8 +97,12 @@ public class HuellController : MonoBehaviour
 
         if (GameManager.Singleton.IsNightTime)
         {
-            _lockedTarget.IsHuellTarget = false;
-            _lockedTarget = null;
+            if (_lockedTarget)
+            {
+                _lockedTarget.IsHuellTarget = false;
+                _lockedTarget = null;
+            }
+
             _huellmode = Huellmode.OriginalPos;
 
             _timerReconsider = 15f;
