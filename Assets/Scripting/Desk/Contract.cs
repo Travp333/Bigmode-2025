@@ -324,7 +324,7 @@ namespace Scripting.Desk
                         customer.gameObject.GetComponent<LaunchDetection>().GetHellGrabbed();
                         break;
                     case "pfr":
-                        GameManager.Singleton.DoFistStuff();
+                        GameManager.Singleton.DoFistStuff(customer.IsMotherfucker);
                         GameManager.Singleton.RemoveCustomer(customer);
                         customer.gameObject.GetComponent<LaunchDetection>().GetPowerFisted();
                         break;
