@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Scripting.Customer;
 using Scripting.Player;
 using Scripting.ScriptableObjects;
@@ -14,7 +16,13 @@ namespace Scripting
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
-        GameObject uiPowerDocumentHell, uiPowerDocumentDismissal, uiPowerDocumentFist, uiPowerDocumentLoan, uiPowerDocumentTEC, uiPowerDocumentEOL;
+        private GameObject uiPowerDocumentHell,
+            uiPowerDocumentDismissal,
+            uiPowerDocumentFist,
+            uiPowerDocumentLoan,
+            uiPowerDocumentTEC,
+            uiPowerDocumentEOL;
+
         [Header("Data")]
         [SerializeField] public Upgrades upgrades;
 
@@ -25,10 +33,10 @@ namespace Scripting
 
         [Header("Components")]
         [SerializeField] private ShiftManager shiftManager;
-        
+
         [Header("Map")]
         [SerializeField] private List<GameObject> spawnPoints;
-        
+
         [Header("Graphics")]
         [SerializeField] private GameObject mainCanvas;
 
@@ -43,27 +51,27 @@ namespace Scripting
         [SerializeField] public GameObject phone;
         [SerializeField] public GameObject assistant;
         [SerializeField] public GameObject bodyguard;
-        
+
         [Header("Player")]
         [SerializeField] private Movement player;
-        
+
         [Header("Enemies")]
-        
         [SerializeField] private List<GameObject> customerPrefabs;
 
 
         public GameObject MainCanvas => mainCanvas;
         public Movement Player => player;
         public bool IsLoanAgreementRunning => _loanAgreementRunning > 0f;
-        
+
         private readonly List<CustomerMotor> _customerMotors = new();
 
         private int _maxCustomers;
-        private int _level;
+        private int _level = 1;
         private float _loanAgreementRunning;
-        
+        private float _moneyInSafe;
+
         private static GameManager _singleton;
-        
+
         public static GameManager Singleton
         {
             get => _singleton;
@@ -82,7 +90,7 @@ namespace Scripting
         private void SetInitValues()
         {
             upgrades.money = 1000f;
-            
+
             upgrades.chairs = false;
             upgrades.paintings = false;
             upgrades.baseballBat = false;
@@ -97,14 +105,14 @@ namespace Scripting
             upgrades.temporaryEmploymentContract = false;
             upgrades.endOfLifePlan = false;
         }
-        
+
         private void Awake()
         {
             SetInitValues();
-            
+
             Singleton = this;
             IsNightTime = true;
-            
+
             fade.gameObject.SetActive(true);
             StartCoroutine(FadeOut());
         }
@@ -139,11 +147,10 @@ namespace Scripting
         public void StartDay()
         {
             IsNightTime = false;
-            
+
             shiftManager.SetIsNightTime(false);
             _dayTimer = dayLength;
-            _level++;
-            
+
             _maxCustomers = _level * 5 + _level;
         }
 
@@ -196,9 +203,38 @@ namespace Scripting
             AiController.Singleton.UnlockEverything();
             SpecialStoreManager.Singleton.SetRandomUpgrade();
             shiftManager.SetIsNightTime(true);
+
+            var todaysQuota = GetCurrentQuota();
+
+            if (upgrades.money > todaysQuota)
+            {
+                upgrades.money -= todaysQuota;
+                _moneyInSafe += todaysQuota;
+            }
+            else
+            {
+                if (upgrades.endOfLifePlan)
+                {
+                    upgrades.endOfLifePlan = false;
+                    _moneyInSafe += todaysQuota;
+                    upgrades.money = 0;
+                    Debug.Log("END OF LIFE PLAN ACTIVATED");
+                }
+                else
+                {
+                    PlayDeathScene();
+                }
+            }
+
+            _level++;
             
             _customerMotors.ForEach(n => n.WalkOut());
             _customerMotors.Clear();
+        }
+
+        public float GetCurrentQuota()
+        {
+            return 40000f * Mathf.Pow(1.165f, _level - 1);
         }
 
         public void SpawnCustomer()
@@ -218,7 +254,7 @@ namespace Scripting
         {
             _customerMotors.Remove(customerMotor);
         }
-        
+
         #region graveyard
 
         private void InitialUpgrades()
@@ -260,7 +296,7 @@ namespace Scripting
         }
 
         #endregion graveyard
-       
+
         public void ActivateLoanAgreement()
         {
             _loanAgreementRunning = loanAgreementTime;
@@ -274,105 +310,125 @@ namespace Scripting
                 n.Pay();
                 n.WalkOut();
             });
-            
+
             _customerMotors.Clear();
-            
+
             upgrades.dismissal = false;
         }
 
         public void DoPentagrammLogic()
         {
             // TODO: implement
-            
-            
+
+
             upgrades.hellishContract = false;
         }
 
         public void DoFistStuff()
         {
             // TODO: implement
-            
+
             upgrades.powerFistRequisition = false;
         }
 
         public void SpawnTec()
         {
             // TODO: implement - is part of AI and Balancing
-            
+
             upgrades.temporaryEmploymentContract = false;
         }
 
         public void GetExtraLife()
         {
             // TODO: implement
-            
+
             upgrades.endOfLifePlan = false;
+        }
+
+        public void PlayDeathScene()
+        {
+            Debug.Log("DEAD");
+            // TODO: PLAY DEATH SCENE
         }
 
         public void ResetScene()
         {
             SceneManager.LoadScene("Office", LoadSceneMode.Single);
         }
-        
+
         private void OnGUI()
         {
-
-            if(upgrades.loanAgreement){
+            if (upgrades.loanAgreement)
+            {
                 uiPowerDocumentLoan.SetActive(true);
             }
-            else{
+            else
+            {
                 uiPowerDocumentLoan.SetActive(false);
-
             }
-            if(upgrades.temporaryEmploymentContract){
+
+            if (upgrades.temporaryEmploymentContract)
+            {
                 uiPowerDocumentTEC.SetActive(true);
             }
-            else{
+            else
+            {
                 uiPowerDocumentTEC.SetActive(false);
-
             }
-            if(upgrades.endOfLifePlan){
+
+            if (upgrades.endOfLifePlan)
+            {
                 uiPowerDocumentEOL.SetActive(true);
             }
-            else{
+            else
+            {
                 uiPowerDocumentEOL.SetActive(false);
-
             }
-            if(upgrades.dismissal){
+
+            if (upgrades.dismissal)
+            {
                 uiPowerDocumentDismissal.SetActive(true);
             }
-            else{
+            else
+            {
                 uiPowerDocumentDismissal.SetActive(false);
-
             }
-            if(upgrades.hellishContract){
+
+            if (upgrades.hellishContract)
+            {
                 uiPowerDocumentHell.SetActive(true);
             }
-            else{
-                uiPowerDocumentHell.SetActive(false);       
-                
+            else
+            {
+                uiPowerDocumentHell.SetActive(false);
             }
-            if(upgrades.powerFistRequisition){
+
+            if (upgrades.powerFistRequisition)
+            {
                 uiPowerDocumentFist.SetActive(true);
             }
-            else{
+            else
+            {
                 uiPowerDocumentFist.SetActive(false);
             }
+
             var text = string.Empty;
             text += "Active Power: \n";
-           // text += $"La: {upgrades.loanAgreement}\n";
-           // text += $"Tec: {upgrades.temporaryEmploymentContract}\n";
-           // text += $"Eel: {upgrades.endOfLifePlan}\n";
-           // text += $"Ds: {upgrades.dismissal}\n";
-           // text += $"Penta: {upgrades.hellishContract}\n";
-           // text += $"Fist: {upgrades.powerFistRequisition}\n";
+            // text += $"La: {upgrades.loanAgreement}\n";
+            // text += $"Tec: {upgrades.temporaryEmploymentContract}\n";
+            // text += $"Eel: {upgrades.endOfLifePlan}\n";
+            // text += $"Ds: {upgrades.dismissal}\n";
+            // text += $"Penta: {upgrades.hellishContract}\n";
+            // text += $"Fist: {upgrades.powerFistRequisition}\n";
             text += $"Money: {upgrades.money}\n";
-            
-            GUI.Label(new Rect(5, Screen.height/2f, 200, 500),text);
+            text += $"Safe: {_moneyInSafe}\n";
+            text += $"Active Customers Ids: {(string.Join(',', _customerMotors.Select(m => m.Id).ToList()))}";
+
+            GUI.Label(new Rect(5, Screen.height / 2f, 200, 500), text);
         }
 
         private List<GameObject> _vandalismSpots = new();
-        
+
         public void RegisterVandalismSpot(GameObject aiSpot)
         {
             _vandalismSpots.Add(aiSpot);

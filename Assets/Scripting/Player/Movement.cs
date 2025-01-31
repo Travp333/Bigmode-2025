@@ -857,7 +857,7 @@ namespace Scripting.Player
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to remove this piece of (sh)art");
             }
 
-            GUI.Label(new Rect(5, Screen.height - 25, 200, 25), "" + StressLevel);
+            GUI.Label(new Rect(5, Screen.height - 25, 200, 25), "Stresslevel: " + StressLevel);
         }
 
         public void NotifyOnPhone()

@@ -6,7 +6,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using Random = UnityEngine.Random;
 
 namespace Scripting.Customer
@@ -37,6 +36,9 @@ namespace Scripting.Customer
         private bool _done;
 
         public float StressMeter { get; private set; }
+        public int Id { get; set; }
+
+        public static int NextId = 0;
 
         private AiSpot _currentSpot;
         public Animator anim;
@@ -44,7 +46,7 @@ namespace Scripting.Customer
         private Movement _player;
         private bool _isMotherfucker;
         private VandalismSpot _vandalismSpot;
-        
+
         private List<string> _standardDocuments = new();
         private string _contractType;
 
@@ -61,6 +63,8 @@ namespace Scripting.Customer
         {
             _aiController = AiController.Singleton;
 
+            Id = NextId++;
+            
             // DUDE i don't want to set it on every NPC so i set it here as hardcode bruv
             secondsUntilFreakOut = 60;
             secondsUntilChangeActivity = 10;
@@ -205,7 +209,7 @@ namespace Scripting.Customer
 
                         return;
                     }
-                    
+
                     var nextSpot = _aiController.GetFreeSpot();
 
                     if (_currentSpot)
@@ -233,10 +237,7 @@ namespace Scripting.Customer
                     _vandalismSpot.IsLocked = true;
                     StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
                         () => { anim.Play("SprayPaint"); },
-                        () =>
-                        {
-                            RunOut();
-                        }, 30f));
+                        () => { RunOut(); }, 30f));
                 }
             }
         }
@@ -252,7 +253,7 @@ namespace Scripting.Customer
             agent.SetDestination(position);
 
             yield return null;
-            
+
             while (agent.remainingDistance > 0.1f && !_done && !_runOut && !_sprayInterrupted)
             {
                 yield return null;
@@ -319,7 +320,7 @@ namespace Scripting.Customer
         private void OnDrawGizmos()
         {
             Handles.Label(transform.position + Vector3.up * 2.5f,
-                "Is Motherfucker: " + (_isMotherfucker ? "Yes" : "No"));
+                "Id: " + Id + ", Is Motherfucker: " + (_isMotherfucker ? "Yes" : "No"));
             Handles.Label(transform.position + Vector3.up * 2f,
                 "Wants: " + (_isMotherfucker ? "trouble" : _contractType));
             Handles.Label(transform.position + Vector3.up * 1.5f,
@@ -338,27 +339,25 @@ namespace Scripting.Customer
 
         public void WalkOut()
         {
+            //TODO: Stop Spray Animation
             _done = true;
 
-            try
-            {
-                agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
-            }
-            catch (Exception)
-            {
-                Destroy(gameObject);
-            }
+            agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
         }
 
         // TODO: CALL THIS WHEN GET HIT
         public void RunOut()
         {
-            if(!agent.enabled){
+            if (!agent.enabled)
+            {
                 agent.enabled = true;
             }
-            if (_runOut){
+
+            if (_runOut)
+            {
                 return;
-            } 
+            }
+
             _runOut = true;
             anim.SetBool("isRunning", true);
             GameManager.Singleton.RemoveCustomer(this);
