@@ -48,19 +48,21 @@ public class SpecialStoreManager : MonoBehaviour
         //8-13 inclusive
         UnityEngine.Random.InitState((int) DateTime.Now.Ticks);
         int temp = UnityEngine.Random.Range(8, 14); //(int minInclusive, int maxExclusive)     
-        if(upgradeButtons.myUpgradeType != (Upgrades.UpgradeTypes) temp){
+        if (upgradeButtons.myUpgradeType != (Upgrades.UpgradeTypes) temp)
+        {
             upgradeButtons.myUpgradeType = (Upgrades.UpgradeTypes) temp;
             upgradeButtons.unpress();
-        }   
-        else{
+            upgradeButtons.correctMaterial();
+        }
+        else
+        {
             SetRandomUpgrade();
         }
-
     }
 
     public Material fetchUpgradeMaterial(int x)
     {
-        return materials[x - materials.Count-1];
+        return materials[x - materials.Count - 1];
     }
 
     public Material fetchUpgradeMaterial(Upgrades.UpgradeTypes x)
