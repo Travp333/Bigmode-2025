@@ -16,6 +16,7 @@ namespace Scripting.Desk
         [SerializeField] private Transform upPoint;
         [SerializeField] private List<Material> materials;
         [SerializeField] private GameObject surface;
+        [SerializeField] private AudioSource myWritingSound;
 
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private MeshRenderer meshRenderer;
@@ -72,6 +73,7 @@ namespace Scripting.Desk
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
+                myWritingSound.Play();
                 var camPos = _cam.transform.position;
                 var delta = (camPos - transform.position).normalized * 0.05f;
 
@@ -99,6 +101,7 @@ namespace Scripting.Desk
 
             if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
+                myWritingSound.Stop();
                 _nextCount = 0;
 
                 if (!_lineRenderer) return;
