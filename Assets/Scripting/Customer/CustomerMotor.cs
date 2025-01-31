@@ -261,6 +261,7 @@ namespace Scripting.Customer
                 if (!_vandalismSpot)
                 {
                     _vandalismSpot = _aiController.GetRandomVandalismSpot();
+
                     if (_vandalismSpot)
                     {
                         _vandalismSpot.IsLocked = true;
@@ -274,7 +275,7 @@ namespace Scripting.Customer
                             {
                                 RunOut();
                                 _isSpraying = false;
-                            }, 30f));
+                            }, 20f));
                     }
                     else
                     {
@@ -417,6 +418,7 @@ namespace Scripting.Customer
 
             _runOut = true;
             anim.SetBool("isRunning", true);
+            anim.Play("RUN");
             GameManager.Singleton.RemoveCustomer(this);
 
             // TODO: CHANGE ANIMATION
