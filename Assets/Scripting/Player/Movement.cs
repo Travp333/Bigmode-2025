@@ -11,6 +11,8 @@ namespace Scripting.Player
     [SelectionBase]
     public class Movement : MonoBehaviour
     {
+        [SerializeField]
+        Image rageModeUIFrontBase, rageModeUIFrontOVERFULL, rageModeUIFillBase, rageModeUIFillOVERFULL;
         [Header("Input")]
         [SerializeField] private float moveSpeed = 7.5f;
 
@@ -256,6 +258,11 @@ namespace Scripting.Player
         {
             handAnim.SetBool("RAGE", false);
             rageMode = false;
+            rageModeUIFillBase.enabled = true;
+            rageModeUIFrontBase.enabled = true;
+            rageModeUIFillOVERFULL.enabled = false;
+            rageModeUIFrontOVERFULL.enabled = false;
+            
         }
 
         private void Update()
@@ -347,6 +354,7 @@ namespace Scripting.Player
 
                 if (rageMode)
                 {
+                    
                     stressChange = 0f;
                 }
 
@@ -366,6 +374,8 @@ namespace Scripting.Player
                 {
                     StressLevel = 0f;
                 }
+                //UI here
+                rageModeUIFillBase.fillAmount = StressLevel;
 
                 if (StressLevel >= 1.0f)
                 {
@@ -402,7 +412,11 @@ namespace Scripting.Player
 
                         ExitChair();
                     }
-
+                    rageModeUIFillBase.enabled = false;
+                    rageModeUIFrontBase.enabled = false;
+                    rageModeUIFillOVERFULL.enabled = true;
+                    rageModeUIFrontOVERFULL.enabled = true;
+                    //UI HERE
                     //BlockAction = true;
                     rageMode = true;
                     handAnim.Play("RAGEMODE");
@@ -654,6 +668,8 @@ namespace Scripting.Player
             {
                 StressLevel = 1f;
             }
+            
+            //UI HERE
         }
 
         // TODO: CHANGE

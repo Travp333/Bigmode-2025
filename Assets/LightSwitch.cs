@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class LightSwitch : MonoBehaviour
 {
+    BoxCollider box;
     Animator anim;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
+        box = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
     }
 
@@ -16,6 +18,7 @@ public class LightSwitch : MonoBehaviour
         if (GameManager.Singleton.IsNightTime)
         {
             anim.SetBool("ON", false);
+            box.enabled = true;
         }
     }
 
@@ -27,6 +30,7 @@ public class LightSwitch : MonoBehaviour
                 anim.Play("turnon");
                 anim.SetBool("ON", true);
                 GameManager.Singleton.StartDay();
+                box.enabled = false;
             }
         }
     }
@@ -38,6 +42,6 @@ public class LightSwitch : MonoBehaviour
 
     public string FetchFlavorText()
     {
-        return "it's a lightswitch";
+        return "Open up your shop and start the next day!";
     }
 }

@@ -17,25 +17,49 @@ MonoBehaviour:
   baseballBat: 0
   cigar: 0
   phone: 0
-  bodyguard: 0
+  bodyguard: 1
   assistant: 0
-  money: 500
+  money: 1000
   dismissal: 0
   hellishContract: 0
   powerFistRequisition: 0
   loanAgreement: 0
   temporaryEmploymentContract: 0
   endOfLifePlan: 0
-  chairsFlavorText: adds chairs
-  paintingsFlavorText: adds paintings
-  baseballBatFlavorText: adds baseball bat
-  cigarFlavorText: adds cigar
-  phoneFlavorText: adds phone
-  bodyguardFlavorText: adds bodyguard
-  assistantFlavorText: adds assistant
-  dismissalFlavorText: adds dismissal
-  hellishContractFlavorText: adds hellish contract
-  powerFistRequisitionFlavorText: adds power fist requisition
-  loanAgreementFlavorText: adds loan agreement
-  temporaryEmploymentContractFlavorText: adds temporary employment contract
-  endOfLifePlanFlavorText: adds end of life plan
+  chairsFlavorText: '(COST: $X) A set of luxurious chairs. These chairs will give
+    your clients somewhere to kick back and relax, which greatly increases their
+    patience'
+  paintingsFlavorText: '(COST: $X) Your clients will lose themselves in these masterfully
+    painted pieces of art, greatly increasing their patience.'
+  baseballBatFlavorText: '(COST: $X) Protect your office and bat away any unwanted
+    or unruly clients'
+  cigarFlavorText: '(COST: $X) Take a load off and relax for a bit! A few puffs will
+    stop you from stressing out so much. '
+  phoneFlavorText: '(COST: $X) Take your business to the next level by accepting
+    phone consultations! Clients will occasionally call you for advice, dont forget
+    we charge by the hour!'
+  bodyguardFlavorText: '(COST: $X) Tired of clients stealing or vandalizing your
+    office? Call in the big guns and make sure those clients think twice before causing
+    trouble!'
+  assistantFlavorText: '(COST: $X) Hire an assistant! She will help you with sorting
+    out exactly which document your client needs!'
+  dismissalFlavorText: This Power Document allows you to postpone meetings with clients
+    if you are getting overwhelmed (we still collect our fee, of course). Place this
+    document in the mailbox to activate!
+  hellishContractFlavorText: This Power Document offers you a deal. Damn one client
+    of your choosing to the depths of hell for all eternity in exchange for a large
+    monetary award. Be warned, taking deals of this sort can attract the wrong crowd.
+    Give this document to the client of your choosing to activate.
+  powerFistRequisitionFlavorText: This Power Document allows you to use the patented
+    Power Fist to crush one unruly client. using this on a bad client can make other
+    clients think twice before crossing you! Be warned though, the opposite is also
+    true... Give this document to the client you wish to activate it on
+  loanAgreementFlavorText: This Power Document makes clients a bit less strict about
+    their financial situations, meaning more income for the rest of the day! Place
+    this document in the mailbox to actiate it.
+  temporaryEmploymentContractFlavorText: This Power Document lets you call in backup.
+    If your current security situation is not enough, use this document to REALLY
+    beef up your security. Place in the mailbox to activate.
+  endOfLifePlanFlavorText: 'This Power document gives you a backup plan in case of
+    emergency. If you fail to make the daily quota, you are allowed to keep trying
+    for the big one! Place this document in your mailbox to activate it. '
