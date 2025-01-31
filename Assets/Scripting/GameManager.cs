@@ -80,7 +80,7 @@ namespace Scripting
         private int _maxCustomers;
         private int _level = 1;
         private float _loanAgreementRunning;
-        private float _moneyInSafe;
+        private int _moneyInSafe = 200;
 
         private static GameManager _singleton;
 
@@ -237,6 +237,11 @@ namespace Scripting
 
         private bool _endOfLifePlan;
 
+        public void ChangeMoneyInSafe(int value)
+        {
+            _moneyInSafe += value;
+        }
+        
         public void DayFinished()
         {
             IsNightTime = true;

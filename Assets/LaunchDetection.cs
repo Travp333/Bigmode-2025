@@ -70,7 +70,14 @@ public class LaunchDetection : MonoBehaviour
         if(_motor.IsMotherfucker){
             _motor.InterruptSpraying();
         }
+
+        if (_motor.IsThief)
+        {
+            _motor.InterruptStealing();
+        }
         _motor._runOut = false;
+        _motor._sneakOut = false;
+        _motor.IsHit();
         StartScreamAudio();
         _anim.Play("AIR");
         _lerpTarget = _hit.point;
