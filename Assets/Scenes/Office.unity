@@ -8558,6 +8558,8 @@ MonoBehaviour:
   upgrades: {fileID: 11400000, guid: 428cb30234fa46e44b67103fff65a4a7, type: 2}
   dayLength: 100
   loanAgreementTime: 30
+  devilDealTime: 45
+  nightResetsTimer: 0
   shiftManager: {fileID: 1035944793}
   spawnPoints:
   - {fileID: 96794678}
@@ -17816,7 +17818,7 @@ Transform:
   m_GameObject: {fileID: 1953529832}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00000058114523}
-  m_LocalPosition: {x: -1.53, y: 1, z: -24.6}
+  m_LocalPosition: {x: -0.35, y: 1, z: -31.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

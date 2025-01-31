@@ -113,7 +113,7 @@ namespace Scripting
             upgrades.hellishContract = false;
             upgrades.powerFistRequisition = false;
             upgrades.loanAgreement = false;
-            upgrades.temporaryEmploymentContract = true;
+            upgrades.temporaryEmploymentContract = false;
             upgrades.endOfLifePlan = false;
         }
 
@@ -547,6 +547,80 @@ namespace Scripting
         public List<CustomerMotor> GetCustomerList()
         {
             return _customerMotors;
+        }
+
+        public bool PayAssistant()
+        {
+            if (upgrades.priceAssistant <= upgrades.money)
+            {
+                upgrades.money -= upgrades.priceAssistant;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool PayBodyguard()
+        {
+            if (upgrades.priceBodyguard <= upgrades.money)
+            {
+                upgrades.money -= upgrades.priceBodyguard;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool PayPhone()
+        {
+            if (upgrades.pricePhone <= upgrades.money)
+            {
+                upgrades.money -= upgrades.pricePhone;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool PayCigar()
+        {
+            if (upgrades.priceCigar <= upgrades.money)
+            {
+                upgrades.money -= upgrades.priceCigar;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool PayBaseballBat()
+        {
+            if (upgrades.priceBaseballBat <= upgrades.money)
+            {
+                upgrades.money -= upgrades.priceBaseballBat;
+                return true;
+            }
+            return false;
+        }
+
+        public bool PayPaintings()
+        {
+            if (upgrades.pricePaintings <= upgrades.money)
+            {
+                upgrades.money -= upgrades.pricePaintings;
+                return true;
+            }
+            return false;
+        }
+
+        public bool PayChairs()
+        {
+            if (upgrades.priceChairs <= upgrades.money)
+            {
+                upgrades.money -= upgrades.priceChairs;
+                return true;
+            }
+            return false;
         }
     }
 }
