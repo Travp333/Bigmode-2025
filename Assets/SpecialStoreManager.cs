@@ -1,4 +1,3 @@
-using Scripting;
 using Scripting.ScriptableObjects;
 using System;
 using System.Collections.Generic;

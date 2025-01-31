@@ -29,6 +29,8 @@ namespace Scripting.Customer
 
         [SerializeField] private Billboard bubble;
 
+        private Vector3 aiFixPosition = new(1.4f, 1.0f, -32f);
+        
         public bool IsMotherfucker => _isMotherfucker;
 
         private AiController _aiController;
@@ -64,7 +66,7 @@ namespace Scripting.Customer
             _aiController = AiController.Singleton;
 
             Id = NextId++;
-            
+
             // DUDE i don't want to set it on every NPC so i set it here as hardcode bruv
             secondsUntilFreakOut = 60;
             secondsUntilChangeActivity = 10;
@@ -76,7 +78,7 @@ namespace Scripting.Customer
 
             _paymentAmount = 20000.0f + Random.Range(-5000f, 5000.0f);
             _penalty = 7000.0f * Random.Range(-500f, 500.0f);
-            _isMotherfucker = _aiController.HasVandalismSpots && Random.Range(0, 5) == 0;
+            _isMotherfucker = _aiController.HasVandalismSpots && Random.Range(0, 1) == 0;
 
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = secondsUntilChangeActivity;
@@ -163,11 +165,29 @@ namespace Scripting.Customer
 
         private void Update()
         {
+            if (!agent.hasPath)
+            {
+                if (GameManager.Singleton.IsNightTime)
+                { 
+                    Destroy(gameObject);
+                }
+            }
+
+            if (!agent.isOnNavMesh)
+            {
+                transform.position = Vector3.Lerp(transform.position, aiFixPosition, Time.deltaTime * 2.0f);
+            }
+            
             if (!_aiController || _done || _runOut)
             {
                 return;
             }
 
+            if (_isSpraying && _vandalismSpot)
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, _vandalismSpot.transform.rotation, Time.deltaTime * 2f);
+            }
+            
             if (!_isMotherfucker)
             {
                 StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
@@ -236,14 +256,25 @@ namespace Scripting.Customer
                     _vandalismSpot = _aiController.GetRandomVandalismSpot();
                     _vandalismSpot.IsLocked = true;
                     StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
-                        () => { anim.Play("SprayPaint"); },
-                        () => { RunOut(); }, 30f));
+                        () =>
+                        {
+                            anim.Play("SprayPaint");
+                            _isSpraying = true;
+                        },
+                        () =>
+                        {
+                            RunOut();
+                            _isSpraying = false;
+                        }, 30f));
                 }
             }
         }
 
+        private bool _isSpraying = false;
+
         public void FinishPaint()
         {
+            _isSpraying = false;
             _vandalismSpot.Spray();
         }
 
@@ -282,6 +313,11 @@ namespace Scripting.Customer
         public void InterruptSpraying()
         {
             _sprayInterrupted = true;
+
+            _isSpraying = false;
+
+            if (!_vandalismSpot.IsVisible)
+                _vandalismSpot.IsLocked = false;
         }
 
         private void OnValidate()
@@ -342,7 +378,12 @@ namespace Scripting.Customer
             //TODO: Stop Spray Animation
             _done = true;
 
-            agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
+            if (agent.isOnNavMesh)
+                agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
         // TODO: CALL THIS WHEN GET HIT
@@ -368,6 +409,9 @@ namespace Scripting.Customer
             // TODO: Change Agent Speed
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
         }
+        
+        public bool IsSpraying => _isSpraying;
+        public bool IsStealing { get; set; }
 
         public void Pay()
         {

@@ -105,9 +105,10 @@ namespace Scripting.Customer
         public VandalismSpot GetRandomVandalismSpot()
         {
             var availableSpots = vandalismSpots.Where(n => !n.IsLocked).ToArray();
-            return availableSpots[Random.Range(0, availableSpots.Length)];
+            
+            return availableSpots.Any() ? availableSpots[Random.Range(0, availableSpots.Length)] : null;
         }
-
+        
         public bool HasVandalismSpots => vandalismSpots.Any(n => !n.IsVisible);
         public GameObject AssistantSpot => assistantSpot;
     }

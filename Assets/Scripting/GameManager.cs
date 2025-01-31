@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Scripting.Customer;
 using Scripting.Player;
 using Scripting.ScriptableObjects;
@@ -437,6 +435,11 @@ namespace Scripting
         public void RemoveVandalismSpot(GameObject aiSpot)
         {
             _vandalismSpots.Remove(aiSpot);
+        }
+
+        public List<CustomerMotor> GetCustomerList()
+        {
+            return _customerMotors;
         }
     }
 }

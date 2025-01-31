@@ -1780,31 +1780,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 811b4055798e25d4f9354611f27f626f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.408
+      value: 6.33
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 811b4055798e25d4f9354611f27f626f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.022
+      value: -0.022000015
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 811b4055798e25d4f9354611f27f626f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -35.612
+      value: -35.64179
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 811b4055798e25d4f9354611f27f626f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.62466174
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 811b4055798e25d4f9354611f27f626f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.6246618
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 811b4055798e25d4f9354611f27f626f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.33135733
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 811b4055798e25d4f9354611f27f626f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.33135733
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 811b4055798e25d4f9354611f27f626f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1816,7 +1816,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 811b4055798e25d4f9354611f27f626f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -55.888
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 811b4055798e25d4f9354611f27f626f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -5539,10 +5539,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.8
-  m_Speed: 3.5
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 0
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -5564,6 +5564,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   footHitbox: {fileID: 686744128}
+  agent: {fileID: 606294642}
+  animator: {fileID: 606294640}
 --- !u!4 &606294644 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f9e6c129977695d448b694a932e29aae, type: 3}
