@@ -13,8 +13,6 @@ public class ClockPointer : MonoBehaviour
                       Quaternion.Euler(angle, 0, 0) * Vector3.up * 0.25f;
 
         pointer.transform.position = vector3;
-
-
         pointer.transform.rotation = Quaternion.Euler(angle, 0, 0); // Rotate pointer
     }
 }

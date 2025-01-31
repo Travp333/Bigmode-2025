@@ -98,7 +98,7 @@ _initialAgentSpeed = agent.speed;
 
             if (!_isMotherfucker)
             {
-                _isThief = _aiController.HasThiefSpot && Random.Range(0, 1) == 0;
+                _isThief = _aiController.HasThiefSpot && false; //Random.Range(0, 1) == 0;
             }
 
             _aiController = FindFirstObjectByType<AiController>();
@@ -368,6 +368,8 @@ _initialAgentSpeed = agent.speed;
 
             if (!_done && !_runOut && !_sprayInterrupted && !_sneakOut && !_stealInterrupted)
                 callback?.Invoke();
+
+            _aiController.AssistantLocked = false;
         }
 
         private void WalkIn()
