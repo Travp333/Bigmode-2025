@@ -37,6 +37,11 @@ namespace Scripting.Customer
         private float _changeTaskCooldown = 3.0f;
         private bool _done;
 
+        public void SetIsMotherfucker(bool value)
+        {
+            _isMotherfucker = value;
+        }
+        
         public float StressMeter { get; private set; }
         public int Id { get; set; }
 
@@ -60,6 +65,8 @@ namespace Scripting.Customer
 
         [SerializeField]
         int motherFuckerOdds = 5;
+
+        public bool IsHuellTarget { get; set; }
 
         private void Awake()
         {
@@ -254,19 +261,28 @@ namespace Scripting.Customer
                 if (!_vandalismSpot)
                 {
                     _vandalismSpot = _aiController.GetRandomVandalismSpot();
-                    if(!_vandalismSpot) return;
-                    _vandalismSpot.IsLocked = true;
-                    StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
-                        () =>
-                        {
-                            anim.Play("SprayPaint");
-                            _isSpraying = true;
-                        },
-                        () =>
-                        {
-                            RunOut();
-                            _isSpraying = false;
-                        }, 20f));
+
+                    if (_vandalismSpot)
+                    {
+                        _vandalismSpot.IsLocked = true;
+                        StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
+                            () =>
+                            {
+                                anim.Play("SprayPaint");
+                                _isSpraying = true;
+                            },
+                            () =>
+                            {
+                                RunOut();
+                                _isSpraying = false;
+                            }, 20f));
+                    }
+                    else
+                    {
+                        // No spot left because of bug or something,
+                        // i don't know, just ignore and go normal
+                        _isMotherfucker = false;
+                    }
                 }
             }
         }

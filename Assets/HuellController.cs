@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Scripting;
 using Scripting.Customer;
-using Unity.Mathematics.Geometry;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
 public class HuellController : MonoBehaviour
 {
@@ -16,6 +14,32 @@ public class HuellController : MonoBehaviour
     [SerializeField] private Animator animator;
 
     private bool _hitboxVisible;
+
+    public bool TecMode { get; set; }
+
+    private float _tecMode = 30f;
+
+    private bool _isWalkingOut;
+
+    public void WalkOut()
+    {
+        if (_isWalkingOut) return;
+        
+        animator.SetBool("isWalking", true);
+        if (_lockedTarget)
+        {
+            _lockedTarget.IsHuellTarget = false;
+            _lockedTarget = null;
+        }
+
+        _isWalkingOut = true;
+        if (agent.isOnNavMesh)
+            agent.SetDestination(AiController.Singleton.GetRandomDespawnPoint().transform.position);
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void OnValidate()
     {
@@ -61,14 +85,32 @@ public class HuellController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (_isWalkingOut)
+        {
+            if (agent.remainingDistance <= 0.1f)
+            {
+                Destroy(gameObject);
+            }
+
+            return;
+        }
+
         if (GameManager.Singleton.IsNightTime)
         {
+            _lockedTarget.IsHuellTarget = false;
             _lockedTarget = null;
             _huellmode = Huellmode.OriginalPos;
 
             _timerReconsider = 15f;
 
-            agent.SetDestination(_originalPosition);
+            if (TecMode)
+            {
+                WalkOut();
+            }
+            else
+            {
+                agent.SetDestination(_originalPosition);
+            }
         }
         else
         {
@@ -83,6 +125,16 @@ public class HuellController : MonoBehaviour
             }
         }
 
+        if (TecMode)
+        {
+            _tecMode -= Time.deltaTime;
+            if (_tecMode <= 0)
+            {
+                WalkOut();
+                return;
+            }
+        }
+
         if (_lockedTarget)
         {
             if (!_lockedTarget.IsSpraying)
@@ -91,8 +143,8 @@ public class HuellController : MonoBehaviour
                 SetMode(Random.Range(0, 3) == 0 ? Huellmode.Patrol : Huellmode.OriginalPos);
                 return;
             }
-            
-            var vec =  _lockedTarget.transform.position - transform.position;
+
+            var vec = _lockedTarget.transform.position - transform.position;
             // IF DISTANCE IS CLOSE ENOUGH - KICK IN BUTT
             if (vec.magnitude < 2.0f) // TODO: CHANGE DISTANCE
             {
@@ -112,7 +164,10 @@ public class HuellController : MonoBehaviour
             return;
         }
 
-        _lockedTarget = _customers.Where(n => n.IsSpraying || n.IsStealing).Where(n =>
+        _lockedTarget = _customers
+            .Where(n => n.IsSpraying || n.IsStealing)
+            .Where(n => !n.IsHuellTarget)
+            .Where(n =>
             {
                 var vec = n.transform.position - transform.position;
 
@@ -123,31 +178,37 @@ public class HuellController : MonoBehaviour
             .OrderBy(n => Vector3.Distance(n.transform.position, transform.position)).FirstOrDefault();
 
         Debug.DrawRay(transform.position, transform.forward * 3f, Color.red);
-        
+
         if (_lockedTarget)
         {
-            agent.isStopped = false;
+            _lockedTarget.IsHuellTarget = true;
             animator.SetBool("isWalking", true);
             agent.SetDestination(_lockedTarget.transform.position);
         }
         else
         {
+            var wasIn = false;
             if (_huellmode == Huellmode.OriginalPos && agent.remainingDistance <= 0.1f)
             {
-                agent.isStopped = true;
                 animator.SetBool("isWalking", false);
+                wasIn = true;
                 transform.rotation = Quaternion.Lerp(transform.rotation, _originalRotation, Time.deltaTime * 2f);
             }
 
             if (_huellmode == Huellmode.Patrol && agent.remainingDistance <= 0.1f)
             {
-                agent.isStopped = true;
+                wasIn = true;
                 animator.SetBool("isWalking", false);
                 var centerVec = new Vector3(1.4f, transform.position.y, -30.765f);
 
                 var targetRotation = Quaternion.LookRotation(centerVec - transform.position);
 
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 2f);
+            }
+
+            if (!wasIn)
+            {
+                animator.SetBool("isWalking", true);
             }
         }
     }
@@ -164,14 +225,18 @@ public class HuellController : MonoBehaviour
     {
         _huellmode = mode;
 
-        _lockedTarget = null;
+        if (_lockedTarget)
+        {
+            _lockedTarget.IsHuellTarget = false;
+            _lockedTarget = null;
+        }
 
-        if (_huellmode == Huellmode.OriginalPos)
+        if (_huellmode == Huellmode.OriginalPos && !TecMode)
         {
             agent.SetDestination(_originalPosition);
         }
 
-        if (_huellmode == Huellmode.Patrol)
+        if (_huellmode == Huellmode.Patrol || TecMode)
         {
             _waitingSpot = AiController.Singleton.GetRandomWaitingSpot();
             agent.SetDestination(_waitingSpot.Value);
@@ -190,8 +255,9 @@ public class HuellController : MonoBehaviour
 
     private IEnumerator KickAndGoBack()
     {
-        //TODO: DO KICK
         animator.Play("Attack");
+
+        _lockedTarget.IsHuellTarget = false;
         _lockedTarget = null;
 
         animator.SetBool("isWalking", true);

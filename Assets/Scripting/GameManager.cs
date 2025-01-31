@@ -28,6 +28,8 @@ namespace Scripting
         [SerializeField] private float dayLength = 60.0f * 2.5f;
 
         [SerializeField] private float loanAgreementTime = 30.0f;
+        [SerializeField] private float devilDealTime = 45.0f;
+        [SerializeField] private bool nightResetsTimer;
 
         [Header("Components")]
         [SerializeField] private ShiftManager shiftManager;
@@ -56,11 +58,22 @@ namespace Scripting
         [Header("Enemies")]
         [SerializeField] private List<GameObject> customerPrefabs;
 
+        [Header("Huell")]
+        [SerializeField] private GameObject huell;
+
+        [SerializeField] private int numHuells = 3;
+
+        public bool IsIncreasedMotherfuckerSpawn { get; set; }
+        public bool IsDecreasedMotherfuckerSpawn { get; set; }
+        public bool IsLoanAgreementRunning => _loanAgreementRunning > 0f;
+        public bool IsDevilTimeRunning => _devilTime > 0.0f;
+
+        private float _increasedMotherfuckerTimer = 0.0f;
+        private float _decreasedMotherfuckerTimer = 0.0f;
+        private float _devilTime = 0.0f;
 
         public GameObject MainCanvas => mainCanvas;
         public Movement Player => player;
-        public bool IsLoanAgreementRunning => _loanAgreementRunning > 0f;
-
         private readonly List<CustomerMotor> _customerMotors = new();
 
         private int _maxCustomers;
@@ -100,7 +113,7 @@ namespace Scripting
             upgrades.hellishContract = false;
             upgrades.powerFistRequisition = false;
             upgrades.loanAgreement = false;
-            upgrades.temporaryEmploymentContract = false;
+            upgrades.temporaryEmploymentContract = true;
             upgrades.endOfLifePlan = false;
         }
 
@@ -158,6 +171,30 @@ namespace Scripting
 
             _dayTimer -= Time.deltaTime;
             _loanAgreementRunning -= Time.deltaTime;
+            _increasedMotherfuckerTimer -= Time.deltaTime;
+            _decreasedMotherfuckerTimer -= Time.deltaTime;
+            _devilTime -= Time.deltaTime;
+            _spawnTimer -= Time.deltaTime;
+
+            if (_loanAgreementRunning < 0f)
+            {
+                _loanAgreementRunning = 0f;
+            }
+
+            if (_increasedMotherfuckerTimer < 0f)
+            {
+                _increasedMotherfuckerTimer = 0f;
+            }
+
+            if (_decreasedMotherfuckerTimer < 0f)
+            {
+                _decreasedMotherfuckerTimer = 0f;
+            }
+
+            if (_devilTime < 0f)
+            {
+                _devilTime = 0f;
+            }
 
             shiftManager.LerpShiftState((dayLength - _dayTimer) / dayLength);
 
@@ -165,8 +202,6 @@ namespace Scripting
             {
                 DayFinished();
             }
-
-            _spawnTimer -= Time.deltaTime;
             // SPAWNRATE CALL "SpawnCustomer()";
 
             if (upgrades.money <= 0)
@@ -195,12 +230,22 @@ namespace Scripting
             // IsNightTime = true;
         }
 
+        private bool _endOfLifePlan;
+
         public void DayFinished()
         {
             IsNightTime = true;
             AiController.Singleton.UnlockEverything();
             SpecialStoreManager.Singleton.SetRandomUpgrade();
             shiftManager.SetIsNightTime(true);
+
+            if (nightResetsTimer)
+            {
+                _loanAgreementRunning = 0.0f;
+                _increasedMotherfuckerTimer = 0.0f;
+                _decreasedMotherfuckerTimer = 0.0f;
+                _devilTime = 0.0f;
+            }
 
             var todaysQuota = GetCurrentQuota();
 
@@ -211,9 +256,9 @@ namespace Scripting
             }
             else
             {
-                if (upgrades.endOfLifePlan)
+                if (_endOfLifePlan)
                 {
-                    upgrades.endOfLifePlan = false;
+                    _endOfLifePlan = false;
                     _moneyInSafe += todaysQuota;
                     upgrades.money = 0;
                     Debug.Log("END OF LIFE PLAN ACTIVATED");
@@ -225,7 +270,7 @@ namespace Scripting
             }
 
             _level++;
-            
+
             _customerMotors.ForEach(n => n.WalkOut());
             _customerMotors.Clear();
         }
@@ -245,6 +290,38 @@ namespace Scripting
                 var go = Instantiate(customerPrefab, spawnPoint.transform.position, Quaternion.identity);
 
                 _customerMotors.Add(go.GetComponent<CustomerMotor>());
+            }
+        }
+
+        public void SpawnMotherfucker(bool force = false)
+        {
+            if (_customerMotors.Count <= _maxCustomers || force)
+            {
+                var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+                var customerPrefab = customerPrefabs[Random.Range(0, customerPrefabs.Count)];
+
+                var go = Instantiate(customerPrefab, spawnPoint.transform.position, Quaternion.identity);
+
+                var comp = go.GetComponent<CustomerMotor>();
+                _customerMotors.Add(comp);
+
+                comp.SetIsMotherfucker(true);
+            }
+        }
+
+        public void SpawnNormalGuy(bool force = false)
+        {
+            if (_customerMotors.Count <= _maxCustomers || force)
+            {
+                var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+                var customerPrefab = customerPrefabs[Random.Range(0, customerPrefabs.Count)];
+
+                var go = Instantiate(customerPrefab, spawnPoint.transform.position, Quaternion.identity);
+
+                var comp = go.GetComponent<CustomerMotor>();
+                _customerMotors.Add(comp);
+
+                comp.SetIsMotherfucker(false);
             }
         }
 
@@ -317,21 +394,39 @@ namespace Scripting
         public void DoPentagrammLogic()
         {
             // TODO: implement
+            if (IsIncreasedMotherfuckerSpawn)
+            {
+                _increasedMotherfuckerTimer = 30.0f;
+            }
 
+            _devilTime = devilDealTime;
 
             upgrades.hellishContract = false;
         }
 
-        public void DoFistStuff()
+        public void DoFistStuff(bool wasMotherfucker)
         {
             // TODO: implement
+            IsIncreasedMotherfuckerSpawn = !wasMotherfucker;
+            IsDecreasedMotherfuckerSpawn = wasMotherfucker;
+
+            if (IsIncreasedMotherfuckerSpawn)
+            {
+                _increasedMotherfuckerTimer = 30.0f;
+            }
+
+            if (IsDecreasedMotherfuckerSpawn)
+            {
+                _decreasedMotherfuckerTimer = 30.0f;
+            }
 
             upgrades.powerFistRequisition = false;
         }
 
         public void SpawnTec()
         {
-            // TODO: implement - is part of AI and Balancing
+            for (var i = 0; i < numHuells; i++)
+                SpawnTecHuell();
 
             upgrades.temporaryEmploymentContract = false;
         }
@@ -340,7 +435,19 @@ namespace Scripting
         {
             // TODO: implement
 
+            _endOfLifePlan = true;
+
             upgrades.endOfLifePlan = false;
+        }
+
+        private void SpawnTecHuell()
+        {
+            var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+            var instance = Instantiate(huell, spawnPoint.transform.position, Quaternion.identity);
+            instance.SetActive(true);
+            var huellScript = instance.GetComponent<HuellController>();
+
+            huellScript.TecMode = true;
         }
 
         public void PlayDeathScene()
