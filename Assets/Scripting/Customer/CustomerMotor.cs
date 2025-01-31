@@ -254,6 +254,7 @@ namespace Scripting.Customer
                 if (!_vandalismSpot)
                 {
                     _vandalismSpot = _aiController.GetRandomVandalismSpot();
+                    if(!_vandalismSpot) return;
                     _vandalismSpot.IsLocked = true;
                     StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
                         () =>
@@ -265,7 +266,7 @@ namespace Scripting.Customer
                         {
                             RunOut();
                             _isSpraying = false;
-                        }, 30f));
+                        }, 20f));
                 }
             }
         }
@@ -401,6 +402,7 @@ namespace Scripting.Customer
 
             _runOut = true;
             anim.SetBool("isRunning", true);
+            anim.Play("RUN");
             GameManager.Singleton.RemoveCustomer(this);
 
             // TODO: CHANGE ANIMATION
