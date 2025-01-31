@@ -16,6 +16,8 @@ namespace Scripting
 
         // [SerializeField] [Range(0, 1)] private float debug;
         [SerializeField] private bool isNightTime;
+        
+        [SerializeField] private ClockPointer clockPointer;
 
         private Material _skybox;
         private Material _ceilings;
@@ -64,6 +66,8 @@ namespace Scripting
             {
                 spotLights[i].intensity = 10f - lightIntensity.Evaluate(value) * 10f;
             }
+
+            clockPointer.SetDayTime(value);
         }
 
 
