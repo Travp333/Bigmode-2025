@@ -198,6 +198,7 @@ namespace Scripting.Customer
                             () =>
                             {
                                 // TODO: Stop Talk Animation with Assistant
+                                Assistant.Singleton.PayBubbleGum();
                                 ShowBubble();
                                 _aiController.AssistantLocked = false;
                             }, 2.5f));
