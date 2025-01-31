@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class FlavorTextManager : MonoBehaviour
 {
+    [SerializeField]
+    GameObject uibg;
+    Animator uibganim;
     private TextMeshProUGUI _myTextField;
     private static FlavorTextManager _singleton;
 
@@ -23,24 +26,18 @@ public class FlavorTextManager : MonoBehaviour
 
     private void Awake()
     {
+        uibganim = uibg.GetComponent<Animator>();
         Singleton = this;
         _myTextField = GetComponent<TextMeshProUGUI>();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
-    {
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-    }
 
     public void UpdateFlavorText(string newFlavorText)
     {
         if (_myTextField)
         {
+            uibganim.SetBool("DOWN", false);
+            uibganim.SetBool("UP", true);
             _myTextField.text = newFlavorText;
         }
         else
@@ -61,6 +58,8 @@ public class FlavorTextManager : MonoBehaviour
     {
         if (_myTextField != null)
         {
+            uibganim.SetBool("DOWN", true);
+            uibganim.SetBool("UP", false);
             _myTextField.text = "";
         }
     }
