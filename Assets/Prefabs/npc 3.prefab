@@ -586,6 +586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ded3b1a105843488577c9ceeba7841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  talkNoise: {fileID: -504215025114838590}
   burlapSack: {fileID: 6101098374141298779}
   assistantConvoTime: 5
   documentAttachPoint: {fileID: 7645910361393159890}
@@ -682,10 +683,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 7287386008815229632, guid: c05f93e47532ddd48b29c3b653f60c05, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 6418180475301049370, guid: 07bc39af474c7024f90db51b2276ddeb, type: 2}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1318,8 +1319,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -7283305935844236984, guid: c05f93e47532ddd48b29c3b653f60c05, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 55bfd578574f2df4988b77e6fb251cd8, type: 3}
-  m_Resource: {fileID: 8300000, guid: 55bfd578574f2df4988b77e6fb251cd8, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 6418180475301049370, guid: 72d7f9577777f26469137ffd1ec97835, type: 2}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

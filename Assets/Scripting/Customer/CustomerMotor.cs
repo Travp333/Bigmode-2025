@@ -14,6 +14,8 @@ namespace Scripting.Customer
     public class CustomerMotor : MonoBehaviour
     {
         [SerializeField]
+        AudioSource talkNoise;
+        [SerializeField]
         GameObject burlapSack;
 
         [SerializeField]
@@ -155,6 +157,7 @@ namespace Scripting.Customer
         //start conversation
         public void StartConversing()
         {
+            //talkNoise.Play();
             Unsit();
             _conversing = true;
             //Debug.Log("Starting Conversation");
@@ -164,6 +167,7 @@ namespace Scripting.Customer
         //end conversatioon
         public void StopConversing()
         {
+            //talkNoise.Stop();
             _conversing = false;
             agent.isStopped = false;
             
@@ -227,12 +231,18 @@ namespace Scripting.Customer
                 {
                     transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
                 }
-
+                if(!talkNoise.isPlaying){
+                    talkNoise.Play();
+                }
+                
                 anim.SetBool("conversing", true);
             }
             else
             {
                 anim.SetBool("conversing", false);
+                if(talkNoise.isPlaying){
+                    talkNoise.Stop();
+                }
             }
         }
 
