@@ -14,6 +14,8 @@ namespace Scripting.Customer
     public class CustomerMotor : MonoBehaviour
     {
         [SerializeField]
+        AudioSource talkNoise;
+        [SerializeField]
         GameObject burlapSack;
 
         [SerializeField]
@@ -155,6 +157,7 @@ namespace Scripting.Customer
         //start conversation
         public void StartConversing()
         {
+            //talkNoise.Play();
             Unsit();
             _conversing = true;
             //Debug.Log("Starting Conversation");
@@ -164,6 +167,7 @@ namespace Scripting.Customer
         //end conversatioon
         public void StopConversing()
         {
+            //talkNoise.Stop();
             _conversing = false;
             agent.isStopped = false;
             
@@ -227,15 +231,23 @@ namespace Scripting.Customer
                 {
                     transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
                 }
-
+                if(!talkNoise.isPlaying){
+                    talkNoise.Play();
+                }
+                
                 anim.SetBool("conversing", true);
             }
             else
             {
                 anim.SetBool("conversing", false);
+                if(talkNoise.isPlaying){
+                    talkNoise.Stop();
+                }
             }
         }
 
+        private bool _lockedAssistant;
+        
         private void Update()
         {
             if (!agent.hasPath)
@@ -244,7 +256,7 @@ namespace Scripting.Customer
                 {
                     if (_isThief)
                     {
-                        HuellController.Singleton.Reset(this);
+                        HuellController.Singleton?.Reset(this);
                     }
 
                     Destroy(gameObject);
@@ -310,6 +322,7 @@ namespace Scripting.Customer
                     if (_aiController.AssistantActive && !_aiController.AssistantLocked && !_isBubbleVisible)
                     {
                         _aiController.AssistantLocked = true;
+                        _lockedAssistant = true;
 
                         StartCoroutine(GoToTargetWithCallback(_aiController.AssistantSpot.transform.position, () =>
                             {
@@ -325,7 +338,9 @@ namespace Scripting.Customer
                                 // TODO: Stop Talk Animation with Assistant
                                 Assistant.Singleton.PayBubbleGum();
                                 ShowBubble();
-                            }, assistantConvoTime, () => { _aiController.AssistantLocked = false; }));
+                            }, assistantConvoTime, () =>
+                            {
+                                _lockedAssistant = false; _aiController.AssistantLocked = false;} ));
 
                         return;
                     }
@@ -610,8 +625,13 @@ namespace Scripting.Customer
 
         public void WalkOut()
         {
-            _done = true;
-            if (!agent) return;
+            _done = true; 
+            StopConversing();
+            if (!agent.enabled)
+            {
+                agent.enabled = true;
+            }
+            
             if (agent.isOnNavMesh)
                 agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
             else
@@ -627,6 +647,7 @@ namespace Scripting.Customer
 
         public void RunOut()
         {
+            
             if (!agent.enabled)
             {
                 agent.enabled = true;

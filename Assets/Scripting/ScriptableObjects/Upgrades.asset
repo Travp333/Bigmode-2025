@@ -15,12 +15,12 @@ MonoBehaviour:
   tutorialDone: 1
   chairs: 0
   paintings: 0
-  baseballBat: 1
+  baseballBat: 0
   cigar: 0
   phone: 0
   bodyguard: 0
   assistant: 0
-  money: 62794
+  money: 24310
   priceChairs: 1
   pricePaintings: 1001
   priceBaseballBat: 1

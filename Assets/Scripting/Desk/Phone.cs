@@ -10,6 +10,7 @@ namespace Scripting.Desk
         [SerializeField] private float phoneCallLowerBound, phoneCallUpperBound;
         private bool callBlocker;
         private DeskArms _deskArms;
+        [SerializeField] private AudioSource myPhoneDialogue;
         [SerializeField] private AudioSource myPhoneRinger;
         [SerializeField] private AudioSource myPhonePickup;
         [SerializeField] private AudioSource myPhonePutdown;
@@ -43,10 +44,14 @@ namespace Scripting.Desk
 
                 if (player.onPhone)
                 {
-                    myPhonePutdown.Play();
-                    handAnim.Play("Dropping Phone");
-                    Invoke(nameof(ConversationReward), 1f);
+                    if(myPhoneDialogue.isPlaying){
+                        myPhoneDialogue.Stop();
+                    }
+                    if(!myPhonePutdown.isPlaying){
+                        myPhonePutdown.Play();
+                    }
                     handAnim.GetComponent<PhoneReferenceHolder>().HangupPhone();
+                    player.onPhone = false;
                 }
 
                 _telephoneTimer = telephoneCooldown;
@@ -74,9 +79,11 @@ namespace Scripting.Desk
                         {
                             StopRinging();
                             myPhonePickup.Play();
+                            myPhoneDialogue.Play();
                             _deskArms.BlockLeftHand();
                             handAnim.Play("Grabbing Phone");
                             callBlocker = true;
+
                             Invoke(nameof(ConversationEnd), Random.Range(phoneCallLowerBound, phoneCallUpperBound));
                             player.NotifyOnPhone();
                         }
@@ -87,7 +94,6 @@ namespace Scripting.Desk
             if (player.onPhone && Input.GetMouseButtonDown(1))
             {
                 _deskArms.UnblockLeftHand();
-                myPhonePutdown.Play();
                 ConversationEndEarly();
                 //CancelInvoke();
             }
@@ -99,6 +105,7 @@ namespace Scripting.Desk
             {
                 handAnim.Play("Dropping Phone");
                 Invoke(nameof(ConversationNOReward), 1f);
+
             }
         }
 
@@ -108,6 +115,8 @@ namespace Scripting.Desk
             _telephoneTimer = 15f;
             player.NotifyNotOnPhone();
             //NO Money!! 
+            myPhonePutdown.Play();
+            myPhoneDialogue.Stop();
         }
 
         private bool _isRinging;
@@ -118,6 +127,7 @@ namespace Scripting.Desk
             {
                 handAnim.Play("Dropping Phone");
                 Invoke(nameof(ConversationReward), 1f);
+
             }
         }
 
@@ -126,7 +136,8 @@ namespace Scripting.Desk
             callBlocker = false;
             _telephoneTimer = 15f;
             player.NotifyNotOnPhone();
-       
+            myPhonePutdown.Play();
+            myPhoneDialogue.Stop();
             var value = Random.Range(7500, 10000) * (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
 
             //GameManager.Singleton.upgrades.money += value;
