@@ -541,7 +541,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2480537316951037679}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 6
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -605,6 +605,9 @@ MonoBehaviour:
   capsuleCollider: {fileID: 5549943557999183335}
   converseVariantProbability: 2
   bubble: {fileID: 3059414054954931393}
+  anim: {fileID: 286850515412282306}
+  _runOut: 0
+  _sneakOut: 0
   anim: {fileID: 286850515412282306}
   _runOut: 0
   _sneakOut: 0

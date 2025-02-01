@@ -59,10 +59,15 @@ namespace Scripting.Customer
                 }
             }
         }
-
+        
         public void AddDistractionSpots(List<AiSpot> aiSpots)
         {
             _distractionSpots.AddRange(aiSpots);
+            foreach (AiSpot aiSpot in aiSpots){
+                if (aiSpot.isChair){
+                    
+                }
+            }
         }
 
         private void Awake()
