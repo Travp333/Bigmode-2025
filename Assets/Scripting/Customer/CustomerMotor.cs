@@ -96,19 +96,23 @@ namespace Scripting.Customer
         int thiefSpawnOdds = 2;
 
         private CapsuleCollider _capsuleCollider;
+
         [SerializeField]
         public GameObject TutorialBubble;
+
         public static void ResetId()
         {
             NextId = 0;
         }
+
         /// <summary>
         /// Start is called on the frame when a script is enabled just before
         /// any of the Update methods is called the first time.
         /// </summary>
         void Start()
         {
-            if(Id == 0){
+            if (Id == 0)
+            {
                 TutorialManager.Singleton.ShowOrderNumber(12);
             }
             else
@@ -135,14 +139,17 @@ namespace Scripting.Customer
             anim = GetComponent<Animator>();
             _paymentAmount = 20000 + Random.Range(-5000, 5000);
             _penalty = 7000 * Random.Range(-500, 500);
-            
-            if(0 != Id){
-                _isMotherfucker =  _aiController.HasVandalismSpots & (Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
+
+            if (0 != Id)
+            {
+                _isMotherfucker = _aiController.HasVandalismSpots &
+                                  (Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
             }
 
             if (!_isMotherfucker && 0 != Id)
             {
-                _isThief = _aiController.HasThiefSpot && (Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
+                _isThief = _aiController.HasThiefSpot &&
+                           (Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
             }
 
             _aiController = FindFirstObjectByType<AiController>();
@@ -158,6 +165,7 @@ namespace Scripting.Customer
         //start conversation
         public void StartConversing()
         {
+            agent.ResetPath();
             //talkNoise.Play();
             Unsit();
             _conversing = true;
@@ -169,9 +177,8 @@ namespace Scripting.Customer
         public void StopConversing()
         {
             //talkNoise.Stop();
-            _conversing = false;
-            agent.isStopped = false;
-            
+            _conversing = false; 
+            anim.SetBool("conversing", false);
         }
 
         private static bool _tutorialDone;
@@ -226,29 +233,32 @@ namespace Scripting.Customer
         {
             if (_conversing)
             {
-                agent.isStopped = true;
-
                 if (!convoWithAgent)
                 {
                     transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
                 }
-                if(!talkNoise.isPlaying){
+
+                if (!talkNoise.isPlaying)
+                {
                     talkNoise.Play();
                 }
-                
+
                 anim.SetBool("conversing", true);
             }
             else
             {
                 anim.SetBool("conversing", false);
-                if(talkNoise.isPlaying){
+                if (talkNoise.isPlaying)
+                {
                     talkNoise.Stop();
                 }
             }
         }
 
+        private bool IsGoodGuy => !_isMotherfucker && !_isThief;
+        private bool WalksOut => _done || _sneakOut || _runOut;
         private bool _lockedAssistant;
-        
+
         private void Update()
         {
             if (!agent.hasPath)
@@ -264,12 +274,7 @@ namespace Scripting.Customer
                 }
             }
 
-            // if (agent.enabled && !agent.isOnNavMesh)
-            // {
-            //     transform.position = Vector3.Lerp(transform.position, _aiFixPosition, Time.deltaTime * 2.0f);
-            // }
-
-            if (!_aiController || _done || _runOut || _sneakOut)
+            if (!_aiController || WalksOut)
             {
                 return;
             }
@@ -286,7 +291,7 @@ namespace Scripting.Customer
                     Quaternion.Lerp(transform.rotation, _thiefSpot.transform.rotation, Time.deltaTime * 2f);
             }
 
-            if (!_isMotherfucker && !_isThief)
+            if (IsGoodGuy)
             {
                 if (agent.enabled && agent.remainingDistance < .1f && queuedSit && !anim.GetBool("Sitting"))
                 {
@@ -320,54 +325,48 @@ namespace Scripting.Customer
                 {
                     _changeTaskCooldown = secondsUntilChangeActivity + Random.Range(-3f, 3f);
 
-                    if (_aiController.AssistantActive && !_aiController.AssistantLocked && !_isBubbleVisible)
+                    if (_aiController.AssistantActive && !_aiController.AssistantLocked && !_isBubbleVisible &&
+                        !_lockedAssistant)
                     {
                         _aiController.AssistantLocked = true;
-                        _lockedAssistant = true;
 
-                        StartCoroutine(GoToTargetWithCallback(_aiController.AssistantSpot.transform.position, () =>
-                            {
-                                // TODO: Play Talk Animation with Assistant
-                                StartConversing();
-                                convoWithAgent = true;
-                                DecideToPlayVariant();
-                            },
-                            () =>
-                            {
-                                StopConversing();
-                                convoWithAgent = false;
-                                // TODO: Stop Talk Animation with Assistant
-                                Assistant.Singleton.PayBubbleGum();
-                                ShowBubble();
-                            }, assistantConvoTime, () =>
-                            {
-                                _lockedAssistant = false; _aiController.AssistantLocked = false;} ));
-
+                        if (queuedSit)
+                        {
+                            StartCoroutine(StandupAndTHENGoToAssistant());
+                        }
+                        else
+                        {
+                            GoToAssistant();
+                        }
+                        
                         return;
                     }
 
-                    var nextSpot = _aiController.GetFreeSpot();
-
-                    if (_currentSpot)
+                    if (!_lockedAssistant)
                     {
-                        _currentSpot?.Unlock();
-                        Unsit();
-                    }
+                        var nextSpot = _aiController.GetFreeSpot();
 
-                    if (nextSpot)
-                    {
-                        nextSpot.Lock();
-                        _currentSpot = nextSpot;
-                        if (_currentSpot.isChair)
+                        if (_currentSpot)
                         {
-                            queuedSit = true;
+                            _currentSpot?.Unlock();
+                            Unsit();
                         }
 
-                        agent.SetDestination(nextSpot.transform.position);
-                    }
-                    else
-                    {
-                        agent.SetDestination(_aiController.GetRandomWaitingSpot());
+                        if (nextSpot)
+                        {
+                            nextSpot.Lock();
+                            _currentSpot = nextSpot;
+                            if (_currentSpot.isChair)
+                            {
+                                queuedSit = true;
+                            }
+
+                            agent.SetDestination(nextSpot.transform.position);
+                        }
+                        else
+                        {
+                            agent.SetDestination(_aiController.GetRandomWaitingSpot());
+                        }
                     }
                 }
             }
@@ -380,7 +379,7 @@ namespace Scripting.Customer
                     if (_vandalismSpot)
                     {
                         _vandalismSpot.IsLocked = true;
-                        StartCoroutine(GoToTargetWithCallback(_vandalismSpot.transform.position,
+                        StartCoroutine(GoToTargetWithCallback(_vandalismSpot.AiSpot.transform.position,
                             () =>
                             {
                                 anim.Play("SprayPaint");
@@ -432,6 +431,35 @@ namespace Scripting.Customer
                     }
                 }
             }
+        }
+
+        private void GoToAssistant()
+        {
+            StartCoroutine(GoToTargetWithCallback(_aiController.AssistantSpot.transform.position, () =>
+                {
+                    // TODO: Play Talk Animation with Assistant
+                    StartConversing();
+                    convoWithAgent = true;
+                    DecideToPlayVariant();
+                },
+                () =>
+                {
+                    StopConversing();
+                    convoWithAgent = false;
+                    // TODO: Stop Talk Animation with Assistant
+                    Assistant.Singleton.PopBubbleGum();
+                    ShowBubble();
+                    _changeTaskCooldown = 0.0f;
+                }, assistantConvoTime, UnlockAssistant));
+        }
+        
+        private IEnumerator StandupAndTHENGoToAssistant()
+        {
+            Unsit();
+            
+            yield return new WaitForSeconds(0.5f);
+
+            GoToAssistant();
         }
 
         private void Unsit()
@@ -488,43 +516,30 @@ namespace Scripting.Customer
             _vandalismSpot.Spray();
         }
 
+        private bool CancellationToken => _done || _runOut || _sprayInterrupted || _sneakOut || _stealInterrupted || !agent.isActiveAndEnabled;
+        
         private IEnumerator GoToTargetWithCallback(Vector3 position, Action start = null, Action callback = null,
             float delay = 0, Action onFinally = null)
         {
-            if (agent.enabled)
+            agent.SetDestination(position);
+
+            yield return null;
+
+            while (!CancellationToken && agent.remainingDistance > 0.1f)
             {
-                agent.SetDestination(position);
-
                 yield return null;
-
-                while (agent.remainingDistance > 0.1f && !_done && !_runOut && !_sneakOut && !_sprayInterrupted &&
-                       !_stealInterrupted)
-                {
-                    yield return null;
-                }
             }
 
-            if (!_done && !_runOut && !_sprayInterrupted && !_sneakOut && !_stealInterrupted)
+            if (!CancellationToken)
                 start?.Invoke();
 
-            if (!_done && !_runOut && !_sprayInterrupted && !_sneakOut && !_stealInterrupted)
+            if (!CancellationToken)
                 yield return new WaitForSeconds(delay);
 
-            if (!_done && !_runOut && !_sprayInterrupted && !_sneakOut && !_stealInterrupted)
+            if (!CancellationToken)
                 callback?.Invoke();
 
             onFinally?.Invoke();
-        }
-
-        private void WalkIn()
-        {
-            if (!_aiController) return;
-
-            // _changeTaskCooldown = 0.1f;
-
-            // var entrance = _aiController.EntrancePoint.transform.position;
-            //
-            // agent.SetDestination(entrance);
         }
 
         private bool _sprayInterrupted;
@@ -562,19 +577,27 @@ namespace Scripting.Customer
 
         public void GetHit()
         {
+            _done = true;
+            _runOut = true;
+            _conversing = false;
+            
             Unsit();
+            UnlockAssistant();
+            
+            Debug.Log("GOT HIT");
+
             StartCoroutine(DoGetHit());
         }
 
         private IEnumerator DoGetHit()
         {
             //Debug.Log("Stopping Agent!~");
-            agent.isStopped = true;
+            agent.ResetPath();
             agent.velocity = Vector3.zero;
             //agent.enabled = false;
             yield return new WaitForSeconds(.5f);
             //agent.enabled = true;
-            agent.isStopped = false;
+            // agent.isStopped = false;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -596,6 +619,10 @@ namespace Scripting.Customer
                     "Wants: " + (_isMotherfucker ? "trouble" : _contractType));
                 Handles.Label(transform.position + Vector3.up * 1.5f,
                     "Stresslevel: " + (_isMotherfucker ? "unlimited" : StressMeter));
+                
+                Handles.Label(transform.position + Vector3.up * 3f, 
+                    $"Target: " + (agent.isActiveAndEnabled ? agent.destination : "agent inanctive") + "\n" + 
+                    $"Done: {_done}, RunOut: {_runOut}, SInt: {_sprayInterrupted}\nSOut: {_sneakOut}, STInter: {_stealInterrupted}\nAssLock: {_lockedAssistant} ");
             }
             else
             {
@@ -636,13 +663,13 @@ namespace Scripting.Customer
 
         public void WalkOut()
         {
-            _done = true; 
+            _done = true;
             StopConversing();
             if (!agent.enabled)
             {
                 agent.enabled = true;
             }
-            
+
             if (agent.isOnNavMesh)
                 agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
             else
@@ -656,9 +683,20 @@ namespace Scripting.Customer
             }
         }
 
+        private void UnlockAssistant()
+        {
+            if (_lockedAssistant)
+            {
+                _lockedAssistant = false;
+                _aiController.AssistantLocked = false;
+            }
+        }
+
         public void RunOut()
         {
-            
+            UnlockAssistant();
+            StopConversing();
+
             if (!agent.enabled)
             {
                 agent.enabled = true;
@@ -722,6 +760,5 @@ namespace Scripting.Customer
             GameManager.Singleton.ChangeMoneyAmount(value);
             GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, value);
         }
-        
     }
 }

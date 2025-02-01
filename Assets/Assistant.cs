@@ -1,4 +1,6 @@
 using System.Collections;
+using Scripting.Customer;
+using UnityEditor;
 using UnityEngine;
 
 public class Assistant : MonoBehaviour
@@ -27,19 +29,15 @@ public class Assistant : MonoBehaviour
         Singleton = this;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
     {
-        
+        Handles.Label(transform.position + transform.up * 4f, "locked: " + AiController.Singleton.AssistantLocked);
     }
+#endif
 
-    public void PayBubbleGum()
+    public void PopBubbleGum()
     {
         myBubbleGum.Play();
         StartCoroutine(BubbleGum());
@@ -51,16 +49,16 @@ public class Assistant : MonoBehaviour
 
         var gum = Instantiate(bg, transform);
         gum.transform.localScale = Vector3.one * 0.001f;
-        
+
         while (elapsed < 0.85f)
         {
             elapsed += Time.deltaTime;
-            
+
             gum.transform.localScale = Vector3.Lerp(Vector3.one * 0.001f, Vector3.one * 0.5f, elapsed);
-            
+
             yield return null;
         }
-        
+
         Destroy(gum);
     }
 }
