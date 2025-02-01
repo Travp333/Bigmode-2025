@@ -172,6 +172,7 @@ Transform:
   - {fileID: 5868573029552201383}
   - {fileID: 7176426245738462100}
   - {fileID: 2227437859692459137}
+  - {fileID: 233513632419308521}
   - {fileID: 7249208735425405696}
   - {fileID: 2827985377046643678}
   - {fileID: 698842869953638597}
@@ -2497,12 +2498,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4334825953396571188}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.64272296, y: 0.29480004, z: 0.29480016, w: 0.64272314}
-  m_LocalPosition: {x: -16.008, y: 0.863, z: -2.335}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.63402677, y: -0.31306565, z: -0.31306547, w: 0.63402677}
+  m_LocalPosition: {x: 9.052967, y: 0.45309007, z: -8.20908}
+  m_LocalScale: {x: 0.5227001, y: 0.5227001, z: 0.5227}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7249208735425405696}
+  m_Father: {fileID: 3054703716416568216}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 49.279}
 --- !u!33 &2985584748678176135
 MeshFilter:
@@ -8942,7 +8943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a05296f687b039a498067dcd8c59d1dc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.1419997
+      value: 7.44
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a05296f687b039a498067dcd8c59d1dc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8950,7 +8951,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a05296f687b039a498067dcd8c59d1dc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.26999855
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a05296f687b039a498067dcd8c59d1dc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9002,10 +9003,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a05296f687b039a498067dcd8c59d1dc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 233513632419308521}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a05296f687b039a498067dcd8c59d1dc, type: 3}
       insertIndex: -1
