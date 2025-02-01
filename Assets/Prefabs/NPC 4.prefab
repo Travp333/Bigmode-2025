@@ -1623,6 +1623,10 @@ PrefabInstance:
       propertyPath: order
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: atSpawnVisible
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

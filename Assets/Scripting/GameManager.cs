@@ -18,12 +18,16 @@ namespace Scripting
     {
         [SerializeField]
         Animator doorAnim;
+
         [SerializeField]
         Scene scene;
+
         [SerializeField]
         private GameObject QuotaMetUI, MoneyDifferenceUI, MoneyDifferenceUIPOS;
+
         [SerializeField]
         private TextMeshProUGUI MoneyUI, QuotaUI;
+
         [SerializeField]
         private GameObject uiPowerDocumentHell,
             uiPowerDocumentDismissal,
@@ -141,10 +145,12 @@ namespace Scripting
             fade.gameObject.SetActive(true);
             StartCoroutine(FadeOut());
         }
+
+
         public int GetMoney() => upgrades.money;
 
         public Action<int, int> OnMoneyUpdated;
-        
+
         private void Start()
         {
             SpecialStoreManager.Singleton.SetRandomUpgrade();
@@ -186,10 +192,11 @@ namespace Scripting
 
         private void Update()
         {
-            if (IsNightTime){
+            if (IsNightTime)
+            {
                 doorAnim.SetBool("opened", true);
                 return;
-            } 
+            }
 
             _dayTimer -= Time.deltaTime;
             _loanAgreementRunning -= Time.deltaTime;
@@ -235,8 +242,6 @@ namespace Scripting
             {
                 _spawnTimer = 10.0f;
                 SpawnCustomer();
-                
-
             }
         }
 
@@ -255,25 +260,26 @@ namespace Scripting
         }
 
         private bool _endOfLifePlan;
-        private void ResetQuotaMetUI(){
+
+        private void ResetQuotaMetUI()
+        {
             QuotaMetUI.SetActive(false);
         }
 
         public void MoneyStolen(int value)
         {
-
             ChangeMoneyAmount(-value);
             //upgrades.money -= value;
             OnMoneyUpdated?.Invoke(upgrades.money, -value);
         }
-        
+
         public void ReturnStolenMoney(int value)
         {
             ChangeMoneyAmount(value);
             //upgrades.money += value;
             OnMoneyUpdated?.Invoke(upgrades.money, value);
         }
-        
+
         public void DayFinished()
         {
             IsNightTime = true;
@@ -285,7 +291,7 @@ namespace Scripting
             {
                 TutorialManager.Singleton.ShowOrderNumber(8);
             }
-            
+
             if (nightResetsTimer)
             {
                 _loanAgreementRunning = 0.0f;
@@ -296,7 +302,7 @@ namespace Scripting
 
             var todaysQuota = GetCurrentQuota();
             QuotaUI.text = "Today's Quota: $" + todaysQuota;
-            
+
             if (upgrades.money > todaysQuota)
             {
                 QuotaMetUI.SetActive(true);
@@ -328,7 +334,7 @@ namespace Scripting
 
         public int GetCurrentQuota()
         {
-            return 40000 * (int)Math.Ceiling(Mathf.Pow(1.165f, _level - 1));
+            return 40000 * (int) Math.Ceiling(Mathf.Pow(1.165f, _level - 1));
         }
 
         public void SpawnCustomer()
@@ -568,51 +574,26 @@ namespace Scripting
                 uiPowerDocumentFist.SetActive(false);
             }
 
-            var text = string.Empty;
-            text += "Active Power: \n";
-            // text += $"La: {upgrades.loanAgreement}\n";
-            // text += $"Tec: {upgrades.temporaryEmploymentContract}\n";
-            // text += $"Eel: {upgrades.endOfLifePlan}\n";
-            // text += $"Ds: {upgrades.dismissal}\n";
-            // text += $"Penta: {upgrades.hellishContract}\n";
-            // text += $"Fist: {upgrades.powerFistRequisition}\n";
-            
-            MoneyUI.text = "$"+ upgrades.money;
-
-            
-            //text += $"Money: {upgrades.money}\n";
-            text += $"Safe: {_moneyInSafe}\n";
-            text += $"Active Customers Ids: {(string.Join(',', _customerMotors.Select(m => m.Id).ToList()))}";
-
-            GUI.Label(new Rect(5, Screen.height / 2f, 200, 500), text);
+            MoneyUI.text = "$" + upgrades.money;
         }
 
-        private List<GameObject> _vandalismSpots = new();
-        public void ChangeMoneyAmount(int amount){
+        public void ChangeMoneyAmount(int amount)
+        {
             upgrades.money += amount;
-            if(amount < 0){
+            if (amount < 0)
+            {
                 var moneyUI = Instantiate(MoneyDifferenceUI, MoneyDifferenceUIPOS.transform);
                 //MoneyDifferenceUI.gameObject.SetActive(true);
-                moneyUI.GetComponent<TextMeshProUGUI>().text = "- $"+ amount * -1;
+                moneyUI.GetComponent<TextMeshProUGUI>().text = "- $" + amount * -1;
                 moneyUI.GetComponent<TextMeshProUGUI>().color = Color.red;
             }
-            else{
+            else
+            {
                 var moneyUI = Instantiate(MoneyDifferenceUI, MoneyDifferenceUIPOS.transform);
                 //MoneyDifferenceUI.gameObject.SetActive(true);
-                moneyUI.GetComponent<TextMeshProUGUI>().text = "+ $"+ amount;
+                moneyUI.GetComponent<TextMeshProUGUI>().text = "+ $" + amount;
                 moneyUI.GetComponent<TextMeshProUGUI>().color = Color.green;
             }
-            
-        }
-
-        public void RegisterVandalismSpot(GameObject aiSpot)
-        {
-            _vandalismSpots.Add(aiSpot);
-        }
-
-        public void RemoveVandalismSpot(GameObject aiSpot)
-        {
-            _vandalismSpots.Remove(aiSpot);
         }
 
         public List<CustomerMotor> GetCustomerList()
@@ -681,6 +662,7 @@ namespace Scripting
                 OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceBaseballBat);
                 return true;
             }
+
             return false;
         }
 
@@ -693,6 +675,7 @@ namespace Scripting
                 OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.pricePaintings);
                 return true;
             }
+
             return false;
         }
 
@@ -705,6 +688,7 @@ namespace Scripting
                 OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceChairs);
                 return true;
             }
+
             return false;
         }
     }
