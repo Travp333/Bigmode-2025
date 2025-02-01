@@ -464,7 +464,9 @@ _initialAgentSpeed = agent.speed;
 
         private void RemoveMoney()
         {
-            GameManager.Singleton.upgrades.money -= _penalty;
+            
+            //GameManager.Singleton.upgrades.money -= _penalty;
+            GameManager.Singleton.ChangeMoneyAmount(-_penalty);
             GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, -_penalty);
             // HAS TO BE IMPLEMENTED
         }
@@ -476,7 +478,7 @@ _initialAgentSpeed = agent.speed;
         {
             //TODO: Stop Spray Animation
             _done = true;
-
+            if(!agent) return;
             if (agent.isOnNavMesh)
                 agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
             else
@@ -550,7 +552,8 @@ _initialAgentSpeed = agent.speed;
         {
             var value = _paymentAmount * (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
 
-            GameManager.Singleton.upgrades.money += value;
+            //GameManager.Singleton.upgrades.money += value;
+            GameManager.Singleton.ChangeMoneyAmount(value);
             GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, value);
         }
     }
