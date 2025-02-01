@@ -6165,6 +6165,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669113137}
   m_CullTransparentMesh: 1
+--- !u!23 &671283862 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3578245840825631969, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+  m_PrefabInstance: {fileID: 5887139369653721332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &676042182
 GameObject:
   m_ObjectHideFlags: 0
@@ -8330,6 +8335,7 @@ MonoBehaviour:
   - {fileID: 899516406}
   isNightTime: 0
   clockPointer: {fileID: 1650025859}
+  openRenderer: {fileID: 671283862}
 --- !u!114 &1035944794
 MonoBehaviour:
   m_ObjectHideFlags: 0

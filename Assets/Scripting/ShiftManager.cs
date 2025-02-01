@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace Scripting
@@ -16,8 +17,10 @@ namespace Scripting
 
         // [SerializeField] [Range(0, 1)] private float debug;
         [SerializeField] private bool isNightTime;
-        
+
         [SerializeField] private ClockPointer clockPointer;
+
+        [SerializeField] private MeshRenderer openRenderer;
 
         private Material _skybox;
         private Material _ceilings;
@@ -30,15 +33,49 @@ namespace Scripting
         private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
         private static readonly int Color1 = Shader.PropertyToID("_Color");
 
+        private Material[] materials;
+        private Color[] colors;
+
         void Awake()
         {
             _ceilings = skybox.materials[0];
             _skybox =
                 skybox.materials[6];
 
+            materials = openRenderer.materials;
+            colors = materials.Select(n => n.GetColor("_EmissionColor")).ToArray();
+
             LerpShiftState(0);
             _isNightTime = true;
             StartCoroutine(AnimateToNightTime());
+        }
+
+        void Start()
+        {
+            materials.ToList().ForEach(mat =>
+            {
+                mat.DisableKeyword("_EMISSION");
+                mat.SetColor("_EmissionColor", Color.black);
+            });
+        }
+
+        public void SetEmission(bool isEnabled)
+        {
+            for (var i = 0; i < materials.Length; i++)
+            {
+                var mat = materials[i];
+                var color = colors[i];
+                if (isEnabled)
+                {
+                    mat.EnableKeyword("_EMISSION");
+                    mat.SetColor("_EmissionColor", color * 1f); // Adjust intensity as needed
+                }
+                else
+                {
+                    mat.DisableKeyword("_EMISSION");
+                    mat.SetColor("_EmissionColor", Color.black);
+                }
+            }
         }
 
         public void LerpShiftState(float value)
@@ -87,6 +124,8 @@ namespace Scripting
                 _isNightTime = false;
                 StartCoroutine(AnimateToDayTime());
             }
+
+            SetEmission(!value);
         }
 
         private IEnumerator AnimateToNightTime()
