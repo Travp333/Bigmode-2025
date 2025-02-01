@@ -782,7 +782,7 @@ namespace Scripting.Player
             }
         }
 
-        private const float AnimationDuration = 1f;
+        private const float AnimationDuration = .3f;
 
         private IEnumerator DoSitChairAnimation()
         {

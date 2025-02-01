@@ -1,5 +1,91 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2638802204615649367
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4086902217200355579}
+  - component: {fileID: 1509298012709808338}
+  - component: {fileID: 5172849939200086926}
+  m_Layer: 0
+  m_Name: Burlap Sack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4086902217200355579
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638802204615649367}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.60517293, y: 0.5953679, z: -0.51479644, w: 0.11953086}
+  m_LocalPosition: {x: -0.786, y: 0.879, z: 0.249}
+  m_LocalScale: {x: 0.97568995, y: 0.97568965, z: 0.97568995}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1656827018473178467}
+  m_LocalEulerAnglesHint: {x: 27.925, y: 119.971, z: -107.283}
+--- !u!23 &1509298012709808338
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638802204615649367}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 20d8e85cb0123604f95bab4745f1db28, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &5172849939200086926
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638802204615649367}
+  m_Mesh: {fileID: 2534964839176971238, guid: 8f4e5d42ad48a2b4a975e1c123d3f63d, type: 3}
 --- !u!1 &2871997366259391609
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +543,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1117178536989204752, guid: dbac4d4d693eec743864d3bd6b10c374, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7340724701843915576}
+    - targetCorrespondingSourceObject: {fileID: 4058852915679833821, guid: dbac4d4d693eec743864d3bd6b10c374, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4086902217200355579}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dbac4d4d693eec743864d3bd6b10c374, type: 3}
       insertIndex: -1
@@ -510,6 +599,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5483286115038677556}
   m_SourcePrefab: {fileID: 100100000, guid: dbac4d4d693eec743864d3bd6b10c374, type: 3}
+--- !u!4 &1656827018473178467 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4058852915679833821, guid: dbac4d4d693eec743864d3bd6b10c374, type: 3}
+  m_PrefabInstance: {fileID: 3363567001673575358}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2390507226408422062 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1117178536989204752, guid: dbac4d4d693eec743864d3bd6b10c374, type: 3}
@@ -550,7 +644,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2480537316951037679}
   serializedVersion: 4
-  m_Mass: 6
+  m_Mass: 60
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -606,6 +700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ded3b1a105843488577c9ceeba7841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  burlapSack: {fileID: 2638802204615649367}
   assistantConvoTime: 5
   documentAttachPoint: {fileID: 2871997366259391609}
   rb: {fileID: 6382585882196989438}
@@ -618,6 +713,8 @@ MonoBehaviour:
   anim: {fileID: 286850515412282306}
   _runOut: 0
   _sneakOut: 0
+  vandalSpawnOdds: 6
+  thiefSpawnOdds: 6
 --- !u!136 &5549943557999183335
 CapsuleCollider:
   m_ObjectHideFlags: 0
