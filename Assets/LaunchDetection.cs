@@ -14,6 +14,7 @@ public class LaunchDetection : MonoBehaviour
     [SerializeField] AudioSource talkAudio;
     [SerializeField] AudioSource hurtAudio;
     [SerializeField] AudioSource screamAudio;
+    [SerializeField] AudioSource flyAudio;
 
     private Animator _anim;
     private RaycastHit _hit;
@@ -216,6 +217,10 @@ public class LaunchDetection : MonoBehaviour
             {
                 screamAudio.Stop();
             }
+            if(flyAudio.isPlaying)
+            {
+                flyAudio.Stop();
+            }
             if (_anim.GetCurrentAnimatorStateInfo(0).IsName("AIR"))
             {
                 PlayRandomDamageAnimation();
@@ -268,6 +273,7 @@ public class LaunchDetection : MonoBehaviour
         //{
         talkAudio.Stop();
         screamAudio.Play();
+        flyAudio.Play();
         //}
     }
 }
