@@ -17,10 +17,9 @@ namespace Scripting
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
-        Animator doorAnim;
-
+        GameObject wastedScreen;
         [SerializeField]
-        Scene scene;
+        Animator doorAnim;
 
         [SerializeField]
         private GameObject QuotaMetUI, MoneyDifferenceUI, MoneyDifferenceUIPOS;
@@ -136,7 +135,6 @@ namespace Scripting
         {
             CustomerMotor.ResetId();
             SetInitValues();
-            scene = SceneManager.GetActiveScene();
             Singleton = this;
             IsNightTime = true;
 
@@ -509,13 +507,24 @@ namespace Scripting
 
         public void PlayDeathScene()
         {
+            wastedScreen.SetActive(true);
             Debug.Log("DEAD");
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Time.timeScale = 0f;
+            player.enabled = false;
             // TODO: PLAY DEATH SCENE
         }
 
         public void ResetScene()
         {
+            Time.timeScale = 1;
             SceneManager.LoadScene("Office", LoadSceneMode.Single);
+        }
+        public void ReturnToMenuScene(){
+            Time.timeScale = 1;
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
 
         private void OnGUI()
