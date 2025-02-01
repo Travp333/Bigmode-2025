@@ -16,6 +16,8 @@ namespace Scripting
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
+        Scene scene;
+        [SerializeField]
         private GameObject QuotaMetUI, MoneyDifferenceUI, MoneyDifferenceUIPOS;
         [SerializeField]
         private TextMeshProUGUI MoneyUI, QuotaUI;
@@ -126,7 +128,7 @@ namespace Scripting
         private void Awake()
         {
             SetInitValues();
-
+            scene = SceneManager.GetActiveScene();
             Singleton = this;
             IsNightTime = true;
 
@@ -570,16 +572,16 @@ namespace Scripting
         public void ChangeMoneyAmount(int amount){
             upgrades.money += amount;
             if(amount < 0){
-                var moneyUI = Instantiate(MoneyDifferenceUI);
+                var moneyUI = Instantiate(MoneyDifferenceUI, MoneyDifferenceUIPOS.transform);
                 //MoneyDifferenceUI.gameObject.SetActive(true);
-                MoneyDifferenceUI.GetComponent<TextMeshPro>().text = "- $"+ amount;
-                MoneyDifferenceUI.GetComponent<TextMeshPro>().color = Color.red;
+                moneyUI.GetComponent<TextMeshProUGUI>().text = "- $"+ amount * -1;
+                moneyUI.GetComponent<TextMeshProUGUI>().color = Color.red;
             }
             else{
-                var moneyUI = Instantiate(MoneyDifferenceUI);
+                var moneyUI = Instantiate(MoneyDifferenceUI, MoneyDifferenceUIPOS.transform);
                 //MoneyDifferenceUI.gameObject.SetActive(true);
-                MoneyDifferenceUI.GetComponent<TextMeshPro>().text = "+ $"+ amount;
-                MoneyDifferenceUI.GetComponent<TextMeshPro>().color = Color.green;
+                moneyUI.GetComponent<TextMeshProUGUI>().text = "+ $"+ amount;
+                moneyUI.GetComponent<TextMeshProUGUI>().color = Color.green;
             }
             
         }
