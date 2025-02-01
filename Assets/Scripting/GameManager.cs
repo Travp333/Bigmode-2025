@@ -224,7 +224,19 @@ namespace Scripting
             if (_spawnTimer <= 0)
             {
                 _spawnTimer = 10.0f;
-                SpawnCustomer();
+                int rand = Random.Range(0,5);
+                if(rand == 1){
+                    SpawnMotherfucker();
+                }
+                else if (rand == 2){
+                    //what is normal guy???
+                    SpawnNormalGuy();
+                }
+                else{
+                    SpawnCustomer();
+                }
+                
+
             }
         }
 

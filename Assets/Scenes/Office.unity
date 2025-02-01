@@ -1712,6 +1712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 0
 --- !u!1 &363306028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3031,6 +3032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 0
 --- !u!1 &591231648 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6962536368189241714, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
@@ -3165,6 +3167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 1
 --- !u!108 &610031821 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 6268150797359155722, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
@@ -6454,6 +6457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 0
 --- !u!1001 &1346316947
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7809,7 +7813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1495703881
 Transform:
   m_ObjectHideFlags: 0
@@ -8445,6 +8449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 0
 --- !u!1 &1633609120
 GameObject:
   m_ObjectHideFlags: 0
@@ -8544,7 +8549,7 @@ GameObject:
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1656707966
 Transform:
   m_ObjectHideFlags: 0
@@ -10387,6 +10392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 0
 --- !u!1 &2017970954
 GameObject:
   m_ObjectHideFlags: 0
@@ -11261,7 +11267,7 @@ GameObject:
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2096763272
 Transform:
   m_ObjectHideFlags: 0
@@ -11382,6 +11388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 0
 --- !u!4 &152395479221938946
 Transform:
   m_ObjectHideFlags: 0
@@ -11548,6 +11555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 1
 --- !u!1 &852967280158980116
 GameObject:
   m_ObjectHideFlags: 0
@@ -11936,7 +11944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1236495159756511926, guid: 1f950818c890960459d7d493b0acdc08, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1901426584128487436, guid: 1f950818c890960459d7d493b0acdc08, type: 3}
       propertyPath: m_LocalScale.x
@@ -12471,6 +12479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 1
 --- !u!114 &4759267836527469050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12483,6 +12492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 1
 --- !u!114 &4759267837642534569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12495,6 +12505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 1
 --- !u!1 &4777688104654904222
 GameObject:
   m_ObjectHideFlags: 0
@@ -13080,6 +13091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3e355a59b2374cacd3def36780ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChair: 0
 --- !u!1 &6079869768312471649
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ namespace Scripting.Customer
 {
     public class AiSpot : MonoBehaviour
     {
+        public bool isChair;
         public bool IsOccupied { get; private set; }
 
         public void Arrive(Action callback = null)

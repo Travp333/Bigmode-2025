@@ -7,13 +7,17 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
+using TMPro;
 
 namespace Scripting.Customer
 {
     public class CustomerMotor : MonoBehaviour
     {
         [SerializeField]
+        float assistantConvoTime = 5f;
+        [SerializeField]
         public GameObject documentAttachPoint;
+        Color newColor;
 
         [SerializeField] private Rigidbody rb;
         [SerializeField] private NavMeshAgent agent;
@@ -28,6 +32,7 @@ namespace Scripting.Customer
         private int converseVariantProbability = 5;
 
         [SerializeField] private Billboard bubble;
+        private SpriteRenderer bubSprite;
 
         private readonly Vector3 _aiFixPosition = new(1.4f, 1.0f, -32f);
 
@@ -70,16 +75,17 @@ namespace Scripting.Customer
         public bool _sneakOut;
 
         private int _index;
+        private bool convoWithAgent;
 
-        [SerializeField]
-        int motherFuckerOdds = 5;
+        private bool queuedSit;
 
         public bool IsHuellTarget { get; set; }
 
         private void Awake()
         {
+            bubSprite = bubble.GetComponent<SpriteRenderer>();
             _aiController = AiController.Singleton;
-_initialAgentSpeed = agent.speed;
+            _initialAgentSpeed = agent.speed;
             
             Id = NextId++;
 
@@ -175,7 +181,10 @@ _initialAgentSpeed = agent.speed;
             if (_conversing)
             {
                 agent.isStopped = true;
-                transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
+
+                if(!convoWithAgent){
+                    transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
+                }
                 anim.SetBool("conversing", true);
             }
             else
@@ -218,15 +227,26 @@ _initialAgentSpeed = agent.speed;
 
             if (!_isMotherfucker && !_isThief)
             {
+                if(agent.remainingDistance < .1f && queuedSit && !anim.GetBool("Sitting")){
+                    //and its a chair???
+                    anim.Play("Sit In Chair");
+                    anim.SetBool("Sitting", true);
+                }
+
                 StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
+                if(_isBubbleVisible){
+                    newColor = bubSprite.color;
+                    newColor.a = Mathf.Lerp(1, 0, StressMeter);
+                    bubSprite.color = newColor;
+                }
                 //handles rotation
                 HandleConversing();
 
                 if (StressMeter >= 1.0f)
                 {
                     _done = true;
-
-                    RemoveMoney();
+                    // are they stealing money when they leave?
+                    //RemoveMoney();
 
                     WalkOut();
                     return;
@@ -245,15 +265,18 @@ _initialAgentSpeed = agent.speed;
                         StartCoroutine(GoToTargetWithCallback(_aiController.AssistantSpot.transform.position, () =>
                             {
                                 // TODO: Play Talk Animation with Assistant
-
+                                StartConversing();
+                                convoWithAgent = true;
                                 DecideToPlayVariant();
                             },
                             () =>
                             {
+                                StopConversing();
+                                convoWithAgent = false;
                                 // TODO: Stop Talk Animation with Assistant
                                 Assistant.Singleton.PayBubbleGum();
                                 ShowBubble();
-                            }, 2.5f, () =>
+                            }, assistantConvoTime, () =>
                             {
                                 _aiController.AssistantLocked = false;
                             }));
@@ -265,13 +288,25 @@ _initialAgentSpeed = agent.speed;
 
                     if (_currentSpot)
                     {
-                        _currentSpot.Leave();
+                        if(queuedSit){
+                            anim.SetBool("Sitting", false);
+                            queuedSit = false;
+                        }
+                        else{
+                            _currentSpot.Leave();
+                        }
+                        
+                       
                     }
 
                     if (nextSpot)
                     {
+                        
                         nextSpot.Arrive();
                         _currentSpot = nextSpot;
+                        if(_currentSpot.isChair){
+                            queuedSit = true;
+                        }
                         agent.SetDestination(nextSpot.transform.position);
                     }
                     else
@@ -339,6 +374,9 @@ _initialAgentSpeed = agent.speed;
                     }
                 }
             }
+        }
+        public void LeaveSpotFromAnim(){
+            _currentSpot.Leave();
         }
 
         private bool _isStealing;
@@ -487,7 +525,6 @@ _initialAgentSpeed = agent.speed;
             }
         }
 
-        // TODO: CALL THIS WHEN GET HIT
         public void RunOut()
         {
             if (!agent.enabled)
@@ -505,8 +542,6 @@ _initialAgentSpeed = agent.speed;
             anim.SetBool("isRunning", true);
             anim.Play("RUN");
             GameManager.Singleton.RemoveCustomer(this);
-
-            // TODO: CHANGE ANIMATION
 
             agent.speed = _initialAgentSpeed * 2f;
             // TODO: Change Agent Speed

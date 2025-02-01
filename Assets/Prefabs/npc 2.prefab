@@ -908,9 +908,11 @@ MonoBehaviour:
   secondsUntilFreakOut: 60
   secondsUntilChangeActivity: 10
   capsuleCollider: {fileID: 337501975747246263}
-  anim: {fileID: 6864961575593516411}
   converseVariantProbability: 2
   bubble: {fileID: 5835890813968561689}
+  anim: {fileID: 6864961575593516411}
+  _runOut: 0
+  _sneakOut: 0
 --- !u!54 &7285601450041262385
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -919,7 +921,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8383385668147131140}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -934,9 +936,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &337501975747246263
 CapsuleCollider:
