@@ -18,12 +18,15 @@ public class UpgradeButton : MonoBehaviour
     private MeshRenderer _myMeshRenderer;
     public bool special;
 
+    [SerializeField]
+    bool blocked;
+
     private void Awake()
     {
         _myMeshRenderer = GetComponent<MeshRenderer>();
         _defaultTexture = _myMeshRenderer.material.mainTexture;
     }
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -52,63 +55,124 @@ public class UpgradeButton : MonoBehaviour
 
     public void Pressed()
     {
+        if (blocked)
+        {
+            return;
+        }
+
         if (beenPressed)
         {
             return;
         }
 
+        var man = GameManager.Singleton;
+
         switch (myUpgradeType)
         {
             case Upgrades.UpgradeTypes.Chairs:
-                GameManager.Singleton.upgrades.chairs = true;
-                GameManager.Singleton.distractionChairs.SetActive(true);
-                AiController.Singleton.ActivateChairDistractionSpots();
-                // GameManager.Singleton._aiSpots = GameManager.Singleton._aiSpots.Concat(GameManager.Singleton.distractionChairs.GetComponentsInChildren<AiSpot>()).ToList();
+                if (man.PayChairs())
+                {
+                    man.upgrades.chairs = true;
+                    man.distractionChairs.SetActive(true);
+                    AiController.Singleton.ActivateChairDistractionSpots();
+                }
+                else
+                {
+                    return;
+                }
+
                 break;
             case Upgrades.UpgradeTypes.Paintings:
-                GameManager.Singleton.upgrades.paintings = true;
-                GameManager.Singleton.distractionPaintings.SetActive(true);
-                AiController.Singleton.ActivatePaintingDistractionSpots();
-                // GameManager.Singleton._aiSpots = GameManager.Singleton._aiSpots.Concat(GameManager.Singleton.distractionPaintings.GetComponentsInChildren<AiSpot>()).ToList();
+                if (man.PayPaintings())
+                {
+                    man.upgrades.paintings = true;
+                    man.distractionPaintings.SetActive(true);
+                    AiController.Singleton.ActivatePaintingDistractionSpots();
+                }
+                else
+                {
+                    return;
+                }
+
                 break;
             case Upgrades.UpgradeTypes.BaseballBat:
-                GameManager.Singleton.upgrades.baseballBat = true;
-                GameManager.Singleton.baseballBat.SetActive(true);
+                if (man.PayBaseballBat())
+                {
+                    man.upgrades.baseballBat = true;
+                    man.baseballBat.SetActive(true);
+                }
+                else
+                {
+                    return;
+                }
+
                 break;
             case Upgrades.UpgradeTypes.Cigar:
-                GameManager.Singleton.upgrades.cigar = true;
-                GameManager.Singleton.cigar.SetActive(true);
+                if (man.PayCigar())
+                {
+                    man.upgrades.cigar = true;
+                    man.cigar.SetActive(true);
+                }
+                else
+                {
+                    return;
+                }
+
                 break;
             case Upgrades.UpgradeTypes.Phone:
-                GameManager.Singleton.upgrades.phone = true;
-                GameManager.Singleton.phone.SetActive(true);
+                if (man.PayPhone())
+                {
+                    man.upgrades.phone = true;
+                    man.phone.SetActive(true);
+                }
+                else
+                {
+                    return;
+                }
+
                 break;
             case Upgrades.UpgradeTypes.Bodyguard:
-                GameManager.Singleton.upgrades.bodyguard = true;
-                GameManager.Singleton.bodyguard.SetActive(true);
+                if (man.PayBodyguard())
+                {
+                    man.upgrades.bodyguard = true;
+                    man.bodyguard.SetActive(true);
+                }
+                else
+                {
+                    return;
+                }
+
                 break;
             case Upgrades.UpgradeTypes.Assistant:
-                GameManager.Singleton.upgrades.assistant = true;
-                GameManager.Singleton.assistant.SetActive(true);
-                AiController.Singleton.SetAssistantActive();
+                if (man.PayAssistant())
+                {
+                    man.upgrades.assistant = true;
+                    man.assistant.SetActive(true);
+                    AiController.Singleton.SetAssistantActive();
+                }
+                else
+                {
+                    return;
+                }
+
                 break;
             case Upgrades.UpgradeTypes.Dismissal:
-                GameManager.Singleton.upgrades.dismissal = true;
+                man.upgrades.dismissal = true;
                 break;
             case Upgrades.UpgradeTypes.HellishContract:
-                GameManager.Singleton.upgrades.hellishContract = true;
+                man.upgrades.hellishContract = true;
                 break;
             case Upgrades.UpgradeTypes.PowerFistRequisition:
-                GameManager.Singleton.upgrades.powerFistRequisition = true;
+                man.upgrades.powerFistRequisition = true;
                 break;
             case Upgrades.UpgradeTypes.LoanAgreement:
-                GameManager.Singleton.upgrades.loanAgreement = true;
+                man.upgrades.loanAgreement = true;
                 break;
             case Upgrades.UpgradeTypes.TemporaryEmploymentContract:
-                GameManager.Singleton.upgrades.temporaryEmploymentContract = true;
+                man.upgrades.temporaryEmploymentContract = true;
                 break;
             case Upgrades.UpgradeTypes.EndOfLifePlan:
-                GameManager.Singleton.upgrades.endOfLifePlan = true;
+                man.upgrades.endOfLifePlan = true;
                 break;
             default:
                 break;
@@ -128,6 +192,7 @@ public class UpgradeButton : MonoBehaviour
                 _myMeshRenderer.material.mainTexture = testTexture;
                 _myMeshRenderer.material.DisableKeyword("_EMISSION");
             }
+
             if (twin != null)
             {
                 twin.beenPressed = beenPressed;
@@ -152,19 +217,26 @@ public class UpgradeButton : MonoBehaviour
         switch (myUpgradeType)
         {
             case Upgrades.UpgradeTypes.Chairs:
-                return GameManager.Singleton.upgrades.chairsFlavorText;
+                return GameManager.Singleton.upgrades.chairsFlavorText.Replace("$X",
+                    $"${GameManager.Singleton.upgrades.priceChairs}");
             case Upgrades.UpgradeTypes.Paintings:
-                return GameManager.Singleton.upgrades.paintingsFlavorText;
+                return GameManager.Singleton.upgrades.paintingsFlavorText.Replace("$X",
+                    $"${GameManager.Singleton.upgrades.pricePaintings}");
             case Upgrades.UpgradeTypes.BaseballBat:
-                return GameManager.Singleton.upgrades.baseballBatFlavorText;
+                return GameManager.Singleton.upgrades.baseballBatFlavorText.Replace("$X",
+                    $"${GameManager.Singleton.upgrades.priceBaseballBat}");
             case Upgrades.UpgradeTypes.Cigar:
-                return GameManager.Singleton.upgrades.cigarFlavorText;
+                return GameManager.Singleton.upgrades.cigarFlavorText.Replace("$X",
+                    $"${GameManager.Singleton.upgrades.priceCigar}");
             case Upgrades.UpgradeTypes.Phone:
-                return GameManager.Singleton.upgrades.phoneFlavorText;
+                return GameManager.Singleton.upgrades.phoneFlavorText.Replace("$X",
+                    $"${GameManager.Singleton.upgrades.pricePhone}");
             case Upgrades.UpgradeTypes.Bodyguard:
-                return GameManager.Singleton.upgrades.bodyguardFlavorText;
+                return GameManager.Singleton.upgrades.bodyguardFlavorText.Replace("$X",
+                    $"${GameManager.Singleton.upgrades.priceBodyguard}");
             case Upgrades.UpgradeTypes.Assistant:
-                return GameManager.Singleton.upgrades.assistantFlavorText;
+                return GameManager.Singleton.upgrades.assistantFlavorText.Replace("$X",
+                    $"${GameManager.Singleton.upgrades.priceAssistant}");
             case Upgrades.UpgradeTypes.Dismissal:
                 return GameManager.Singleton.upgrades.dismissalFlavorText;
             case Upgrades.UpgradeTypes.HellishContract:

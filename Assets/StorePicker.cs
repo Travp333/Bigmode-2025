@@ -22,6 +22,9 @@ public class StorePicker : MonoBehaviour
 
         foreach (var hit in rayResults)
         {
+            if(hit.collider.gameObject.CompareTag("Structure")){
+                return;
+            }
             if (hit.collider.gameObject.TryGetComponent<UpgradeButton>(out var temp))
             {
                 if (temp.beenPressed == false)

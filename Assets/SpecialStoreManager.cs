@@ -1,4 +1,3 @@
-using Scripting;
 using Scripting.ScriptableObjects;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ public class SpecialStoreManager : MonoBehaviour
     [SerializeField] private UpgradeButton upgradeButtons; // = new List<UpgradeButton>();
     [SerializeField] private List<Material> materials = new();
     private static SpecialStoreManager _singleton;
+    int tempNum;
 
     public static SpecialStoreManager Singleton
     {
@@ -47,14 +47,22 @@ public class SpecialStoreManager : MonoBehaviour
     {
         //8-13 inclusive
         UnityEngine.Random.InitState((int) DateTime.Now.Ticks);
-        int temp = UnityEngine.Random.Range(8, 14); //(int minInclusive, int maxExclusive)        
-        upgradeButtons.myUpgradeType = (Upgrades.UpgradeTypes) temp;
-        upgradeButtons.unpress();
+        int temp = UnityEngine.Random.Range(8, 14); //(int minInclusive, int maxExclusive)     
+        if (upgradeButtons.myUpgradeType != (Upgrades.UpgradeTypes) temp)
+        {
+            upgradeButtons.myUpgradeType = (Upgrades.UpgradeTypes) temp;
+            upgradeButtons.unpress();
+            upgradeButtons.correctMaterial();
+        }
+        else
+        {
+            SetRandomUpgrade();
+        }
     }
 
     public Material fetchUpgradeMaterial(int x)
     {
-        return materials[x - materials.Count-1];
+        return materials[x - materials.Count - 1];
     }
 
     public Material fetchUpgradeMaterial(Upgrades.UpgradeTypes x)

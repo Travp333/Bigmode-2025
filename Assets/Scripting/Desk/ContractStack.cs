@@ -9,6 +9,7 @@ namespace Scripting.Desk
         [SerializeField] private GameObject attachPoint;
         [SerializeField] private Movement player;
         [SerializeField] private LayerMask layerMask;
+        [SerializeField] private AudioSource myPaperSound;
 
         [SerializeField]
         private GameObject deskHands;
@@ -45,6 +46,7 @@ namespace Scripting.Desk
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
+                        myPaperSound.Play();
                         leftHandAnim.Play("Grabbing Paper");
                         deskHands.GetComponent<DeskArms>().BlockLeftHand();
                         Invoke(nameof(GrabPaper), .26f);
@@ -53,8 +55,16 @@ namespace Scripting.Desk
             }
         }
 
+        private bool _tutorialGrabbed;
+        
         private void GrabPaper()
         {
+            if (!_tutorialGrabbed)
+            {
+                _tutorialGrabbed = true;
+                TutorialManager.Singleton.ShowOrderNumber(3, true);
+            }
+            
             var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
             obj.SetActive(true);
 

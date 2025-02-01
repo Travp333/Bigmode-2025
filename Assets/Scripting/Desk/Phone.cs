@@ -24,6 +24,8 @@ namespace Scripting.Desk
 
         private void Awake()
         {
+            
+
             _deskArms = arms.GetComponent<DeskArms>();
 
             _telephoneTimer = telephoneCooldown;
@@ -40,6 +42,7 @@ namespace Scripting.Desk
                 {
                     handAnim.Play("Dropping Phone");
                     Invoke(nameof(ConversationReward), 1f);
+                    handAnim.GetComponent<PhoneReferenceHolder>().HangupPhone();
                 }
 
                 _telephoneTimer = telephoneCooldown;
@@ -117,7 +120,11 @@ namespace Scripting.Desk
             callBlocker = false;
             _telephoneTimer = 15f;
             player.NotifyNotOnPhone();
-            //Money!! 
+       
+            var value = Random.Range(7500, 10000) * (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+
+            //GameManager.Singleton.upgrades.money += value;
+            GameManager.Singleton.ChangeMoneyAmount(value);
         }
 
         private void Ring()

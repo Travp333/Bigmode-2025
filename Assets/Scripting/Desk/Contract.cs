@@ -16,6 +16,7 @@ namespace Scripting.Desk
         [SerializeField] private Transform upPoint;
         [SerializeField] private List<Material> materials;
         [SerializeField] private GameObject surface;
+        [SerializeField] private AudioSource myWritingSound;
 
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private MeshRenderer meshRenderer;
@@ -72,6 +73,7 @@ namespace Scripting.Desk
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
+                myWritingSound.Play();
                 var camPos = _cam.transform.position;
                 var delta = (camPos - transform.position).normalized * 0.05f;
 
@@ -99,6 +101,7 @@ namespace Scripting.Desk
 
             if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
+                myWritingSound.Stop();
                 _nextCount = 0;
 
                 if (!_lineRenderer) return;
@@ -155,8 +158,16 @@ namespace Scripting.Desk
                 _surface.GetComponent<BoxCollider>().enabled = false;
                 _surface = null;
                 _lineRenderer = null;
+                
+                if (!_tutorialWrite)
+                {
+                    TutorialManager.Singleton.ShowOrderNumber(4, true);
+                    _tutorialWrite = true;
+                }
             }
         }
+
+        private bool _tutorialWrite;
 
         public List<Point> Normalize(List<Point> points)
         {
@@ -192,6 +203,17 @@ namespace Scripting.Desk
             return normalizedPoints;
         }
 
+        public static void ResetTutorial()
+        {
+            _mailTutorial = false;
+            _customerContractTutorial = false;
+            _notRecognized = false;
+        }
+        
+        private static bool _mailTutorial;
+        private static bool _customerContractTutorial;
+        private static bool _notRecognized;
+        
         public void Submit()
         {
             if (!Converted)
@@ -213,6 +235,12 @@ namespace Scripting.Desk
                                 if (!gameManager.upgrades.hellishContract)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
+                                    
                                     return;
                                 }
 
@@ -221,6 +249,11 @@ namespace Scripting.Desk
                                 if (!GameManager.Singleton.upgrades.dismissal)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
                                     return;
                                 }
 
@@ -229,6 +262,11 @@ namespace Scripting.Desk
                                 if (!GameManager.Singleton.upgrades.powerFistRequisition)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
                                     return;
                                 }
 
@@ -237,6 +275,11 @@ namespace Scripting.Desk
                                 if (!GameManager.Singleton.upgrades.loanAgreement)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
                                     return;
                                 }
 
@@ -245,6 +288,11 @@ namespace Scripting.Desk
                                 if (!GameManager.Singleton.upgrades.temporaryEmploymentContract)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
                                     return;
                                 }
 
@@ -253,6 +301,11 @@ namespace Scripting.Desk
                                 if (!GameManager.Singleton.upgrades.endOfLifePlan)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
                                     return;
                                 }
 
@@ -260,7 +313,20 @@ namespace Scripting.Desk
                         }
                     }
 
-                    Debug.Log(Result);
+                    var mailbox = Result is "ds" or "eel" or "la" or "tec";
+                    
+                    if (!_mailTutorial && mailbox)
+                    {
+                        TutorialManager.Singleton.ShowOrderNumber(7, true);    
+                        _mailTutorial = true;
+                    }
+
+                    if (!_customerContractTutorial && !mailbox)
+                    {
+                        TutorialManager.Singleton.ShowOrderNumber(new[] {5, 9}, true);    
+                        _customerContractTutorial = true;
+                    }
+                    
                     for (var i = 0; i < names.Count; i++)
                     {
                         if (Result == names[i])
@@ -284,7 +350,7 @@ namespace Scripting.Desk
         }
 
         public bool GetIsMailBoxContract() => Converted && Result is "ds" or "eel" or "la" or "tec";
-
+        
         public void ExecuteMailboxEffect(Movement player)
         {
             switch (Result)
@@ -321,7 +387,7 @@ namespace Scripting.Desk
                         customer.gameObject.GetComponent<LaunchDetection>().GetHellGrabbed();
                         break;
                     case "pfr":
-                        GameManager.Singleton.DoFistStuff();
+                        GameManager.Singleton.DoFistStuff(customer.IsMotherfucker);
                         GameManager.Singleton.RemoveCustomer(customer);
                         customer.gameObject.GetComponent<LaunchDetection>().GetPowerFisted();
                         break;

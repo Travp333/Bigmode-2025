@@ -8,14 +8,29 @@ namespace Scripting.Objects
         [SerializeField] private GameObject handBat;
         [SerializeField] private CapsuleCollider capsuleCollider;
         [SerializeField] private MeshRenderer meMesh;
+        [SerializeField] private AudioSource myPickupBatSound;
 
         private void OnValidate()
         {
             if (!capsuleCollider) capsuleCollider = GetComponent<CapsuleCollider>();
         }
 
+        private bool _tutorial;
+
+        void Start()
+        {
+            TutorialManager.Singleton.ShowOrderNumber(12);
+        }
+        
         public void PickUp()
         {
+            if (!_tutorial)
+            {
+                TutorialManager.Singleton.HideOrderNumber(12);
+                _tutorial = true;
+            }
+            
+            myPickupBatSound.Play();
             handAnim.Play("PickupBat");
             handAnim.SetBool("HoldingBat", true);
             

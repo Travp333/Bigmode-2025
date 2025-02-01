@@ -9,6 +9,8 @@ TagManager:
   - Weapon
   - EntrancePoint
   - Mailbox
+  - Trashcan
+  - Structure
   layers:
   - Default
   - TransparentFX
@@ -28,7 +30,7 @@ TagManager:
   - Volume
   - PaperBoll
   - Vandalism
-  - 
+  - CanPyramid
   - 
   - 
   - 
@@ -45,6 +47,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Font Tutorial
+    uniqueID: 3632319649
     locked: 0
   m_RenderingLayers:
   - Default

@@ -24,6 +24,8 @@ namespace Scripting.ScriptableObjects
             EndOfLifePlan
         }
 
+        public bool tutorialDone;
+
         //upgrade status here?
         public bool chairs;
         public bool paintings;
@@ -32,15 +34,24 @@ namespace Scripting.ScriptableObjects
         public bool phone;
         public bool bodyguard;
         public bool assistant;
-        public float money;
+        
+        public int money;
 
+        public int priceChairs = 1;
+        public int pricePaintings = 1;
+        public int priceBaseballBat = 1;
+        public int priceCigar = 1;
+        public int pricePhone = 1;
+        public int priceBodyguard = 1;
+        public int priceAssistant = 1;
+            
         public bool dismissal;
         public bool hellishContract;
         public bool powerFistRequisition;
         public bool loanAgreement;
         public bool temporaryEmploymentContract;
         public bool endOfLifePlan;
-
+        
         public string chairsFlavorText = "adds chairs";
         public string paintingsFlavorText = "adds paintings";
         public string baseballBatFlavorText = "adds baseball bat";

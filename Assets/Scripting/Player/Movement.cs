@@ -11,8 +11,14 @@ namespace Scripting.Player
     [SelectionBase]
     public class Movement : MonoBehaviour
     {
+        private static readonly int HoldingDocument = Animator.StringToHash("HoldingDocument");
+
+        [SerializeField]
+        Image crosshair;
+
         [SerializeField]
         Image rageModeUIFrontBase, rageModeUIFrontOVERFULL, rageModeUIFillBase, rageModeUIFillOVERFULL;
+
         [Header("Input")]
         [SerializeField] private float moveSpeed = 7.5f;
 
@@ -64,8 +70,20 @@ namespace Scripting.Player
 
         [SerializeField] private LayerMask graffitiMask;
         [SerializeField] private GameObject attachmentPointContract;
+        [SerializeField] private AudioSource myBatSwingSound;
+        [SerializeField] private AudioSource myStaplerSound;
 
+        [Header("Graffiti")]
+        [SerializeField] private GameObject sitDown;
+
+        [SerializeField] private GameObject getUp;
+        [SerializeField] private GameObject talk;
+        [SerializeField] private GameObject graffiti;
+        [SerializeField] private GameObject baseballbat;
+
+        [Header("Misc")]
         [SerializeField] private Phone phone;
+
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
         private float _rotationX;
@@ -107,8 +125,26 @@ namespace Scripting.Player
 
         [SerializeField] private float rageModeTimer = 5f;
 
+        
+        private bool _mailboxTutorial;
+        private bool _customerTutorial;
+        
         public void ExitChair()
         {
+            if (!_mailboxTutorial)
+            {
+                TutorialManager.Singleton.HideOrderNumber(7);
+                _mailboxTutorial = true;
+            }
+
+            if (!_customerTutorial)
+            {
+                TutorialManager.Singleton.HideOrderNumber(5);
+                TutorialManager.Singleton.HideOrderNumber(9);
+                _customerTutorial = true;
+            }
+            
+            getUp.SetActive(false);
             StartCoroutine(DoExitChairAnimation());
             DeactivateContractControls();
         }
@@ -217,12 +253,11 @@ namespace Scripting.Player
         public void ResetContract()
         {
             if (!_currentContract) return;
-            Debug.Log("Resetting contract");
             var deskArms = bothArmsScript.GetComponent<DeskArms>();
             deskArms.UnblockLeftHand();
             deskArms.ResetContractAnimation();
             var x = _currentContract;
-
+            Debug.Log("Resetting contract");
             _currentContract = null;
             x?.Reset();
         }
@@ -238,7 +273,8 @@ namespace Scripting.Player
                     if (hit.collider.gameObject == submit)
                     {
                         SubmitContract();
-                        if(hit.collider.gameObject.GetComponent<Animator>()!=null){
+                        if (hit.collider.gameObject.GetComponent<Animator>() != null)
+                        {
                             hit.collider.gameObject.GetComponent<Animator>().Play("ButtonAnim");
                         }
                     }
@@ -246,7 +282,8 @@ namespace Scripting.Player
                     if (hit.collider.gameObject == reset)
                     {
                         ResetContract();
-                        if(hit.collider.gameObject.GetComponent<Animator>()!=null){
+                        if (hit.collider.gameObject.GetComponent<Animator>() != null)
+                        {
                             hit.collider.gameObject.GetComponent<Animator>().Play("ButtonAnim");
                         }
                     }
@@ -258,11 +295,10 @@ namespace Scripting.Player
         {
             handAnim.SetBool("RAGE", false);
             rageMode = false;
-            rageModeUIFillBase.enabled = true;
-            rageModeUIFrontBase.enabled = true;
-            rageModeUIFillOVERFULL.enabled = false;
-            rageModeUIFrontOVERFULL.enabled = false;
-            
+            rageModeUIFillBase.gameObject.SetActive(true);
+            rageModeUIFrontBase.gameObject.SetActive(true);
+            rageModeUIFillOVERFULL.gameObject.SetActive(false);
+            rageModeUIFrontOVERFULL.gameObject.SetActive(false);
         }
 
         private void Update()
@@ -276,6 +312,8 @@ namespace Scripting.Player
                 {
                     if (!_removingGraffiti)
                     {
+                        if (!_canInteractWithGraffiti)
+                            graffiti.SetActive(true);
                         _canInteractWithGraffiti = true;
                         if (_actionPressed)
                         {
@@ -286,6 +324,9 @@ namespace Scripting.Player
                 else
                 {
                     graffitiRemoveProgress.enabled = false;
+
+                    if (_canInteractWithGraffiti)
+                        graffiti.SetActive(false);
                     _canInteractWithGraffiti = false;
                 }
             }
@@ -293,6 +334,9 @@ namespace Scripting.Player
             {
                 _currentGraffiti = null;
                 graffitiRemoveProgress.enabled = false;
+
+                if (_canInteractWithGraffiti)
+                    graffiti.SetActive(false);
                 _canInteractWithGraffiti = false;
             }
 
@@ -302,7 +346,11 @@ namespace Scripting.Player
                 {
                     handAnim.SetBool("HoldingDocument", false);
                     handAnim.Play("IDLE");
-                    ResetContract();
+                    Debug.Log("Resetting contract");
+                    var x = _currentContract;
+                    _currentContract = null;
+                    //TODO: PLAY THROW ANIMATION #1
+                    x?.Reset();
                 }
 
                 if (StressLevel > 0f)
@@ -328,6 +376,7 @@ namespace Scripting.Player
 
                 if (_seated)
                 {
+                    crosshair.gameObject.SetActive(false);
                     stressChange /= 2f;
                     if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking && !onPhone)
                     {
@@ -346,15 +395,8 @@ namespace Scripting.Player
                     CheckButtons();
                 }
 
-                // if(_currentContract){
-                // RemoveContract();
-                // handAnim.SetBool("HoldingDocument", false);
-                //bothArmsScript.PutDownContract();
-                // }
-
                 if (rageMode)
                 {
-                    
                     stressChange = 0f;
                 }
 
@@ -374,6 +416,7 @@ namespace Scripting.Player
                 {
                     StressLevel = 0f;
                 }
+
                 //UI here
                 rageModeUIFillBase.fillAmount = StressLevel;
 
@@ -395,6 +438,12 @@ namespace Scripting.Player
                     {
                         handAnim.SetBool("HoldingDocument", false);
                         handAnim.Play("IDLE");
+                        Debug.Log("Resetting contract");
+                        var x = _currentContract;
+                        _currentContract = null;
+                        x?.Reset();
+                        //TODO: PLAY THROW ANIMATION #2
+
                         ResetContract();
                     }
 
@@ -412,10 +461,11 @@ namespace Scripting.Player
 
                         ExitChair();
                     }
-                    rageModeUIFillBase.enabled = false;
-                    rageModeUIFrontBase.enabled = false;
-                    rageModeUIFillOVERFULL.enabled = true;
-                    rageModeUIFrontOVERFULL.enabled = true;
+
+                    rageModeUIFillBase.gameObject.SetActive(false);
+                    rageModeUIFrontBase.gameObject.SetActive(false);
+                    rageModeUIFillOVERFULL.gameObject.SetActive(true);
+                    rageModeUIFrontOVERFULL.gameObject.SetActive(true);
                     //UI HERE
                     //BlockAction = true;
                     rageMode = true;
@@ -472,6 +522,7 @@ namespace Scripting.Player
                     ActivateContractControls();
                 }
 
+                sitDown.SetActive(false);
                 _isInChairTrigger = false;
                 if (_baseballBat)
                 {
@@ -483,6 +534,7 @@ namespace Scripting.Player
 
             if (_baseballBat && _attackPressed)
             {
+                myBatSwingSound.Play();
                 handAnim.Play("Swing Bat Miss");
                 //StartCoroutine(DoAttack());
                 // StartCoroutine(DoAttackAnimation());
@@ -499,6 +551,8 @@ namespace Scripting.Player
                     var bat = hit.transform.GetComponent<BaseballBat>();
                     if (bat)
                     {
+                        if (!_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
+                            baseballbat.SetActive(true);
                         _canPickupBaseballBat = true;
                         if (_actionPressed)
                         {
@@ -509,7 +563,24 @@ namespace Scripting.Player
                 }
                 else
                 {
+                    if (_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
+                        baseballbat.SetActive(false);
                     _canPickupBaseballBat = false;
+                }
+
+                if (hit.transform.gameObject.CompareTag("Trashcan"))
+                {
+                    if (_actionPressed)
+                    {
+                        if (_currentContract)
+                        {
+                            handAnim.SetBool("HoldingDocument", false);
+                            handAnim.Play("IDLE");
+
+                            // TODO: Play throw Animation?
+                            ResetContract();
+                        }
+                    }
                 }
 
                 if (hit.transform.gameObject.CompareTag("Mailbox"))
@@ -518,27 +589,45 @@ namespace Scripting.Player
                     {
                         if (_currentContract && _currentContract.GetIsMailBoxContract())
                         {
+                            GameManager.Singleton.upgrades.tutorialDone = true;
+                            
                             var abc = _currentContract;
 
                             abc.ExecuteMailboxEffect(this);
-                            handAnim.SetBool("HoldingDocument", false);
+                            handAnim.SetBool(HoldingDocument, false);
                             Destroy(_currentContract.gameObject);
                             _currentContract = null;
                         }
                     }
                 }
 
-                if (hit.transform.TryGetComponent<CustomerMotor>(out var customer) && !customer.IsMotherfucker)
+                if (hit.transform.TryGetComponent<CustomerMotor>(out var customer))
                 {
                     //Debug.Log("Looking at client!");
+                    if (!_canInteractWithClient &&
+                        !GameManager.Singleton.IsNightTime &&
+                        !customer.IsMotherfucker &&
+                        !customer.IsThief)
+                        talk.SetActive(true);
                     _canInteractWithClient = true;
                     //LMB would be better
                     if (_actionPressed)
                     {
                         if (_currentContract && !_currentContract.GetIsMailBoxContract())
                         {
-                            customer.transform.rotation =
-                                Quaternion.LookRotation(-this.transform.forward, this.transform.up);
+                            if (!_stapledTutorial)
+                            {
+                                _stapledTutorial = true;
+                                TutorialManager.Singleton.HideOrderNumber(5);
+                            }
+
+                            if (!customer.IsMotherfucker)
+                            {
+                                customer.transform.rotation =
+                                    Quaternion.LookRotation(-this.transform.forward, this.transform.up);
+                                customer.anim.Play("GetStapled");
+                            }
+
                             var attachment = _currentContract.transform.parent;
                             attachment.parent = customer.documentAttachPoint.transform;
                             attachment.position = customer.documentAttachPoint.transform.position;
@@ -547,11 +636,9 @@ namespace Scripting.Player
                             //RemoveContract();
                             staplerMesh.SetActive(true);
                             handAnim.Play("Staple");
+                            myStaplerSound.Play();
                             Invoke(nameof(HideStaplerMesh), 1f);
-                            handAnim.SetBool("HoldingDocument", false);
-                            customer.anim.Play("GetStapled");
-                            //bothArmsScript.PutDownContract();
-
+                            handAnim.SetBool(HoldingDocument, false);
                             var abc = _currentContract;
                             _currentContract = null;
                             if (abc.Converted)
@@ -559,12 +646,6 @@ namespace Scripting.Player
                                 if (customer.Validate(abc))
                                 {
                                     abc.ExecuteEffect(customer, this);
-
-                                    //Todo: Play Smack sound
-                                }
-                                else
-                                {
-                                    //Todo: Play NO Sound
                                 }
                             }
                         }
@@ -579,18 +660,26 @@ namespace Scripting.Player
                 }
                 else
                 {
+                    if (_canInteractWithClient)
+                        talk.SetActive(false);
+
                     _canInteractWithClient = false;
                 }
             }
             else
             {
+                if (_canInteractWithClient)
+                    talk.SetActive(false);
                 _canInteractWithClient = false;
+
+                if (_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
+                    baseballbat.SetActive(false);
                 _canPickupBaseballBat = false;
             }
 
             if (_countDownGate)
             {
-                if (_clientInteractor != null)
+                if (_clientInteractor != null && !_clientInteractor.GetComponent<CustomerMotor>().IsMotherfucker)
                 {
                     if (Vector3.Distance(transform.position, _clientInteractor.transform.position) <
                         clientInteractDistance)
@@ -611,6 +700,7 @@ namespace Scripting.Player
                             _countDownGate = false;
                             _counter = 0f;
                             Debug.Log("INTERACTION COMPLETE!");
+                            customer.TutorialBubble.SetActive(false);
                         }
                     }
                     else
@@ -668,8 +758,6 @@ namespace Scripting.Player
             {
                 StressLevel = 1f;
             }
-            
-            //UI HERE
         }
 
         // TODO: CHANGE
@@ -713,11 +801,22 @@ namespace Scripting.Player
             handAnim.SetBool("Walking", false);
         }
 
+        private bool _tutorialSeatedDone;
+        private bool _stapledTutorial;
+
         private void SitOnChairDone()
         {
             ShowHands();
             Cursor.lockState = CursorLockMode.Confined;
+
+            if (!_tutorialSeatedDone)
+            {
+                TutorialManager.Singleton.ShowOrderNumber(2, true);
+                _tutorialSeatedDone = true;
+            }
+
             _seated = true;
+            getUp.SetActive(true);
             bothArmsScript.UnblockRightHand();
             if (!_currentContract)
             {
@@ -735,6 +834,8 @@ namespace Scripting.Player
             HideHands();
             Cursor.lockState = CursorLockMode.Locked;
             _seated = false;
+            getUp.SetActive(false);
+            crosshair.gameObject.SetActive(true);
             // GetComponent<Contract>().SetActive(false);
         }
 
@@ -756,7 +857,7 @@ namespace Scripting.Player
             }
         }
 
-        private const float AnimationDuration = 1f;
+        private const float AnimationDuration = .3f;
 
         private IEnumerator DoSitChairAnimation()
         {
@@ -813,7 +914,11 @@ namespace Scripting.Player
         {
             if (other.CompareTag("ChairTrigger"))
             {
-                _isInChairTrigger = true;
+                if (!GameManager.Singleton.IsNightTime)
+                {
+                    _isInChairTrigger = true;
+                    sitDown.SetActive(true);
+                }
             }
         }
 
@@ -822,37 +927,8 @@ namespace Scripting.Player
             if (other.CompareTag("ChairTrigger"))
             {
                 _isInChairTrigger = false;
+                sitDown.SetActive(false);
             }
-        }
-
-        private void OnGUI()
-        {
-            if (_isInChairTrigger && !GameManager.Singleton.IsNightTime)
-            {
-                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to sit down.");
-            }
-
-            if (_seated)
-            {
-                GUI.Label(new Rect(5, 30, 200, 50), "Press 'Tab' to stand up.");
-            }
-
-            if (_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
-            {
-                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to pick up baseball bat.");
-            }
-
-            if (_canInteractWithClient && !GameManager.Singleton.IsNightTime)
-            {
-                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
-            }
-
-            if (_canInteractWithGraffiti)
-            {
-                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to remove this piece of (sh)art");
-            }
-
-            GUI.Label(new Rect(5, Screen.height - 25, 200, 25), "" + StressLevel);
         }
 
         public void NotifyOnPhone()

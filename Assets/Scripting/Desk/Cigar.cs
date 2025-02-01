@@ -14,6 +14,7 @@ namespace Scripting.Desk
         private Animator _leftArmAnim;
         [SerializeField] private Movement player;
         [SerializeField] private GameObject attachPoint;
+        [SerializeField] private AudioSource myCigarSound;
 
         private Transform _originalParent;
         private Vector3 _originalPosition;
@@ -68,8 +69,17 @@ namespace Scripting.Desk
             Invoke(nameof(StopSmoking), .33f);
         }
 
+        private bool _smokingTutorial; //...lol hey kids
+
         public void StartSmoking()
         {
+            if (!_smokingTutorial)
+            {
+                _smokingTutorial = true;
+                TutorialManager.Singleton.HideOrderNumber(6);
+            }
+
+            myCigarSound.Play();
             player.NotifyIsSmoking();
             _isSmoking = true;
             transform.parent = attachPoint.transform;
@@ -81,6 +91,7 @@ namespace Scripting.Desk
 
         public void StopSmoking()
         {
+            myCigarSound.Stop();
             player.NotifyStoppedSmoking();
             _isSmoking = false;
             transform.parent = _originalParent;
