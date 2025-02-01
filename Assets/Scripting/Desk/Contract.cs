@@ -17,6 +17,8 @@ namespace Scripting.Desk
         [SerializeField] private List<Material> materials;
         [SerializeField] private GameObject surface;
         [SerializeField] private AudioSource myWritingSound;
+        [SerializeField] private AudioSource myHellIdleSound;
+        [SerializeField] private AudioSource myHellActiveSound;
 
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private MeshRenderer meshRenderer;
@@ -243,6 +245,8 @@ namespace Scripting.Desk
                                     
                                     return;
                                 }
+                                myHellIdleSound.Play();
+                                myHellActiveSound.Play();
 
                                 break;
                             case "ds":
