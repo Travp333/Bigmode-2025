@@ -14,6 +14,9 @@ namespace Scripting.Customer
     public class CustomerMotor : MonoBehaviour
     {
         [SerializeField]
+        GameObject burlapSack;
+
+        [SerializeField]
         float assistantConvoTime = 5f;
 
         [SerializeField]
@@ -83,6 +86,12 @@ namespace Scripting.Customer
 
         public bool IsHuellTarget { get; set; }
 
+        [SerializeField]
+        int vandalSpawnOdds = 6;
+
+        [SerializeField]
+        int thiefSpawnOdds = 2;
+
         private CapsuleCollider _capsuleCollider;
 
         private void Awake()
@@ -97,19 +106,18 @@ namespace Scripting.Customer
             // DUDE i don't want to set it on every NPC so i set it here as hardcode bruv
             secondsUntilFreakOut = 60;
             secondsUntilChangeActivity = 10;
-
             //needed to find direction to face
             _player = FindFirstObjectByType<Movement>();
             //needed to affect animations
             anim = GetComponent<Animator>();
-
             _paymentAmount = 20000 + Random.Range(-5000, 5000);
             _penalty = 7000 * Random.Range(-500, 500);
-            _isMotherfucker = _aiController.HasVandalismSpots && false; //Random.Range(0, 10) == 0;
-
+            _isMotherfucker = _aiController.HasVandalismSpots &
+                              (Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
             if (!_isMotherfucker)
             {
-                _isThief = _aiController.HasThiefSpot && false; // Random.Range(0, 1) == 0;
+                _isThief = _aiController.HasThiefSpot &&
+                           (Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
             }
 
             _aiController = FindFirstObjectByType<AiController>();
@@ -351,7 +359,7 @@ namespace Scripting.Customer
                         StartCoroutine(GoToTargetWithCallback(_thiefSpot.transform.position,
                             () =>
                             {
-                                //TODO: anim.Play("Steal");
+                                anim.Play("Stealing");
                                 _isStealing = true;
                             },
                             () =>
@@ -360,6 +368,8 @@ namespace Scripting.Customer
                                 GameManager.Singleton.MoneyStolen(_stolenMoney);
                                 SneakOut();
                                 _isStealing = false;
+                                anim.SetBool("isSneaking", true);
+                                burlapSack.SetActive(true);
                             }, 3f)); // TODO: SET TIEM
                     }
                     else
@@ -481,8 +491,9 @@ namespace Scripting.Customer
         {
             _stealInterrupted = true;
             _isStealing = false;
-
+            burlapSack.SetActive(false);
             _aiController.SetThiefLocked(false);
+            anim.SetBool("isSneaking", false);
         }
 
         private void OnValidate()
@@ -556,7 +567,6 @@ namespace Scripting.Customer
 
         public void WalkOut()
         {
-            //TODO: Stop Spray Animation
             _done = true;
             if (!agent) return;
             if (agent.isOnNavMesh)
@@ -586,7 +596,6 @@ namespace Scripting.Customer
             GameManager.Singleton.RemoveCustomer(this);
 
             agent.speed = _initialAgentSpeed * 2f;
-            // TODO: Change Agent Speed
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
         }
 
@@ -594,6 +603,7 @@ namespace Scripting.Customer
         {
             if (_stolenMoney > 0)
             {
+                anim.SetBool("isSneaking", false);
                 GameManager.Singleton.ReturnStolenMoney(_stolenMoney);
                 _stolenMoney = 0;
             }
@@ -612,13 +622,11 @@ namespace Scripting.Customer
             }
 
             _sneakOut = true;
-            // TODO: ANIMATIONS
-            // anim.SetBool("isSneaking", true);
-            // anim.Play("SNEAK");
+            anim.SetBool("isSneaking", true);
+            anim.Play("SNEAK");
             GameManager.Singleton.RemoveCustomer(this);
 
             agent.speed = _initialAgentSpeed * 0.25f;
-            // TODO: Change Agent Speed
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
         }
 
