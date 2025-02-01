@@ -69,8 +69,16 @@ namespace Scripting.Desk
             Invoke(nameof(StopSmoking), .33f);
         }
 
+        private bool _smokingTutorial; //...lol hey kids
+
         public void StartSmoking()
         {
+            if (!_smokingTutorial)
+            {
+                _smokingTutorial = true;
+                TutorialManager.Singleton.HideOrderNumber(6);
+            }
+
             myCigarSound.Play();
             player.NotifyIsSmoking();
             _isSmoking = true;

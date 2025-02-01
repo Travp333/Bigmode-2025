@@ -140,6 +140,9 @@ MonoBehaviour:
   textMesh: {fileID: 3237293462982287890}
   rotateUpDown: 1
   rotateLeftRight: 1
+  rendererObject: {fileID: 776903470313593840}
+  textObject: {fileID: 7911607486642639044}
+  atSpawnVisible: 0
 --- !u!1 &7911607486642639044
 GameObject:
   m_ObjectHideFlags: 0

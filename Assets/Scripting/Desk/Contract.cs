@@ -158,8 +158,16 @@ namespace Scripting.Desk
                 _surface.GetComponent<BoxCollider>().enabled = false;
                 _surface = null;
                 _lineRenderer = null;
+                
+                if (!_tutorialWrite)
+                {
+                    TutorialManager.Singleton.ShowOrderNumber(4, true);
+                    _tutorialWrite = true;
+                }
             }
         }
+
+        private bool _tutorialWrite;
 
         public List<Point> Normalize(List<Point> points)
         {
@@ -195,6 +203,10 @@ namespace Scripting.Desk
             return normalizedPoints;
         }
 
+        private bool _mailTutorial;
+        private bool _customerContractTutorial;
+        private bool _notRecognized;
+        
         public void Submit()
         {
             if (!Converted)
@@ -216,6 +228,12 @@ namespace Scripting.Desk
                                 if (!gameManager.upgrades.hellishContract)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
+                                    
                                     return;
                                 }
 
@@ -224,6 +242,11 @@ namespace Scripting.Desk
                                 if (!GameManager.Singleton.upgrades.dismissal)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
                                     return;
                                 }
 
@@ -232,6 +255,11 @@ namespace Scripting.Desk
                                 if (!GameManager.Singleton.upgrades.powerFistRequisition)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
                                     return;
                                 }
 
@@ -240,6 +268,11 @@ namespace Scripting.Desk
                                 if (!GameManager.Singleton.upgrades.loanAgreement)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
                                     return;
                                 }
 
@@ -248,6 +281,11 @@ namespace Scripting.Desk
                                 if (!GameManager.Singleton.upgrades.temporaryEmploymentContract)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
                                     return;
                                 }
 
@@ -256,6 +294,11 @@ namespace Scripting.Desk
                                 if (!GameManager.Singleton.upgrades.endOfLifePlan)
                                 {
                                     player.ResetContract();
+                                    if (_notRecognized)
+                                    {
+                                        _notRecognized = true;
+                                        TutorialManager.Singleton.ShowOrderNumber(10, true);
+                                    }
                                     return;
                                 }
 
@@ -263,7 +306,18 @@ namespace Scripting.Desk
                         }
                     }
 
-                    Debug.Log(Result);
+                    if (!_mailTutorial && GetIsMailBoxContract())
+                    {
+                        TutorialManager.Singleton.ShowOrderNumber(7, true);    
+                        _mailTutorial = true;
+                    }
+
+                    if (_customerContractTutorial && !GetIsMailBoxContract())
+                    {
+                        TutorialManager.Singleton.ShowOrderNumber(5, true);    
+                        _customerContractTutorial = true;
+                    }
+                    
                     for (var i = 0; i < names.Count; i++)
                     {
                         if (Result == names[i])

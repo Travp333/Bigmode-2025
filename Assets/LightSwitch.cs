@@ -26,6 +26,8 @@ public class LightSwitch : MonoBehaviour
     {
         if (GameManager.Singleton.IsNightTime)
         {
+            TutorialManager.Singleton.HideOrderNumber(0);
+            TutorialManager.Singleton.HideOrderNumber(8);
             if(anim.GetBool("ON") == false){
                 anim.Play("turnon");
                 anim.SetBool("ON", true);

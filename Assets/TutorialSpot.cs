@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TutorialSpot : MonoBehaviour
 {
@@ -12,11 +13,17 @@ public class TutorialSpot : MonoBehaviour
     [SerializeField] private bool rotateUpDown;
     [SerializeField] private bool rotateLeftRight;
 
+    [SerializeField] private GameObject rendererObject;
+    [SerializeField] private GameObject textObject;
+
+    [FormerlySerializedAs("spawnVisible")] [SerializeField] private bool atSpawnVisible;
+    
     private bool _isActive;
     private bool _isVisible;
 
     public bool IsActive => _isActive;
     public bool IsVisible => _isVisible;
+    public bool AtSpawnVisible => atSpawnVisible;
     public int Order => order;
 
     private void Awake()
@@ -51,23 +58,18 @@ public class TutorialSpot : MonoBehaviour
         _isActive = false;
     }
 
-    public void Next()
-    {
-        _isActive = false;
-
-        TutorialManager.Singleton.Next();
-    }
-
     public void Update()
     {
-        if (!_isActive && spriteRenderer.enabled)
+        if (!_isActive && rendererObject.activeInHierarchy)
         {
-            spriteRenderer.enabled = false;
+            rendererObject.SetActive(false);
+            textObject.SetActive(false);
         }
 
-        if (_isActive && !spriteRenderer.enabled)
+        if (_isActive && !rendererObject!.activeInHierarchy)
         {
-            spriteRenderer.enabled = true;
+            rendererObject.SetActive(true);
+            textObject.SetActive(true);
         }
 
         if (_isActive && (rotateLeftRight || rotateUpDown))

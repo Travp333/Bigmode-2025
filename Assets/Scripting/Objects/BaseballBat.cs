@@ -15,8 +15,21 @@ namespace Scripting.Objects
             if (!capsuleCollider) capsuleCollider = GetComponent<CapsuleCollider>();
         }
 
+        private bool _tutorial;
+
+        void Start()
+        {
+            TutorialManager.Singleton.ShowOrderNumber(12);
+        }
+        
         public void PickUp()
         {
+            if (!_tutorial)
+            {
+                TutorialManager.Singleton.HideOrderNumber(12);
+                _tutorial = true;
+            }
+            
             myPickupBatSound.Play();
             handAnim.Play("PickupBat");
             handAnim.SetBool("HoldingBat", true);

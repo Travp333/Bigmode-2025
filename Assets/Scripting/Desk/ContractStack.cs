@@ -55,8 +55,16 @@ namespace Scripting.Desk
             }
         }
 
+        private bool _tutorialGrabbed;
+        
         private void GrabPaper()
         {
+            if (!_tutorialGrabbed)
+            {
+                _tutorialGrabbed = true;
+                TutorialManager.Singleton.ShowOrderNumber(3, true);
+            }
+            
             var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
             obj.SetActive(true);
 

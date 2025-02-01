@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,17 +21,35 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    private readonly List<TutorialSpot> _spots = new();
+    private int _currentTutorial;
+
     private void Awake()
     {
         Singleton = this;
     }
 
-    private List<TutorialSpot> _spots = new();
-
-    private int _currentTutorial;
-
-    public void ShowOrderNumber(int number)
+    private void Start()
     {
+        _spots.ForEach(n =>
+        {
+            if (n.Order == _currentTutorial || n.AtSpawnVisible)
+            {
+                n.Show();
+            }
+            else
+            {
+                n.Hide();
+            }
+        });
+    }
+
+    public void ShowOrderNumber(int number, bool only = false)
+    {
+        if (!only)
+            _spots.ToList()
+                .ForEach(n => n.Hide());
+
         _spots.Where(n => n.Order == number)
             .ToList()
             .ForEach(n => n.Show());
@@ -45,22 +62,32 @@ public class TutorialManager : MonoBehaviour
             .ForEach(n => n.Hide());
     }
 
-    public void Next()
+    public void SetCurrentOrder(int number)
     {
+        _currentTutorial = number;
         _spots.ForEach(n =>
         {
-            if (n.IsVisible)
+            if (n.Order == _currentTutorial)
+            {
+                n.Show();
+            }
+            else
             {
                 n.Hide();
             }
         });
-
-        _currentTutorial++;
-
-        _spots.Where(n => n.Order == _currentTutorial)
-            .ToList()
-            .ForEach(n => n.Show());
     }
+
+    // public void Next()
+    // {
+    //     _spots.ForEach(n => { n.Hide(); });
+    //
+    //     _currentTutorial++;
+    //
+    //     _spots.Where(n => n.Order == _currentTutorial)
+    //         .ToList()
+    //         .ForEach(n => n.Show());
+    // }
 
     public void Register(TutorialSpot spot)
     {

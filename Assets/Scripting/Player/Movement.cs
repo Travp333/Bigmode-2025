@@ -4,7 +4,6 @@ using Scripting.Desk;
 using Scripting.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Scripting.Player
@@ -586,7 +585,10 @@ namespace Scripting.Player
                 if (hit.transform.TryGetComponent<CustomerMotor>(out var customer))
                 {
                     //Debug.Log("Looking at client!");
-                    if (!_canInteractWithClient && !GameManager.Singleton.IsNightTime)
+                    if (!_canInteractWithClient &&
+                        !GameManager.Singleton.IsNightTime &&
+                        !customer.IsMotherfucker &&
+                        !customer.IsThief)
                         talk.SetActive(true);
                     _canInteractWithClient = true;
                     //LMB would be better
@@ -619,12 +621,6 @@ namespace Scripting.Player
                                 if (customer.Validate(abc))
                                 {
                                     abc.ExecuteEffect(customer, this);
-
-                                    //Todo: Play Smack sound
-                                }
-                                else
-                                {
-                                    //Todo: Play NO Sound
                                 }
                             }
                         }
@@ -779,10 +775,26 @@ namespace Scripting.Player
             handAnim.SetBool("Walking", false);
         }
 
+        private bool _tutorialSeatedDone;
+        private bool _tutorialCigarDone;
+
         private void SitOnChairDone()
         {
             ShowHands();
             Cursor.lockState = CursorLockMode.Confined;
+
+            if (!_tutorialSeatedDone)
+            {
+                TutorialManager.Singleton.ShowOrderNumber(2, true);
+                _tutorialSeatedDone = true;
+            }
+
+            if (!_tutorialCigarDone && GameManager.Singleton.upgrades.cigar)
+            {
+                _tutorialCigarDone = true;
+                TutorialManager.Singleton.ShowOrderNumber(6);
+            }
+
             _seated = true;
             getUp.SetActive(true);
             bothArmsScript.UnblockRightHand();

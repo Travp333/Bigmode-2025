@@ -112,12 +112,13 @@ namespace Scripting.Customer
             anim = GetComponent<Animator>();
             _paymentAmount = 20000 + Random.Range(-5000, 5000);
             _penalty = 7000 * Random.Range(-500, 500);
-            _isMotherfucker = _aiController.HasVandalismSpots &
-                              (Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
+            _isMotherfucker = false; //_aiController.HasVandalismSpots &
+                              //(Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
+                              
             if (!_isMotherfucker)
             {
-                _isThief = _aiController.HasThiefSpot &&
-                           (Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
+                _isThief = _aiController.HasThiefSpot; // &&
+                //(Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
             }
 
             _aiController = FindFirstObjectByType<AiController>();
@@ -146,8 +147,16 @@ namespace Scripting.Customer
             agent.isStopped = false;
         }
 
+        private bool _tutorialDone;
+        
         public void ShowBubble()
         {
+            if (!_tutorialDone)
+            {
+                _tutorialDone = true;
+                TutorialManager.Singleton.ShowOrderNumber(1, true);
+            }
+            
             bubble.SetSprite(_index);
             _isBubbleVisible = true;
         }
@@ -631,7 +640,8 @@ namespace Scripting.Customer
         }
 
         public bool IsSpraying => _isSpraying;
-        public bool IsStealing { get; set; }
+        public bool IsStealing => _isStealing;
+        public bool IsSneakingOut => _sneakOut;
 
         public void Pay()
         {

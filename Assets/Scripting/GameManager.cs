@@ -277,6 +277,11 @@ namespace Scripting
             SpecialStoreManager.Singleton.SetRandomUpgrade();
             shiftManager.SetIsNightTime(true);
 
+            if (_level < 3)
+            {
+                TutorialManager.Singleton.ShowOrderNumber(8);
+            }
+            
             if (nightResetsTimer)
             {
                 _loanAgreementRunning = 0.0f;
@@ -291,7 +296,7 @@ namespace Scripting
             if (upgrades.money > todaysQuota)
             {
                 QuotaMetUI.SetActive(true);
-                Invoke("ResetQuotaMetUI", 2f);
+                Invoke(nameof(ResetQuotaMetUI), 2f);
                 ChangeMoneyAmount(-todaysQuota);
                 //upgrades.money -= todaysQuota;
                 _moneyInSafe += todaysQuota;

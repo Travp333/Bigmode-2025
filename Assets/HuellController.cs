@@ -142,7 +142,7 @@ public class HuellController : MonoBehaviour
 
         if (_lockedTarget)
         {
-            if (!_lockedTarget.IsSpraying)
+            if (!_lockedTarget.IsSpraying && !_lockedTarget.IsSneakingOut && !_lockedTarget.IsStealing)
             {
                 _lockedTarget = null;
                 SetMode(Random.Range(0, 3) == 0 ? Huellmode.Patrol : Huellmode.OriginalPos);
@@ -170,7 +170,7 @@ public class HuellController : MonoBehaviour
         }
 
         _lockedTarget = _customers
-            .Where(n => n.IsSpraying || n.IsStealing)
+            .Where(n => n.IsSpraying || n.IsStealing || n.IsSneakingOut)
             .Where(n => !n.IsHuellTarget)
             .Where(n =>
             {
