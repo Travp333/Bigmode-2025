@@ -148,8 +148,8 @@ namespace Scripting.Customer
 
             if (!_isMotherfucker && 0 != Id)
             {
-                _isThief = _aiController.HasThiefSpot &&
-                           (Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
+                _isThief = true; //_aiController.HasThiefSpot &&
+                           //(Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
             }
 
             _aiController = FindFirstObjectByType<AiController>();
@@ -255,8 +255,8 @@ namespace Scripting.Customer
             }
         }
 
-        private bool IsGoodGuy => !_isMotherfucker && !_isThief;
-        private bool WalksOut => _done || _sneakOut || _runOut;
+        public bool IsGoodGuy => !_isMotherfucker && !_isThief;
+        public bool WalksOut => _done || _sneakOut || _runOut;
         private bool _lockedAssistant;
 
         private void Update()
@@ -330,6 +330,7 @@ namespace Scripting.Customer
                     {
                         _aiController.AssistantLocked = true;
                         _lockedAssistant = true;
+
                         if (queuedSit)
                         {
                             StartCoroutine(StandupAndTHENGoToAssistant());
