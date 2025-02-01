@@ -969,5 +969,10 @@ namespace Scripting.Player
         {
             StressLevel = value;
         }
+        public float MouseSpeed {
+            get { return mouseSpeed; }
+            set { mouseSpeed = value; }
+
+        }
     }
 }
