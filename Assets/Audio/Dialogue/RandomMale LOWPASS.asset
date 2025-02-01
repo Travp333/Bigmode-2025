@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-6437018103649748783
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_04_{-6437018103649748783}
+  m_AudioClip: {fileID: 8300000, guid: 7890e7d37ed955b4a81203f82a134a9c, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-1247392433291472923
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_02_{-1247392433291472923}
+  m_AudioClip: {fileID: 8300000, guid: 13b539ed64ee0e2478a7c2d7f80b3ee1, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &2936777804602474515
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05_{2936777804602474515}
+  m_AudioClip: {fileID: 8300000, guid: bc46c643262e74c478819f7da38e3853, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &4202085898446270550
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_06_{4202085898446270550}
+  m_AudioClip: {fileID: 8300000, guid: c1355856be4eb5f40985d7144e8a10d8, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &6407359445111923090
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_03_{6407359445111923090}
+  m_AudioClip: {fileID: 8300000, guid: 813ec34f99cb0fb4c89b8420c0c49555, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RandomMale LOWPASS
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 3
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: 0, y: 0}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: 8285918606948792304}
+  - {fileID: -1247392433291472923}
+  - {fileID: 6407359445111923090}
+  - {fileID: -6437018103649748783}
+  - {fileID: 2936777804602474515}
+  - {fileID: 4202085898446270550}
+  m_AvoidRepeatingLast: 1
+  m_PlaybackMode: 2
+  m_TriggerMode: 1
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 0
+  m_VolumeRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 0
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0
+--- !u!1233149941 &8285918606948792304
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_01_{8285918606948792304}
+  m_AudioClip: {fileID: 8300000, guid: 1ce2cbd485d9b074f94fcbe06b89b6d9, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
