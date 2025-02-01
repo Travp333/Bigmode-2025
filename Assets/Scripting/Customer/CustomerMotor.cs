@@ -6,8 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Linq;
 using Random = UnityEngine.Random;
-using TMPro;
 
 namespace Scripting.Customer
 {
@@ -15,8 +15,10 @@ namespace Scripting.Customer
     {
         [SerializeField]
         float assistantConvoTime = 5f;
+
         [SerializeField]
         public GameObject documentAttachPoint;
+
         Color newColor;
 
         [SerializeField] private Rigidbody rb;
@@ -81,12 +83,15 @@ namespace Scripting.Customer
 
         public bool IsHuellTarget { get; set; }
 
+        private CapsuleCollider _capsuleCollider;
+
         private void Awake()
         {
             bubSprite = bubble.GetComponent<SpriteRenderer>();
+            _capsuleCollider = GetComponents<CapsuleCollider>().FirstOrDefault(n => !n.isTrigger);
             _aiController = AiController.Singleton;
             _initialAgentSpeed = agent.speed;
-            
+
             Id = NextId++;
 
             // DUDE i don't want to set it on every NPC so i set it here as hardcode bruv
@@ -104,11 +109,11 @@ namespace Scripting.Customer
 
             if (!_isMotherfucker)
             {
-                _isThief = _aiController.HasThiefSpot && false; //Random.Range(0, 1) == 0;
+                _isThief = _aiController.HasThiefSpot && false; // Random.Range(0, 1) == 0;
             }
 
             _aiController = FindFirstObjectByType<AiController>();
-            _changeTaskCooldown = secondsUntilChangeActivity;
+            _changeTaskCooldown = 0.1f;
 
             _standardDocuments = TrainingsData.StandardContractTypes;
             _index = Random.Range(0, _standardDocuments.Count);
@@ -116,14 +121,11 @@ namespace Scripting.Customer
             _contractType = _standardDocuments[_index];
         }
 
-        private void Start()
-        {
-            WalkIn();
-        }
 
         //start conversation
         public void StartConversing()
         {
+            Unsit();
             _conversing = true;
             //Debug.Log("Starting Conversation");
             //anim.Play("Conversing");
@@ -182,9 +184,11 @@ namespace Scripting.Customer
             {
                 agent.isStopped = true;
 
-                if(!convoWithAgent){
+                if (!convoWithAgent)
+                {
                     transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
                 }
+
                 anim.SetBool("conversing", true);
             }
             else
@@ -203,10 +207,10 @@ namespace Scripting.Customer
                 }
             }
 
-            if (!agent.isOnNavMesh)
-            {
-                transform.position = Vector3.Lerp(transform.position, _aiFixPosition, Time.deltaTime * 2.0f);
-            }
+            // if (agent.enabled && !agent.isOnNavMesh)
+            // {
+            //     transform.position = Vector3.Lerp(transform.position, _aiFixPosition, Time.deltaTime * 2.0f);
+            // }
 
             if (!_aiController || _done || _runOut || _sneakOut)
             {
@@ -227,18 +231,19 @@ namespace Scripting.Customer
 
             if (!_isMotherfucker && !_isThief)
             {
-                if(agent.remainingDistance < .1f && queuedSit && !anim.GetBool("Sitting")){
-                    //and its a chair???
-                    anim.Play("Sit In Chair");
-                    anim.SetBool("Sitting", true);
+                if (agent.enabled && agent.remainingDistance < .1f && queuedSit && !anim.GetBool("Sitting"))
+                {
+                    StartCoroutine(Sitdown());
                 }
 
                 StressMeter += Time.deltaTime / (secondsUntilFreakOut * (_currentSpot ? 2f : 1f));
-                if(_isBubbleVisible){
+                if (_isBubbleVisible)
+                {
                     newColor = bubSprite.color;
                     newColor.a = Mathf.Lerp(1, 0, StressMeter);
                     bubSprite.color = newColor;
                 }
+
                 //handles rotation
                 HandleConversing();
 
@@ -276,10 +281,7 @@ namespace Scripting.Customer
                                 // TODO: Stop Talk Animation with Assistant
                                 Assistant.Singleton.PayBubbleGum();
                                 ShowBubble();
-                            }, assistantConvoTime, () =>
-                            {
-                                _aiController.AssistantLocked = false;
-                            }));
+                            }, assistantConvoTime, () => { _aiController.AssistantLocked = false; }));
 
                         return;
                     }
@@ -288,25 +290,19 @@ namespace Scripting.Customer
 
                     if (_currentSpot)
                     {
-                        if(queuedSit){
-                            anim.SetBool("Sitting", false);
-                            queuedSit = false;
-                        }
-                        else{
-                            _currentSpot.Leave();
-                        }
-                        
-                       
+                        _currentSpot?.Unlock();
+                        Unsit();
                     }
 
                     if (nextSpot)
                     {
-                        
-                        nextSpot.Arrive();
+                        nextSpot.Lock();
                         _currentSpot = nextSpot;
-                        if(_currentSpot.isChair){
+                        if (_currentSpot.isChair)
+                        {
                             queuedSit = true;
                         }
+
                         agent.SetDestination(nextSpot.transform.position);
                     }
                     else
@@ -375,8 +371,50 @@ namespace Scripting.Customer
                 }
             }
         }
-        public void LeaveSpotFromAnim(){
-            _currentSpot.Leave();
+
+        private void Unsit()
+        {
+            if (queuedSit)
+            {
+                anim.SetBool("Sitting", false);
+                rb.isKinematic = false;
+                agent.enabled = true;
+                _capsuleCollider.enabled = true;
+            }
+
+            _currentSpot?.Unlock();
+            _currentSpot = null;
+
+            queuedSit = false;
+        }
+
+        private IEnumerator Sitdown()
+        {
+            var elapsed = 0.0f;
+
+            agent.enabled = false;
+            _capsuleCollider.enabled = false;
+
+            var position = _currentSpot.transform.position + new Vector3(-0.5f, 0f, 0f);
+            // transform.position = position;
+            var rotation = Quaternion.Euler(0, 90, 0);
+            rb.isKinematic = true;
+
+            anim.Play("Sit In Chair");
+            anim.SetBool("Sitting", true);
+
+            while (elapsed < 0.3f)
+            {
+                elapsed += Time.deltaTime;
+
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation,
+                    elapsed * (1f / 0.3f));
+                transform.position = Vector3.Lerp(transform.position, position,
+                    elapsed * (1f / 0.3f));
+
+                yield return null;
+            }
+            //and its a chair???
         }
 
         private bool _isStealing;
@@ -416,9 +454,12 @@ namespace Scripting.Customer
         private void WalkIn()
         {
             if (!_aiController) return;
-            var entrance = _aiController.EntrancePoint.transform.position;
 
-            agent.SetDestination(entrance);
+            // _changeTaskCooldown = 0.1f;
+
+            // var entrance = _aiController.EntrancePoint.transform.position;
+            //
+            // agent.SetDestination(entrance);
         }
 
         private bool _sprayInterrupted;
@@ -448,12 +489,11 @@ namespace Scripting.Customer
         {
             if (rb)
                 rb = GetComponent<Rigidbody>();
-            if (capsuleCollider)
-                capsuleCollider = GetComponent<CapsuleCollider>();
         }
 
         public void GetHit()
         {
+            Unsit();
             StartCoroutine(DoGetHit());
         }
 
@@ -502,21 +542,23 @@ namespace Scripting.Customer
 
         private void RemoveMoney()
         {
-            
             //GameManager.Singleton.upgrades.money -= _penalty;
             GameManager.Singleton.ChangeMoneyAmount(-_penalty);
             GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, -_penalty);
             // HAS TO BE IMPLEMENTED
         }
 
-        public bool Validate(Contract contract) =>
-            contract.Result == _contractType || contract.GetIsPowerContract();
+        public bool Validate(Contract contract)
+        {
+            Unsit();
+            return contract.Result == _contractType || contract.GetIsPowerContract();
+        }
 
         public void WalkOut()
         {
             //TODO: Stop Spray Animation
             _done = true;
-            if(!agent) return;
+            if (!agent) return;
             if (agent.isOnNavMesh)
                 agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
             else
@@ -549,14 +591,14 @@ namespace Scripting.Customer
         }
 
         public void IsHit()
-        { 
+        {
             if (_stolenMoney > 0)
             {
                 GameManager.Singleton.ReturnStolenMoney(_stolenMoney);
                 _stolenMoney = 0;
             }
         }
-        
+
         public void SneakOut()
         {
             if (!agent.enabled)

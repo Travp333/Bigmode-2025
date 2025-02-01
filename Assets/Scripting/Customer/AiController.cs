@@ -41,7 +41,7 @@ namespace Scripting.Customer
         public void UnlockEverything()
         {
             AssistantLocked = false;
-            _distractionSpots.ForEach(n => n.Leave());
+            _distractionSpots.ForEach(n => n.Unlock());
             _thiefSpotLocked = false;
         }
 
