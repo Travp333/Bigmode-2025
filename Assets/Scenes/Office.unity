@@ -2444,7 +2444,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -2477,7 +2477,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -3850,8 +3850,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -7283305935844236984, guid: c05f93e47532ddd48b29c3b653f60c05, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 9b3358f89150fad43a5a4246b35b7b5c, type: 3}
-  m_Resource: {fileID: 8300000, guid: 9b3358f89150fad43a5a4246b35b7b5c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: aa9ad69c051497142b2f985e312ce277, type: 3}
+  m_Resource: {fileID: 8300000, guid: aa9ad69c051497142b2f985e312ce277, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -8233,9 +8233,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 120
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -8268,7 +8268,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -9717,7 +9717,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 120
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -9752,7 +9752,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -9876,9 +9876,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 120
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -9911,7 +9911,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -11926,6 +11926,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1409868109}
     m_Modifications:
+    - target: {fileID: -418392363849586885, guid: 1f950818c890960459d7d493b0acdc08, type: 3}
+      propertyPath: MaxDistance
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: -418392363849586885, guid: 1f950818c890960459d7d493b0acdc08, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1236495159756511926, guid: 1f950818c890960459d7d493b0acdc08, type: 3}
       propertyPath: m_Name
       value: Bat
@@ -12902,6 +12910,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 1895294536948808991, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      propertyPath: m_TagString
+      value: Structure
+      objectReference: {fileID: 0}
+    - target: {fileID: 2362772430276233576, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      propertyPath: m_TagString
+      value: Structure
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583581796755682843, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      propertyPath: m_TagString
+      value: Structure
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630504949821668986, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      propertyPath: m_TagString
+      value: Structure
+      objectReference: {fileID: 0}
+    - target: {fileID: 2748714185266122796, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3054703716416568216, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.61
@@ -12941,6 +12969,10 @@ PrefabInstance:
     - target: {fileID: 3054703716416568216, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266710998965400119, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      propertyPath: m_TagString
+      value: Structure
       objectReference: {fileID: 0}
     - target: {fileID: 3506254817724870952, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
       propertyPath: m_Layer
@@ -12986,6 +13018,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 6604003735914171633, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      propertyPath: m_TagString
+      value: Structure
+      objectReference: {fileID: 0}
     - target: {fileID: 6854288171745888661, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
       propertyPath: m_Layer
       value: 18
@@ -12993,6 +13029,10 @@ PrefabInstance:
     - target: {fileID: 6962536368189241714, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
       propertyPath: m_Layer
       value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7539032862930904415, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      propertyPath: m_TagString
+      value: Structure
       objectReference: {fileID: 0}
     - target: {fileID: 7546008698595174934, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
       propertyPath: m_Layer

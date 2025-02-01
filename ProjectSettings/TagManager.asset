@@ -10,6 +10,7 @@ TagManager:
   - EntrancePoint
   - Mailbox
   - Trashcan
+  - Structure
   layers:
   - Default
   - TransparentFX
