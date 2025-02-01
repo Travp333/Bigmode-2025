@@ -106,8 +106,11 @@ namespace Scripting.Customer
         void Start()
         {
             if(Id == 0){
-                //TutorialBubble.SetActive(true);
                 TutorialManager.Singleton.ShowOrderNumber(12);
+            }
+            else
+            {
+                TutorialBubble.SetActive(false);
             }
         }
 
@@ -471,14 +474,17 @@ namespace Scripting.Customer
         private IEnumerator GoToTargetWithCallback(Vector3 position, Action start = null, Action callback = null,
             float delay = 0, Action onFinally = null)
         {
-            agent.SetDestination(position);
-
-            yield return null;
-
-            while (agent.remainingDistance > 0.1f && !_done && !_runOut && !_sneakOut && !_sprayInterrupted &&
-                   !_stealInterrupted)
+            if (agent.enabled)
             {
+                agent.SetDestination(position);
+
                 yield return null;
+
+                while (agent.remainingDistance > 0.1f && !_done && !_runOut && !_sneakOut && !_sprayInterrupted &&
+                       !_stealInterrupted)
+                {
+                    yield return null;
+                }
             }
 
             if (!_done && !_runOut && !_sprayInterrupted && !_sneakOut && !_stealInterrupted)
@@ -680,5 +686,6 @@ namespace Scripting.Customer
             GameManager.Singleton.ChangeMoneyAmount(value);
             GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, value);
         }
+        
     }
 }

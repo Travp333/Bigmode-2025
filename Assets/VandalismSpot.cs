@@ -27,7 +27,6 @@ public class VandalismSpot : MonoBehaviour
         boxCollider.enabled = true;
         spriteRenderer.enabled = true;
         spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
-        GameManager.Singleton.RemoveVandalismSpot(aiSpot);
         IsLocked = true;
     }
 
@@ -35,10 +34,9 @@ public class VandalismSpot : MonoBehaviour
     {
         boxCollider.enabled = false;
         spriteRenderer.enabled = false;
-        GameManager.Singleton.RegisterVandalismSpot(aiSpot);
         IsLocked = false;
     }
-    
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
