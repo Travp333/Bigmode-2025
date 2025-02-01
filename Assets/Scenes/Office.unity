@@ -1832,6 +1832,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 664569919}
     m_Modifications:
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSize
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.23102
@@ -2572,6 +2580,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 664569919}
     m_Modifications:
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSize
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.25754
@@ -3046,6 +3062,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 664569919}
     m_Modifications:
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSize
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.23102
@@ -3425,6 +3449,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 664569919}
     m_Modifications:
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSize
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.23102
@@ -6099,6 +6131,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 664569919}
     m_Modifications:
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSize
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.23102
@@ -7152,6 +7192,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 664569919}
     m_Modifications:
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSize
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237293462982287890, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.23102

@@ -117,7 +117,7 @@ namespace Scripting.Customer
                               
             if (!_isMotherfucker)
             {
-                _isThief = _aiController.HasThiefSpot; // &&
+                _isThief = false;  // _aiController.HasThiefSpot; // &&
                 //(Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
             }
 

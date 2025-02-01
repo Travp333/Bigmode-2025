@@ -46,7 +46,7 @@ public class TutorialManager : MonoBehaviour
 
     public void ShowOrderNumber(int number, bool only = false)
     {
-        if (!only)
+        if (only)
             _spots.ToList()
                 .ForEach(n => n.Hide());
 
