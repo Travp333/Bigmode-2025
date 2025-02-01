@@ -4,6 +4,7 @@ using Scripting.Desk;
 using Scripting.Objects;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Scripting.Player
@@ -15,8 +16,10 @@ namespace Scripting.Player
 
         [SerializeField]
         Image crosshair;
+
         [SerializeField]
         Image rageModeUIFrontBase, rageModeUIFrontOVERFULL, rageModeUIFillBase, rageModeUIFillOVERFULL;
+
         [Header("Input")]
         [SerializeField] private float moveSpeed = 7.5f;
 
@@ -71,7 +74,17 @@ namespace Scripting.Player
         [SerializeField] private AudioSource myBatSwingSound;
         [SerializeField] private AudioSource myStaplerSound;
 
+        [Header("Graffiti")]
+        [SerializeField] private GameObject sitDown;
+
+        [SerializeField] private GameObject getUp;
+        [SerializeField] private GameObject talk;
+        [SerializeField] private GameObject graffiti;
+        [SerializeField] private GameObject baseballbat;
+
+        [Header("Misc")]
         [SerializeField] private Phone phone;
+
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
         private float _rotationX;
@@ -115,6 +128,7 @@ namespace Scripting.Player
 
         public void ExitChair()
         {
+            getUp.SetActive(false);
             StartCoroutine(DoExitChairAnimation());
             DeactivateContractControls();
         }
@@ -222,7 +236,7 @@ namespace Scripting.Player
 
         public void ResetContract()
         {
-            if (!_currentContract) return; 
+            if (!_currentContract) return;
             var deskArms = bothArmsScript.GetComponent<DeskArms>();
             deskArms.UnblockLeftHand();
             deskArms.ResetContractAnimation();
@@ -243,7 +257,8 @@ namespace Scripting.Player
                     if (hit.collider.gameObject == submit)
                     {
                         SubmitContract();
-                        if(hit.collider.gameObject.GetComponent<Animator>()!=null){
+                        if (hit.collider.gameObject.GetComponent<Animator>() != null)
+                        {
                             hit.collider.gameObject.GetComponent<Animator>().Play("ButtonAnim");
                         }
                     }
@@ -251,7 +266,8 @@ namespace Scripting.Player
                     if (hit.collider.gameObject == reset)
                     {
                         ResetContract();
-                        if(hit.collider.gameObject.GetComponent<Animator>()!=null){
+                        if (hit.collider.gameObject.GetComponent<Animator>() != null)
+                        {
                             hit.collider.gameObject.GetComponent<Animator>().Play("ButtonAnim");
                         }
                     }
@@ -267,7 +283,6 @@ namespace Scripting.Player
             rageModeUIFrontBase.gameObject.SetActive(true);
             rageModeUIFillOVERFULL.gameObject.SetActive(false);
             rageModeUIFrontOVERFULL.gameObject.SetActive(false);
-            
         }
 
         private void Update()
@@ -281,6 +296,8 @@ namespace Scripting.Player
                 {
                     if (!_removingGraffiti)
                     {
+                        if (!_canInteractWithGraffiti)
+                            graffiti.SetActive(true);
                         _canInteractWithGraffiti = true;
                         if (_actionPressed)
                         {
@@ -291,6 +308,9 @@ namespace Scripting.Player
                 else
                 {
                     graffitiRemoveProgress.enabled = false;
+
+                    if (_canInteractWithGraffiti)
+                        graffiti.SetActive(false);
                     _canInteractWithGraffiti = false;
                 }
             }
@@ -298,6 +318,9 @@ namespace Scripting.Player
             {
                 _currentGraffiti = null;
                 graffitiRemoveProgress.enabled = false;
+
+                if (_canInteractWithGraffiti)
+                    graffiti.SetActive(false);
                 _canInteractWithGraffiti = false;
             }
 
@@ -358,7 +381,6 @@ namespace Scripting.Player
 
                 if (rageMode)
                 {
-                    
                     stressChange = 0f;
                 }
 
@@ -378,6 +400,7 @@ namespace Scripting.Player
                 {
                     StressLevel = 0f;
                 }
+
                 //UI here
                 rageModeUIFillBase.fillAmount = StressLevel;
 
@@ -404,7 +427,7 @@ namespace Scripting.Player
                         _currentContract = null;
                         x?.Reset();
                         //TODO: PLAY THROW ANIMATION #2
-                        
+
                         ResetContract();
                     }
 
@@ -422,6 +445,7 @@ namespace Scripting.Player
 
                         ExitChair();
                     }
+
                     rageModeUIFillBase.gameObject.SetActive(false);
                     rageModeUIFrontBase.gameObject.SetActive(false);
                     rageModeUIFillOVERFULL.gameObject.SetActive(true);
@@ -482,6 +506,7 @@ namespace Scripting.Player
                     ActivateContractControls();
                 }
 
+                sitDown.SetActive(false);
                 _isInChairTrigger = false;
                 if (_baseballBat)
                 {
@@ -510,6 +535,8 @@ namespace Scripting.Player
                     var bat = hit.transform.GetComponent<BaseballBat>();
                     if (bat)
                     {
+                        if (!_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
+                            baseballbat.SetActive(true);
                         _canPickupBaseballBat = true;
                         if (_actionPressed)
                         {
@@ -520,24 +547,26 @@ namespace Scripting.Player
                 }
                 else
                 {
+                    if (_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
+                        baseballbat.SetActive(false);
                     _canPickupBaseballBat = false;
                 }
-                
+
                 if (hit.transform.gameObject.CompareTag("Trashcan"))
                 {
                     if (_actionPressed)
                     {
-                        if (_currentContract )
+                        if (_currentContract)
                         {
                             handAnim.SetBool("HoldingDocument", false);
                             handAnim.Play("IDLE");
-                            
+
                             // TODO: Play throw Animation?
                             ResetContract();
                         }
                     }
                 }
-                
+
                 if (hit.transform.gameObject.CompareTag("Mailbox"))
                 {
                     if (_actionPressed)
@@ -557,17 +586,21 @@ namespace Scripting.Player
                 if (hit.transform.TryGetComponent<CustomerMotor>(out var customer))
                 {
                     //Debug.Log("Looking at client!");
+                    if (!_canInteractWithClient && !GameManager.Singleton.IsNightTime)
+                        talk.SetActive(true);
                     _canInteractWithClient = true;
                     //LMB would be better
                     if (_actionPressed)
                     {
                         if (_currentContract && !_currentContract.GetIsMailBoxContract())
                         {
-                            if(!customer.IsMotherfucker){
+                            if (!customer.IsMotherfucker)
+                            {
                                 customer.transform.rotation =
-                                Quaternion.LookRotation(-this.transform.forward, this.transform.up);
+                                    Quaternion.LookRotation(-this.transform.forward, this.transform.up);
                                 customer.anim.Play("GetStapled");
                             }
+
                             var attachment = _currentContract.transform.parent;
                             attachment.parent = customer.documentAttachPoint.transform;
                             attachment.position = customer.documentAttachPoint.transform.position;
@@ -581,7 +614,7 @@ namespace Scripting.Player
                             handAnim.SetBool(HoldingDocument, false);
                             var abc = _currentContract;
                             _currentContract = null;
-                            if (abc.Converted )
+                            if (abc.Converted)
                             {
                                 if (customer.Validate(abc))
                                 {
@@ -606,12 +639,20 @@ namespace Scripting.Player
                 }
                 else
                 {
+                    if (_canInteractWithClient)
+                        talk.SetActive(false);
+
                     _canInteractWithClient = false;
                 }
             }
             else
             {
+                if (_canInteractWithClient)
+                    talk.SetActive(false);
                 _canInteractWithClient = false;
+
+                if (_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
+                    baseballbat.SetActive(false);
                 _canPickupBaseballBat = false;
             }
 
@@ -743,6 +784,7 @@ namespace Scripting.Player
             ShowHands();
             Cursor.lockState = CursorLockMode.Confined;
             _seated = true;
+            getUp.SetActive(true);
             bothArmsScript.UnblockRightHand();
             if (!_currentContract)
             {
@@ -760,6 +802,7 @@ namespace Scripting.Player
             HideHands();
             Cursor.lockState = CursorLockMode.Locked;
             _seated = false;
+            getUp.SetActive(false);
             crosshair.gameObject.SetActive(true);
             // GetComponent<Contract>().SetActive(false);
         }
@@ -839,7 +882,11 @@ namespace Scripting.Player
         {
             if (other.CompareTag("ChairTrigger"))
             {
-                _isInChairTrigger = true;
+                if (!GameManager.Singleton.IsNightTime)
+                {
+                    _isInChairTrigger = true;
+                    sitDown.SetActive(true);
+                }
             }
         }
 
@@ -848,38 +895,16 @@ namespace Scripting.Player
             if (other.CompareTag("ChairTrigger"))
             {
                 _isInChairTrigger = false;
+                sitDown.SetActive(false);
             }
         }
 
         private void OnGUI()
         {
-            if (_isInChairTrigger && !GameManager.Singleton.IsNightTime)
-            {
-                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to sit down.");
-            }
-
-            if (_seated)
-            {
-                GUI.Label(new Rect(5, 30, 200, 50), "Press 'Tab' to stand up.");
-            }
-
-            if (_canPickupBaseballBat && !GameManager.Singleton.IsNightTime)
-            {
-                
-                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to pick up baseball bat.");
-            }
-
             if (_canInteractWithClient && !GameManager.Singleton.IsNightTime)
             {
                 GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
             }
-
-            if (_canInteractWithGraffiti)
-            {
-                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to remove this piece of (sh)art");
-            }
-
-            GUI.Label(new Rect(5, Screen.height - 25, 200, 25), "Stresslevel: " + StressLevel);
         }
 
         public void NotifyOnPhone()
