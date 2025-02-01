@@ -329,7 +329,7 @@ namespace Scripting.Customer
                         !_lockedAssistant)
                     {
                         _aiController.AssistantLocked = true;
-
+                        _lockedAssistant = true;
                         if (queuedSit)
                         {
                             StartCoroutine(StandupAndTHENGoToAssistant());
