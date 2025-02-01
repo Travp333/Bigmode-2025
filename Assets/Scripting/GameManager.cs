@@ -16,6 +16,8 @@ namespace Scripting
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
+        Animator doorAnim;
+        [SerializeField]
         Scene scene;
         [SerializeField]
         private GameObject QuotaMetUI, MoneyDifferenceUI, MoneyDifferenceUIPOS;
@@ -169,6 +171,7 @@ namespace Scripting
 
         public void StartDay()
         {
+            doorAnim.SetBool("opened", false);
             IsNightTime = false;
 
             shiftManager.SetIsNightTime(false);
@@ -179,7 +182,10 @@ namespace Scripting
 
         private void Update()
         {
-            if (IsNightTime) return;
+            if (IsNightTime){
+                doorAnim.SetBool("opened", true);
+                return;
+            } 
 
             _dayTimer -= Time.deltaTime;
             _loanAgreementRunning -= Time.deltaTime;
