@@ -24,6 +24,8 @@ namespace Scripting.ScriptableObjects
             EndOfLifePlan
         }
 
+        public bool tutorialDone;
+
         //upgrade status here?
         public bool chairs;
         public bool paintings;

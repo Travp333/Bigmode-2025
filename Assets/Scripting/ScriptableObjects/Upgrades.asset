@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7414179721df5e14289f0697c0bdb9ea, type: 3}
   m_Name: Upgrades
   m_EditorClassIdentifier: 
+  tutorialDone: 0
   chairs: 0
   paintings: 0
   baseballBat: 0

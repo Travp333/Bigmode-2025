@@ -113,11 +113,11 @@ namespace Scripting.Customer
             _paymentAmount = 20000 + Random.Range(-5000, 5000);
             _penalty = 7000 * Random.Range(-500, 500);
             _isMotherfucker = false; //_aiController.HasVandalismSpots &
-                              //(Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
-                              
+            //(Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
+
             if (!_isMotherfucker)
             {
-                _isThief = false;  // _aiController.HasThiefSpot; // &&
+                _isThief = false; // _aiController.HasThiefSpot; // &&
                 //(Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
             }
 
@@ -147,8 +147,8 @@ namespace Scripting.Customer
             agent.isStopped = false;
         }
 
-        private bool _tutorialDone;
-        
+        private static bool _tutorialDone;
+
         public void ShowBubble()
         {
             if (!_tutorialDone)
@@ -156,7 +156,7 @@ namespace Scripting.Customer
                 _tutorialDone = true;
                 TutorialManager.Singleton.ShowOrderNumber(1, true);
             }
-            
+
             bubble.SetSprite(_index);
             _isBubbleVisible = true;
         }
@@ -220,6 +220,11 @@ namespace Scripting.Customer
             {
                 if (GameManager.Singleton.IsNightTime)
                 {
+                    if (_isThief)
+                    {
+                        HuellController.Singleton.Reset(this);
+                    }
+
                     Destroy(gameObject);
                 }
             }
@@ -570,6 +575,7 @@ namespace Scripting.Customer
 
         public bool Validate(Contract contract)
         {
+            GameManager.Singleton.upgrades.tutorialDone = true;
             Unsit();
             return contract.Result == _contractType || contract.GetIsPowerContract();
         }
@@ -582,6 +588,11 @@ namespace Scripting.Customer
                 agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
             else
             {
+                if (_isThief)
+                {
+                    HuellController.Singleton.Reset(this);
+                }
+
                 Destroy(gameObject);
             }
         }
