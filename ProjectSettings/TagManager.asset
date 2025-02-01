@@ -9,6 +9,7 @@ TagManager:
   - Weapon
   - EntrancePoint
   - Mailbox
+  - Trashcan
   layers:
   - Default
   - TransparentFX

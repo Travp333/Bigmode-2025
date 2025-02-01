@@ -221,13 +221,12 @@ namespace Scripting.Player
 
         public void ResetContract()
         {
-            if (!_currentContract) return;
-            Debug.Log("Resetting contract");
+            if (!_currentContract) return; 
             var deskArms = bothArmsScript.GetComponent<DeskArms>();
             deskArms.UnblockLeftHand();
             deskArms.ResetContractAnimation();
             var x = _currentContract;
-
+            Debug.Log("Resetting contract");
             _currentContract = null;
             x?.Reset();
         }
@@ -307,7 +306,11 @@ namespace Scripting.Player
                 {
                     handAnim.SetBool("HoldingDocument", false);
                     handAnim.Play("IDLE");
-                    ResetContract();
+                    Debug.Log("Resetting contract");
+                    var x = _currentContract;
+                    _currentContract = null;
+                    //TODO: PLAY THROW ANIMATION #1
+                    x?.Reset();
                 }
 
                 if (StressLevel > 0f)
@@ -352,12 +355,6 @@ namespace Scripting.Player
                     CheckButtons();
                 }
 
-                // if(_currentContract){
-                // RemoveContract();
-                // handAnim.SetBool("HoldingDocument", false);
-                //bothArmsScript.PutDownContract();
-                // }
-
                 if (rageMode)
                 {
                     
@@ -401,6 +398,12 @@ namespace Scripting.Player
                     {
                         handAnim.SetBool("HoldingDocument", false);
                         handAnim.Play("IDLE");
+                        Debug.Log("Resetting contract");
+                        var x = _currentContract;
+                        _currentContract = null;
+                        x?.Reset();
+                        //TODO: PLAY THROW ANIMATION #2
+                        
                         ResetContract();
                     }
 
@@ -518,7 +521,22 @@ namespace Scripting.Player
                 {
                     _canPickupBaseballBat = false;
                 }
-
+                
+                if (hit.transform.gameObject.CompareTag("Trashcan"))
+                {
+                    if (_actionPressed)
+                    {
+                        if (_currentContract )
+                        {
+                            handAnim.SetBool("HoldingDocument", false);
+                            handAnim.Play("IDLE");
+                            
+                            // TODO: Play throw Animation?
+                            ResetContract();
+                        }
+                    }
+                }
+                
                 if (hit.transform.gameObject.CompareTag("Mailbox"))
                 {
                     if (_actionPressed)
