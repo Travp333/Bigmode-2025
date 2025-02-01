@@ -15,7 +15,7 @@ public class UpgradeButton : MonoBehaviour
     [SerializeField] private UpgradeButton twin;
     private Texture _defaultTexture;
     [SerializeField] private Texture testTexture;
-    private MeshRenderer _myMeshRenderer;
+    public MeshRenderer _myMeshRenderer;
     public bool special;
 
     [SerializeField]
@@ -181,12 +181,14 @@ public class UpgradeButton : MonoBehaviour
         beenPressed = true;
         if (special)
         {
+            CRT.Instance.Vend();
             List<Material> temp = _myMeshRenderer.materials.ToList();
             temp[1] = SpecialStoreManager.Singleton.fetchUpgradeMaterial(14);
             _myMeshRenderer.SetMaterials(temp);
         }
         else
         {
+            VendingMachine.Instance.Vend();
             if (testTexture != null)
             {
                 _myMeshRenderer.material.mainTexture = testTexture;
@@ -198,8 +200,8 @@ public class UpgradeButton : MonoBehaviour
                 twin.beenPressed = beenPressed;
                 if (twin.testTexture != null)
                 {
-                    _myMeshRenderer.material.mainTexture = testTexture;
-                    _myMeshRenderer.material.DisableKeyword("_EMISSION");
+                    twin._myMeshRenderer.material.mainTexture = twin.testTexture;
+                    twin._myMeshRenderer.material.DisableKeyword("_EMISSION");
                 }
             }
         }
