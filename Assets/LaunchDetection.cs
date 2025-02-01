@@ -42,33 +42,41 @@ public class LaunchDetection : MonoBehaviour
 
     public void EnableAI()
     {
-        if(scared){
+        if (scared)
+        {
             _motor.RunOut();
         }
+
         _agent.enabled = true;
         _motor.enabled = true;
     }
+
     public void GetPowerFisted()
     {
         this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
         var portal = Instantiate(stoneFistPrefab, this.transform.position, Quaternion.identity);
         portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh = myMesh.sharedMesh;
-        portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials = myMesh.sharedMaterials;
+        portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials =
+            myMesh.sharedMaterials;
         portal.transform.localScale = this.transform.localScale;
         Destroy(this.gameObject);
     }
+
     public void GetHellGrabbed()
     {
         this.transform.rotation = Quaternion.LookRotation(-_player.transform.forward, this.transform.up);
         var portal = Instantiate(hellPortalPrefab, this.transform.position, Quaternion.identity);
         portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh = myMesh.sharedMesh;
-        portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials = myMesh.sharedMaterials;
+        portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials =
+            myMesh.sharedMaterials;
         portal.transform.localScale = this.transform.localScale;
         Destroy(this.gameObject);
     }
 
-    void LaunchNPC(Collider other){
-        if(_motor.IsMotherfucker){
+    void LaunchNPC(Collider other)
+    {
+        if (_motor.IsMotherfucker)
+        {
             _motor.InterruptSpraying();
         }
 
@@ -76,6 +84,7 @@ public class LaunchDetection : MonoBehaviour
         {
             _motor.InterruptStealing();
         }
+
         _motor._runOut = false;
         _motor._sneakOut = false;
         _motor.IsHit();
@@ -200,7 +209,6 @@ public class LaunchDetection : MonoBehaviour
                         this.transform.rotation = Quaternion.LookRotation(_hitNormal, this.transform.up);
                         _anim.Play("WALLSPLAT");
                         lerpGate = false;
-                        
                     }
                 }
                 else
@@ -217,10 +225,12 @@ public class LaunchDetection : MonoBehaviour
             {
                 screamAudio.Stop();
             }
-            if(flyAudio.isPlaying)
+
+            if (flyAudio.isPlaying)
             {
                 flyAudio.Stop();
             }
+
             if (_anim.GetCurrentAnimatorStateInfo(0).IsName("AIR"))
             {
                 PlayRandomDamageAnimation();
@@ -228,21 +238,29 @@ public class LaunchDetection : MonoBehaviour
 
             if (_agent.velocity.magnitude > 0.01f)
             {
-                if(_anim.GetBool("isWalking") == false){
-                _anim.SetBool("isWalking", true);
+                if (!_anim.GetBool("isWalking"))
+                {
+                    _anim.SetBool("isWalking", true);
                 }
             }
             else if (_agent.velocity.magnitude < 0.01f)
             {
-                if(_anim.GetBool("isWalking") == true){
-                _anim.SetBool("isWalking", false);
+                if (_anim.GetBool("isWalking"))
+                {
+                    _anim.SetBool("isWalking", false);
                 }
             }
         }
 
-        StartTalkAudio();
+        _talkCooldown -= Time.deltaTime;
+        if (_talkCooldown <= 0)
+        {
+            _talkCooldown = Random.Range(3.5f, 7f);
+            StartTalkAudio();
+        }
     }
 
+    private float _talkCooldown;
 
     private void StartHurtAudio()
     {
@@ -268,7 +286,6 @@ public class LaunchDetection : MonoBehaviour
 
     private void StartScreamAudio()
     {
-        
         //if (!screamAudio.isPlaying)
         //{
         talkAudio.Stop();
