@@ -15,6 +15,7 @@ namespace Scripting.Customer
     {
         [SerializeField]
         AudioSource talkNoise;
+        [SerializeField] private AudioSource myJingle;
         [SerializeField]
         GameObject burlapSack;
 
@@ -618,9 +619,19 @@ namespace Scripting.Customer
 
         public bool Validate(Contract contract)
         {
+            //myJingle.Play();
             GameManager.Singleton.upgrades.tutorialDone = true;
             Unsit();
-            return contract.Result == _contractType || contract.GetIsPowerContract();
+            if(contract.Result == _contractType || contract.GetIsPowerContract())
+            {
+                myJingle.Play();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            //return contract.Result == _contractType || contract.GetIsPowerContract();
         }
 
         public void WalkOut()

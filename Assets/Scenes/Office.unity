@@ -8875,7 +8875,7 @@ MonoBehaviour:
   uiPowerDocumentTEC: {fileID: 731378624}
   uiPowerDocumentEOL: {fileID: 788745225}
   upgrades: {fileID: 11400000, guid: 428cb30234fa46e44b67103fff65a4a7, type: 2}
-  dayLength: 20
+  dayLength: 100
   loanAgreementTime: 30
   devilDealTime: 45
   nightResetsTimer: 0
