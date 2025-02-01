@@ -57,7 +57,7 @@ public class BasicMenuManager : MonoBehaviour
                 mainMenuButtons.SetActive(false);
                 optionsPanel.SetActive(false);
                 movement.enabled = true;
-                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 
             }
