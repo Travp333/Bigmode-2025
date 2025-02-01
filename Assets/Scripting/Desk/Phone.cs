@@ -24,6 +24,8 @@ namespace Scripting.Desk
 
         private void Awake()
         {
+            
+
             _deskArms = arms.GetComponent<DeskArms>();
 
             _telephoneTimer = telephoneCooldown;
@@ -40,6 +42,7 @@ namespace Scripting.Desk
                 {
                     handAnim.Play("Dropping Phone");
                     Invoke(nameof(ConversationReward), 1f);
+                    handAnim.GetComponent<PhoneReferenceHolder>().HangupPhone();
                 }
 
                 _telephoneTimer = telephoneCooldown;

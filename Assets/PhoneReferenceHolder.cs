@@ -15,7 +15,7 @@ public class PhoneReferenceHolder : MonoBehaviour
         handReciever.SetActive(true);
     }
 
-    private void HangupPhone()
+    public void HangupPhone()
     {
         Invoke(nameof(DelayedUnBlock), .3f);
         deskReciever.SetActive(true);
