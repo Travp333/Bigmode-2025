@@ -16,9 +16,9 @@ namespace Scripting
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
-        private GameObject QuotaMetUI;
+        private GameObject QuotaMetUI, MoneyDifferenceUI, MoneyDifferenceUIPOS;
         [SerializeField]
-        private TextMeshProUGUI MoneyUI, QuotaUI, MoneyDifferenceUI;
+        private TextMeshProUGUI MoneyUI, QuotaUI;
         [SerializeField]
         private GameObject uiPowerDocumentHell,
             uiPowerDocumentDismissal,
@@ -247,13 +247,16 @@ namespace Scripting
 
         public void MoneyStolen(int value)
         {
-            upgrades.money -= value;
+
+            ChangeMoneyAmount(-value);
+            //upgrades.money -= value;
             OnMoneyUpdated?.Invoke(upgrades.money, -value);
         }
         
         public void ReturnStolenMoney(int value)
         {
-            upgrades.money += value;
+            ChangeMoneyAmount(value);
+            //upgrades.money += value;
             OnMoneyUpdated?.Invoke(upgrades.money, value);
         }
         
@@ -279,7 +282,8 @@ namespace Scripting
             {
                 QuotaMetUI.SetActive(true);
                 Invoke("ResetQuotaMetUI", 2f);
-                upgrades.money -= todaysQuota;
+                ChangeMoneyAmount(-todaysQuota);
+                //upgrades.money -= todaysQuota;
                 _moneyInSafe += todaysQuota;
             }
             else
@@ -566,21 +570,18 @@ namespace Scripting
         public void ChangeMoneyAmount(int amount){
             upgrades.money += amount;
             if(amount < 0){
-                MoneyDifferenceUI.gameObject.SetActive(true);
-                MoneyDifferenceUI.text = "- $"+ amount;
-                MoneyDifferenceUI.color = Color.red;
-                Invoke("ResetDifference", 1f);
+                var moneyUI = Instantiate(MoneyDifferenceUI);
+                //MoneyDifferenceUI.gameObject.SetActive(true);
+                MoneyDifferenceUI.GetComponent<TextMeshPro>().text = "- $"+ amount;
+                MoneyDifferenceUI.GetComponent<TextMeshPro>().color = Color.red;
             }
             else{
-                MoneyDifferenceUI.gameObject.SetActive(true);
-                MoneyDifferenceUI.text = "+ $"+ amount;
-                MoneyDifferenceUI.color = Color.green;
-                Invoke("ResetDifference", 1f);
+                var moneyUI = Instantiate(MoneyDifferenceUI);
+                //MoneyDifferenceUI.gameObject.SetActive(true);
+                MoneyDifferenceUI.GetComponent<TextMeshPro>().text = "+ $"+ amount;
+                MoneyDifferenceUI.GetComponent<TextMeshPro>().color = Color.green;
             }
             
-        }
-        void ResetDifferenceUI(){
-            MoneyDifferenceUI.gameObject.SetActive(false);
         }
 
         public void RegisterVandalismSpot(GameObject aiSpot)
@@ -628,7 +629,8 @@ namespace Scripting
         {
             if (upgrades.pricePhone <= upgrades.money)
             {
-                upgrades.money -= upgrades.pricePhone;
+                ChangeMoneyAmount(-upgrades.pricePhone);
+                //upgrades.money -= upgrades.pricePhone;
                 OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.pricePhone);
                 return true;
             }
@@ -640,7 +642,8 @@ namespace Scripting
         {
             if (upgrades.priceCigar <= upgrades.money)
             {
-                upgrades.money -= upgrades.priceCigar;
+                ChangeMoneyAmount(-upgrades.priceCigar);
+                //upgrades.money -= upgrades.priceCigar;
                 OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceCigar);
                 return true;
             }
@@ -652,7 +655,8 @@ namespace Scripting
         {
             if (upgrades.priceBaseballBat <= upgrades.money)
             {
-                upgrades.money -= upgrades.priceBaseballBat;
+                ChangeMoneyAmount(-upgrades.priceBaseballBat);
+                //upgrades.money -= upgrades.priceBaseballBat;
                 OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceBaseballBat);
                 return true;
             }
@@ -663,7 +667,8 @@ namespace Scripting
         {
             if (upgrades.pricePaintings <= upgrades.money)
             {
-                upgrades.money -= upgrades.pricePaintings;
+                ChangeMoneyAmount(-upgrades.pricePaintings);
+                //upgrades.money -= upgrades.pricePaintings;
                 OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.pricePaintings);
                 return true;
             }
@@ -674,7 +679,8 @@ namespace Scripting
         {
             if (upgrades.priceChairs <= upgrades.money)
             {
-                upgrades.money -= upgrades.priceChairs;
+                ChangeMoneyAmount(-upgrades.priceChairs);
+                //upgrades.money -= upgrades.priceChairs;
                 OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceChairs);
                 return true;
             }
