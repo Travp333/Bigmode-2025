@@ -246,8 +246,6 @@ namespace Scripting.Customer
             }
         }
 
-        private bool _lockedAssistant;
-        
         private void Update()
         {
             if (!agent.hasPath)
@@ -322,7 +320,6 @@ namespace Scripting.Customer
                     if (_aiController.AssistantActive && !_aiController.AssistantLocked && !_isBubbleVisible)
                     {
                         _aiController.AssistantLocked = true;
-                        _lockedAssistant = true;
 
                         StartCoroutine(GoToTargetWithCallback(_aiController.AssistantSpot.transform.position, () =>
                             {
@@ -338,9 +335,7 @@ namespace Scripting.Customer
                                 // TODO: Stop Talk Animation with Assistant
                                 Assistant.Singleton.PayBubbleGum();
                                 ShowBubble();
-                            }, assistantConvoTime, () =>
-                            {
-                                _lockedAssistant = false; _aiController.AssistantLocked = false;} ));
+                            }, assistantConvoTime, () => { _aiController.AssistantLocked = false; }));
 
                         return;
                     }
@@ -625,13 +620,8 @@ namespace Scripting.Customer
 
         public void WalkOut()
         {
-            _done = true; 
-            StopConversing();
-            if (!agent.enabled)
-            {
-                agent.enabled = true;
-            }
-            
+            _done = true;
+            if (!agent) return;
             if (agent.isOnNavMesh)
                 agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
             else
@@ -647,7 +637,6 @@ namespace Scripting.Customer
 
         public void RunOut()
         {
-            
             if (!agent.enabled)
             {
                 agent.enabled = true;
