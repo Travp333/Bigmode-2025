@@ -69,6 +69,7 @@ namespace Scripting.Player
         [SerializeField] private LayerMask graffitiMask;
         [SerializeField] private GameObject attachmentPointContract;
         [SerializeField] private AudioSource myBatSwingSound;
+        [SerializeField] private AudioSource myStaplerSound;
 
         [SerializeField] private Phone phone;
         private Vector3 _moveInput;
@@ -572,6 +573,7 @@ namespace Scripting.Player
                             //RemoveContract();
                             staplerMesh.SetActive(true);
                             handAnim.Play("Staple");
+                            myStaplerSound.Play();
                             Invoke(nameof(HideStaplerMesh), 1f);
                             handAnim.SetBool(HoldingDocument, false);
                             customer.anim.Play("GetStapled");

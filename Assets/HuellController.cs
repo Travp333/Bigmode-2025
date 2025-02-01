@@ -12,6 +12,7 @@ public class HuellController : MonoBehaviour
     [SerializeField] private GameObject footHitbox;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource kickAudio;
 
     private bool _hitboxVisible;
 
@@ -260,6 +261,7 @@ public class HuellController : MonoBehaviour
     private IEnumerator KickAndGoBack()
     {
         animator.Play("Attack");
+        kickAudio.Play();
 
         _lockedTarget.IsHuellTarget = false;
         _lockedTarget = null;
