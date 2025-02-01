@@ -554,7 +554,7 @@ namespace Scripting.Player
                     }
                 }
 
-                if (hit.transform.TryGetComponent<CustomerMotor>(out var customer) && !customer.IsMotherfucker)
+                if (hit.transform.TryGetComponent<CustomerMotor>(out var customer))
                 {
                     //Debug.Log("Looking at client!");
                     _canInteractWithClient = true;
@@ -563,8 +563,11 @@ namespace Scripting.Player
                     {
                         if (_currentContract && !_currentContract.GetIsMailBoxContract())
                         {
-                            customer.transform.rotation =
+                            if(!customer.IsMotherfucker){
+                                customer.transform.rotation =
                                 Quaternion.LookRotation(-this.transform.forward, this.transform.up);
+                                customer.anim.Play("GetStapled");
+                            }
                             var attachment = _currentContract.transform.parent;
                             attachment.parent = customer.documentAttachPoint.transform;
                             attachment.position = customer.documentAttachPoint.transform.position;
@@ -576,12 +579,9 @@ namespace Scripting.Player
                             myStaplerSound.Play();
                             Invoke(nameof(HideStaplerMesh), 1f);
                             handAnim.SetBool(HoldingDocument, false);
-                            customer.anim.Play("GetStapled");
-                            //bothArmsScript.PutDownContract();
-
                             var abc = _currentContract;
                             _currentContract = null;
-                            if (abc.Converted)
+                            if (abc.Converted )
                             {
                                 if (customer.Validate(abc))
                                 {
@@ -617,7 +617,7 @@ namespace Scripting.Player
 
             if (_countDownGate)
             {
-                if (_clientInteractor != null)
+                if (_clientInteractor != null && !_clientInteractor.GetComponent<CustomerMotor>().IsMotherfucker)
                 {
                     if (Vector3.Distance(transform.position, _clientInteractor.transform.position) <
                         clientInteractDistance)

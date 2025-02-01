@@ -13148,6 +13148,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vending Machine Door
       objectReference: {fileID: 0}
+    - target: {fileID: 4727262657824614528, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      propertyPath: m_TagString
+      value: Structure
+      objectReference: {fileID: 0}
     - target: {fileID: 5099210723039545691, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
       propertyPath: m_Layer
       value: 18
