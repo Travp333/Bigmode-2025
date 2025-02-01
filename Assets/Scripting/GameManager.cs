@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Scripting.Customer;
+using Scripting.Desk;
 using Scripting.Player;
 using Scripting.ScriptableObjects;
 using TMPro;
@@ -133,6 +134,8 @@ namespace Scripting
             scene = SceneManager.GetActiveScene();
             Singleton = this;
             IsNightTime = true;
+
+            Contract.ResetTutorial();
 
             fade.gameObject.SetActive(true);
             StartCoroutine(FadeOut());

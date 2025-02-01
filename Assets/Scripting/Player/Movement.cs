@@ -125,8 +125,25 @@ namespace Scripting.Player
 
         [SerializeField] private float rageModeTimer = 5f;
 
+        
+        private bool _mailboxTutorial;
+        private bool _customerTutorial;
+        
         public void ExitChair()
         {
+            if (!_mailboxTutorial)
+            {
+                TutorialManager.Singleton.HideOrderNumber(7);
+                _mailboxTutorial = true;
+            }
+
+            if (!_customerTutorial)
+            {
+                TutorialManager.Singleton.HideOrderNumber(5);
+                TutorialManager.Singleton.HideOrderNumber(9);
+                _customerTutorial = true;
+            }
+            
             getUp.SetActive(false);
             StartCoroutine(DoExitChairAnimation());
             DeactivateContractControls();
@@ -572,6 +589,8 @@ namespace Scripting.Player
                     {
                         if (_currentContract && _currentContract.GetIsMailBoxContract())
                         {
+                            GameManager.Singleton.upgrades.tutorialDone = true;
+                            
                             var abc = _currentContract;
 
                             abc.ExecuteMailboxEffect(this);
@@ -596,6 +615,12 @@ namespace Scripting.Player
                     {
                         if (_currentContract && !_currentContract.GetIsMailBoxContract())
                         {
+                            if (!_stapledTutorial)
+                            {
+                                _stapledTutorial = true;
+                                TutorialManager.Singleton.HideOrderNumber(5);
+                            }
+
                             if (!customer.IsMotherfucker)
                             {
                                 customer.transform.rotation =
@@ -776,7 +801,7 @@ namespace Scripting.Player
         }
 
         private bool _tutorialSeatedDone;
-        private bool _tutorialCigarDone;
+        private bool _stapledTutorial;
 
         private void SitOnChairDone()
         {
@@ -787,12 +812,6 @@ namespace Scripting.Player
             {
                 TutorialManager.Singleton.ShowOrderNumber(2, true);
                 _tutorialSeatedDone = true;
-            }
-
-            if (!_tutorialCigarDone && GameManager.Singleton.upgrades.cigar)
-            {
-                _tutorialCigarDone = true;
-                TutorialManager.Singleton.ShowOrderNumber(6);
             }
 
             _seated = true;
@@ -908,14 +927,6 @@ namespace Scripting.Player
             {
                 _isInChairTrigger = false;
                 sitDown.SetActive(false);
-            }
-        }
-
-        private void OnGUI()
-        {
-            if (_canInteractWithClient && !GameManager.Singleton.IsNightTime)
-            {
-                GUI.Label(new Rect(5, 5, 200, 50), "Press 'E' to listen to client");
             }
         }
 

@@ -14,6 +14,24 @@ public class HuellController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource kickAudio;
 
+    private static HuellController _singleton;
+
+    public static HuellController Singleton
+    {
+        get => _singleton;
+        private set
+        {
+            if (_singleton == null)
+                _singleton = value;
+            else if (_singleton != value)
+            {
+                Debug.Log($"{nameof(HuellController)} instance already exists, destroying duplicate!");
+                Destroy(value);
+            }
+        }
+    }
+
+    
     private bool _hitboxVisible;
 
     public bool TecMode { get; set; }
@@ -22,10 +40,16 @@ public class HuellController : MonoBehaviour
 
     private bool _isWalkingOut;
 
+    public void Reset(CustomerMotor customerMotor)
+    {
+        if (!TecMode && _lockedTarget == customerMotor)
+            _lockedTarget = null;
+    }
+
     public void WalkOut()
     {
         if (_isWalkingOut) return;
-        
+
         animator.SetBool("isWalking", true);
         if (_lockedTarget)
         {
@@ -142,7 +166,8 @@ public class HuellController : MonoBehaviour
 
         if (_lockedTarget)
         {
-            if (!_lockedTarget.IsSpraying && !_lockedTarget.IsSneakingOut && !_lockedTarget.IsStealing)
+            if (_lockedTarget._runOut || 
+                !_lockedTarget.IsSpraying && !_lockedTarget.IsSneakingOut && !_lockedTarget.IsStealing)
             {
                 _lockedTarget = null;
                 SetMode(Random.Range(0, 3) == 0 ? Huellmode.Patrol : Huellmode.OriginalPos);

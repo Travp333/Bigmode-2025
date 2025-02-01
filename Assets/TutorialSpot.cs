@@ -1,3 +1,4 @@
+using Scripting;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,8 +17,9 @@ public class TutorialSpot : MonoBehaviour
     [SerializeField] private GameObject rendererObject;
     [SerializeField] private GameObject textObject;
 
-    [FormerlySerializedAs("spawnVisible")] [SerializeField] private bool atSpawnVisible;
-    
+    [FormerlySerializedAs("spawnVisible")] [SerializeField]
+    private bool atSpawnVisible;
+
     private bool _isActive;
     private bool _isVisible;
 
@@ -37,7 +39,12 @@ public class TutorialSpot : MonoBehaviour
 
     private void Start()
     {
-        TutorialManager.Singleton.Register(this);
+        if (GameManager.Singleton.upgrades.tutorialDone)
+        {
+            Hide();
+        }
+        else
+            TutorialManager.Singleton.Register(this);
     }
 
     public void OnValidate()

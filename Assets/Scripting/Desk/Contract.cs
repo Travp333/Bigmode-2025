@@ -203,9 +203,16 @@ namespace Scripting.Desk
             return normalizedPoints;
         }
 
-        private bool _mailTutorial;
-        private bool _customerContractTutorial;
-        private bool _notRecognized;
+        public static void ResetTutorial()
+        {
+            _mailTutorial = false;
+            _customerContractTutorial = false;
+            _notRecognized = false;
+        }
+        
+        private static bool _mailTutorial;
+        private static bool _customerContractTutorial;
+        private static bool _notRecognized;
         
         public void Submit()
         {
@@ -306,15 +313,17 @@ namespace Scripting.Desk
                         }
                     }
 
-                    if (!_mailTutorial && GetIsMailBoxContract())
+                    var mailbox = Result is "ds" or "eel" or "la" or "tec";
+                    
+                    if (!_mailTutorial && mailbox)
                     {
                         TutorialManager.Singleton.ShowOrderNumber(7, true);    
                         _mailTutorial = true;
                     }
 
-                    if (_customerContractTutorial && !GetIsMailBoxContract())
+                    if (!_customerContractTutorial && !mailbox)
                     {
-                        TutorialManager.Singleton.ShowOrderNumber(5, true);    
+                        TutorialManager.Singleton.ShowOrderNumber(new[] {5, 9}, true);    
                         _customerContractTutorial = true;
                     }
                     
@@ -341,7 +350,7 @@ namespace Scripting.Desk
         }
 
         public bool GetIsMailBoxContract() => Converted && Result is "ds" or "eel" or "la" or "tec";
-
+        
         public void ExecuteMailboxEffect(Movement player)
         {
             switch (Result)
