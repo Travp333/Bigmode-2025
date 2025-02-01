@@ -85,7 +85,7 @@ namespace Scripting
         private int _maxCustomers;
         private int _level = 1;
         private float _loanAgreementRunning;
-        private float _moneyInSafe;
+        private int _moneyInSafe = 200;
 
         private static GameManager _singleton;
 
@@ -245,6 +245,18 @@ namespace Scripting
             QuotaMetUI.SetActive(false);
         }
 
+        public void MoneyStolen(int value)
+        {
+            upgrades.money -= value;
+            OnMoneyUpdated?.Invoke(upgrades.money, -value);
+        }
+        
+        public void ReturnStolenMoney(int value)
+        {
+            upgrades.money += value;
+            OnMoneyUpdated?.Invoke(upgrades.money, value);
+        }
+        
         public void DayFinished()
         {
             IsNightTime = true;
