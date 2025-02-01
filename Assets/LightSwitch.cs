@@ -5,6 +5,9 @@ public class LightSwitch : MonoBehaviour
 {
     BoxCollider box;
     Animator anim;
+    [SerializeField] AudioSource mySwitchSound;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -26,6 +29,7 @@ public class LightSwitch : MonoBehaviour
     {
         if (GameManager.Singleton.IsNightTime)
         {
+            mySwitchSound.Play();
             TutorialManager.Singleton.HideOrderNumber(0);
             TutorialManager.Singleton.HideOrderNumber(8);
             if(anim.GetBool("ON") == false){
