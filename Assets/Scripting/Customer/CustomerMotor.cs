@@ -254,7 +254,7 @@ namespace Scripting.Customer
                 {
                     if (_isThief)
                     {
-                        HuellController.Singleton.Reset(this);
+                        HuellController.Singleton?.Reset(this);
                     }
 
                     Destroy(gameObject);
