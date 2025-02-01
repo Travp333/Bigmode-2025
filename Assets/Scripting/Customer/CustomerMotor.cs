@@ -330,8 +330,7 @@ namespace Scripting.Customer
                     {
                         _aiController.AssistantLocked = true;
                         _lockedAssistant = true;
-                        
-                        
+
                         if (queuedSit)
                         {
                             StartCoroutine(StandupAndTHENGoToAssistant());
