@@ -132,13 +132,14 @@ namespace Scripting.Customer
             anim = GetComponent<Animator>();
             _paymentAmount = 20000 + Random.Range(-5000, 5000);
             _penalty = 7000 * Random.Range(-500, 500);
-            _isMotherfucker = false; //_aiController.HasVandalismSpots &
-            //(Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
+            
+            if(0 != Id){
+                _isMotherfucker =  _aiController.HasVandalismSpots & (Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
+            }
 
-            if (!_isMotherfucker)
+            if (!_isMotherfucker && 0 != Id)
             {
-                _isThief = false; // _aiController.HasThiefSpot; // &&
-                //(Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
+                _isThief = _aiController.HasThiefSpot && (Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
             }
 
             _aiController = FindFirstObjectByType<AiController>();
@@ -516,7 +517,10 @@ namespace Scripting.Customer
         public void InterruptSpraying()
         {
             _sprayInterrupted = true;
-
+            var paint = this.GetComponent<SprayPaintSounds>();
+            paint.StopSpraySound();
+            paint.HidePaintCan();
+            paint.StopRattleSound();
             _isSpraying = false;
 
             if (!_vandalismSpot.IsVisible)

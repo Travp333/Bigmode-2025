@@ -6,8 +6,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_FEMALE_02_{-8453177068778702689}
-  m_AudioClip: {fileID: 8300000, guid: d1cff57093a20b54f904eb1f4393a90e, type: 3}
+  m_Name: NPC_FEMALE_02-2_{-8453177068778702689}
+  m_AudioClip: {fileID: 8300000, guid: 5ede79fe0bd663e4ab81eb4d968f4b90, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &-6664314293052566947
@@ -16,8 +16,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_FEMALE_05_{-6664314293052566947}
-  m_AudioClip: {fileID: 8300000, guid: 17207d3750353274c90c2f3f5f2d0252, type: 3}
+  m_Name: NPC_FEMALE_05-2_{-6664314293052566947}
+  m_AudioClip: {fileID: 8300000, guid: 2112620df27cc494780d38cb65041e79, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &-6498895776581418279
@@ -26,8 +26,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_FEMALE_06_{-6498895776581418279}
-  m_AudioClip: {fileID: 8300000, guid: b9b95375d57135847917d4811b652493, type: 3}
+  m_Name: NPC_FEMALE_06-2_{-6498895776581418279}
+  m_AudioClip: {fileID: 8300000, guid: 01e36129ff04ebb419bdde1d0f546658, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &-3999070630168768208
@@ -36,8 +36,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_FEMALE_04_{-3999070630168768208}
-  m_AudioClip: {fileID: 8300000, guid: 4d9e3892471aea345a96f768db8f7976, type: 3}
+  m_Name: NPC_FEMALE_04-2_{-3999070630168768208}
+  m_AudioClip: {fileID: 8300000, guid: 99eea7a2dfdf2474a928c10a4401ca81, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &5752841634023947801
@@ -46,8 +46,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_FEMALE_01_{5752841634023947801}
-  m_AudioClip: {fileID: 8300000, guid: 18dbbbf58a59b9b46a345c1765444153, type: 3}
+  m_Name: NPC_FEMALE_01-2_{5752841634023947801}
+  m_AudioClip: {fileID: 8300000, guid: a6317714e4c393e4e9b1c6de1b8ff435, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1307931743 &6418180475301049370
@@ -87,7 +87,7 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_FEMALE_03_{8980263516039784130}
-  m_AudioClip: {fileID: 8300000, guid: 6cdbce4d357b2bf44a0ae606ad852f14, type: 3}
+  m_Name: NPC_FEMALE_03-2_{8980263516039784130}
+  m_AudioClip: {fileID: 8300000, guid: 8cda70fe873c5d441855390ddcb9dbb5, type: 3}
   m_Volume: 0
   m_Enabled: 1
