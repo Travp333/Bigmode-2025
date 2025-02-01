@@ -10,6 +10,9 @@ namespace Scripting.Desk
         [SerializeField] private float phoneCallLowerBound, phoneCallUpperBound;
         private bool callBlocker;
         private DeskArms _deskArms;
+        [SerializeField] private AudioSource myPhoneRinger;
+        [SerializeField] private AudioSource myPhonePickup;
+        [SerializeField] private AudioSource myPhonePutdown;
 
         [SerializeField]
         private GameObject arms;
@@ -40,6 +43,7 @@ namespace Scripting.Desk
 
                 if (player.onPhone)
                 {
+                    myPhonePutdown.Play();
                     handAnim.Play("Dropping Phone");
                     Invoke(nameof(ConversationReward), 1f);
                     handAnim.GetComponent<PhoneReferenceHolder>().HangupPhone();
@@ -69,6 +73,7 @@ namespace Scripting.Desk
                         if (hit.collider.gameObject == gameObject)
                         {
                             StopRinging();
+                            myPhonePickup.Play();
                             _deskArms.BlockLeftHand();
                             handAnim.Play("Grabbing Phone");
                             callBlocker = true;
@@ -82,6 +87,7 @@ namespace Scripting.Desk
             if (player.onPhone && Input.GetMouseButtonDown(1))
             {
                 _deskArms.UnblockLeftHand();
+                myPhonePutdown.Play();
                 ConversationEndEarly();
                 //CancelInvoke();
             }
@@ -130,6 +136,7 @@ namespace Scripting.Desk
         private void Ring()
         {
             _isRinging = true;
+            myPhoneRinger.Play();
             player.NotifyPhoneRinging();
             phoneAnim.Play("Phone Ringing");
         }
@@ -137,6 +144,7 @@ namespace Scripting.Desk
         private void StopRinging()
         {
             _isRinging = false;
+            myPhoneRinger.Stop();
             player.NotifyPhoneStopped();
             phoneAnim.Play("Phone Not Ringing");
         }

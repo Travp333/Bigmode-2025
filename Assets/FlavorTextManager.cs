@@ -43,6 +43,7 @@ public class FlavorTextManager : MonoBehaviour
         else
             Debug.Log("myTextField is null!!!!!!!!!!");
     }
+   
 
     public void UpdateFlavorText(UpgradeButton relevantButton)
     {
