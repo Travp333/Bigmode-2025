@@ -1,53 +1,483 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1233149941 &-6437018103649748783
+--- !u!1233149941 &-8315702720386156487
 AudioContainerElement:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_04_{-6437018103649748783}
-  m_AudioClip: {fileID: 8300000, guid: 7890e7d37ed955b4a81203f82a134a9c, type: 3}
+  m_Name: NPC_MALE_01-2-2_{-8315702720386156487}
+  m_AudioClip: {fileID: 8300000, guid: 8de6bfda1f8bfc343875de476120dc70, type: 3}
   m_Volume: 0
   m_Enabled: 1
---- !u!1233149941 &-1247392433291472923
+--- !u!1233149941 &-8195770594272976065
 AudioContainerElement:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_02_{-1247392433291472923}
-  m_AudioClip: {fileID: 8300000, guid: 13b539ed64ee0e2478a7c2d7f80b3ee1, type: 3}
+  m_Name: NPC_MALE_04-2_{-8195770594272976065}
+  m_AudioClip: {fileID: 8300000, guid: de1deb4864b62234096ae00ce199e344, type: 3}
   m_Volume: 0
   m_Enabled: 1
---- !u!1233149941 &2936777804602474515
+--- !u!1233149941 &-8166308767398561080
 AudioContainerElement:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_05_{2936777804602474515}
-  m_AudioClip: {fileID: 8300000, guid: bc46c643262e74c478819f7da38e3853, type: 3}
+  m_Name: NPC_MALE_05-2-10_{-8166308767398561080}
+  m_AudioClip: {fileID: 8300000, guid: 66e654f1cfde05b49abdceb1fec66381, type: 3}
   m_Volume: 0
   m_Enabled: 1
---- !u!1233149941 &4202085898446270550
+--- !u!1233149941 &-8044298790735134426
 AudioContainerElement:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_06_{4202085898446270550}
-  m_AudioClip: {fileID: 8300000, guid: c1355856be4eb5f40985d7144e8a10d8, type: 3}
+  m_Name: NPC_MALE_06-2-2_{-8044298790735134426}
+  m_AudioClip: {fileID: 8300000, guid: fc847a403f67e944abc3164af37ae3ad, type: 3}
   m_Volume: 0
   m_Enabled: 1
---- !u!1233149941 &6407359445111923090
+--- !u!1233149941 &-7914485280552387559
 AudioContainerElement:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_03_{6407359445111923090}
-  m_AudioClip: {fileID: 8300000, guid: 813ec34f99cb0fb4c89b8420c0c49555, type: 3}
+  m_Name: NPC_MALE_03-2-4_{-7914485280552387559}
+  m_AudioClip: {fileID: 8300000, guid: 21253c6fd8f46c140bf142c316d7f06e, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-7090819403230335401
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_01-2_{-7090819403230335401}
+  m_AudioClip: {fileID: 8300000, guid: 2e618f0fa7c0d77459edead0df75f7bd, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-6983467409542532255
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_02-2-3_{-6983467409542532255}
+  m_AudioClip: {fileID: 8300000, guid: 9ba46c522d737b34eb7252e374387e3c, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-6418920098409645932
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_03-2-2_{-6418920098409645932}
+  m_AudioClip: {fileID: 8300000, guid: 8a75d34804ec0d549bc395a808a7b11d, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-6079553469131576470
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05-2-9_{-6079553469131576470}
+  m_AudioClip: {fileID: 8300000, guid: 2e2bd0b81bafaea41834a95bf066b930, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-6063820618359794140
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05-2-11_{-6063820618359794140}
+  m_AudioClip: {fileID: 8300000, guid: 2a4524b1caf313b4490c5a86d33366d2, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-5186625335940641634
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_01-2-3_{-5186625335940641634}
+  m_AudioClip: {fileID: 8300000, guid: f4226d76d0a6c9e42a6f0c8c36a7aa02, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-4967905291485879587
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_06-2-4_{-4967905291485879587}
+  m_AudioClip: {fileID: 8300000, guid: 5454cb32bc2e6e348b4bc74f8687f062, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-4833190935983255022
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_02-2-2_{-4833190935983255022}
+  m_AudioClip: {fileID: 8300000, guid: 6ef1be1029f23b644a34a64b24cc681f, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-4374439500055369653
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_06-2_{-4374439500055369653}
+  m_AudioClip: {fileID: 8300000, guid: 7240aea8244b7f341924b6877f75b64d, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-3988508820404351375
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05-2-4_{-3988508820404351375}
+  m_AudioClip: {fileID: 8300000, guid: 7351e189c21c7a443908e751890e9ae3, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-3767530903075003116
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_01-2-7_{-3767530903075003116}
+  m_AudioClip: {fileID: 8300000, guid: 66cbce2c63cf7564385642948db869fc, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-3757073581556336283
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_02-2_{-3757073581556336283}
+  m_AudioClip: {fileID: 8300000, guid: 00f14b4de9360fe41b69a9e1a69bdd30, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-3630289478120755283
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_02-2-4_{-3630289478120755283}
+  m_AudioClip: {fileID: 8300000, guid: 5a1de135fbe04514cb90a7953f682e7d, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-3182236721718589002
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_03-2-7_{-3182236721718589002}
+  m_AudioClip: {fileID: 8300000, guid: 4544a4fca3389bf4c897bffc6c7011d2, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-2466576546704623268
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05-2-6_{-2466576546704623268}
+  m_AudioClip: {fileID: 8300000, guid: a325c88a0ca6c9143a3803b540eb29b6, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-2053675679463702101
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_02-2-6_{-2053675679463702101}
+  m_AudioClip: {fileID: 8300000, guid: 6ddc2ad2effc200449b842b383ca4171, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-1772803875997653067
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_01-2-6_{-1772803875997653067}
+  m_AudioClip: {fileID: 8300000, guid: 727d5b79e4669c744af48ecac59b387b, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-1742348832997099972
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_01-2-8_{-1742348832997099972}
+  m_AudioClip: {fileID: 8300000, guid: 95008de8b0ec60e4faf6cf52b2f69bf6, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-1625776229918549441
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_04-2-3_{-1625776229918549441}
+  m_AudioClip: {fileID: 8300000, guid: dc26786c153cca44d87d0edbe296ae83, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-1536588499530644720
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_06-2-8_{-1536588499530644720}
+  m_AudioClip: {fileID: 8300000, guid: e65f41b5ea95fba42a7a226255e66054, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-1470320194974915197
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05-2-2_{-1470320194974915197}
+  m_AudioClip: {fileID: 8300000, guid: 9fde17538487e1243a82477f89bb54b7, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-463016386380511549
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_03-2-3_{-463016386380511549}
+  m_AudioClip: {fileID: 8300000, guid: f26422954cfeed844885a234058d5db7, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-384346203406050027
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_06-2-9_{-384346203406050027}
+  m_AudioClip: {fileID: 8300000, guid: 8d8073d762c44bb4faee4e85b634126f, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1035334012817444116
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05-2-5_{1035334012817444116}
+  m_AudioClip: {fileID: 8300000, guid: 78abe5d7c09756143a5e7d6722f70768, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1252053303062626463
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_04-2-6_{1252053303062626463}
+  m_AudioClip: {fileID: 8300000, guid: 6d0081820ccd3b8429fa29b97f8d1079, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1326404222426562293
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_06-2-7_{1326404222426562293}
+  m_AudioClip: {fileID: 8300000, guid: f9401f418644e444e905f73c797e1c35, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1415025463138213626
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_03-2_{1415025463138213626}
+  m_AudioClip: {fileID: 8300000, guid: 7d6a1f40b1193c846b5f5c5014de8aa3, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1446865459996297629
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_03-2-9_{1446865459996297629}
+  m_AudioClip: {fileID: 8300000, guid: 0f0cbb5aa2914034188fbaebdf67b6b4, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1544214774886271301
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05-2-7_{1544214774886271301}
+  m_AudioClip: {fileID: 8300000, guid: 031bb2492d3d70a4aa3ad4d0a1a83145, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1670888012512032331
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05-2-3_{1670888012512032331}
+  m_AudioClip: {fileID: 8300000, guid: 3910ba5d3b6a45947b6c56b5c1c144ad, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &2024698788260681659
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05-2-8_{2024698788260681659}
+  m_AudioClip: {fileID: 8300000, guid: d3332194d94214b498a5c9b6d8741f61, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &2110576966251683809
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_05-2_{2110576966251683809}
+  m_AudioClip: {fileID: 8300000, guid: c345e972dd565d6418f547bca6d95c82, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &2244350738119596778
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_06-2-3_{2244350738119596778}
+  m_AudioClip: {fileID: 8300000, guid: 2f6946de4dc94604fb55178042905932, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &2347820612460048785
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_04-2-2_{2347820612460048785}
+  m_AudioClip: {fileID: 8300000, guid: 06357a53cb1a5b8409d310282e73634f, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &2536635577837523601
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_02-2-5_{2536635577837523601}
+  m_AudioClip: {fileID: 8300000, guid: 3a84a673db5fbf54198290f1aeec3ed7, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &2664680830079679899
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_02-2-9_{2664680830079679899}
+  m_AudioClip: {fileID: 8300000, guid: 936a0f62baee7e449a5e0d7088a4c343, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &3299163303028395005
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_04-2-7_{3299163303028395005}
+  m_AudioClip: {fileID: 8300000, guid: a3a362f03ee0b434eb6ea015fa14784e, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &4382255703540808980
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_06-2-6_{4382255703540808980}
+  m_AudioClip: {fileID: 8300000, guid: f97245beeeb90d34f964efa4c5792bb9, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &4450050529377893726
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_01-2-4_{4450050529377893726}
+  m_AudioClip: {fileID: 8300000, guid: a0b471f2458e8f3419ded021e9ca12e9, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &4871044390102517632
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_02-2-8_{4871044390102517632}
+  m_AudioClip: {fileID: 8300000, guid: 011c8a2c3650da1409ee367c747b3373, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5384441310882398722
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_03-2-6_{5384441310882398722}
+  m_AudioClip: {fileID: 8300000, guid: 7495a3565b9a9344182dc2f7a432c249, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5442578309697863636
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_04-2-5_{5442578309697863636}
+  m_AudioClip: {fileID: 8300000, guid: 2b779e382b7f4df4f99867a3b6b87a2c, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &6137638607031454003
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_03-2-8_{6137638607031454003}
+  m_AudioClip: {fileID: 8300000, guid: 6f9716077e005434c99a72a120c71d99, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1307931743 &6418180475301049370
@@ -61,33 +491,131 @@ AudioRandomContainer:
   m_Pitch: 0
   m_AutomaticTriggerTime: 3
   m_LoopCount: 1
-  m_VolumeRandomizationRange: {x: 0, y: 0}
-  m_PitchRandomizationRange: {x: 0, y: 0}
-  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_VolumeRandomizationRange: {x: -0.5, y: 0.5}
+  m_PitchRandomizationRange: {x: -357.36844, y: 150}
+  m_AutomaticTriggerTimeRandomizationRange: {x: -1, y: 1}
   m_LoopCountRandomizationRange: {x: 0, y: 0}
   m_Elements:
-  - {fileID: 8285918606948792304}
-  - {fileID: -1247392433291472923}
-  - {fileID: 6407359445111923090}
-  - {fileID: -6437018103649748783}
-  - {fileID: 2936777804602474515}
-  - {fileID: 4202085898446270550}
-  m_AvoidRepeatingLast: 1
+  - {fileID: -7090819403230335401}
+  - {fileID: -8315702720386156487}
+  - {fileID: -5186625335940641634}
+  - {fileID: 4450050529377893726}
+  - {fileID: 7712204837325716902}
+  - {fileID: -1772803875997653067}
+  - {fileID: -3767530903075003116}
+  - {fileID: -1742348832997099972}
+  - {fileID: -3757073581556336283}
+  - {fileID: -4833190935983255022}
+  - {fileID: -6983467409542532255}
+  - {fileID: -3630289478120755283}
+  - {fileID: 2536635577837523601}
+  - {fileID: -2053675679463702101}
+  - {fileID: 7026116615807427003}
+  - {fileID: 4871044390102517632}
+  - {fileID: 2664680830079679899}
+  - {fileID: 1415025463138213626}
+  - {fileID: -6418920098409645932}
+  - {fileID: -463016386380511549}
+  - {fileID: -7914485280552387559}
+  - {fileID: 7116002109265378864}
+  - {fileID: 5384441310882398722}
+  - {fileID: -3182236721718589002}
+  - {fileID: 6137638607031454003}
+  - {fileID: 1446865459996297629}
+  - {fileID: -8195770594272976065}
+  - {fileID: 2347820612460048785}
+  - {fileID: -1625776229918549441}
+  - {fileID: 6766535281505340375}
+  - {fileID: 5442578309697863636}
+  - {fileID: 1252053303062626463}
+  - {fileID: 3299163303028395005}
+  - {fileID: 8025498065940639721}
+  - {fileID: 2110576966251683809}
+  - {fileID: -1470320194974915197}
+  - {fileID: 1670888012512032331}
+  - {fileID: -3988508820404351375}
+  - {fileID: 1035334012817444116}
+  - {fileID: -2466576546704623268}
+  - {fileID: 1544214774886271301}
+  - {fileID: 2024698788260681659}
+  - {fileID: -6079553469131576470}
+  - {fileID: -8166308767398561080}
+  - {fileID: -6063820618359794140}
+  - {fileID: -4374439500055369653}
+  - {fileID: -8044298790735134426}
+  - {fileID: 2244350738119596778}
+  - {fileID: -4967905291485879587}
+  - {fileID: 8257798520254907960}
+  - {fileID: 4382255703540808980}
+  - {fileID: 1326404222426562293}
+  - {fileID: -1536588499530644720}
+  - {fileID: -384346203406050027}
+  m_AvoidRepeatingLast: 6
   m_PlaybackMode: 2
   m_TriggerMode: 1
   m_AutomaticTriggerMode: 1
   m_LoopMode: 0
-  m_VolumeRandomizationEnabled: 0
-  m_PitchRandomizationEnabled: 0
+  m_VolumeRandomizationEnabled: 1
+  m_PitchRandomizationEnabled: 1
   m_AutomaticTriggerTimeRandomizationEnabled: 0
   m_LoopCountRandomizationEnabled: 0
---- !u!1233149941 &8285918606948792304
+--- !u!1233149941 &6766535281505340375
 AudioContainerElement:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_01_{8285918606948792304}
-  m_AudioClip: {fileID: 8300000, guid: 1ce2cbd485d9b074f94fcbe06b89b6d9, type: 3}
+  m_Name: NPC_MALE_04-2-4_{6766535281505340375}
+  m_AudioClip: {fileID: 8300000, guid: 40248fbc1dfd534499c7f6fd979bf588, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &7026116615807427003
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_02-2-7_{7026116615807427003}
+  m_AudioClip: {fileID: 8300000, guid: a763a37c246270f48955b00c38930af8, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &7116002109265378864
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_03-2-5_{7116002109265378864}
+  m_AudioClip: {fileID: 8300000, guid: ef3d59da1b3c1fb4faa2b5901b0abe42, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &7712204837325716902
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_01-2-5_{7712204837325716902}
+  m_AudioClip: {fileID: 8300000, guid: d39ac05650939ea4eab5f3a004fa3ea5, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &8025498065940639721
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_04-2-8_{8025498065940639721}
+  m_AudioClip: {fileID: 8300000, guid: c41496083b165d24684fb1c6f9030d2e, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &8257798520254907960
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NPC_MALE_06-2-5_{8257798520254907960}
+  m_AudioClip: {fileID: 8300000, guid: 1548a0599b49b28469ceee662add5b3a, type: 3}
   m_Volume: 0
   m_Enabled: 1

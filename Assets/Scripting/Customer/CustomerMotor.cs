@@ -14,6 +14,8 @@ namespace Scripting.Customer
     public class CustomerMotor : MonoBehaviour
     {
         [SerializeField]
+        AudioSource talkNoise;
+        [SerializeField]
         GameObject burlapSack;
 
         [SerializeField]
@@ -132,13 +134,14 @@ namespace Scripting.Customer
             anim = GetComponent<Animator>();
             _paymentAmount = 20000 + Random.Range(-5000, 5000);
             _penalty = 7000 * Random.Range(-500, 500);
-            _isMotherfucker = false; //_aiController.HasVandalismSpots &
-            //(Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
+            
+            if(0 != Id){
+                _isMotherfucker =  _aiController.HasVandalismSpots & (Random.Range(0, vandalSpawnOdds) == Random.Range(0, vandalSpawnOdds));
+            }
 
-            if (!_isMotherfucker)
+            if (!_isMotherfucker && 0 != Id)
             {
-                _isThief = false; // _aiController.HasThiefSpot; // &&
-                //(Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
+                _isThief = _aiController.HasThiefSpot && (Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
             }
 
             _aiController = FindFirstObjectByType<AiController>();
@@ -154,6 +157,7 @@ namespace Scripting.Customer
         //start conversation
         public void StartConversing()
         {
+            //talkNoise.Play();
             Unsit();
             _conversing = true;
             //Debug.Log("Starting Conversation");
@@ -163,6 +167,7 @@ namespace Scripting.Customer
         //end conversatioon
         public void StopConversing()
         {
+            //talkNoise.Stop();
             _conversing = false;
             agent.isStopped = false;
             
@@ -226,12 +231,18 @@ namespace Scripting.Customer
                 {
                     transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
                 }
-
+                if(!talkNoise.isPlaying){
+                    talkNoise.Play();
+                }
+                
                 anim.SetBool("conversing", true);
             }
             else
             {
                 anim.SetBool("conversing", false);
+                if(talkNoise.isPlaying){
+                    talkNoise.Stop();
+                }
             }
         }
 
@@ -521,7 +532,10 @@ namespace Scripting.Customer
         public void InterruptSpraying()
         {
             _sprayInterrupted = true;
-
+            var paint = this.GetComponent<SprayPaintSounds>();
+            paint.StopSpraySound();
+            paint.HidePaintCan();
+            paint.StopRattleSound();
             _isSpraying = false;
 
             if (!_vandalismSpot.IsVisible)

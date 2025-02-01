@@ -9,6 +9,7 @@ namespace Scripting.Desk
     {
         [SerializeField] private GameObject paperBallSpawnPos;
         [SerializeField] private GameObject paperBallPrefab;
+        [SerializeField] private AudioSource paperBallSound;
         [SerializeField] private float paperBallSpeed;
 
         [Header("leftArm")]
@@ -209,6 +210,7 @@ namespace Scripting.Desk
 
         private void SpawnBall()
         {
+            paperBallSound.Play();
             var ball = Instantiate(paperBallPrefab, paperBallSpawnPos.transform.position, Quaternion.identity);
             ball.GetComponent<Rigidbody>().AddForce(this.transform.forward * paperBallSpeed);
             ball.GetComponent<Rigidbody>().AddTorque(this.transform.right * paperBallSpeed);

@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-9091987315893504291
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Office_Phone_Click_01_{-9091987315893504291}
+  m_AudioClip: {fileID: 8300000, guid: 48147731c0eb5414aa3898c2671b29fe, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-3251055405294186696
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Office_Stapler_{-3251055405294186696}
+  m_AudioClip: {fileID: 8300000, guid: f5143c95586331d449227e71f1f0d812, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-807243264553164994
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Office_Phone_Click_03_{-807243264553164994}
+  m_AudioClip: {fileID: 8300000, guid: 914b253640ab3cf45b2f68dfdb9f491b, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &278952506104115086
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Office_Phone_Click_02_{278952506104115086}
+  m_AudioClip: {fileID: 8300000, guid: 64d51a01a676c4a4393c985aa1ca8347, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Computer
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: 0, y: 0}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: -9091987315893504291}
+  - {fileID: 278952506104115086}
+  - {fileID: -807243264553164994}
+  - {fileID: -3251055405294186696}
+  m_AvoidRepeatingLast: 1
+  m_PlaybackMode: 2
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 0
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0

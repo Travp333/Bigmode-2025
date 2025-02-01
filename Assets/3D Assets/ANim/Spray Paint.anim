@@ -68614,6 +68614,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 3.1166666
+    functionName: ShowPaintCan
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 4.1833334
     functionName: StopRattleSound
     data: 
@@ -68637,6 +68644,13 @@ AnimationClip:
     messageOptions: 0
   - time: 7.9333334
     functionName: StopSpraySound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 8.783334
+    functionName: HidePaintCan
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
