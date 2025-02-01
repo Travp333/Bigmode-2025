@@ -700,6 +700,7 @@ namespace Scripting.Player
                             _countDownGate = false;
                             _counter = 0f;
                             Debug.Log("INTERACTION COMPLETE!");
+                            customer.TutorialBubble.SetActive(false);
                         }
                     }
                     else

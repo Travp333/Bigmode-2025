@@ -130,6 +130,7 @@ namespace Scripting
 
         private void Awake()
         {
+            CustomerMotor.ResetId();
             SetInitValues();
             scene = SceneManager.GetActiveScene();
             Singleton = this;
@@ -577,6 +578,8 @@ namespace Scripting
             // text += $"Fist: {upgrades.powerFistRequisition}\n";
             
             MoneyUI.text = "$"+ upgrades.money;
+
+            
             //text += $"Money: {upgrades.money}\n";
             text += $"Safe: {_moneyInSafe}\n";
             text += $"Active Customers Ids: {(string.Join(',', _customerMotors.Select(m => m.Id).ToList()))}";

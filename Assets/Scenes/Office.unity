@@ -3785,7 +3785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.84
+      value: -2.608
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4608,7 +4608,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: text
-      value: Every night you can get a random free power document here!
+      value: '"Power Documents" are special, one time use documents. Get one here
+        for free every night!'
       objectReference: {fileID: 0}
     - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: order
@@ -6246,7 +6247,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: text
-      value: You can buy some upgrades here!
+      value: Spend your cash here to upgrade your office!
       objectReference: {fileID: 0}
     - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: order
@@ -7408,7 +7409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.14
+      value: -4.839
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7416,7 +7417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.82
+      value: 6.56
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7452,7 +7453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: text
-      value: Read the power documents here!
+      value: Check up on your documents and their abilities here!
       objectReference: {fileID: 0}
     - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: atSpawnVisible
@@ -11727,7 +11728,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1953529832}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00000058114523}
+  m_LocalRotation: {x: -0, y: -0.08291866, z: -0, w: -0.9965564}
   m_LocalPosition: {x: -0.35, y: 1, z: -31.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11735,7 +11736,7 @@ Transform:
   - {fileID: 321777790}
   - {fileID: 1773336097}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -350.487, z: 0}
 --- !u!136 &1953529834
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13947,7 +13948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6912295
+      value: 0.99252486
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalRotation.x
@@ -13955,7 +13956,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7226353
+      value: -0.122043416
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalRotation.z
@@ -13967,7 +13968,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -92.545
+      value: -14.02
       objectReference: {fileID: 0}
     - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -13979,8 +13980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: text
-      value: Flip the switch with the left mouse button, to start your happy day!
-        But look around first for some explanations!
+      value: Once you are ready to start the day, click on the light switch!
       objectReference: {fileID: 0}
     - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
       propertyPath: atSpawnVisible

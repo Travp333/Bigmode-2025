@@ -93,6 +93,23 @@ namespace Scripting.Customer
         int thiefSpawnOdds = 2;
 
         private CapsuleCollider _capsuleCollider;
+        [SerializeField]
+        public GameObject TutorialBubble;
+        public static void ResetId()
+        {
+            NextId = 0;
+        }
+        /// <summary>
+        /// Start is called on the frame when a script is enabled just before
+        /// any of the Update methods is called the first time.
+        /// </summary>
+        void Start()
+        {
+            if(Id == 0){
+                //TutorialBubble.SetActive(true);
+                TutorialManager.Singleton.ShowOrderNumber(12);
+            }
+        }
 
         private void Awake()
         {
@@ -145,6 +162,7 @@ namespace Scripting.Customer
         {
             _conversing = false;
             agent.isStopped = false;
+            
         }
 
         private static bool _tutorialDone;

@@ -117,6 +117,86 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6001281764527873075}
   m_LocalEulerAnglesHint: {x: 0.575, y: -160.101, z: 0.884}
+--- !u!1001 &5283250860498487034
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6576222473533348552}
+    m_Modifications:
+    - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378248625531120000, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_Name
+      value: TutorialSpot
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378248625531120000, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: text
+      value: This client wants you to create a document for them. Talk with them
+        to figure out which one!
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188130277978764406, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+      propertyPath: order
+      value: 12
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+--- !u!1 &284430512717164410 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5378248625531120000, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+  m_PrefabInstance: {fileID: 5283250860498487034}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &685109270248460306 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
+  m_PrefabInstance: {fileID: 5283250860498487034}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5423164196729252189
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -540,6 +620,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1524025528524930644}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 685109270248460306}
     - targetCorrespondingSourceObject: {fileID: 1117178536989204752, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6243993533995544710}
@@ -707,6 +790,7 @@ MonoBehaviour:
   _sneakOut: 0
   vandalSpawnOdds: 6
   thiefSpawnOdds: 6
+  TutorialBubble: {fileID: 284430512717164410}
 --- !u!136 &623774053397015621
 CapsuleCollider:
   m_ObjectHideFlags: 0
