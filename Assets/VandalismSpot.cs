@@ -15,6 +15,8 @@ public class VandalismSpot : MonoBehaviour
 
     public bool IsVisible => spriteRenderer.enabled;
     public bool IsLocked { get; set; }
+    
+    public GameObject AiSpot => aiSpot;
 
     void Awake()
     {

@@ -143,13 +143,13 @@ public class LaunchDetection : MonoBehaviour
             if (other.gameObject != this.gameObject &&
                 other.gameObject.GetComponent<LaunchDetection>().lerpGate == true && lerpGate == false)
             {
-                if (_agent.enabled)
-                {
-                    if (!_agent.isStopped)
-                    {
+                // if (_agent.enabled)
+                // {
+                //     if (!_agent.isStopped)
+                //     {
                         _motor.GetHit();
-                    }
-                }
+                //     }
+                // }
 
                 //Debug.Log("Hit by a flying person!");
                 this.transform.rotation = Quaternion.LookRotation(other.transform.position - this.transform.position,

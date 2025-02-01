@@ -387,48 +387,6 @@ namespace Scripting
             _customerMotors.Remove(customerMotor);
         }
 
-        #region graveyard
-
-        private void InitialUpgrades()
-        {
-            if (upgrades.chairs)
-            {
-                distractionChairs.SetActive(true);
-            }
-
-            if (upgrades.paintings)
-            {
-                distractionPaintings.SetActive(true);
-            }
-
-            if (upgrades.baseballBat)
-            {
-                baseballBat.SetActive(true);
-            }
-
-            if (upgrades.cigar)
-            {
-                cigar.SetActive(true);
-            }
-
-            if (upgrades.phone)
-            {
-                phone.SetActive(true);
-            }
-
-            if (upgrades.assistant)
-            {
-                assistant.SetActive(true);
-            }
-
-            if (upgrades.bodyguard)
-            {
-                bodyguard.SetActive(true);
-            }
-        }
-
-        #endregion graveyard
-
         public void ActivateLoanAgreement()
         {
             _loanAgreementRunning = loanAgreementTime;
