@@ -5,6 +5,7 @@ using System.Linq;
 using Scripting.Customer;
 using Scripting.Player;
 using Scripting.ScriptableObjects;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,6 +15,10 @@ namespace Scripting
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject QuotaMetUI;
+        [SerializeField]
+        private TextMeshProUGUI MoneyUI, QuotaUI, MoneyDifferenceUI;
         [SerializeField]
         private GameObject uiPowerDocumentHell,
             uiPowerDocumentDismissal,
@@ -128,7 +133,6 @@ namespace Scripting
             fade.gameObject.SetActive(true);
             StartCoroutine(FadeOut());
         }
-
         public int GetMoney() => upgrades.money;
 
         public Action<int, int> OnMoneyUpdated;
@@ -137,6 +141,7 @@ namespace Scripting
         {
             SpecialStoreManager.Singleton.SetRandomUpgrade();
             shiftManager.SetIsNightTime(true);
+            QuotaUI.text = "Today's Quota: $" + GetCurrentQuota();
         }
 
         private IEnumerator FadeOut()
@@ -236,6 +241,9 @@ namespace Scripting
         }
 
         private bool _endOfLifePlan;
+        private void ResetQuotaMetUI(){
+            QuotaMetUI.SetActive(false);
+        }
 
         public void DayFinished()
         {
@@ -253,9 +261,12 @@ namespace Scripting
             }
 
             var todaysQuota = GetCurrentQuota();
-
+            QuotaUI.text = "Today's Quota: $" + todaysQuota;
+            
             if (upgrades.money > todaysQuota)
             {
+                QuotaMetUI.SetActive(true);
+                Invoke("ResetQuotaMetUI", 2f);
                 upgrades.money -= todaysQuota;
                 _moneyInSafe += todaysQuota;
             }
@@ -530,7 +541,9 @@ namespace Scripting
             // text += $"Ds: {upgrades.dismissal}\n";
             // text += $"Penta: {upgrades.hellishContract}\n";
             // text += $"Fist: {upgrades.powerFistRequisition}\n";
-            text += $"Money: {upgrades.money}\n";
+            
+            MoneyUI.text = "$"+ upgrades.money;
+            //text += $"Money: {upgrades.money}\n";
             text += $"Safe: {_moneyInSafe}\n";
             text += $"Active Customers Ids: {(string.Join(',', _customerMotors.Select(m => m.Id).ToList()))}";
 
@@ -538,6 +551,25 @@ namespace Scripting
         }
 
         private List<GameObject> _vandalismSpots = new();
+        public void ChangeMoneyAmount(int amount){
+            upgrades.money += amount;
+            if(amount < 0){
+                MoneyDifferenceUI.gameObject.SetActive(true);
+                MoneyDifferenceUI.text = "- $"+ amount;
+                MoneyDifferenceUI.color = Color.red;
+                Invoke("ResetDifference", 1f);
+            }
+            else{
+                MoneyDifferenceUI.gameObject.SetActive(true);
+                MoneyDifferenceUI.text = "+ $"+ amount;
+                MoneyDifferenceUI.color = Color.green;
+                Invoke("ResetDifference", 1f);
+            }
+            
+        }
+        void ResetDifferenceUI(){
+            MoneyDifferenceUI.gameObject.SetActive(false);
+        }
 
         public void RegisterVandalismSpot(GameObject aiSpot)
         {
@@ -558,7 +590,8 @@ namespace Scripting
         {
             if (upgrades.priceAssistant <= upgrades.money)
             {
-                upgrades.money -= upgrades.priceAssistant;
+                ChangeMoneyAmount(-upgrades.priceAssistant);
+                //upgrades.money -= upgrades.priceAssistant;
                 OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceAssistant);
                 return true;
             }
@@ -570,7 +603,8 @@ namespace Scripting
         {
             if (upgrades.priceBodyguard <= upgrades.money)
             {
-                upgrades.money -= upgrades.priceBodyguard;
+                ChangeMoneyAmount(-upgrades.priceBodyguard);
+                //upgrades.money -= upgrades.priceBodyguard;
                 OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceBodyguard);
                 return true;
             }

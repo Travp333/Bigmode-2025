@@ -383,7 +383,9 @@ namespace Scripting.Customer
 
         private void RemoveMoney()
         {
-            GameManager.Singleton.upgrades.money -= _penalty;
+            
+            //GameManager.Singleton.upgrades.money -= _penalty;
+            GameManager.Singleton.ChangeMoneyAmount(-_penalty);
             GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, -_penalty);
             // HAS TO BE IMPLEMENTED
         }
@@ -395,7 +397,7 @@ namespace Scripting.Customer
         {
             //TODO: Stop Spray Animation
             _done = true;
-
+            if(!agent) return;
             if (agent.isOnNavMesh)
                 agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
             else
@@ -436,7 +438,8 @@ namespace Scripting.Customer
         {
             var value = _paymentAmount * (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
 
-            GameManager.Singleton.upgrades.money += value;
+            //GameManager.Singleton.upgrades.money += value;
+            GameManager.Singleton.ChangeMoneyAmount(value);
             GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, value);
         }
     }
