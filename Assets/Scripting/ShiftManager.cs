@@ -157,6 +157,7 @@ namespace Scripting
             }
 
             _isAnimating = false;
+            MusicSwitcher.Instance.NightTime();
         }
 
         private IEnumerator AnimateToDayTime()
@@ -188,6 +189,7 @@ namespace Scripting
             }
 
             _isAnimating = false;
+            MusicSwitcher.Instance.DayTime();
         }
 
         private bool _isAnimating;
