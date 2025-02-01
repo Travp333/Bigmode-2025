@@ -31,11 +31,17 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Options")]
     [SerializeField] private AudioMixer audioMixer;
+    
+    [Header("Sliders")]
+    [SerializeField] private Slider masterSlider;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private Slider speechSlider;
 
-    private float _oldMasterVolume;
-    private float _oldMusicVolume;
-    private float _oldSfxVolume;
-    private float _oldSpeechVolume;
+    private float _oldMasterVolume = 1.0f;
+    private float _oldMusicVolume = 1.0f;
+    private float _oldSfxVolume = 1.0f;
+    private float _oldSpeechVolume = 1.0f;
 
     private float _newMasterVolume;
     private float _newMusicVolume;
@@ -48,6 +54,16 @@ public class MainMenuManager : MonoBehaviour
         optionsPanel.SetActive(false);
         creditsMenu.SetActive(false);
 
+        audioMixer.SetFloat("master", (float) Math.Log10(_oldMasterVolume) * 20f);
+        audioMixer.SetFloat("music", (float) Math.Log10(_oldMusicVolume) * 20f);
+        audioMixer.SetFloat("sfx", (float) Math.Log10(_oldSfxVolume) * 20f);
+        audioMixer.SetFloat("speech", (float) Math.Log10(_oldSpeechVolume) * 20f);
+        
+        masterSlider.value = _oldMasterVolume;
+        musicSlider.value = _oldMusicVolume;
+        sfxSlider.value = _oldSfxVolume;
+        speechSlider.value = _oldSpeechVolume;
+        
         fade.color = new Color(fade.color.r, fade.color.g, fade.color.b, 1f);
         StartCoroutine(InitSpline());
     }
@@ -94,25 +110,26 @@ public class MainMenuManager : MonoBehaviour
 
     public void SetMasterVolume(float volume)
     {
-        _oldMasterVolume = volume;
+        _newMasterVolume = volume;
         audioMixer.SetFloat("master", (float) Math.Log10(volume) * 20f);
+        Debug.Log(volume);
     }
 
     public void SetMusicVolume(float volume)
     {
-        _oldMusicVolume = volume;
+        _newMusicVolume = volume;
         audioMixer.SetFloat("music", (float) Math.Log10(volume) * 20f);
     }
 
     public void SetSfxVolume(float volume)
     {
-        _oldSfxVolume = volume;
+        _newSfxVolume = volume;
         audioMixer.SetFloat("sfx", (float) Math.Log10(volume) * 20f);
     }
 
     public void SetSpeechVolume(float volume)
     {
-        _oldSpeechVolume = volume;
+        _newSpeechVolume = volume;
         audioMixer.SetFloat("speech", (float) Math.Log10(volume) * 20f);
     }
 
@@ -122,7 +139,12 @@ public class MainMenuManager : MonoBehaviour
         audioMixer.SetFloat("music", (float) Math.Log10(_oldMusicVolume) * 20f);
         audioMixer.SetFloat("sfx", (float) Math.Log10(_oldSfxVolume) * 20f);
         audioMixer.SetFloat("speech", (float) Math.Log10(_oldSpeechVolume) * 20f);
-
+        
+        masterSlider.value = _oldMasterVolume;
+        musicSlider.value = _oldMusicVolume;
+        sfxSlider.value = _oldSfxVolume;
+        speechSlider.value = _oldSpeechVolume;
+        
         GoBackSettings();
     }
 

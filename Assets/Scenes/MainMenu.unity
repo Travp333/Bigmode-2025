@@ -1314,7 +1314,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 2014214285}
   m_HandleRect: {fileID: 2122532080}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -1324,7 +1324,7 @@ MonoBehaviour:
       - m_Target: {fileID: 2032343576}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: SetMasterVolume
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1591,7 +1591,7 @@ MonoBehaviour:
       - m_Target: {fileID: 2032343576}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: SetSfxVolume
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4320,7 +4320,7 @@ MonoBehaviour:
       - m_Target: {fileID: 2032343576}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: SetSpeechVolume
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4497,7 +4497,7 @@ MonoBehaviour:
       - m_Target: {fileID: 2032343576}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: SetMusicVolume
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7244,6 +7244,10 @@ MonoBehaviour:
   mainMenuButtons: {fileID: 1093041241}
   uiBlock: {fileID: 0}
   audioMixer: {fileID: 24100000, guid: c05f93e47532ddd48b29c3b653f60c05, type: 2}
+  masterSlider: {fileID: 412615473}
+  musicSlider: {fileID: 1261888431}
+  sfxSlider: {fileID: 477828352}
+  speechSlider: {fileID: 1182133306}
 --- !u!4 &2032343577
 Transform:
   m_ObjectHideFlags: 0
