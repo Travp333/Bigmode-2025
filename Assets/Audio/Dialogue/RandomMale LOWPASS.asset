@@ -6,8 +6,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_04_{-6437018103649748783}
-  m_AudioClip: {fileID: 8300000, guid: 7890e7d37ed955b4a81203f82a134a9c, type: 3}
+  m_Name: NPC_MALE_04-2_{-6437018103649748783}
+  m_AudioClip: {fileID: 8300000, guid: b77222b10fc4147448d9b06931333c98, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &-1247392433291472923
@@ -16,8 +16,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_02_{-1247392433291472923}
-  m_AudioClip: {fileID: 8300000, guid: 13b539ed64ee0e2478a7c2d7f80b3ee1, type: 3}
+  m_Name: NPC_MALE_02-2_{-1247392433291472923}
+  m_AudioClip: {fileID: 8300000, guid: c3eab4b01df214b46ae08c080aac88dc, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &2936777804602474515
@@ -26,8 +26,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_05_{2936777804602474515}
-  m_AudioClip: {fileID: 8300000, guid: bc46c643262e74c478819f7da38e3853, type: 3}
+  m_Name: NPC_MALE_05-2_{2936777804602474515}
+  m_AudioClip: {fileID: 8300000, guid: 969fb87e41ba531448f3d348566c50ac, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &4202085898446270550
@@ -36,8 +36,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_06_{4202085898446270550}
-  m_AudioClip: {fileID: 8300000, guid: c1355856be4eb5f40985d7144e8a10d8, type: 3}
+  m_Name: NPC_MALE_06-2_{4202085898446270550}
+  m_AudioClip: {fileID: 8300000, guid: e6e0d0f53b3deaf43a7dc99aac9306a2, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &6407359445111923090
@@ -46,8 +46,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_03_{6407359445111923090}
-  m_AudioClip: {fileID: 8300000, guid: 813ec34f99cb0fb4c89b8420c0c49555, type: 3}
+  m_Name: NPC_MALE_03-2_{6407359445111923090}
+  m_AudioClip: {fileID: 8300000, guid: 1c5d3b3387eb0804f9d08d2ca75c28c6, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1307931743 &6418180475301049370
@@ -59,11 +59,11 @@ AudioRandomContainer:
   m_Name: RandomMale LOWPASS
   m_Volume: 0
   m_Pitch: 0
-  m_AutomaticTriggerTime: 3
+  m_AutomaticTriggerTime: 1
   m_LoopCount: 1
   m_VolumeRandomizationRange: {x: 0, y: 0}
   m_PitchRandomizationRange: {x: 0, y: 0}
-  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_AutomaticTriggerTimeRandomizationRange: {x: -0.1, y: 0.1}
   m_LoopCountRandomizationRange: {x: 0, y: 0}
   m_Elements:
   - {fileID: 8285918606948792304}
@@ -79,7 +79,7 @@ AudioRandomContainer:
   m_LoopMode: 0
   m_VolumeRandomizationEnabled: 0
   m_PitchRandomizationEnabled: 0
-  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_AutomaticTriggerTimeRandomizationEnabled: 1
   m_LoopCountRandomizationEnabled: 0
 --- !u!1233149941 &8285918606948792304
 AudioContainerElement:
@@ -87,7 +87,7 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NPC_MALE_01_{8285918606948792304}
-  m_AudioClip: {fileID: 8300000, guid: 1ce2cbd485d9b074f94fcbe06b89b6d9, type: 3}
+  m_Name: NPC_MALE_01-2_{8285918606948792304}
+  m_AudioClip: {fileID: 8300000, guid: d5a9f8f5e5dfc9f4e8f823c101b58e0c, type: 3}
   m_Volume: 0
   m_Enabled: 1

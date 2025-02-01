@@ -487,7 +487,11 @@ namespace Scripting.Player
             var mouseY = lookDelta.y;
 
             var move = transform.right * moveInput.x + transform.forward * moveInput.y;
-            rb.linearVelocity = move * moveSpeed;
+             
+            var vector = move * moveSpeed;
+            vector.y = rb.linearVelocity.y;
+
+            rb.linearVelocity = vector;
 
             if (rb.linearVelocity.magnitude > 0.5f)
             {

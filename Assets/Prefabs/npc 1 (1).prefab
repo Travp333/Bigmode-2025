@@ -117,6 +117,89 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6001281764527873075}
   m_LocalEulerAnglesHint: {x: 0.575, y: -160.101, z: 0.884}
+--- !u!1001 &4816211043878254178
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 238729601875080608}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.12607388
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.12607388
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.12607388
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.176
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.69516003
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.1294784
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.14408053
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.6922635
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 1.115
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -22.312
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 89.541
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_Name
+      value: Spray Paint Can
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+--- !u!4 &4997912636936966537 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+  m_PrefabInstance: {fileID: 4816211043878254178}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5627238649295801139 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6603f901aa18db4438aa81cfa159934f, type: 3}
+  m_PrefabInstance: {fileID: 4816211043878254178}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5283250860498487034
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -633,6 +716,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4058852915679833821, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8804251968230371059}
+    - targetCorrespondingSourceObject: {fileID: 6888806815857526915, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4997912636936966537}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}
       insertIndex: -1
@@ -683,6 +769,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5077887474667044200}
   m_SourcePrefab: {fileID: 100100000, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}
+--- !u!4 &238729601875080608 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6888806815857526915, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}
+  m_PrefabInstance: {fileID: 6686110426630470947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &2889533656348768445 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8417361359673230750, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}
@@ -792,8 +883,8 @@ MonoBehaviour:
   anim: {fileID: 6883057602898160709}
   _runOut: 0
   _sneakOut: 0
-  vandalSpawnOdds: 6
-  thiefSpawnOdds: 6
+  vandalSpawnOdds: 4
+  thiefSpawnOdds: 4
   TutorialBubble: {fileID: 284430512717164410}
 --- !u!136 &623774053397015621
 CapsuleCollider:
@@ -1401,6 +1492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00bc4bccfa36634a8c92ddc874dbfc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprayPaintCan: {fileID: 5627238649295801139}
   spraySound: {fileID: -6455629266505414130}
   rattleSound: {fileID: 5077887474667044200}
 --- !u!82 &-6455629266505414130
