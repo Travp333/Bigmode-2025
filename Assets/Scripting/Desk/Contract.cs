@@ -69,12 +69,24 @@ namespace Scripting.Desk
         }
 
         private bool _isWriting;
-        
+
         private void Update()
         {
             AlignWithContract();
-
+           
+            
             if (!_isActive || Converted) return;
+ 
+            if (Input.GetKeyDown(KeyCode.Escape) && _isWriting)
+            {
+                FinalizeWriting();
+                return;
+            }
+            
+            if (GameManager.Singleton.IsPause)
+            {
+                return;
+            }
 
             var position = Input.mousePosition;
             var x = _cam.ScreenPointToRay(position);
@@ -92,9 +104,9 @@ namespace Scripting.Desk
                     _isWriting = true;
 
                     _nextCount = 0;
-                    
+
                     _lastSnapshot = samplingRate;
-                    
+
                     _lineRenderer.positionCount++;
                     _lineRenderer.SetPosition(_nextCount++, hit.point);
                 }
@@ -104,7 +116,6 @@ namespace Scripting.Desk
                 if (_isWriting)
                 {
                     FinalizeWriting();
-                    _isWriting = false;
                 }
             }
 
@@ -130,11 +141,11 @@ namespace Scripting.Desk
         }
 
         private void Cancel()
-        { 
-                _surface.GetComponent<BoxCollider>().enabled = false;
-                _surface = null;
-                _lineRenderer = null;
-                Destroy(_surface); 
+        {
+            _surface.GetComponent<BoxCollider>().enabled = false;
+            _surface = null;
+            _lineRenderer = null;
+            Destroy(_surface);
         }
 
         private void FinalizeWriting()
@@ -150,7 +161,7 @@ namespace Scripting.Desk
                 _surface = null;
                 _lineRenderer = null;
                 Destroy(_surface);
-            
+
                 return;
             }
 

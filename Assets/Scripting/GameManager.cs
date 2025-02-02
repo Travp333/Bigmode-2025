@@ -18,31 +18,61 @@ namespace Scripting
     {
         [SerializeField]
         MusicSwitcher mus;
+
         [SerializeField]
         GameObject successScreen;
+
         int finalMoneyTally;
+
         [SerializeField]
         GameObject safeMoneyAmountUI;
+
         [SerializeField]
         GameObject totalMoneyAmountUI;
+
         [SerializeField]
         public int pentagramReward = 25000;
+
         [SerializeField]
-        int day1Quota = 15000, day2Quota = 30000, day3Quota = 40000, day4Quota = 50000, day5Quota = 70000, day6Quota = 90000, day7Quota = 100000, day8Quota = 120000, day9Quota = 140000, day10Quota = 200000;
+        int day1Quota = 15000,
+            day2Quota = 30000,
+            day3Quota = 40000,
+            day4Quota = 50000,
+            day5Quota = 70000,
+            day6Quota = 90000,
+            day7Quota = 100000,
+            day8Quota = 120000,
+            day9Quota = 140000,
+            day10Quota = 200000;
+
         [SerializeField]
-        float  day1AISpawnRate = 13.33f, day2AISpawnRate = 13.33f, day3AISpawnRate = 13.33f, day4AISpawnRate = 11.42f, day5AISpawnRate = 11.42f, day6AISpawnRate = 11.42f, day7AISpawnRate = 8, day8AISpawnRate = 5.333f, day9AISpawnRate = 4, day10AISpawnRate = 2.66f;
+        float day1AISpawnRate = 13.33f,
+            day2AISpawnRate = 13.33f,
+            day3AISpawnRate = 13.33f,
+            day4AISpawnRate = 11.42f,
+            day5AISpawnRate = 11.42f,
+            day6AISpawnRate = 11.42f,
+            day7AISpawnRate = 8,
+            day8AISpawnRate = 5.333f,
+            day9AISpawnRate = 4,
+            day10AISpawnRate = 2.66f;
+
         public int day = 0;
+
         [SerializeField]
         TextMeshProUGUI dayTrackerUI;
+
         [SerializeField]
         GameObject EOLScreen;
+
         [SerializeField]
         GameObject wastedScreen;
+
         [SerializeField]
         Animator doorAnim;
 
         [SerializeField] private float loanAgreementMultiplicator = 2.0f;
-        
+
         [SerializeField]
         private GameObject QuotaMetUI, MoneyDifferenceUI, MoneyDifferenceUIPOS;
 
@@ -196,7 +226,7 @@ namespace Scripting
         }
 
         private float _dayTimer;
-        
+
 
         public bool IsNightTime { get; private set; }
         public float LoanAgreementMultiplicator => loanAgreementMultiplicator;
@@ -205,42 +235,53 @@ namespace Scripting
         {
             day++;
             QuotaUI.text = "Today's Quota: $" + GetCurrentQuota();
-            if(day ==1){
+            if (day == 1)
+            {
                 aiSpawnRateCounter = day1AISpawnRate;
             }
-            else if(day ==2){
+            else if (day == 2)
+            {
                 aiSpawnRateCounter = day2AISpawnRate;
             }
-            else if(day ==3){
+            else if (day == 3)
+            {
                 aiSpawnRateCounter = day3AISpawnRate;
             }
-            else if(day ==4){
+            else if (day == 4)
+            {
                 aiSpawnRateCounter = day4AISpawnRate;
             }
-            else if(day ==5){
+            else if (day == 5)
+            {
                 aiSpawnRateCounter = day5AISpawnRate;
             }
-            else if(day ==6){
+            else if (day == 6)
+            {
                 aiSpawnRateCounter = day6AISpawnRate;
             }
-            else if(day ==7){
+            else if (day == 7)
+            {
                 aiSpawnRateCounter = day7AISpawnRate;
             }
-            else if(day ==8){
+            else if (day == 8)
+            {
                 aiSpawnRateCounter = day8AISpawnRate;
             }
-            else if(day ==9){
+            else if (day == 9)
+            {
                 aiSpawnRateCounter = day9AISpawnRate;
             }
-            else if(day ==10){
+            else if (day == 10)
+            {
                 aiSpawnRateCounter = day10AISpawnRate;
             }
-            else {
+            else
+            {
                 //ERROR, DAY 11, 
             }
             //aiSpawnRate = aiSpawnRateCounter;
-            
-            
+
+
             dayTrackerUI.text = "DAY " + day + "/ 10";
             doorAnim.SetBool("opened", false);
             IsNightTime = false;
@@ -322,33 +363,42 @@ namespace Scripting
             //upgrades.money += value;
             OnMoneyUpdated?.Invoke(upgrades.money, value);
         }
-        void hideSafeMoneyUI(){
+
+        void hideSafeMoneyUI()
+        {
             safeMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + _moneyInSafe;
             Invoke("hideSafeMoneyUI2", 5);
         }
-        void hideSafeMoneyUI2(){
+
+        void hideSafeMoneyUI2()
+        {
             safeMoneyAmountUI.SetActive(false);
         }
 
-        void FinalQuotaStep2(){
+        void FinalQuotaStep2()
+        {
             //Debug.Log("FINAL DAY #2");
             finalMoneyTally += _moneyInSafe;
-            totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$"+finalMoneyTally;
+            totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + finalMoneyTally;
             _moneyInSafe = 0;
             safeMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "";
             Invoke("FinalQuotaStep3", 3f);
-
         }
-        void FinalQuotaStep3(){
+
+        void FinalQuotaStep3()
+        {
             //Debug.Log("FINAL DAY #3");
             finalMoneyTally = finalMoneyTally + upgrades.money;
-            totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$"+finalMoneyTally;
-            ChangeMoneyAmount(- upgrades.money);
+            totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + finalMoneyTally;
+            ChangeMoneyAmount(-upgrades.money);
             Invoke("FinalQuotaStep4", 3f);
         }
-        void FinalQuotaStep4(){
+
+        void FinalQuotaStep4()
+        {
             //Debug.Log("FINAL DAY #4");
-            if(finalMoneyTally > 1000000){
+            if (finalMoneyTally > 1000000)
+            {
                 totalMoneyAmountUI.SetActive(false);
                 successScreen.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
@@ -356,7 +406,8 @@ namespace Scripting
                 Time.timeScale = 0;
                 player.enabled = false;
             }
-            else{
+            else
+            {
                 PlayDeathScene();
             }
         }
@@ -382,7 +433,8 @@ namespace Scripting
                 _devilTime = 0.0f;
             }
 
-            if(day == 10){
+            if (day == 10)
+            {
                 safeMoneyAmountUI.SetActive(true);
                 totalMoneyAmountUI.SetActive(true);
                 //FINAL DAY!!! CHECK FINAL QUOTA!!!
@@ -415,7 +467,6 @@ namespace Scripting
                     _moneyInSafe += todaysQuota;
                     upgrades.money = 0;
                     //Debug.Log("END OF LIFE PLAN ACTIVATED");
-                    
                 }
                 else
                 {
@@ -428,40 +479,52 @@ namespace Scripting
             _customerMotors.ForEach(n => n.WalkOut());
             _customerMotors.Clear();
         }
-        void ResetEOLScreen(){
+
+        void ResetEOLScreen()
+        {
             EOLScreen.SetActive(false);
         }
 
         public int GetCurrentQuota()
         {
-            if(day ==1){
+            if (day == 1)
+            {
                 return day1Quota;
             }
-            else if(day ==2){
+            else if (day == 2)
+            {
                 return day2Quota;
             }
-            else if(day ==3){
+            else if (day == 3)
+            {
                 return day3Quota;
             }
-            else if(day ==4){
+            else if (day == 4)
+            {
                 return day4Quota;
             }
-            else if(day ==5){
+            else if (day == 5)
+            {
                 return day5Quota;
             }
-            else if(day ==6){
+            else if (day == 6)
+            {
                 return day6Quota;
             }
-            else if(day ==7){
+            else if (day == 7)
+            {
                 return day7Quota;
             }
-            else if(day ==8){
+            else if (day == 8)
+            {
                 return day8Quota;
             }
-            else if(day ==9){
+            else if (day == 9)
+            {
                 return day9Quota;
             }
-            else if(day ==10){
+            else if (day == 10)
+            {
                 return day10Quota;
             }
             else return 0;
@@ -621,7 +684,9 @@ namespace Scripting
             Time.timeScale = 1;
             SceneManager.LoadScene("Office", LoadSceneMode.Single);
         }
-        public void ReturnToMenuScene(){
+
+        public void ReturnToMenuScene()
+        {
             Time.timeScale = 1;
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
@@ -798,6 +863,13 @@ namespace Scripting
             }
 
             return false;
+        }
+
+        public bool IsPause { get; private set; }
+
+        public void SetIsPauseMenu(bool p0)
+        {
+            IsPause = p0;
         }
     }
 }

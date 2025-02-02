@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Scripting;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -78,15 +79,14 @@ public class BasicMenuManager : MonoBehaviour
                 }
                 else{
                     Cursor.lockState = CursorLockMode.None;
-                    Cursor.visible = true;
+                    Cursor.visible = false;
                 }
                 state = PauseStates.Unpaused;
                 Time.timeScale = 1;
                 mainMenuButtons.SetActive(false);
                 optionsPanel.SetActive(false);
                 movement.enabled = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                GameManager.Singleton.SetIsPauseMenu(false);
             }
             else if (state == PauseStates.Unpaused)
             {
@@ -96,6 +96,7 @@ public class BasicMenuManager : MonoBehaviour
                 movement.enabled = false;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                GameManager.Singleton.SetIsPauseMenu(true);
             }
         }
     }

@@ -32,7 +32,10 @@ namespace Scripting.Desk
         }
 
         private void Update()
-        {
+        {  if (GameManager.Singleton.IsPause)
+            {
+                return;
+            }
             if (_isSmoking && GameManager.Singleton.IsNightTime)
             {
                 RunStopSmoking();

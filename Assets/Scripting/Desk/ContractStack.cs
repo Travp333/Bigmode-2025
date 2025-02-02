@@ -36,6 +36,11 @@ namespace Scripting.Desk
 
         private void Update()
         {
+            if (GameManager.Singleton.IsPause)
+            {
+                return;
+            }
+            
             if (GameManager.Singleton.IsNightTime)
             {
                 _block = false;

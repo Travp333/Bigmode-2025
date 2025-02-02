@@ -113,6 +113,11 @@ namespace Scripting.Desk
 
         private void Update()
         {
+            if (GameManager.Singleton.IsPause)
+            {
+                return;
+            }
+            
             var pos = Input.mousePosition;
 
             if (!_isBlockedLeft && !_isBlockedRight)
