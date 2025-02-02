@@ -264,9 +264,9 @@ namespace Scripting.Customer
                 }
             }
 
-#if UNITY_EDITOR
-            _isMotherfucker = true;
-#endif
+// #if UNITY_EDITOR
+//             _isMotherfucker = true;
+// #endif
 
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = 0.1f;
