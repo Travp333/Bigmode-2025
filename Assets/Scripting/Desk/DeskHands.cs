@@ -211,7 +211,7 @@ namespace Scripting.Desk
         private void SpawnBall()
         {
             paperBallSound.Play();
-            var ball = Instantiate(paperBallPrefab, paperBallSpawnPos.transform.position, Quaternion.identity);
+            var ball = Instantiate(paperBallPrefab, GameManager.Singleton.Player.transform.position + Vector3.up * 0.5f, Quaternion.identity);
             ball.GetComponent<Rigidbody>().AddForce(this.transform.forward * paperBallSpeed);
             ball.GetComponent<Rigidbody>().AddTorque(this.transform.right * paperBallSpeed);
         }
@@ -219,7 +219,7 @@ namespace Scripting.Desk
         public void ResetContractAnimation()
         {
             leftHandAnim.Play("Dropping Paper");
-            Invoke(nameof(SpawnBall), .65f);
+            Invoke(nameof(SpawnBall), 0.3f);
         }
 
         public void ResetHands()
