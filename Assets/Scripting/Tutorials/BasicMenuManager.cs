@@ -12,8 +12,10 @@ public class BasicMenuManager : MonoBehaviour
 {
     [SerializeField]
     GameObject successScreen;
+
     [Header("Objects")]
     [SerializeField] private GameObject optionsPanel;
+
     [SerializeField] private GameObject mainMenuButtons;
 
     [Header("Mixer")]
@@ -34,11 +36,18 @@ public class BasicMenuManager : MonoBehaviour
     private float _oldSensitivity;
     private float _newSensitivity;
 
-   
 
-    private enum PauseStates {Paused, Options, Unpaused}
+    private enum PauseStates
+    {
+        Paused,
+        Options,
+        Unpaused
+    }
+
     private PauseStates state;
-    public void Pause(){
+
+    public void Pause()
+    {
         state = PauseStates.Unpaused;
         Time.timeScale = 1;
         mainMenuButtons.SetActive(false);
@@ -48,21 +57,22 @@ public class BasicMenuManager : MonoBehaviour
         Cursor.visible = false;
         optionsPanel.SetActive(false);
     }
+
     private void Awake()
     {
         _oldSensitivity = _newSensitivity = movement.MouseSpeed / 6f;
-       
+
         mainMenuButtons.SetActive(false);
         optionsPanel.SetActive(false);
         state = PauseStates.Unpaused;
-        
-        
-        
     }
-	private void Update()
-	{
-        if (Input.GetKeyDown(KeyCode.Escape )&& !successScreen.activeInHierarchy) {
-            if (state == PauseStates.Paused) {
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !successScreen.activeInHierarchy)
+        {
+            if (state == PauseStates.Paused)
+            {
                 state = PauseStates.Unpaused;
                 Time.timeScale = 1;
                 mainMenuButtons.SetActive(false);
@@ -70,9 +80,9 @@ public class BasicMenuManager : MonoBehaviour
                 movement.enabled = true;
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
-                
             }
-            else if (state == PauseStates.Unpaused) {
+            else if (state == PauseStates.Unpaused)
+            {
                 state = PauseStates.Paused;
                 mainMenuButtons.SetActive(true);
                 Time.timeScale = 0;
@@ -81,34 +91,33 @@ public class BasicMenuManager : MonoBehaviour
                 Cursor.visible = true;
             }
         }
-	}
+    }
 
 
-
-
-	public void SetMasterVolume(float volume)
+    public void SetMasterVolume(float volume)
     {
         _oldMasterVolume = volume;
-        audioMixer.SetFloat("master", (float)Math.Log10(volume) * 20f);
+        audioMixer.SetFloat("master", (float) Math.Log10(volume) * 20f);
     }
 
     public void SetMusicVolume(float volume)
     {
         _oldMusicVolume = volume;
-        audioMixer.SetFloat("music", (float)Math.Log10(volume) * 20f);
+        audioMixer.SetFloat("music", (float) Math.Log10(volume) * 20f);
     }
 
     public void SetSfxVolume(float volume)
     {
         _oldSfxVolume = volume;
-        audioMixer.SetFloat("sfx", (float)Math.Log10(volume) * 20f);
+        audioMixer.SetFloat("sfx", (float) Math.Log10(volume) * 20f);
     }
 
     public void SetSpeechVolume(float volume)
     {
         _oldSpeechVolume = volume;
-        audioMixer.SetFloat("speech", (float)Math.Log10(volume) * 20f);
+        audioMixer.SetFloat("speech", (float) Math.Log10(volume) * 20f);
     }
+
     public void SetSensitivity(float sensitivity)
     {
         _oldSensitivity = sensitivity;
@@ -119,8 +128,6 @@ public class BasicMenuManager : MonoBehaviour
     {
         mainMenuButtons.SetActive(true);
         optionsPanel.SetActive(false);
-
-        
     }
 
     public void ConfirmSettings()
@@ -148,13 +155,9 @@ public class BasicMenuManager : MonoBehaviour
     {
         optionsPanel.SetActive(true);
     }
-
     
-
-
     public void ExitGame()
     {
         Application.Quit();
     }
-
 }

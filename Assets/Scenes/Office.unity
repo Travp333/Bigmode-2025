@@ -21198,6 +21198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 738d5e15ab5eebc4bb45d05554eca4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  successScreen: {fileID: 423543515}
   optionsPanel: {fileID: 1007097245}
   mainMenuButtons: {fileID: 894428127}
   audioMixer: {fileID: 24100000, guid: c05f93e47532ddd48b29c3b653f60c05, type: 2}
