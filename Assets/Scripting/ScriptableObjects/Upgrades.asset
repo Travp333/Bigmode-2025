@@ -19,7 +19,7 @@ MonoBehaviour:
   cigar: 0
   phone: 0
   bodyguard: 0
-  assistant: 1
+  assistant: 0
   money: 0
   priceChairs: 5000
   pricePaintings: 5000
