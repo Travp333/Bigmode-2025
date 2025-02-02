@@ -397,6 +397,13 @@ namespace Scripting
             {
                 n.Pay();
                 n.WalkOut();
+                n.anim.SetBool("conversing", false);
+                n.anim.SetBool("Sitting", false);
+                n.anim.SetBool("isSneaking", false);
+                n.anim.Play("WALK");
+                n.IsHit();
+                n.InterruptStealing();
+                n.InterruptSpraying();
             });
 
             _customerMotors.Clear();
