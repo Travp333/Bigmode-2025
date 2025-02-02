@@ -10,6 +10,8 @@ using Scripting.Player;
 
 public class BasicMenuManager : MonoBehaviour
 {
+    [SerializeField]
+    GameObject successScreen;
     [Header("Objects")]
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject mainMenuButtons;
@@ -59,8 +61,7 @@ public class BasicMenuManager : MonoBehaviour
     }
 	private void Update()
 	{
-        if (Input.GetKeyDown
-            (KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape )&& !successScreen.activeInHierarchy) {
             if (state == PauseStates.Paused) {
                 state = PauseStates.Unpaused;
                 Time.timeScale = 1;
