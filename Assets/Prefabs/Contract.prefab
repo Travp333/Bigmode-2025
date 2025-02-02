@@ -56,6 +56,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3615965104412366567, guid: c165539dc903f8547b0df8316cf91399, type: 3}
+      propertyPath: samplingRate
+      value: 0.0125
+      objectReference: {fileID: 0}
+    - target: {fileID: 3615965104412366567, guid: c165539dc903f8547b0df8316cf91399, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 8704
+      objectReference: {fileID: 0}
+    - target: {fileID: 3615965104412366567, guid: c165539dc903f8547b0df8316cf91399, type: 3}
+      propertyPath: writingSurfaceMask.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

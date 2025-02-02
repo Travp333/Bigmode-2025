@@ -21,6 +21,7 @@ namespace Scripting.Desk
         [SerializeField] private AudioSource myHellActiveSound;
 
         [SerializeField] private LayerMask layerMask;
+        [SerializeField] private LayerMask writingSurfaceMask;
         [SerializeField] private MeshRenderer meshRenderer;
 
         private readonly Gesture[] _trainingsSet = TrainingsData.GetTrainingsData();
@@ -67,105 +68,132 @@ namespace Scripting.Desk
             }
         }
 
+        private bool _isWriting;
+
         private void Update()
         {
             AlignWithContract();
 
             if (!_isActive || Converted) return;
 
-            if (Mouse.current.leftButton.wasPressedThisFrame)
-            {
-                myWritingSound.Play();
-                var camPos = _cam.transform.position;
-                var delta = (camPos - transform.position).normalized * 0.05f;
+            var position = Input.mousePosition;
+            var x = _cam.ScreenPointToRay(position);
 
-                _surface = Instantiate(surface, transform.position + delta, transform.rotation, transform);
-                _lineRenderer = _surface.GetComponent<LineRenderer>();
+            if (Physics.Raycast(x, out var hit, Mathf.Infinity, layerMask))
+            {
+                if (Mouse.current.leftButton.wasPressedThisFrame)
+                {
+                    myWritingSound.Play();
+                    var camPos = _cam.transform.position;
+                    var delta = (camPos - transform.position).normalized * 0.05f;
+
+                    _surface = Instantiate(surface, transform.position + delta, transform.rotation, transform);
+                    _lineRenderer = _surface.GetComponent<LineRenderer>();
+                    _isWriting = true;
+
+                    _nextCount = 0;
+                    
+                    _lastSnapshot = samplingRate;
+                    
+                    _lineRenderer.positionCount++;
+                    _lineRenderer.SetPosition(_nextCount++, hit.point);
+                }
+            }
+            else
+            {
+                if (_isWriting)
+                {
+                    FinalizeWriting();
+                    _isWriting = false;
+                }
             }
 
-            if (Mouse.current.leftButton.isPressed)
+            if (Physics.Raycast(x, out var hit3, Mathf.Infinity, writingSurfaceMask))
             {
-                _lastSnapshot -= Time.deltaTime;
-                if (_lastSnapshot <= 0.0f)
+                if (Mouse.current.leftButton.isPressed && _isWriting)
                 {
-                    var position = Input.mousePosition;
-
-                    var x = _cam.ScreenPointToRay(position);
-                    if (Physics.Raycast(x, out var hit, Mathf.Infinity, layerMask))
+                    _lastSnapshot -= Time.deltaTime;
+                    if (_lastSnapshot <= 0.0f)
                     {
                         _lastSnapshot = samplingRate;
 
                         _lineRenderer.positionCount++;
-                        _lineRenderer.SetPosition(_nextCount++, hit.point);
+                        _lineRenderer.SetPosition(_nextCount++, hit3.point);
                     }
                 }
             }
 
-            if (Mouse.current.leftButton.wasReleasedThisFrame)
+
+            if (Mouse.current.leftButton.wasReleasedThisFrame && _isWriting)
             {
-                myWritingSound.Stop();
-                _nextCount = 0;
+                FinalizeWriting();
+            }
+        }
 
-                if (!_lineRenderer) return;
+        private void FinalizeWriting()
+        {
+            _isWriting = false;
+            myWritingSound.Stop();
 
-                if (_lineRenderer.positionCount < 4)
+            // if (!_lineRenderer) return;
+
+            // if (_lineRenderer.positionCount < 4)
+            // {
+            //     _surface.GetComponent<BoxCollider>().enabled = false;
+            //     _surface = null;
+            //     _lineRenderer = null;
+            //     Destroy(_surface);
+            //
+            //     return;
+            // }
+
+            var points = new List<Point>();
+
+            var transformPos = transform.position;
+
+            var posList = new List<Vector3>();
+
+            for (var i = 0; i < _lineRenderer.positionCount; i++)
+            {
+                posList.Add(_surface.transform.InverseTransformPoint(_lineRenderer.GetPosition(i)));
+            }
+
+            _positions.Add(posList.ToArray());
+            _renderers.Add(_lineRenderer);
+
+            var counter = 0;
+            for (var j = 0; j < _renderers.Count; j++)
+            {
+                var lineRenderer = _renderers[j];
+                for (var i = 0; i < lineRenderer.positionCount - 1; i++)
                 {
-                    _surface.GetComponent<BoxCollider>().enabled = false;
-                    _surface = null;
-                    _lineRenderer = null;
-                    Destroy(_surface);
+                    var p1 = _positions[j][i] - transformPos;
+                    var p2 = _positions[j][i + 1] - transformPos;
 
-                    return;
+                    points.Add(new Point(p1.x, p1.z, counter));
+                    points.Add(new Point(p2.x, p2.z, counter));
+
+                    counter++;
                 }
+            }
 
-                var points = new List<Point>();
+            points = Normalize(points);
+            Debug.Log(string.Join(',',
+                points.Select(n =>
+                    $"new({n.X.ToString(CultureInfo.InvariantCulture)}f,{n.Y.ToString(CultureInfo.InvariantCulture)}f,{n.StrokeID})")));
 
-                var transformPos = transform.position;
+            var gesture = PointCloudRecognizer.Classify(new Gesture(points.ToArray()), _trainingsSet);
 
-                var posList = new List<Vector3>();
+            Result = gesture;
 
-                for (var i = 0; i < _lineRenderer.positionCount; i++)
-                {
-                    posList.Add(_surface.transform.InverseTransformPoint(_lineRenderer.GetPosition(i)));
-                }
+            _surface.GetComponent<BoxCollider>().enabled = false;
+            _surface = null;
+            _lineRenderer = null;
 
-                _positions.Add(posList.ToArray());
-                _renderers.Add(_lineRenderer);
-
-                var counter = 0;
-                for (var j = 0; j < _renderers.Count; j++)
-                {
-                    var lineRenderer = _renderers[j];
-                    for (var i = 0; i < lineRenderer.positionCount - 1; i++)
-                    {
-                        var p1 = _positions[j][i] - transformPos;
-                        var p2 = _positions[j][i + 1] - transformPos;
-
-                        points.Add(new Point(p1.x, p1.z, counter));
-                        points.Add(new Point(p2.x, p2.z, counter));
-
-                        counter++;
-                    }
-                }
-
-                points = Normalize(points);
-                Debug.Log(string.Join(',',
-                    points.Select(n =>
-                        $"new({n.X.ToString(CultureInfo.InvariantCulture)}f,{n.Y.ToString(CultureInfo.InvariantCulture)}f,{n.StrokeID})")));
-
-                var gesture = PointCloudRecognizer.Classify(new Gesture(points.ToArray()), _trainingsSet);
-
-                Result = gesture;
-
-                _surface.GetComponent<BoxCollider>().enabled = false;
-                _surface = null;
-                _lineRenderer = null;
-                
-                if (!_tutorialWrite)
-                {
-                    TutorialManager.Singleton.ShowOrderNumber(4, true);
-                    _tutorialWrite = true;
-                }
+            if (!_tutorialWrite)
+            {
+                TutorialManager.Singleton.ShowOrderNumber(4, true);
+                _tutorialWrite = true;
             }
         }
 
@@ -211,11 +239,11 @@ namespace Scripting.Desk
             _customerContractTutorial = false;
             _notRecognized = false;
         }
-        
+
         private static bool _mailTutorial;
         private static bool _customerContractTutorial;
         private static bool _notRecognized;
-        
+
         public void Submit()
         {
             if (!Converted)
@@ -242,9 +270,10 @@ namespace Scripting.Desk
                                         _notRecognized = true;
                                         TutorialManager.Singleton.ShowOrderNumber(10, true);
                                     }
-                                    
+
                                     return;
                                 }
+
                                 myHellIdleSound.Play();
                                 myHellActiveSound.Play();
 
@@ -258,6 +287,7 @@ namespace Scripting.Desk
                                         _notRecognized = true;
                                         TutorialManager.Singleton.ShowOrderNumber(10, true);
                                     }
+
                                     return;
                                 }
 
@@ -271,6 +301,7 @@ namespace Scripting.Desk
                                         _notRecognized = true;
                                         TutorialManager.Singleton.ShowOrderNumber(10, true);
                                     }
+
                                     return;
                                 }
 
@@ -284,6 +315,7 @@ namespace Scripting.Desk
                                         _notRecognized = true;
                                         TutorialManager.Singleton.ShowOrderNumber(10, true);
                                     }
+
                                     return;
                                 }
 
@@ -297,6 +329,7 @@ namespace Scripting.Desk
                                         _notRecognized = true;
                                         TutorialManager.Singleton.ShowOrderNumber(10, true);
                                     }
+
                                     return;
                                 }
 
@@ -310,6 +343,7 @@ namespace Scripting.Desk
                                         _notRecognized = true;
                                         TutorialManager.Singleton.ShowOrderNumber(10, true);
                                     }
+
                                     return;
                                 }
 
@@ -318,19 +352,19 @@ namespace Scripting.Desk
                     }
 
                     var mailbox = Result is "ds" or "eel" or "la" or "tec";
-                    
+
                     if (!_mailTutorial && mailbox)
                     {
-                        TutorialManager.Singleton.ShowOrderNumber(7, true);    
+                        TutorialManager.Singleton.ShowOrderNumber(7, true);
                         _mailTutorial = true;
                     }
 
                     if (!_customerContractTutorial && !mailbox)
                     {
-                        TutorialManager.Singleton.ShowOrderNumber(new[] {5, 9}, true);    
+                        TutorialManager.Singleton.ShowOrderNumber(new[] {5, 9}, true);
                         _customerContractTutorial = true;
                     }
-                    
+
                     for (var i = 0; i < names.Count; i++)
                     {
                         if (Result == names[i])
@@ -354,7 +388,7 @@ namespace Scripting.Desk
         }
 
         public bool GetIsMailBoxContract() => Converted && Result is "ds" or "eel" or "la" or "tec";
-        
+
         public void ExecuteMailboxEffect(Movement player)
         {
             switch (Result)
@@ -385,9 +419,9 @@ namespace Scripting.Desk
                 customer.Pay();
                 switch (Result)
                 {
-                    
                     case "pentagramm":
-                        GameManager.Singleton.ChangeMoneyAmount(GameManager.Singleton.pentagramReward + Random.Range(-1000, 1000));
+                        GameManager.Singleton.ChangeMoneyAmount(GameManager.Singleton.pentagramReward +
+                                                                Random.Range(-1000, 1000));
                         GameManager.Singleton.DoPentagrammLogic();
                         customer.StopHuell();
                         GameManager.Singleton.RemoveCustomer(customer);
