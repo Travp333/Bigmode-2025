@@ -17,7 +17,7 @@ namespace Scripting.Customer
         AudioSource talkNoise;
         [SerializeField] private AudioSource myJingle;
         [SerializeField]
-        GameObject burlapSack;
+        public GameObject burlapSack;
 
         [SerializeField]
         float assistantConvoTime = 5f;
@@ -148,8 +148,8 @@ namespace Scripting.Customer
 
             if (!_isMotherfucker && 0 != Id)
             {
-                _isThief = _aiController.HasThiefSpot &&
-                           (Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
+                _isThief = true; //_aiController.HasThiefSpot &&
+                           //(Random.Range(0, thiefSpawnOdds) == Random.Range(0, thiefSpawnOdds));
             }
 
             _aiController = FindFirstObjectByType<AiController>();
@@ -255,8 +255,8 @@ namespace Scripting.Customer
             }
         }
 
-        private bool IsGoodGuy => !_isMotherfucker && !_isThief;
-        private bool WalksOut => _done || _sneakOut || _runOut;
+        public bool IsGoodGuy => !_isMotherfucker && !_isThief;
+        public bool WalksOut => _done || _sneakOut || _runOut;
         private bool _lockedAssistant;
 
         private void Update()
@@ -311,10 +311,6 @@ namespace Scripting.Customer
 
                 if (StressMeter >= 1.0f)
                 {
-                    _done = true;
-                    // are they stealing money when they leave?
-                    //RemoveMoney();
-
                     WalkOut();
                     return;
                 }
@@ -329,6 +325,7 @@ namespace Scripting.Customer
                         !_lockedAssistant)
                     {
                         _aiController.AssistantLocked = true;
+                        _lockedAssistant = true;
 
                         if (queuedSit)
                         {
@@ -553,9 +550,10 @@ namespace Scripting.Customer
             paint.HidePaintCan();
             paint.StopRattleSound();
             _isSpraying = false;
-
-            if (!_vandalismSpot.IsVisible)
-                _vandalismSpot.IsLocked = false;
+            if(_vandalismSpot){
+                if (!_vandalismSpot.IsVisible)
+                    _vandalismSpot.IsLocked = false;
+            }
         }
 
         private int _stolenMoney;
@@ -663,15 +661,21 @@ namespace Scripting.Customer
 
         public void WalkOut()
         {
+            
+            _sneakOut = false;
+            _runOut = false;
             _done = true;
             StopConversing();
             if (!agent.enabled)
-            {
+            { 
                 agent.enabled = true;
             }
 
-            if (agent.isOnNavMesh)
+            if (agent.isOnNavMesh){
+
+                agent.speed = _initialAgentSpeed;
                 agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
+            }
             else
             {
                 if (_isThief)
@@ -711,7 +715,7 @@ namespace Scripting.Customer
             _sneakOut = false;
             anim.SetBool("isRunning", true);
             anim.Play("RUN");
-            GameManager.Singleton.RemoveCustomer(this);
+            //GameManager.Singleton.RemoveCustomer(this);
 
             agent.speed = _initialAgentSpeed * 2f;
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
@@ -742,7 +746,7 @@ namespace Scripting.Customer
             _sneakOut = true;
             anim.SetBool("isSneaking", true);
             anim.Play("SNEAK");
-            GameManager.Singleton.RemoveCustomer(this);
+            //GameManager.Singleton.RemoveCustomer(this);
 
             agent.speed = _initialAgentSpeed * 0.25f;
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);

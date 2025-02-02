@@ -16896,7 +16896,7 @@ MonoBehaviour:
   leftHand: {fileID: 890395733}
   rightHand: {fileID: 919132147520673184}
   bothArmsScript: {fileID: 93350759}
-  clientInteractDistance: 2
+  clientInteractDistance: 3
   interactRayLength: 3
   radialIndicatorUI: {fileID: 1718444479}
   graffitiRemoveProgress: {fileID: 2061308595}

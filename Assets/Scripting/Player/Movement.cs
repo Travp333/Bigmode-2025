@@ -125,10 +125,10 @@ namespace Scripting.Player
 
         [SerializeField] private float rageModeTimer = 5f;
 
-        
+
         private bool _mailboxTutorial;
         private bool _customerTutorial;
-        
+
         public void ExitChair()
         {
             if (!_mailboxTutorial)
@@ -143,7 +143,7 @@ namespace Scripting.Player
                 TutorialManager.Singleton.HideOrderNumber(9);
                 _customerTutorial = true;
             }
-            
+
             getUp.SetActive(false);
             StartCoroutine(DoExitChairAnimation());
             DeactivateContractControls();
@@ -487,7 +487,7 @@ namespace Scripting.Player
             var mouseY = lookDelta.y;
 
             var move = transform.right * moveInput.x + transform.forward * moveInput.y;
-             
+
             var vector = move * moveSpeed;
             vector.y = rb.linearVelocity.y;
 
@@ -594,7 +594,7 @@ namespace Scripting.Player
                         if (_currentContract && _currentContract.GetIsMailBoxContract())
                         {
                             GameManager.Singleton.upgrades.tutorialDone = true;
-                            
+
                             var abc = _currentContract;
 
                             abc.ExecuteMailboxEffect(this);
@@ -610,10 +610,11 @@ namespace Scripting.Player
                     //Debug.Log("Looking at client!");
                     if (!_canInteractWithClient &&
                         !GameManager.Singleton.IsNightTime &&
-                        !customer.IsMotherfucker &&
-                        !customer.IsThief)
+                        customer.IsGoodGuy)
                         talk.SetActive(true);
                     _canInteractWithClient = true;
+
+
                     //LMB would be better
                     if (_actionPressed)
                     {
@@ -625,7 +626,7 @@ namespace Scripting.Player
                                 TutorialManager.Singleton.HideOrderNumber(5);
                             }
 
-                            if (!customer.IsMotherfucker)
+                            if (!customer.IsGoodGuy)
                             {
                                 customer.transform.rotation =
                                     Quaternion.LookRotation(-this.transform.forward, this.transform.up);
@@ -683,7 +684,7 @@ namespace Scripting.Player
 
             if (_countDownGate)
             {
-                if (_clientInteractor != null && !_clientInteractor.GetComponent<CustomerMotor>().IsMotherfucker)
+                if (_clientInteractor != null && _clientInteractor.GetComponent<CustomerMotor>().IsGoodGuy)
                 {
                     if (Vector3.Distance(transform.position, _clientInteractor.transform.position) <
                         clientInteractDistance)
@@ -969,10 +970,11 @@ namespace Scripting.Player
         {
             StressLevel = value;
         }
-        public float MouseSpeed {
+
+        public float MouseSpeed
+        {
             get { return mouseSpeed; }
             set { mouseSpeed = value; }
-
         }
     }
 }
