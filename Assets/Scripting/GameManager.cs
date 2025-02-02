@@ -238,8 +238,8 @@ namespace Scripting
             //Debug.Log("Switching to Night mode!");
             shiftManager.SetIsNightTime(false);
             _dayTimer = dayLength;
-
-            _maxCustomers = _level * 5 + _level;
+            _maxCustomers = 30;
+            //_maxCustomers = _level * 5 + _level;
         }
 
         private void Update()

@@ -880,16 +880,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ded3b1a105843488577c9ceeba7841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  day1BadClientSpawnOdds: 0
-  day2BadClientSpawnOdds: 7
-  day3BadClientSpawnOdds: 7
-  day4BadClientSpawnOdds: 7
-  day5BadClientSpawnOdds: 6
-  day6BadClientSpawnOdds: 6
-  day7BadClientSpawnOdds: 5
-  day8BadClientSpawnOdds: 4
-  day9BadClientSpawnOdds: 4
-  day10BadClientSpawnOdds: 4
+  day1BadClientSpawnOdds: 10
+  day2BadClientSpawnOdds: 5
+  day3BadClientSpawnOdds: 5
+  day4BadClientSpawnOdds: 4
+  day5BadClientSpawnOdds: 4
+  day6BadClientSpawnOdds: 3
+  day7BadClientSpawnOdds: 3
+  day8BadClientSpawnOdds: 2
+  day9BadClientSpawnOdds: 2
+  day10BadClientSpawnOdds: 2
   day1NPCReward: 4000
   day2NPCReward: 11166
   day3NPCReward: 11166
