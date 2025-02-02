@@ -338,6 +338,7 @@ namespace Scripting
         }
 
         void FinalQuotaStep2(){
+            //Debug.Log("FINAL DAY #2");
             finalMoneyTally += _moneyInSafe;
             totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$"+finalMoneyTally;
             _moneyInSafe = 0;
@@ -346,12 +347,14 @@ namespace Scripting
 
         }
         void FinalQuotaStep3(){
+            //Debug.Log("FINAL DAY #3");
             finalMoneyTally = finalMoneyTally + upgrades.money;
             totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$"+finalMoneyTally;
             ChangeMoneyAmount(- upgrades.money);
             Invoke("FinalQuotaStep4", 3f);
         }
         void FinalQuotaStep4(){
+            //Debug.Log("FINAL DAY #4");
             if(finalMoneyTally > 1000000){
                 totalMoneyAmountUI.SetActive(false);
                 successScreen.SetActive(true);
@@ -390,6 +393,7 @@ namespace Scripting
                 safeMoneyAmountUI.SetActive(true);
                 totalMoneyAmountUI.SetActive(true);
                 //FINAL DAY!!! CHECK FINAL QUOTA!!!
+                //Debug.Log("FINAL DAY #1");
                 Invoke("FinalQuotaStep2", 3f);
                 return;
             }
@@ -417,7 +421,7 @@ namespace Scripting
                     _endOfLifePlan = false;
                     _moneyInSafe += todaysQuota;
                     upgrades.money = 0;
-                    Debug.Log("END OF LIFE PLAN ACTIVATED");
+                    //Debug.Log("END OF LIFE PLAN ACTIVATED");
                     
                 }
                 else
