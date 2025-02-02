@@ -740,7 +740,8 @@ namespace Scripting.Player
 
             if (_countDownGate)
             {
-                if (_clientInteractor != null && _clientInteractor.GetComponent<CustomerMotor>().IsGoodGuy)
+                if (_clientInteractor != null && _clientInteractor.GetComponent<CustomerMotor>().IsGoodGuy &&
+                    !_clientInteractor.GetComponent<CustomerMotor>().IsWalkingOut)
                 {
                     if (Vector3.Distance(transform.position, _clientInteractor.transform.position) <
                         clientInteractDistance)

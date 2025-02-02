@@ -1329,16 +1329,16 @@ MonoBehaviour:
   day8BadClientSpawnOdds: 3
   day9BadClientSpawnOdds: 3
   day10BadClientSpawnOdds: 2
-  day1NPCReward: 2500
-  day2NPCReward: 8500
-  day3NPCReward: 9000
-  day4NPCReward: 9500
-  day5NPCReward: 12500
-  day6NPCReward: 15500
-  day7NPCReward: 14800
-  day8NPCReward: 14766
-  day9NPCReward: 15000
-  day10NPCReward: 18700
+  day1NPCReward: 2750
+  day2NPCReward: 9350
+  day3NPCReward: 9900
+  day4NPCReward: 10450
+  day5NPCReward: 13750
+  day6NPCReward: 15015
+  day7NPCReward: 16280
+  day8NPCReward: 16242
+  day9NPCReward: 16500
+  day10NPCReward: 20570
   talkNoise: {fileID: 4210475809496326132}
   myJingle: {fileID: 1784708535963605763}
   burlapSack: {fileID: 8604939912651534694}

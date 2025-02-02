@@ -20,13 +20,13 @@ namespace Scripting.Customer
         [SerializeField] private List<AiSpot> aiSpotsChairs;
         [SerializeField] private GameObject assistantSpot;
         [SerializeField] private List<VandalismSpot> vandalismSpots;
-     [SerializeField] private GameObject thiefSpot;
+        [SerializeField] private GameObject thiefSpot;
 
         [Header("Map")]
         [SerializeField] private List<DespawnPoint> despawnPoints;
 
         private bool _thiefSpotLocked;
-        
+
         public Transform EntrancePoint => entrancePoint;
 
         private List<AiSpot> _distractionSpots = new();
@@ -58,13 +58,14 @@ namespace Scripting.Customer
                 }
             }
         }
-        
+
         public void AddDistractionSpots(List<AiSpot> aiSpots)
         {
             _distractionSpots.AddRange(aiSpots);
-            foreach (AiSpot aiSpot in aiSpots){
-                if (aiSpot.isChair){
-                    
+            foreach (AiSpot aiSpot in aiSpots)
+            {
+                if (aiSpot.isChair)
+                {
                 }
             }
         }
@@ -114,12 +115,12 @@ namespace Scripting.Customer
         public VandalismSpot GetRandomVandalismSpot()
         {
             var availableSpots = vandalismSpots.Where(n => !n.IsLocked).ToArray();
-            
+
             return availableSpots.Any() ? availableSpots[Random.Range(0, availableSpots.Length)] : null;
         }
-        
+
         public bool HasVandalismSpots => vandalismSpots.Any(n => !n.IsVisible);
-        
+
         public GameObject AssistantSpot => assistantSpot;
 
         public bool HasThiefSpot => !_thiefSpotLocked;

@@ -170,43 +170,43 @@ namespace Scripting.Customer
             {
                 if (GameManager.Singleton.day == 1)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots & (Random.Range(0, day1BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day1BadClientSpawnOdds) == 1);
                 }
                 else if (GameManager.Singleton.day == 2)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots & (Random.Range(0, day2BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day2BadClientSpawnOdds) == 1);
                 }
                 else if (GameManager.Singleton.day == 3)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots & (Random.Range(0, day3BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day3BadClientSpawnOdds) == 1);
                 }
                 else if (GameManager.Singleton.day == 4)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots & (Random.Range(0, day4BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day4BadClientSpawnOdds) == 1);
                 }
                 else if (GameManager.Singleton.day == 5)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots & (Random.Range(0, day5BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day5BadClientSpawnOdds) == 1);
                 }
                 else if (GameManager.Singleton.day == 6)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots & (Random.Range(0, day6BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day6BadClientSpawnOdds) == 1);
                 }
                 else if (GameManager.Singleton.day == 7)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots & (Random.Range(0, day7BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day7BadClientSpawnOdds) == 1);
                 }
                 else if (GameManager.Singleton.day == 8)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots & (Random.Range(0, day8BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day8BadClientSpawnOdds) == 1);
                 }
                 else if (GameManager.Singleton.day == 9)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots & (Random.Range(0, day9BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day9BadClientSpawnOdds) == 1);
                 }
                 else if (GameManager.Singleton.day == 10)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots & (Random.Range(0, day10BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day10BadClientSpawnOdds) == 1);
                 }
                 else
                 {
@@ -1004,6 +1004,7 @@ namespace Scripting.Customer
         public HuellController TargetedFrom { get; set; }
 
         public bool IsHuellImmune { get; set; }
+        public bool IsWalkingOut => _done;
 
         public void StopHuell()
         {

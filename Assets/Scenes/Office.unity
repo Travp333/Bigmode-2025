@@ -1145,16 +1145,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072b083a0370ba84ebd4685992b34b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  day1PhoneReward: 9333
-  day2PhoneReward: 12166
-  day3PhoneReward: 12166
-  day4PhoneReward: 13014
-  day5PhoneReward: 15014
-  day6PhoneReward: 16485
-  day7PhoneReward: 15300
-  day8PhoneReward: 15266
-  day9PhoneReward: 15500
-  day10PhoneReward: 19200
+  day1PhoneReward: 18666
+  day2PhoneReward: 24332
+  day3PhoneReward: 24332
+  day4PhoneReward: 26028
+  day5PhoneReward: 30028
+  day6PhoneReward: 32970
+  day7PhoneReward: 30600
+  day8PhoneReward: 30532
+  day9PhoneReward: 31000
+  day10PhoneReward: 38400
   phoneAnim: {fileID: 604574340}
   phoneCallLowerBound: 6
   phoneCallUpperBound: 15
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   myPhonePickup: {fileID: 110708420}
   myPhonePutdown: {fileID: 110708419}
   arms: {fileID: 93350757}
-  telephoneCooldown: 30
+  telephoneCooldown: 60
   handAnim: {fileID: 890395735}
   player: {fileID: 1953529837}
 --- !u!65 &110708418
@@ -1697,12 +1697,12 @@ RectTransform:
   - {fileID: 175103588}
   - {fileID: 1304940902}
   - {fileID: 1970035757}
+  - {fileID: 953526615}
   - {fileID: 1977934276}
   - {fileID: 1743224567}
   - {fileID: 2027659291}
   - {fileID: 509939799}
   - {fileID: 423543516}
-  - {fileID: 953526615}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

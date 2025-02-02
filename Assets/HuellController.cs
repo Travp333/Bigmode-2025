@@ -13,6 +13,7 @@ public class HuellController : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource kickAudio;
+    [SerializeField] private float tecDuration = 90f;
     
     private bool _hitboxVisible;
 
@@ -78,6 +79,7 @@ public class HuellController : MonoBehaviour
 
     void Awake()
     {
+        _tecMode = tecDuration;
         _customers = GameManager.Singleton.GetCustomerList();
         _originalPosition = transform.position;
         _originalRotation = transform.rotation;
