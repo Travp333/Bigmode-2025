@@ -368,6 +368,7 @@ namespace Scripting
         public void DayFinished()
         {
             IsNightTime = true;
+            Player.ResetStressLevel();
             AiController.Singleton.UnlockEverything();
             SpecialStoreManager.Singleton.SetRandomUpgrade();
             shiftManager.SetIsNightTime(true);
