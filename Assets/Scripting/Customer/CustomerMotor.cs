@@ -17,7 +17,7 @@ namespace Scripting.Customer
         AudioSource talkNoise;
         [SerializeField] private AudioSource myJingle;
         [SerializeField]
-        GameObject burlapSack;
+        public GameObject burlapSack;
 
         [SerializeField]
         float assistantConvoTime = 5f;
@@ -550,9 +550,10 @@ namespace Scripting.Customer
             paint.HidePaintCan();
             paint.StopRattleSound();
             _isSpraying = false;
-
-            if (!_vandalismSpot.IsVisible)
-                _vandalismSpot.IsLocked = false;
+            if(_vandalismSpot){
+                if (!_vandalismSpot.IsVisible)
+                    _vandalismSpot.IsLocked = false;
+            }
         }
 
         private int _stolenMoney;
@@ -660,15 +661,21 @@ namespace Scripting.Customer
 
         public void WalkOut()
         {
+            
+            _sneakOut = false;
+            _runOut = false;
             _done = true;
             StopConversing();
             if (!agent.enabled)
-            {
+            { 
                 agent.enabled = true;
             }
 
-            if (agent.isOnNavMesh)
+            if (agent.isOnNavMesh){
+
+                agent.speed = _initialAgentSpeed;
                 agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
+            }
             else
             {
                 if (_isThief)
@@ -708,7 +715,7 @@ namespace Scripting.Customer
             _sneakOut = false;
             anim.SetBool("isRunning", true);
             anim.Play("RUN");
-            GameManager.Singleton.RemoveCustomer(this);
+            //GameManager.Singleton.RemoveCustomer(this);
 
             agent.speed = _initialAgentSpeed * 2f;
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
@@ -739,7 +746,7 @@ namespace Scripting.Customer
             _sneakOut = true;
             anim.SetBool("isSneaking", true);
             anim.Play("SNEAK");
-            GameManager.Singleton.RemoveCustomer(this);
+            //GameManager.Singleton.RemoveCustomer(this);
 
             agent.speed = _initialAgentSpeed * 0.25f;
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);

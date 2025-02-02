@@ -6,6 +6,10 @@ namespace Scripting.Customer
     {
         private void OnTriggerEnter(Collider other)
         {
+            if (other.TryGetComponent<CustomerMotor>(out var customerMotor))
+            {
+                GameManager.Singleton.RemoveCustomer(customerMotor);
+            }
             Destroy(other.gameObject);
         }
     }
