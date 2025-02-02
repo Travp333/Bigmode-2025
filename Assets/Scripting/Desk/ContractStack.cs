@@ -36,6 +36,12 @@ namespace Scripting.Desk
 
         private void Update()
         {
+            if (GameManager.Singleton.IsNightTime)
+            {
+                _block = false;
+                return;
+            }
+
             if (_block) return;
 
             if (Input.GetMouseButtonDown(0) && player.CanAct())
