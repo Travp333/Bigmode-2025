@@ -34,6 +34,8 @@ namespace Scripting
         [SerializeField]
         Animator doorAnim;
 
+        [SerializeField] private float loanAgreementMultiplicator = 2.0f;
+        
         [SerializeField]
         private GameObject QuotaMetUI, MoneyDifferenceUI, MoneyDifferenceUIPOS;
 
@@ -191,6 +193,7 @@ namespace Scripting
         
 
         public bool IsNightTime { get; private set; }
+        public float LoanAgreementMultiplicator => loanAgreementMultiplicator;
 
         public void StartDay()
         {

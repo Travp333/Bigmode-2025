@@ -861,42 +861,65 @@ namespace Scripting.Customer
         public bool IsStealing => _isStealing;
         public bool IsSneakingOut => _sneakOut;
 
+        private int CalculateReward(int dayNpcReward, int variance, float multiplicator)
+        {
+            // Had to do this shit, cuz int can't handle floating points
+            float converted = dayNpcReward + variance;
+            
+            var reward = converted * multiplicator;
+
+            return (int) Math.Ceiling(reward);
+        }
+        
         public void Pay()
         {
-            if(GameManager.Singleton.day ==1){
-                value = (day1NPCReward + Random.Range(-1000, 1000))* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            var laMultiplicator = GameManager.Singleton.LoanAgreementMultiplicator;
+            
+            if(GameManager.Singleton.day ==1)
+            {
+                value = CalculateReward(day1NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
             }
             else if(GameManager.Singleton.day ==2){
-                value = (day2NPCReward+ Random.Range(-1000, 1000))* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+                value = CalculateReward(day2NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
             }
             else if(GameManager.Singleton.day ==3){
-                value = (day3NPCReward+ Random.Range(-1000, 1000))* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+                value = CalculateReward(day3NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
             }
             else if(GameManager.Singleton.day ==4){
-                value = (day4NPCReward+ Random.Range(-1000, 1000))* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+                value = CalculateReward(day4NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
             }
             else if(GameManager.Singleton.day ==5){
-                value = (day5NPCReward+ Random.Range(-1000, 1000))* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+                value = CalculateReward(day5NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
             }
             else if(GameManager.Singleton.day ==6){
-                value = (day6NPCReward+ Random.Range(-1000, 1000))* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+                value = CalculateReward(day6NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
             }
             else if(GameManager.Singleton.day ==7){
-                value = (day7NPCReward+ Random.Range(-1000, 1000))* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+                value = CalculateReward(day7NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
             }
             else if(GameManager.Singleton.day ==8){
-                value = (day8NPCReward+ Random.Range(-1000, 1000))* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+                value = CalculateReward(day8NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
             }
             else if(GameManager.Singleton.day ==9){
-                value = (day9NPCReward+ Random.Range(-1000, 1000))* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+                value = CalculateReward(day9NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
             }
             else if(GameManager.Singleton.day ==10){
-                value = (day10NPCReward+ Random.Range(-1000, 1000))* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+                value = CalculateReward(day10NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
             }
             else {
                 value = 0; //error day 11 
             }
-            //GameManager.Singleton.upgrades.money += value;
+
             GameManager.Singleton.ChangeMoneyAmount(value);
             GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, value);
         }
