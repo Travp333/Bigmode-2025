@@ -12,6 +12,8 @@ namespace Scripting.Player
     public class Movement : MonoBehaviour
     {
         [SerializeField]
+        MusicSwitcher switchMus;
+        [SerializeField]
         AudioSource RageModeActivate, RageModePassive;
         [SerializeField]
         float stressRate = .125f;
@@ -309,6 +311,12 @@ namespace Scripting.Player
             chargeBlock = false;
             RageModeOverlay.SetActive(false);
             RageModePassive.Stop();
+            if(GameManager.Singleton.IsNightTime){
+                switchMus.NightTime();
+            }
+            else{
+                switchMus.DayTime();
+            }
         }
 
         private void Update()
@@ -488,6 +496,7 @@ namespace Scripting.Player
                     RageModeOverlay.SetActive(true);
                     RageModeActivate.Play();
                     RageModePassive.Play();
+                    switchMus.PlayRageMode();
                 }
             }
 
@@ -633,7 +642,6 @@ namespace Scripting.Player
                     _canInteractWithClient = true;
 
 
-                    //LMB would be better
                     if (_actionPressed)
                     {
                         if (_currentContract && !_currentContract.GetIsMailBoxContract())

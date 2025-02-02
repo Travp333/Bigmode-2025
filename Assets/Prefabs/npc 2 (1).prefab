@@ -1334,8 +1334,8 @@ MonoBehaviour:
   anim: {fileID: 8695636839385324220}
   _runOut: 0
   _sneakOut: 0
-  vandalSpawnOdds: 4
-  thiefSpawnOdds: 4
+  vandalSpawnOdds: 6
+  thiefSpawnOdds: 6
   TutorialBubble: {fileID: 6777143503759564932}
 --- !u!54 &553242129943493058
 Rigidbody:

@@ -604,8 +604,8 @@ MonoBehaviour:
   anim: {fileID: 4878621472466373647}
   _runOut: 0
   _sneakOut: 0
-  vandalSpawnOdds: 4
-  thiefSpawnOdds: 4
+  vandalSpawnOdds: 6
+  thiefSpawnOdds: 6
   TutorialBubble: {fileID: 4295416334625497309}
 --- !u!136 &1720649301871825372
 CapsuleCollider:

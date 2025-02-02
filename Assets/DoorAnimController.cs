@@ -5,9 +5,11 @@ public class DoorAnimController : MonoBehaviour
     public bool isOpen;
     private Animator _anim;
     [SerializeField] private float doorOpenTimer = 2f;
+    AudioSource doorNoise;
 
     private void Awake()
     {
+        doorNoise = GetComponent<AudioSource>();
         _anim = GetComponent<Animator>();
     }
 
@@ -17,6 +19,7 @@ public class DoorAnimController : MonoBehaviour
         _anim.SetBool("open", true);
         isOpen = true;
         Invoke(nameof(CloseDoor), doorOpenTimer);
+        doorNoise.Play();
     }
 
     public void OpenDoorFromBack()
@@ -25,6 +28,7 @@ public class DoorAnimController : MonoBehaviour
         _anim.SetBool("open", true);
         isOpen = true;
         Invoke(nameof(CloseDoor), doorOpenTimer);
+        doorNoise.Play();
     }
 
     public void SlamOpenDoor()
@@ -33,6 +37,7 @@ public class DoorAnimController : MonoBehaviour
         _anim.SetBool("open", true);
         isOpen = true;
         Invoke(nameof(CloseDoor), doorOpenTimer);
+        doorNoise.Play();
     }
 
     public void CloseDoor()

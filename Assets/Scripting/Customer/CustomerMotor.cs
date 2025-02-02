@@ -650,6 +650,7 @@ namespace Scripting.Customer
             if(contract.Result == _contractType || contract.GetIsPowerContract())
             {
                 myJingle.Play();
+                bubble.gameObject.SetActive(false);
                 return true;
             }
             else

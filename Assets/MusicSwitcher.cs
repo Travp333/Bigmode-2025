@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class MusicSwitcher : MonoBehaviour
 {
+    [SerializeField] AudioSource RAGEMODE;
     public static MusicSwitcher Instance;
     [SerializeField] AudioSource dayMan;
     [SerializeField] AudioSource nightMan;
@@ -65,6 +66,7 @@ public class MusicSwitcher : MonoBehaviour
 
     public void DayTime()
     {
+        RAGEMODE.Stop();
         switchingToDay = true;
         progress = 0;
         dayMan.volume = 0.0f;
@@ -73,9 +75,16 @@ public class MusicSwitcher : MonoBehaviour
 
     public void NightTime()
     {
+        RAGEMODE.Stop();
         switchingToNight = true;
         progress = 0;
         nightMan.volume = 0.0f;
         nightMan.Play();
     }
+    public void PlayRageMode(){
+        RAGEMODE.Play();
+        dayMan.Stop();
+        nightMan.Stop();
+    }
+
 }

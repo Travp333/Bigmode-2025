@@ -17,6 +17,8 @@ namespace Scripting
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
+        GameObject EOLScreen;
+        [SerializeField]
         GameObject wastedScreen;
         [SerializeField]
         Animator doorAnim;
@@ -304,7 +306,7 @@ namespace Scripting
             if (upgrades.money > todaysQuota)
             {
                 QuotaMetUI.SetActive(true);
-                Invoke(nameof(ResetQuotaMetUI), 2f);
+                Invoke(nameof(ResetQuotaMetUI), 3.5f);
                 ChangeMoneyAmount(-todaysQuota);
                 //upgrades.money -= todaysQuota;
                 _moneyInSafe += todaysQuota;
@@ -313,6 +315,8 @@ namespace Scripting
             {
                 if (_endOfLifePlan)
                 {
+                    EOLScreen.SetActive(true);
+                    Invoke("ResetEOLScreen", 3.5f);
                     _endOfLifePlan = false;
                     _moneyInSafe += todaysQuota;
                     upgrades.money = 0;
@@ -328,6 +332,9 @@ namespace Scripting
 
             _customerMotors.ForEach(n => n.WalkOut());
             _customerMotors.Clear();
+        }
+        void ResetEOLScreen(){
+            EOLScreen.SetActive(false);
         }
 
         public int GetCurrentQuota()
