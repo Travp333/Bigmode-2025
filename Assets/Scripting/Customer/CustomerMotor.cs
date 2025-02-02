@@ -311,10 +311,6 @@ namespace Scripting.Customer
 
                 if (StressMeter >= 1.0f)
                 {
-                    _done = true;
-                    // are they stealing money when they leave?
-                    //RemoveMoney();
-
                     WalkOut();
                     return;
                 }

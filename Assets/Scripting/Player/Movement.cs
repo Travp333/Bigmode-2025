@@ -611,10 +611,9 @@ namespace Scripting.Player
                     if (!_canInteractWithClient &&
                         !GameManager.Singleton.IsNightTime &&
                         customer.IsGoodGuy)
-                    {
                         talk.SetActive(true);
-                        _canInteractWithClient = true;
-                    }
+                    _canInteractWithClient = true;
+
 
                     //LMB would be better
                     if (_actionPressed)
@@ -627,7 +626,7 @@ namespace Scripting.Player
                                 TutorialManager.Singleton.HideOrderNumber(5);
                             }
 
-                            if (!customer.IsMotherfucker)
+                            if (!customer.IsGoodGuy)
                             {
                                 customer.transform.rotation =
                                     Quaternion.LookRotation(-this.transform.forward, this.transform.up);
@@ -685,7 +684,7 @@ namespace Scripting.Player
 
             if (_countDownGate)
             {
-                if (_clientInteractor != null && !_clientInteractor.GetComponent<CustomerMotor>().IsMotherfucker)
+                if (_clientInteractor != null && _clientInteractor.GetComponent<CustomerMotor>().IsGoodGuy)
                 {
                     if (Vector3.Distance(transform.position, _clientInteractor.transform.position) <
                         clientInteractDistance)
