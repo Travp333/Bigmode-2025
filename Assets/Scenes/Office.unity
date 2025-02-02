@@ -10458,7 +10458,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e25b213fb224b5ca2bf1c987493580b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  successScreen: {fileID: 423543515}
   safeMoneyAmountUI: {fileID: 1304940901}
+  totalMoneyAmountUI: {fileID: 1970035756}
   pentagramReward: 25000
   day1Quota: 15000
   day2Quota: 30000
@@ -10485,6 +10487,7 @@ MonoBehaviour:
   EOLScreen: {fileID: 1743224566}
   wastedScreen: {fileID: 509939798}
   doorAnim: {fileID: 5887139369653721334}
+  loanAgreementMultiplicator: 2
   QuotaMetUI: {fileID: 1977934275}
   MoneyDifferenceUI: {fileID: 7100153450751291444, guid: a5d27f9c2609b6e45a53437a02610a23, type: 3}
   MoneyDifferenceUIPOS: {fileID: 288332474}
@@ -10497,7 +10500,7 @@ MonoBehaviour:
   uiPowerDocumentTEC: {fileID: 731378624}
   uiPowerDocumentEOL: {fileID: 788745225}
   upgrades: {fileID: 11400000, guid: 428cb30234fa46e44b67103fff65a4a7, type: 2}
-  dayLength: 100
+  dayLength: 5
   loanAgreementTime: 30
   devilDealTime: 45
   nightResetsTimer: 0
@@ -10526,6 +10529,7 @@ MonoBehaviour:
   - {fileID: 5676671915349638957, guid: 2f327c824e582f5499fd070d83300b7c, type: 3}
   huell: {fileID: 4988154249118625903, guid: 97b967e55cacbf646bfc8edd0b9984e2, type: 3}
   numHuells: 15
+  _endOfLifePlan: 0
 --- !u!4 &1035944792
 Transform:
   m_ObjectHideFlags: 0
@@ -19569,7 +19573,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1970035757
 RectTransform:
   m_ObjectHideFlags: 0
