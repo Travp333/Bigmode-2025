@@ -667,7 +667,7 @@ namespace Scripting.Player
                                 TutorialManager.Singleton.HideOrderNumber(5);
                             }
 
-                            if (!customer.IsGoodGuy)
+                            if (customer.IsGoodGuy)
                             {
                                 customer.transform.rotation =
                                     Quaternion.LookRotation(-this.transform.forward, this.transform.up);
