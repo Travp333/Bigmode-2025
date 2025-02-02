@@ -22,11 +22,11 @@ MonoBehaviour:
   assistant: 0
   money: 0
   priceChairs: 5000
-  pricePaintings: 5000
+  pricePaintings: 10000
   priceBaseballBat: 10000
   priceCigar: 5000
   pricePhone: 30000
-  priceBodyguard: 15000
+  priceBodyguard: 35000
   priceAssistant: 40000
   dismissal: 0
   hellishContract: 0

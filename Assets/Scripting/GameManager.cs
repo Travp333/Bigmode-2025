@@ -334,17 +334,17 @@ namespace Scripting
         void hideSafeMoneyUI2(){
             safeMoneyAmountUI.SetActive(false);
         }
-        
+
         void FinalQuotaStep2(){
-            finalMoneyTally = _moneyInSafe;
+            finalMoneyTally += _moneyInSafe;
             totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$"+finalMoneyTally;
             _moneyInSafe = 0;
             safeMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "";
-            Invoke("FinalQuotaStep3", 5f);
+            Invoke("FinalQuotaStep3", 3f);
 
         }
         void FinalQuotaStep3(){
-            finalMoneyTally += upgrades.money;
+            finalMoneyTally = finalMoneyTally + upgrades.money;
             totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$"+finalMoneyTally;
             ChangeMoneyAmount(- upgrades.money);
             Invoke("FinalQuotaStep4", 3f);
@@ -353,7 +353,10 @@ namespace Scripting
             if(finalMoneyTally > 1000000){
                 totalMoneyAmountUI.SetActive(false);
                 successScreen.SetActive(true);
-                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                Time.timeScale = 0;
+                player.enabled = false;
             }
             else{
                 PlayDeathScene();

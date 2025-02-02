@@ -1145,16 +1145,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072b083a0370ba84ebd4685992b34b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  day1PhoneReward: 8333
-  day2PhoneReward: 11166
-  day3PhoneReward: 11166
-  day4PhoneReward: 12014
-  day5PhoneReward: 14014
-  day6PhoneReward: 15485
-  day7PhoneReward: 14300
-  day8PhoneReward: 14266
-  day9PhoneReward: 14500
-  day10PhoneReward: 18200
+  day1PhoneReward: 9333
+  day2PhoneReward: 12166
+  day3PhoneReward: 12166
+  day4PhoneReward: 13014
+  day5PhoneReward: 15014
+  day6PhoneReward: 16485
+  day7PhoneReward: 15300
+  day8PhoneReward: 15266
+  day9PhoneReward: 15500
+  day10PhoneReward: 19200
   phoneAnim: {fileID: 604574340}
   phoneCallLowerBound: 6
   phoneCallUpperBound: 15
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   myPhonePickup: {fileID: 110708420}
   myPhonePutdown: {fileID: 110708419}
   arms: {fileID: 93350757}
-  telephoneCooldown: 10
+  telephoneCooldown: 30
   handAnim: {fileID: 890395735}
   player: {fileID: 1953529837}
 --- !u!65 &110708418
@@ -10472,13 +10472,13 @@ MonoBehaviour:
   day8Quota: 120000
   day9Quota: 140000
   day10Quota: 200000
-  day1AISpawnRate: 13.33
-  day2AISpawnRate: 6.665
-  day3AISpawnRate: 6.665
-  day4AISpawnRate: 5.71
-  day5AISpawnRate: 5.71
-  day6AISpawnRate: 5.71
-  day7AISpawnRate: 4
+  day1AISpawnRate: 10
+  day2AISpawnRate: 8
+  day3AISpawnRate: 7
+  day4AISpawnRate: 5
+  day5AISpawnRate: 4
+  day6AISpawnRate: 3
+  day7AISpawnRate: 3
   day8AISpawnRate: 2.6665
   day9AISpawnRate: 2
   day10AISpawnRate: 1.33
@@ -11202,7 +11202,7 @@ GameObject:
   - component: {fileID: 1085205900}
   - component: {fileID: 1085205902}
   - component: {fileID: 1085205903}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: BatHitbox
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -15616,6 +15616,10 @@ PrefabInstance:
       value: Bat
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a980b9edf5efe86459eec845b8856921, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a980b9edf5efe86459eec845b8856921, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -15626,6 +15630,10 @@ PrefabInstance:
     - target: {fileID: 8513859187771203891, guid: a980b9edf5efe86459eec845b8856921, type: 3}
       propertyPath: m_Name
       value: BatMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513859187771203891, guid: a980b9edf5efe86459eec845b8856921, type: 3}
+      propertyPath: m_Layer
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 8513859187771203891, guid: a980b9edf5efe86459eec845b8856921, type: 3}
       propertyPath: m_TagString
