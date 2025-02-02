@@ -389,11 +389,13 @@ namespace Scripting.Desk
                     case "pentagramm":
                         GameManager.Singleton.ChangeMoneyAmount(GameManager.Singleton.pentagramReward + Random.Range(-1000, 1000));
                         GameManager.Singleton.DoPentagrammLogic();
+                        customer.StopHuell();
                         GameManager.Singleton.RemoveCustomer(customer);
                         customer.gameObject.GetComponent<LaunchDetection>().GetHellGrabbed();
                         break;
                     case "pfr":
                         GameManager.Singleton.DoFistStuff(customer.IsMotherfucker);
+                        customer.StopHuell();
                         GameManager.Singleton.RemoveCustomer(customer);
                         customer.gameObject.GetComponent<LaunchDetection>().GetPowerFisted();
                         break;

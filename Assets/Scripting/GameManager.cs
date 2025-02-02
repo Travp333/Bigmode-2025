@@ -175,7 +175,6 @@ namespace Scripting
         {
             SpecialStoreManager.Singleton.SetRandomUpgrade();
             shiftManager.SetIsNightTime(true);
-            
         }
 
         private IEnumerator FadeOut()

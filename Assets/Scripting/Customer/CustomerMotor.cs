@@ -115,8 +115,6 @@ namespace Scripting.Customer
 
         private bool queuedSit;
 
-        public bool IsHuellTarget { get; set; }
-
         [SerializeField]
         int vandalSpawnOdds = 6;
 
@@ -266,6 +264,10 @@ namespace Scripting.Customer
                 }
             }
 
+#if UNITY_EDITOR
+            _isMotherfucker = true;
+#endif
+
             _aiController = FindFirstObjectByType<AiController>();
             _changeTaskCooldown = 0.1f;
 
@@ -291,11 +293,11 @@ namespace Scripting.Customer
         public void StopConversing()
         {
             //talkNoise.Stop();
-            _conversing = false; 
-            if(anim!=null){
+            _conversing = false;
+            if (anim != null)
+            {
                 anim.SetBool("conversing", false);
             }
-            
         }
 
         private static bool _tutorialDone;
@@ -376,23 +378,12 @@ namespace Scripting.Customer
         public bool WalksOut => _done || _sneakOut || _runOut;
         private bool _lockedAssistant;
 
-        public void StopCurrentAction()
-        {
-            if (WalksOut) return;
-            UnlockAssistant();
-        }
-
         private void Update()
         {
             if (!agent.hasPath)
             {
                 if (GameManager.Singleton.IsNightTime)
                 {
-                    if (_isThief)
-                    {
-                        HuellController.Singleton?.Reset(this);
-                    }
-
                     Destroy(gameObject);
                 }
             }
@@ -773,7 +764,8 @@ namespace Scripting.Customer
         private IEnumerator DoGetHit()
         {
             //Debug.Log("Stopping Agent!~");
-            agent.ResetPath();
+            if (agent.isOnNavMesh)
+                agent.ResetPath();
             agent.velocity = Vector3.zero;
             //agent.enabled = false;
             yield return new WaitForSeconds(.5f);
@@ -861,22 +853,18 @@ namespace Scripting.Customer
             }
             else
             {
-                if (_isThief)
-                {
-                    HuellController.Singleton.Reset(this);
-                }
-
                 Destroy(gameObject);
             }
         }
 
-        private void UnlockAssistant()
+        public void UnlockAssistant()
         {
             if (_lockedAssistant)
             {
                 _lockedAssistant = false;
                 _aiController.AssistantLocked = false;
             }
+
             convoWithAgent = false;
         }
 
@@ -1011,6 +999,21 @@ namespace Scripting.Customer
 
             GameManager.Singleton.ChangeMoneyAmount(value);
             GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, value);
+        }
+
+        public HuellController TargetedFrom { get; set; }
+
+        public bool IsHuellImmune { get; set; }
+
+        public void StopHuell()
+        {
+            TargetedFrom?.StopCurrentTarget();
+        }
+
+        public void RemoveHuellReferences()
+        {
+            IsHuellImmune = true;
+            TargetedFrom = null;
         }
     }
 }

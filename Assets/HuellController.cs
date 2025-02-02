@@ -13,24 +13,6 @@ public class HuellController : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource kickAudio;
-
-    private static HuellController _singleton;
-
-    public static HuellController Singleton
-    {
-        get => _singleton;
-        private set
-        {
-            if (_singleton == null)
-                _singleton = value;
-            else if (_singleton != value)
-            {
-                Debug.Log($"{nameof(HuellController)} instance already exists, destroying duplicate!");
-                Destroy(value);
-            }
-        }
-    }
-
     
     private bool _hitboxVisible;
 
@@ -40,11 +22,7 @@ public class HuellController : MonoBehaviour
 
     private bool _isWalkingOut;
 
-    public void Reset(CustomerMotor customerMotor)
-    {
-        if (!TecMode && _lockedTarget == customerMotor)
-            _lockedTarget = null;
-    }
+    private float _recalculatePathTimer;
 
     public void WalkOut()
     {
@@ -53,7 +31,7 @@ public class HuellController : MonoBehaviour
         animator.SetBool("isWalking", true);
         if (_lockedTarget)
         {
-            _lockedTarget.IsHuellTarget = false;
+            _lockedTarget.TargetedFrom = null;
             _lockedTarget = null;
         }
 
@@ -120,16 +98,16 @@ public class HuellController : MonoBehaviour
             return;
         }
 
+        // NightTime -> Reset
         if (GameManager.Singleton.IsNightTime)
         {
             if (_lockedTarget)
             {
-                _lockedTarget.IsHuellTarget = false;
+                _lockedTarget.TargetedFrom = null;
                 _lockedTarget = null;
             }
 
             _huellmode = Huellmode.OriginalPos;
-
             _timerReconsider = 15f;
 
             if (TecMode)
@@ -166,6 +144,16 @@ public class HuellController : MonoBehaviour
 
         if (_lockedTarget)
         {
+            _recalculatePathTimer -= Time.deltaTime;
+            if (_recalculatePathTimer <= 0.0f)
+            {
+                _recalculatePathTimer = 0.25f;
+                agent.SetDestination(_lockedTarget.transform.position);
+            }
+        }
+        
+        if (_lockedTarget)
+        {
             if (_lockedTarget._runOut || 
                 !_lockedTarget.IsSpraying && !_lockedTarget.IsSneakingOut && !_lockedTarget.IsStealing)
             {
@@ -196,7 +184,7 @@ public class HuellController : MonoBehaviour
 
         _lockedTarget = _customers
             .Where(n => n.IsSpraying || n.IsStealing || n.IsSneakingOut)
-            .Where(n => !n.IsHuellTarget)
+            .Where(n => !n.TargetedFrom && !n.IsHuellImmune)
             .Where(n =>
             {
                 var vec = n.transform.position - transform.position;
@@ -211,7 +199,7 @@ public class HuellController : MonoBehaviour
 
         if (_lockedTarget)
         {
-            _lockedTarget.IsHuellTarget = true;
+            _lockedTarget.TargetedFrom = this;
             animator.SetBool("isWalking", true);
             agent.SetDestination(_lockedTarget.transform.position);
         }
@@ -257,7 +245,7 @@ public class HuellController : MonoBehaviour
 
         if (_lockedTarget)
         {
-            _lockedTarget.IsHuellTarget = false;
+            _lockedTarget.TargetedFrom = null;
             _lockedTarget = null;
         }
 
@@ -288,7 +276,7 @@ public class HuellController : MonoBehaviour
         animator.Play("Attack");
         kickAudio.Play();
 
-        _lockedTarget.IsHuellTarget = false;
+        _lockedTarget.TargetedFrom = null;
         _lockedTarget = null;
 
         animator.SetBool("isWalking", true);
@@ -299,4 +287,11 @@ public class HuellController : MonoBehaviour
     }
 
     private CustomerMotor _lockedTarget;
+
+    public void StopCurrentTarget()
+    {
+        _lockedTarget.RemoveHuellReferences();
+        _lockedTarget = null;
+        _timerReconsider = 0.0f;
+    }
 }

@@ -734,7 +734,7 @@ namespace Scripting.Player
                         {
                             var motor = _clientInteractor.GetComponent<CustomerMotor>();
                             motor.StartConversing();
-                            motor.StopCurrentAction();
+                            motor.UnlockAssistant();
                             
                             _counter += Time.deltaTime;
                             radialIndicatorUI.enabled = true;
@@ -806,38 +806,6 @@ namespace Scripting.Player
             if (StressLevel > 1f)
             {
                 StressLevel = 1f;
-            }
-        }
-
-        // TODO: CHANGE
-        private IEnumerator DoAttack()
-        {
-            var elapsed = 0f;
-
-            var originalTransform = weaponPosition.transform;
-
-            while (elapsed < AnimationDuration / 4)
-            {
-                elapsed += Time.deltaTime;
-                var t = elapsed / AnimationDuration * 2;
-
-                _baseballBat.transform.position = Vector3.Slerp(_baseballBat.transform.position,
-                    attackAnimationTarget.transform.position, t);
-                _baseballBat.transform.rotation = Quaternion.Slerp(_baseballBat.transform.rotation,
-                    attackAnimationTarget.transform.rotation, t);
-                yield return null;
-            }
-
-            while (elapsed < AnimationDuration)
-            {
-                elapsed += Time.deltaTime;
-                var t = elapsed / AnimationDuration;
-
-                _baseballBat.transform.position = Vector3.Slerp(_baseballBat.transform.position,
-                    originalTransform.transform.position, t);
-                _baseballBat.transform.rotation = Quaternion.Slerp(_baseballBat.transform.rotation,
-                    originalTransform.transform.rotation, t);
-                yield return null;
             }
         }
 

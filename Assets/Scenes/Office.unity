@@ -10500,7 +10500,7 @@ MonoBehaviour:
   uiPowerDocumentTEC: {fileID: 731378624}
   uiPowerDocumentEOL: {fileID: 788745225}
   upgrades: {fileID: 11400000, guid: 428cb30234fa46e44b67103fff65a4a7, type: 2}
-  dayLength: 5
+  dayLength: 100
   loanAgreementTime: 30
   devilDealTime: 45
   nightResetsTimer: 0
@@ -10528,7 +10528,7 @@ MonoBehaviour:
   - {fileID: 5771346066556221148, guid: cc0aad5b7e33460459aca110160e969b, type: 3}
   - {fileID: 5676671915349638957, guid: 2f327c824e582f5499fd070d83300b7c, type: 3}
   huell: {fileID: 4988154249118625903, guid: 97b967e55cacbf646bfc8edd0b9984e2, type: 3}
-  numHuells: 15
+  numHuells: 3
   _endOfLifePlan: 0
 --- !u!4 &1035944792
 Transform:

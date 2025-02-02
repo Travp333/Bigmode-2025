@@ -8,6 +8,7 @@ namespace Scripting.Customer
         {
             if (other.TryGetComponent<CustomerMotor>(out var customerMotor))
             {
+                customerMotor.StopHuell();
                 GameManager.Singleton.RemoveCustomer(customerMotor);
             }
             Destroy(other.gameObject);
