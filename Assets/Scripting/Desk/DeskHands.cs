@@ -51,10 +51,12 @@ namespace Scripting.Desk
 
         public Transform GetContractObject()
         {
-            if(Contract){
+            if (Contract)
+            {
                 return Contract.transform.parent;
             }
-            else{
+            else
+            {
                 return null;
             }
         }
@@ -211,7 +213,12 @@ namespace Scripting.Desk
         private void SpawnBall()
         {
             paperBallSound.Play();
-            var ball = Instantiate(paperBallPrefab, GameManager.Singleton.Player.transform.position + Vector3.up * 0.5f, Quaternion.identity);
+
+            var pos = GameManager.Singleton.Player.IsSeated
+                ? Camera.main.transform.position
+                : GameManager.Singleton.Player.transform.position + Vector3.up * 0.5f;
+
+            var ball = Instantiate(paperBallPrefab, pos, Quaternion.identity);
             ball.GetComponent<Rigidbody>().AddForce(this.transform.forward * paperBallSpeed);
             ball.GetComponent<Rigidbody>().AddTorque(this.transform.right * paperBallSpeed);
         }
@@ -227,7 +234,7 @@ namespace Scripting.Desk
             UnblockLeftHand();
             UnblockRightHand();
         }
-        
+
         public void ShowContractUp()
         {
             leftHandAnim.Play("Holding Paper Idle");
