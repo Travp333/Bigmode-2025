@@ -36,6 +36,16 @@ public class BasicMenuManager : MonoBehaviour
 
     private enum PauseStates {Paused, Options, Unpaused}
     private PauseStates state;
+    public void Pause(){
+        state = PauseStates.Unpaused;
+        Time.timeScale = 1;
+        mainMenuButtons.SetActive(false);
+        optionsPanel.SetActive(false);
+        movement.enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        optionsPanel.SetActive(false);
+    }
     private void Awake()
     {
         _oldSensitivity = _newSensitivity = movement.MouseSpeed / 6f;

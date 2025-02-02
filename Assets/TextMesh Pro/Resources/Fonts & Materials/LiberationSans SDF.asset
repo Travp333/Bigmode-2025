@@ -140,7 +140,7 @@ Material:
     - _OutlineOffset2: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineOffset3: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineUVSpeed: {r: 0, g: 0, b: 0, a: 0}
-    - _Softness: {r: 0, g: 0, b: 0, a: 0}
+    - _Softness: {r: 0.282, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _UnderlayColor: {r: 0, g: 0, b: 0, a: 1}
     - _UnderlayOffset: {r: 0, g: 0, b: 0, a: 0}
