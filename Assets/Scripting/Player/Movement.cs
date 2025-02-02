@@ -273,6 +273,7 @@ namespace Scripting.Player
         public void ResetStressLevel()
         {
             StressLevel = 0f;
+            rageModeUIFillBase.fillAmount = StressLevel;
         }
 
         public void ResetContract()
@@ -524,7 +525,6 @@ namespace Scripting.Player
                     rageMode = true;
                     handAnim.Play("RAGEMODE");
                     handAnim.SetBool("RAGE", true);
-                    GameManager.Singleton.StressmeterTooHigh();
                     StressLevel = 0f;
                     Invoke(nameof(EndRageMode), rageModeTimer);
                     chargeBlock = true;
@@ -1028,6 +1028,7 @@ namespace Scripting.Player
         public void SetStressLevel(float value)
         {
             StressLevel = value;
+            rageModeUIFillBase.fillAmount = StressLevel;
         }
 
         public float MouseSpeed

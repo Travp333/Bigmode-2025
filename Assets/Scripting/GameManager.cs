@@ -302,13 +302,6 @@ namespace Scripting
             }
         }
 
-        public void StressmeterTooHigh()
-        {
-            // if (IsNightTime) return;
-            // // Wasted
-            // IsNightTime = true;
-        }
-
         public bool _endOfLifePlan;
 
         private void ResetQuotaMetUI()
