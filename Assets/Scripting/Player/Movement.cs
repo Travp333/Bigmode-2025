@@ -655,8 +655,7 @@ namespace Scripting.Player
                         customer.IsGoodGuy)
                         talk.SetActive(true);
                     _canInteractWithClient = true;
-
-
+                    
                     if (_actionPressed)
                     {
                         if (_currentContract && !_currentContract.GetIsMailBoxContract())
@@ -733,7 +732,10 @@ namespace Scripting.Player
                     {
                         if (_counter < clientConversationLength)
                         {
-                            _clientInteractor.GetComponent<CustomerMotor>().StartConversing();
+                            var motor = _clientInteractor.GetComponent<CustomerMotor>();
+                            motor.StartConversing();
+                            motor.StopCurrentAction();
+                            
                             _counter += Time.deltaTime;
                             radialIndicatorUI.enabled = true;
                             radialIndicatorUI.fillAmount = _counter / clientConversationLength;
