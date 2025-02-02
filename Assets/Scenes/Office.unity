@@ -2571,7 +2571,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 2019643678}
   m_HandleRect: {fileID: 1860271315}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0.5
@@ -3384,7 +3384,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 221738761}
   m_HandleRect: {fileID: 888709612}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0.5
@@ -6448,7 +6448,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1616471567}
   m_HandleRect: {fileID: 92995114}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0.5
@@ -10671,6 +10671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e25b213fb224b5ca2bf1c987493580b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mus: {fileID: 1495703884}
   successScreen: {fileID: 423543515}
   safeMoneyAmountUI: {fileID: 1304940901}
   totalMoneyAmountUI: {fileID: 1970035756}
@@ -17324,7 +17325,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1977335021}
   m_HandleRect: {fileID: 466126372}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0.5
