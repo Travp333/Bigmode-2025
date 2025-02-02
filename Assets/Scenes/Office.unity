@@ -10472,13 +10472,13 @@ MonoBehaviour:
   day8Quota: 120000
   day9Quota: 140000
   day10Quota: 200000
-  day1AISpawnRate: 13.33
-  day2AISpawnRate: 6.665
-  day3AISpawnRate: 6.665
-  day4AISpawnRate: 5.71
-  day5AISpawnRate: 5.71
-  day6AISpawnRate: 5.71
-  day7AISpawnRate: 4
+  day1AISpawnRate: 10
+  day2AISpawnRate: 5
+  day3AISpawnRate: 5
+  day4AISpawnRate: 4
+  day5AISpawnRate: 4
+  day6AISpawnRate: 3
+  day7AISpawnRate: 3
   day8AISpawnRate: 2.6665
   day9AISpawnRate: 2
   day10AISpawnRate: 1.33
@@ -10500,7 +10500,7 @@ MonoBehaviour:
   uiPowerDocumentTEC: {fileID: 731378624}
   uiPowerDocumentEOL: {fileID: 788745225}
   upgrades: {fileID: 11400000, guid: 428cb30234fa46e44b67103fff65a4a7, type: 2}
-  dayLength: 5
+  dayLength: 100
   loanAgreementTime: 30
   devilDealTime: 45
   nightResetsTimer: 0
@@ -11202,7 +11202,7 @@ GameObject:
   - component: {fileID: 1085205900}
   - component: {fileID: 1085205902}
   - component: {fileID: 1085205903}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: BatHitbox
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -15616,6 +15616,10 @@ PrefabInstance:
       value: Bat
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a980b9edf5efe86459eec845b8856921, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a980b9edf5efe86459eec845b8856921, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -15626,6 +15630,10 @@ PrefabInstance:
     - target: {fileID: 8513859187771203891, guid: a980b9edf5efe86459eec845b8856921, type: 3}
       propertyPath: m_Name
       value: BatMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513859187771203891, guid: a980b9edf5efe86459eec845b8856921, type: 3}
+      propertyPath: m_Layer
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 8513859187771203891, guid: a980b9edf5efe86459eec845b8856921, type: 3}
       propertyPath: m_TagString
