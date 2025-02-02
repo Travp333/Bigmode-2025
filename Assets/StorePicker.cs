@@ -33,7 +33,7 @@ public class StorePicker : MonoBehaviour
                     //temp.ShowFlavorText();
                     FlavorTextManager.Singleton.UpdateFlavorText(temp);
 
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetKeyDown(KeyCode.E))
                     {
                         temp.Pressed();
                     }
@@ -47,7 +47,7 @@ public class StorePicker : MonoBehaviour
                 //tempTemp.ShowFlavorText();
                 FlavorTextManager.Singleton.UpdateFlavorText(tempTemp);
 
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
                     tempTemp.Pressed();
                 }
