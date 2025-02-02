@@ -249,7 +249,10 @@ namespace Scripting.Customer
         {
             //talkNoise.Stop();
             _conversing = false; 
-            anim.SetBool("conversing", false);
+            if(anim!=null){
+                anim.SetBool("conversing", false);
+            }
+            
         }
 
         private static bool _tutorialDone;

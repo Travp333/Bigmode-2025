@@ -17,7 +17,12 @@ namespace Scripting
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
+        GameObject successScreen;
+        int finalMoneyTally;
+        [SerializeField]
         GameObject safeMoneyAmountUI;
+        [SerializeField]
+        GameObject totalMoneyAmountUI;
         [SerializeField]
         public int pentagramReward = 25000;
         [SerializeField]
@@ -300,7 +305,7 @@ namespace Scripting
             // IsNightTime = true;
         }
 
-        private bool _endOfLifePlan;
+        public bool _endOfLifePlan;
 
         private void ResetQuotaMetUI()
         {
@@ -327,12 +332,34 @@ namespace Scripting
         void hideSafeMoneyUI2(){
             safeMoneyAmountUI.SetActive(false);
         }
+        
+        void FinalQuotaStep2(){
+            finalMoneyTally = _moneyInSafe;
+            totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$"+finalMoneyTally;
+            _moneyInSafe = 0;
+            safeMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "";
+            Invoke("FinalQuotaStep3", 5f);
+
+        }
+        void FinalQuotaStep3(){
+            finalMoneyTally += upgrades.money;
+            totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$"+finalMoneyTally;
+            ChangeMoneyAmount(- upgrades.money);
+            Invoke("FinalQuotaStep4", 3f);
+        }
+        void FinalQuotaStep4(){
+            if(finalMoneyTally > 1000000){
+                totalMoneyAmountUI.SetActive(false);
+                successScreen.SetActive(true);
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else{
+                PlayDeathScene();
+            }
+        }
 
         public void DayFinished()
         {
-            if(day == 10){
-                //FINAL DAY!!! CHECK FINAL QUOTA!!!
-            }
             IsNightTime = true;
             AiController.Singleton.UnlockEverything();
             SpecialStoreManager.Singleton.SetRandomUpgrade();
@@ -349,6 +376,14 @@ namespace Scripting
                 _increasedMotherfuckerTimer = 0.0f;
                 _decreasedMotherfuckerTimer = 0.0f;
                 _devilTime = 0.0f;
+            }
+
+            if(day == 10){
+                safeMoneyAmountUI.SetActive(true);
+                totalMoneyAmountUI.SetActive(true);
+                //FINAL DAY!!! CHECK FINAL QUOTA!!!
+                Invoke("FinalQuotaStep2", 3f);
+                return;
             }
 
             var todaysQuota = GetCurrentQuota();
@@ -375,6 +410,7 @@ namespace Scripting
                     _moneyInSafe += todaysQuota;
                     upgrades.money = 0;
                     Debug.Log("END OF LIFE PLAN ACTIVATED");
+                    
                 }
                 else
                 {
