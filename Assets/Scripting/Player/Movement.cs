@@ -90,7 +90,7 @@ namespace Scripting.Player
         [SerializeField] private AudioSource myBatSwingSound;
         [SerializeField] private AudioSource myStaplerSound;
 
-        [Header("Graffiti")]
+        [Header("UI TOP")]
         [SerializeField] private GameObject sitDown;
 
         [SerializeField] private GameObject getUp;
@@ -339,6 +339,15 @@ namespace Scripting.Player
 
         private void Update()
         {
+            if (GameManager.Singleton.IsNightTime)
+            { 
+                sitDown.SetActive(false);
+                getUp.SetActive(false);
+                talk.SetActive(false);
+                graffiti.SetActive(false);
+                baseballbat.SetActive(false);
+            }
+            
             if (Physics.Raycast(cam.transform.position, cam.transform.forward,
                     out var hitGraffiti, interactRayLength, graffitiMask))
             {
