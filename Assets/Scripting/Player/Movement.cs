@@ -13,16 +13,21 @@ namespace Scripting.Player
     {
         [SerializeField]
         float documentStressDecrease = .1f;
+
         [SerializeField]
         MusicSwitcher switchMus;
+
         [SerializeField]
         AudioSource RageModeActivate, RageModePassive;
+
         [SerializeField]
         float stressRate = .125f;
+
         private static readonly int HoldingDocument = Animator.StringToHash("HoldingDocument");
 
         [SerializeField]
         Image crosshair;
+
         [SerializeField]
         GameObject RageModeOverlay;
 
@@ -313,10 +318,12 @@ namespace Scripting.Player
             chargeBlock = false;
             RageModeOverlay.SetActive(false);
             RageModePassive.Stop();
-            if(GameManager.Singleton.IsNightTime){
+            if (GameManager.Singleton.IsNightTime)
+            {
                 switchMus.NightTime();
             }
-            else{
+            else
+            {
                 switchMus.DayTime();
             }
         }
@@ -398,7 +405,8 @@ namespace Scripting.Player
                 {
                     crosshair.gameObject.SetActive(false);
                     stressChange /= 2f;
-                    if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) && !_isSmoking && !onPhone)
+                    if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) ||
+                         Input.GetKeyDown(KeyCode.D)) && !_isSmoking && !onPhone)
                     {
                         var contract = bothArmsScript.GetContractObject();
 
@@ -451,7 +459,7 @@ namespace Scripting.Player
 
                     if (onPhone)
                     {
-                        phone.ConversationEndEarly();
+                        phone.ConversationEndEarly(true);
                     }
 
                     if (_currentContract)
@@ -505,10 +513,12 @@ namespace Scripting.Player
 
             if (BlockAction)
                 return;
-            if(chargeBlock){
+            if (chargeBlock)
+            {
                 rb.AddForce(this.transform.forward * (1000f * Time.deltaTime));
             }
-            else{
+            else
+            {
                 var moveInput = _playerInput.Game.Move.ReadValue<Vector2>();
                 var move = transform.right * moveInput.x + transform.forward * moveInput.y;
 
@@ -526,6 +536,7 @@ namespace Scripting.Player
                     handAnim.SetBool("Walking", false);
                 }
             }
+
             var lookDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSpeed;
             var mouseX = lookDelta.x;
             var mouseY = lookDelta.y;
@@ -608,6 +619,7 @@ namespace Scripting.Player
                         talk.SetActive(true);
                         //INTERACT UI HERE
                     }
+
                     if (_actionPressed)
                     {
                         if (_currentContract)
@@ -623,13 +635,16 @@ namespace Scripting.Player
 
                 if (hit.transform.gameObject.CompareTag("Mailbox"))
                 {
-                    if(_currentContract){
-                        if(_currentContract.name == "ds" || _currentContract.name == "la" || _currentContract.name == "tec" || _currentContract.name == "eel"){
+                    if (_currentContract)
+                    {
+                        if (_currentContract.name == "ds" || _currentContract.name == "la" ||
+                            _currentContract.name == "tec" || _currentContract.name == "eel")
+                        {
                             //INTERACT UI HERE
                             talk.SetActive(true);
                         }
                     }
-                    
+
                     if (_actionPressed)
                     {
                         if (_currentContract && _currentContract.GetIsMailBoxContract())
@@ -655,7 +670,7 @@ namespace Scripting.Player
                         customer.IsGoodGuy)
                         talk.SetActive(true);
                     _canInteractWithClient = true;
-                    
+
                     if (_actionPressed)
                     {
                         if (_currentContract && !_currentContract.GetIsMailBoxContract())
@@ -735,7 +750,7 @@ namespace Scripting.Player
                             var motor = _clientInteractor.GetComponent<CustomerMotor>();
                             motor.StartConversing();
                             motor.UnlockAssistant();
-                            
+
                             _counter += Time.deltaTime;
                             radialIndicatorUI.enabled = true;
                             radialIndicatorUI.fillAmount = _counter / clientConversationLength;
