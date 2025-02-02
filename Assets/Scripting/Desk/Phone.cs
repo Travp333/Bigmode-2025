@@ -229,11 +229,5 @@ namespace Scripting.Desk
             player.NotifyPhoneStopped();
             phoneAnim.Play("Phone Not Ringing");
         }
-
-        private void OnGUI()
-        {
-            if (_isRinging)
-                GUI.Label(new Rect(5, Screen.height / 2f, 200, 50), "RING RING RING RING RING - BANANAPHONE");
-        }
     }
 }
