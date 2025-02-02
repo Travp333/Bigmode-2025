@@ -290,7 +290,7 @@ public class HuellController : MonoBehaviour
 
     public void StopCurrentTarget()
     {
-        _lockedTarget.RemoveHuellReferences();
+        _lockedTarget?.RemoveHuellReferences();
         _lockedTarget = null;
         _timerReconsider = 0.0f;
     }
