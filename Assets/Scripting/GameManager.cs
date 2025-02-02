@@ -17,6 +17,8 @@ namespace Scripting
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
+        MusicSwitcher mus;
+        [SerializeField]
         GameObject successScreen;
         int finalMoneyTally;
         [SerializeField]
@@ -606,6 +608,7 @@ namespace Scripting
 
         public void PlayDeathScene()
         {
+            mus.gameObject.SetActive(false);
             wastedScreen.SetActive(true);
             Debug.Log("DEAD");
             Cursor.lockState = CursorLockMode.Locked;
