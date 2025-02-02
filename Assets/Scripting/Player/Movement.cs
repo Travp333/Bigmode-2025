@@ -11,10 +11,16 @@ namespace Scripting.Player
     [SelectionBase]
     public class Movement : MonoBehaviour
     {
+        [SerializeField]
+        AudioSource RageModeActivate, RageModePassive;
+        [SerializeField]
+        float stressRate = .125f;
         private static readonly int HoldingDocument = Animator.StringToHash("HoldingDocument");
 
         [SerializeField]
         Image crosshair;
+        [SerializeField]
+        GameObject RageModeOverlay;
 
         [SerializeField]
         Image rageModeUIFrontBase, rageModeUIFrontOVERFULL, rageModeUIFillBase, rageModeUIFillOVERFULL;
@@ -125,6 +131,7 @@ namespace Scripting.Player
 
         [SerializeField] private float rageModeTimer = 5f;
 
+        bool chargeBlock;
 
         private bool _mailboxTutorial;
         private bool _customerTutorial;
@@ -299,6 +306,9 @@ namespace Scripting.Player
             rageModeUIFrontBase.gameObject.SetActive(true);
             rageModeUIFillOVERFULL.gameObject.SetActive(false);
             rageModeUIFrontOVERFULL.gameObject.SetActive(false);
+            chargeBlock = false;
+            RageModeOverlay.SetActive(false);
+            RageModePassive.Stop();
         }
 
         private void Update()
@@ -372,7 +382,7 @@ namespace Scripting.Player
 
             else
             {
-                var stressChange = 0.025f / 2f;
+                var stressChange = stressRate;
 
                 if (_seated)
                 {
@@ -474,33 +484,41 @@ namespace Scripting.Player
                     GameManager.Singleton.StressmeterTooHigh();
                     StressLevel = 0f;
                     Invoke(nameof(EndRageMode), rageModeTimer);
+                    chargeBlock = true;
+                    RageModeOverlay.SetActive(true);
+                    RageModeActivate.Play();
+                    RageModePassive.Play();
                 }
             }
 
+
             if (BlockAction)
                 return;
+            if(chargeBlock){
+                rb.AddForce(this.transform.forward * (1000f * Time.deltaTime));
+            }
+            else{
+                var moveInput = _playerInput.Game.Move.ReadValue<Vector2>();
+                var move = transform.right * moveInput.x + transform.forward * moveInput.y;
 
-            var moveInput = _playerInput.Game.Move.ReadValue<Vector2>();
+                var vector = move * moveSpeed;
+                vector.y = rb.linearVelocity.y;
+
+                rb.linearVelocity = vector;
+
+                if (rb.linearVelocity.magnitude > 0.5f)
+                {
+                    handAnim.SetBool("Walking", true);
+                }
+                else
+                {
+                    handAnim.SetBool("Walking", false);
+                }
+            }
             var lookDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSpeed;
-
             var mouseX = lookDelta.x;
             var mouseY = lookDelta.y;
 
-            var move = transform.right * moveInput.x + transform.forward * moveInput.y;
-
-            var vector = move * moveSpeed;
-            vector.y = rb.linearVelocity.y;
-
-            rb.linearVelocity = vector;
-
-            if (rb.linearVelocity.magnitude > 0.5f)
-            {
-                handAnim.SetBool("Walking", true);
-            }
-            else
-            {
-                handAnim.SetBool("Walking", false);
-            }
 
             _rotationX -= mouseY;
             _rotationX = Mathf.Clamp(_rotationX, -80f, 80f);
@@ -508,7 +526,7 @@ namespace Scripting.Player
             cam.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
             transform.Rotate(Vector3.up * mouseX);
 
-            if (_isInChairTrigger && !GameManager.Singleton.IsNightTime)
+            if (_isInChairTrigger && !GameManager.Singleton.IsNightTime && !rageMode)
             {
                 var contract = GetComponentInChildren<Contract>();
                 if (contract)

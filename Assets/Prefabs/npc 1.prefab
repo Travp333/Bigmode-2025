@@ -1258,7 +1258,7 @@ MonoBehaviour:
   rb: {fileID: 3146073703665844778}
   agent: {fileID: 1623644130164691735}
   secondsUntilFreakOut: 20
-  secondsUntilChangeActivity: 5
+  secondsUntilChangeActivity: 10
   capsuleCollider: {fileID: 8198007597448793542}
   converseVariantProbability: 2
   bubble: {fileID: 859963898901128025}

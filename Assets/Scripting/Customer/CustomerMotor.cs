@@ -131,8 +131,8 @@ namespace Scripting.Customer
             Id = NextId++;
 
             // DUDE i don't want to set it on every NPC so i set it here as hardcode bruv
-            secondsUntilFreakOut = 60;
-            secondsUntilChangeActivity = 10;
+            //secondsUntilFreakOut = 60;
+            //secondsUntilChangeActivity = 10;
             //needed to find direction to face
             _player = FindFirstObjectByType<Movement>();
             //needed to affect animations
