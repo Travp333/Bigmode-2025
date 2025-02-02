@@ -235,7 +235,7 @@ namespace Scripting
             dayTrackerUI.text = "DAY " + day + "/ 10";
             doorAnim.SetBool("opened", false);
             IsNightTime = false;
-
+            //Debug.Log("Switching to Night mode!");
             shiftManager.SetIsNightTime(false);
             _dayTimer = dayLength;
 
@@ -244,7 +244,7 @@ namespace Scripting
 
         private void Update()
         {
-            Debug.Log(IsNightTime);
+            //Debug.Log(IsNightTime);
             if (IsNightTime)
             {
                 doorAnim.SetBool("opened", true);

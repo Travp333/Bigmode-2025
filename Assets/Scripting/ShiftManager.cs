@@ -121,6 +121,7 @@ namespace Scripting
 
             if (!value && _isNightTime)
             {
+                //Debug.Log("NIGHT");
                 _isNightTime = false;
                 StartCoroutine(AnimateToDayTime());
             }
