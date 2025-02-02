@@ -104,10 +104,11 @@ namespace Scripting.Desk
                             player.NotifyOnPhone();
                         }
                     }
+                    return;
                 }
             }
 
-            if (player.onPhone && Input.GetMouseButtonDown(1))
+            if (player.onPhone && Input.GetMouseButtonDown(0))
             {
                 _deskArms.UnblockLeftHand();
                 ConversationEndEarly();

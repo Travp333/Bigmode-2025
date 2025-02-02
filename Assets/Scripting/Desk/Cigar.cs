@@ -38,7 +38,7 @@ namespace Scripting.Desk
                 RunStopSmoking();
             }
 
-            if (_isSmoking && Input.GetMouseButtonDown(1))
+            if (_isSmoking && Input.GetMouseButtonDown(0))
             {
                 RunStopSmoking();
             }

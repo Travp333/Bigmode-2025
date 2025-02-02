@@ -749,29 +749,18 @@ namespace Scripting.Customer
 
         public void GetHit()
         {
-            _done = true;
-            _runOut = true;
-            _conversing = false;
+           // _done = true;
+            //_runOut = true;
+            //_conversing = false;
 
             Unsit();
-            UnlockAssistant();
-
-            Debug.Log("GOT HIT");
-
-            StartCoroutine(DoGetHit());
-        }
-
-        private IEnumerator DoGetHit()
-        {
-            //Debug.Log("Stopping Agent!~");
+            //UnlockAssistant();
+            Debug.Log("GOT HIT "+ Id);
             if (agent.isOnNavMesh)
-                agent.ResetPath();
-            agent.velocity = Vector3.zero;
-            //agent.enabled = false;
-            yield return new WaitForSeconds(.5f);
-            //agent.enabled = true;
-            // agent.isStopped = false;
+            agent.ResetPath();
+            //RunOut();
         }
+
 
         private void OnCollisionEnter(Collision collision)
         {
