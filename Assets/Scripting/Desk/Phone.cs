@@ -107,8 +107,8 @@ namespace Scripting.Desk
             if (player.onPhone)
             {
                 handAnim.Play("Dropping Phone");
+                handAnim.GetComponent<PhoneReferenceHolder>().HangupPhone();
                 Invoke(nameof(ConversationNOReward), 1f);
-
             }
         }
 
