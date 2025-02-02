@@ -36,6 +36,8 @@ namespace Scripting.Desk
 
         private void Update()
         {
+            if (_block) return;
+
             if (Input.GetMouseButtonDown(0) && player.CanAct())
             {
                 if (player.HasContract) return;
@@ -46,6 +48,7 @@ namespace Scripting.Desk
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
+                        _block = true;
                         myPaperSound.Play();
                         leftHandAnim.Play("Grabbing Paper");
                         deskHands.GetComponent<DeskArms>().BlockLeftHand();
@@ -55,8 +58,10 @@ namespace Scripting.Desk
             }
         }
 
+        private bool _block;
+
         private bool _tutorialGrabbed;
-        
+
         private void GrabPaper()
         {
             if (!_tutorialGrabbed)
@@ -64,11 +69,12 @@ namespace Scripting.Desk
                 _tutorialGrabbed = true;
                 TutorialManager.Singleton.ShowOrderNumber(3, true);
             }
-            
+
             var obj = Instantiate(contract, attachPoint.transform).GetComponentInChildren<Contract>();
             obj.SetActive(true);
 
             player.SetActiveContract(obj);
+            _block = false;
         }
     }
 }
