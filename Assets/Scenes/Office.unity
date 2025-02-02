@@ -19475,7 +19475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2846db2b77248de4b9b3c9902580ef24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  documentStressDecrease: -0.16
+  documentStressDecrease: -0.12
   switchMus: {fileID: 1495703884}
   RageModeActivate: {fileID: 1953529840}
   RageModePassive: {fileID: 1953529841}
