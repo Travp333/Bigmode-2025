@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Scripting.Customer;
 using Scripting.Desk;
 using Scripting.Objects;
@@ -12,7 +14,7 @@ namespace Scripting.Player
     public class Movement : MonoBehaviour
     {
         [SerializeField]
-        float documentStressDecrease = .1f;
+        float documentStressDecrease = -.2f;
 
         [SerializeField]
         MusicSwitcher switchMus;
@@ -230,6 +232,13 @@ namespace Scripting.Player
             _playerInput.Game.Action.canceled += ActionReleased;
         }
 
+        private AiController _aiController;
+        
+        private void Start()
+        {
+            _aiController = AiController.Singleton;
+        }
+        
         private void OnEnable()
         {
             _playerInput?.Enable();
@@ -427,17 +436,22 @@ namespace Scripting.Player
                 {
                     stressChange = 0f;
                 }
-
-                if (_phoneRinging)
+                else
                 {
-                    stressChange *= 1.5f;
+                    if (_phoneRinging)
+                    {
+                        stressChange *= 1.1f;
+                    }
+
+                    if (_isSmoking)
+                    {
+                        stressChange -= 0.15f;
+                    }
+
+                    stressChange += _aiController.VandalismSpotList.Count(n => n.IsVisible) * 0.005f;
                 }
 
-                if (_isSmoking)
-                {
-                    stressChange -= 0.15f;
-                }
-
+               
                 StressLevel += Time.deltaTime * stressChange;
 
                 if (StressLevel < 0.0f)

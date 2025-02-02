@@ -37,6 +37,8 @@ namespace Scripting.Customer
 
         public bool AssistantLocked { get; set; }
 
+        public List<VandalismSpot> VandalismSpotList => vandalismSpots;
+
         public void UnlockEverything()
         {
             AssistantLocked = false;
@@ -62,12 +64,6 @@ namespace Scripting.Customer
         public void AddDistractionSpots(List<AiSpot> aiSpots)
         {
             _distractionSpots.AddRange(aiSpots);
-            foreach (AiSpot aiSpot in aiSpots)
-            {
-                if (aiSpot.isChair)
-                {
-                }
-            }
         }
 
         private void Awake()

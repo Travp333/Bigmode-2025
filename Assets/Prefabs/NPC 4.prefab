@@ -795,7 +795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ded3b1a105843488577c9ceeba7841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  day1BadClientSpawnOdds: 10
+  day1BadClientSpawnOdds: 0
   day2BadClientSpawnOdds: 8
   day3BadClientSpawnOdds: 8
   day4BadClientSpawnOdds: 7
