@@ -110,13 +110,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4361766486008417579}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.009024855, y: -0.7458561, z: 0.0017869384, w: 0.6660435}
-  m_LocalPosition: {x: 0.017026529, y: 0.3179405, z: 0.3290577}
+  m_LocalRotation: {x: -0.8158569, y: -0.011824798, z: 0.042295102, w: 0.57658374}
+  m_LocalPosition: {x: 0.018, y: 0.318, z: 0.328}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5586712193555653484}
-  m_LocalEulerAnglesHint: {x: -0.536, y: -96.475, z: 0.908}
+  m_LocalEulerAnglesHint: {x: -70.021, y: 193.999, z: -191.491}
 --- !u!1001 &3505775069458042299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -719,6 +719,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ded3b1a105843488577c9ceeba7841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  day1BadClientSpawnOdds: 0
+  day2BadClientSpawnOdds: 7
+  day3BadClientSpawnOdds: 7
+  day4BadClientSpawnOdds: 7
+  day5BadClientSpawnOdds: 6
+  day6BadClientSpawnOdds: 6
+  day7BadClientSpawnOdds: 5
+  day8BadClientSpawnOdds: 4
+  day9BadClientSpawnOdds: 4
+  day10BadClientSpawnOdds: 4
+  day1NPCReward: 4000
+  day2NPCReward: 11166
+  day3NPCReward: 11166
+  day4NPCReward: 12014
+  day5NPCReward: 14014
+  day6NPCReward: 15485
+  day7NPCReward: 14300
+  day8NPCReward: 14266
+  day9NPCReward: 14500
+  day10NPCReward: 18200
   talkNoise: {fileID: 4414163730678708313}
   myJingle: {fileID: 1087945252761836088}
   burlapSack: {fileID: 479166171442491527}

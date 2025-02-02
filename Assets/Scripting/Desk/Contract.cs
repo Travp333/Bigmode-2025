@@ -378,14 +378,16 @@ namespace Scripting.Desk
         // "returns true or false if was power effect"
         public bool ExecuteEffect(CustomerMotor customer, Movement player)
         {
-            player.ChangeStressLevel(-0.25f);
+            player.ChangeStressLevel();
 
             if (GetIsPowerContract())
             {
                 customer.Pay();
                 switch (Result)
                 {
+                    
                     case "pentagramm":
+                        GameManager.Singleton.ChangeMoneyAmount(GameManager.Singleton.pentagramReward + Random.Range(-1000, 1000));
                         GameManager.Singleton.DoPentagrammLogic();
                         GameManager.Singleton.RemoveCustomer(customer);
                         customer.gameObject.GetComponent<LaunchDetection>().GetHellGrabbed();

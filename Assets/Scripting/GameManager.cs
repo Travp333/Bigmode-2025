@@ -16,7 +16,13 @@ namespace Scripting
 {
     public class GameManager : MonoBehaviour
     {
-        int day = 0;
+        [SerializeField]
+        public int pentagramReward = 25000;
+        [SerializeField]
+        int day1Quota = 15000, day2Quota = 30000, day3Quota = 40000, day4Quota = 50000, day5Quota = 70000, day6Quota = 90000, day7Quota = 100000, day8Quota = 120000, day9Quota = 140000, day10Quota = 200000;
+        [SerializeField]
+        float  day1AISpawnRate = 13.33f, day2AISpawnRate = 13.33f, day3AISpawnRate = 13.33f, day4AISpawnRate = 11.42f, day5AISpawnRate = 11.42f, day6AISpawnRate = 11.42f, day7AISpawnRate = 8, day8AISpawnRate = 5.333f, day9AISpawnRate = 4, day10AISpawnRate = 2.66f;
+        public int day = 0;
         [SerializeField]
         TextMeshProUGUI dayTrackerUI;
         [SerializeField]
@@ -99,6 +105,8 @@ namespace Scripting
         private int _level = 1;
         private float _loanAgreementRunning;
         private int _moneyInSafe = 200;
+        float aiSpawnRateCounter = 10f;
+        float aiSpawnRate;
 
         private static GameManager _singleton;
 
@@ -158,7 +166,7 @@ namespace Scripting
         {
             SpecialStoreManager.Singleton.SetRandomUpgrade();
             shiftManager.SetIsNightTime(true);
-            QuotaUI.text = "Today's Quota: $" + GetCurrentQuota();
+            
         }
 
         private IEnumerator FadeOut()
@@ -178,13 +186,50 @@ namespace Scripting
         }
 
         private float _dayTimer;
-        private float _spawnTimer;
+        
 
         public bool IsNightTime { get; private set; }
 
         public void StartDay()
         {
             day++;
+            QuotaUI.text = "Today's Quota: $" + GetCurrentQuota();
+            if(day ==1){
+                aiSpawnRateCounter = day1AISpawnRate;
+            }
+            else if(day ==2){
+                aiSpawnRateCounter = day2AISpawnRate;
+            }
+            else if(day ==3){
+                aiSpawnRateCounter = day3AISpawnRate;
+            }
+            else if(day ==4){
+                aiSpawnRateCounter = day4AISpawnRate;
+            }
+            else if(day ==5){
+                aiSpawnRateCounter = day5AISpawnRate;
+            }
+            else if(day ==6){
+                aiSpawnRateCounter = day6AISpawnRate;
+            }
+            else if(day ==7){
+                aiSpawnRateCounter = day7AISpawnRate;
+            }
+            else if(day ==8){
+                aiSpawnRateCounter = day8AISpawnRate;
+            }
+            else if(day ==9){
+                aiSpawnRateCounter = day9AISpawnRate;
+            }
+            else if(day ==10){
+                aiSpawnRateCounter = day10AISpawnRate;
+            }
+            else {
+                //ERROR, DAY 11, 
+            }
+            //aiSpawnRate = aiSpawnRateCounter;
+            
+            
             dayTrackerUI.text = "DAY " + day + "/ 10";
             doorAnim.SetBool("opened", false);
             IsNightTime = false;
@@ -208,7 +253,7 @@ namespace Scripting
             _increasedMotherfuckerTimer -= Time.deltaTime;
             _decreasedMotherfuckerTimer -= Time.deltaTime;
             _devilTime -= Time.deltaTime;
-            _spawnTimer -= Time.deltaTime;
+            aiSpawnRate -= Time.deltaTime;
 
             if (_loanAgreementRunning < 0f)
             {
@@ -243,9 +288,9 @@ namespace Scripting
                 Bankrupt();
             }
 
-            if (_spawnTimer <= 0)
+            if (aiSpawnRate <= 0)
             {
-                _spawnTimer = 10.0f;
+                aiSpawnRate = aiSpawnRateCounter;
                 SpawnCustomer();
             }
         }
@@ -287,7 +332,9 @@ namespace Scripting
 
         public void DayFinished()
         {
-
+            if(day == 10){
+                //FINAL DAY!!! CHECK FINAL QUOTA!!!
+            }
             IsNightTime = true;
             AiController.Singleton.UnlockEverything();
             SpecialStoreManager.Singleton.SetRandomUpgrade();
@@ -345,7 +392,38 @@ namespace Scripting
 
         public int GetCurrentQuota()
         {
-            return 40000 * (int) Math.Ceiling(Mathf.Pow(1.165f, _level - 1));
+            if(day ==1){
+                return day1Quota;
+            }
+            else if(day ==2){
+                return day2Quota;
+            }
+            else if(day ==3){
+                return day3Quota;
+            }
+            else if(day ==4){
+                return day4Quota;
+            }
+            else if(day ==5){
+                return day5Quota;
+            }
+            else if(day ==6){
+                return day6Quota;
+            }
+            else if(day ==7){
+                return day7Quota;
+            }
+            else if(day ==8){
+                return day8Quota;
+            }
+            else if(day ==9){
+                return day9Quota;
+            }
+            else if(day ==10){
+                return day10Quota;
+            }
+            else return 0;
+            //return 40000 * (int) Math.Ceiling(Mathf.Pow(1.165f, _level - 1));
         }
 
         public void SpawnCustomer()

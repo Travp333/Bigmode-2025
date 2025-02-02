@@ -1145,6 +1145,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072b083a0370ba84ebd4685992b34b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  day1PhoneReward: 8333
+  day2PhoneReward: 11166
+  day3PhoneReward: 11166
+  day4PhoneReward: 12014
+  day5PhoneReward: 14014
+  day6PhoneReward: 15485
+  day7PhoneReward: 14300
+  day8PhoneReward: 14266
+  day9PhoneReward: 14500
+  day10PhoneReward: 18200
   phoneAnim: {fileID: 604574340}
   phoneCallLowerBound: 6
   phoneCallUpperBound: 15
@@ -7114,7 +7124,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Today''s Quota: $X'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5322e54d2da91474980aac0f30cc452f, type: 2}
   m_sharedMaterial: {fileID: -4397672653281802442, guid: 5322e54d2da91474980aac0f30cc452f, type: 2}
@@ -7141,7 +7151,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.55
+  m_fontSize: 32.73
   m_fontSizeBase: 59.7
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9825,6 +9835,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e25b213fb224b5ca2bf1c987493580b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  day1Quota: 15000
+  day2Quota: 30000
+  day3Quota: 40000
+  day4Quota: 50000
+  day5Quota: 70000
+  day6Quota: 90000
+  day7Quota: 100000
+  day8Quota: 120000
+  day9Quota: 140000
+  day10Quota: 200000
+  day1AISpawnRate: 13.33
+  day2AISpawnRate: 13.33
+  day3AISpawnRate: 13.33
+  day4AISpawnRate: 11.42
+  day5AISpawnRate: 11.42
+  day6AISpawnRate: 11.42
+  day7AISpawnRate: 8
+  day8AISpawnRate: 5.333
+  day9AISpawnRate: 4
+  day10AISpawnRate: 2.66
+  day: 0
   dayTrackerUI: {fileID: 537675869}
   EOLScreen: {fileID: 1743224566}
   wastedScreen: {fileID: 509939798}
@@ -17717,10 +17748,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2846db2b77248de4b9b3c9902580ef24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  documentStressDecrease: -0.1
   switchMus: {fileID: 1495703884}
   RageModeActivate: {fileID: 1953529840}
   RageModePassive: {fileID: 1953529841}
-  stressRate: 0.02
+  stressRate: 0.015
   crosshair: {fileID: 1449593428}
   RageModeOverlay: {fileID: 953526614}
   rageModeUIFrontBase: {fileID: 799386582}

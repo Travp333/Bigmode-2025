@@ -68,7 +68,7 @@ public class LaunchDetection : MonoBehaviour
         var portal = Instantiate(hellPortalPrefab, this.transform.position, Quaternion.identity);
         portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMesh = myMesh.sharedMesh;
         portal.GetComponent<PortalManager>().mesh.GetComponent<SkinnedMeshRenderer>().sharedMaterials =
-            myMesh.sharedMaterials;
+        myMesh.sharedMaterials;
         portal.transform.localScale = this.transform.localScale;
         Destroy(this.gameObject);
     }

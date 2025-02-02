@@ -12,6 +12,8 @@ namespace Scripting.Player
     public class Movement : MonoBehaviour
     {
         [SerializeField]
+        float documentStressDecrease = .1f;
+        [SerializeField]
         MusicSwitcher switchMus;
         [SerializeField]
         AudioSource RageModeActivate, RageModePassive;
@@ -601,6 +603,7 @@ namespace Scripting.Player
 
                 if (hit.transform.gameObject.CompareTag("Trashcan"))
                 {
+                    //INTERACT UI HERE
                     if (_actionPressed)
                     {
                         if (_currentContract)
@@ -616,6 +619,7 @@ namespace Scripting.Player
 
                 if (hit.transform.gameObject.CompareTag("Mailbox"))
                 {
+                    //INTERACT UI HERE
                     if (_actionPressed)
                     {
                         if (_currentContract && _currentContract.GetIsMailBoxContract())
@@ -662,6 +666,7 @@ namespace Scripting.Player
                             var attachment = _currentContract.transform.parent;
                             attachment.parent = customer.documentAttachPoint.transform;
                             attachment.position = customer.documentAttachPoint.transform.position;
+                            attachment.rotation = customer.documentAttachPoint.transform.rotation;
                             attachment.localScale = Vector3.one / 2.0f;
                             //Debug.Log("Interacting with document!");
                             //RemoveContract();
@@ -777,9 +782,9 @@ namespace Scripting.Player
             staplerMesh.SetActive(false);
         }
 
-        public void ChangeStressLevel(float value)
+        public void ChangeStressLevel()
         {
-            StressLevel += value;
+            StressLevel += documentStressDecrease;
             if (StressLevel < 0f)
             {
                 StressLevel = 0f;

@@ -6,6 +6,8 @@ namespace Scripting.Desk
     public class Phone : MonoBehaviour
     {
         [SerializeField]
+        int day1PhoneReward = 8333, day2PhoneReward = 11166, day3PhoneReward = 11166, day4PhoneReward = 12014, day5PhoneReward = 14014, day6PhoneReward = 15485, day7PhoneReward = 14300, day8PhoneReward = 14266, day9PhoneReward = 14500, day10PhoneReward = 18200;
+        [SerializeField]
         Animator phoneAnim;
         [SerializeField] private float phoneCallLowerBound, phoneCallUpperBound;
         private bool callBlocker;
@@ -25,6 +27,7 @@ namespace Scripting.Desk
 
         // Update is called once per frame
         private float _telephoneTimer;
+        int value;
 
         private void Awake()
         {
@@ -138,8 +141,40 @@ namespace Scripting.Desk
             player.NotifyNotOnPhone();
             myPhonePutdown.Play();
             myPhoneDialogue.Stop();
-            var value = Random.Range(7500, 10000) * (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
 
+            if(GameManager.Singleton.day ==1){
+                value = day1PhoneReward + Random.Range(-1000, 1000)* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            }
+            else if(GameManager.Singleton.day ==2){
+                value = day2PhoneReward+ Random.Range(-1000, 1000)* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            }
+            else if(GameManager.Singleton.day ==3){
+                value = day3PhoneReward+ Random.Range(-1000, 1000)* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            }
+            else if(GameManager.Singleton.day ==4){
+                value = day4PhoneReward+ Random.Range(-1000, 1000)* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            }
+            else if(GameManager.Singleton.day ==5){
+                value = day5PhoneReward+ Random.Range(-1000, 1000)* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            }
+            else if(GameManager.Singleton.day ==6){
+                value = day6PhoneReward+ Random.Range(-1000, 1000)* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            }
+            else if(GameManager.Singleton.day ==7){
+                value = day7PhoneReward+ Random.Range(-1000, 1000)* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            }
+            else if(GameManager.Singleton.day ==8){
+                value = day8PhoneReward+ Random.Range(-1000, 1000)* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            }
+            else if(GameManager.Singleton.day ==9){
+                value = day9PhoneReward+ Random.Range(-1000, 1000)* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            }
+            else if(GameManager.Singleton.day ==10){
+                value = day10PhoneReward+ Random.Range(-1000, 1000)* (GameManager.Singleton.IsLoanAgreementRunning ? 2 : 1);
+            }
+            else {
+                value = 0; //error day 11 
+            }
             //GameManager.Singleton.upgrades.money += value;
             GameManager.Singleton.ChangeMoneyAmount(value);
         }
