@@ -592,20 +592,20 @@ MonoBehaviour:
   talkNoise: {fileID: -504215025114838590}
   myJingle: {fileID: -3589184280247010083}
   burlapSack: {fileID: 6101098374141298779}
-  assistantConvoTime: 5
+  assistantConvoTime: 8
   documentAttachPoint: {fileID: 7645910361393159890}
   rb: {fileID: 378181778106604756}
   agent: {fileID: 5416921607039692496}
-  secondsUntilFreakOut: 20
-  secondsUntilChangeActivity: 5
+  secondsUntilFreakOut: 35
+  secondsUntilChangeActivity: 10
   capsuleCollider: {fileID: 1720649301871825372}
   converseVariantProbability: 2
   bubble: {fileID: 7514170433643771247}
   anim: {fileID: 4878621472466373647}
   _runOut: 0
   _sneakOut: 0
-  vandalSpawnOdds: 6
-  thiefSpawnOdds: 6
+  vandalSpawnOdds: 10
+  thiefSpawnOdds: 10
   TutorialBubble: {fileID: 4295416334625497309}
 --- !u!136 &1720649301871825372
 CapsuleCollider:

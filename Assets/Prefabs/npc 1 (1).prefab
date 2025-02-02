@@ -879,20 +879,20 @@ MonoBehaviour:
   talkNoise: {fileID: 5187932107246826449}
   myJingle: {fileID: 6449102050101646033}
   burlapSack: {fileID: 278156173945454511}
-  assistantConvoTime: 5
+  assistantConvoTime: 8
   documentAttachPoint: {fileID: 5722818484616649168}
   rb: {fileID: 7316930679552924201}
   agent: {fileID: 1662477265673379271}
-  secondsUntilFreakOut: 20
-  secondsUntilChangeActivity: 5
+  secondsUntilFreakOut: 35
+  secondsUntilChangeActivity: 10
   capsuleCollider: {fileID: 623774053397015621}
   converseVariantProbability: 2
   bubble: {fileID: 7053971462575400686}
   anim: {fileID: 6883057602898160709}
   _runOut: 0
   _sneakOut: 0
-  vandalSpawnOdds: 6
-  thiefSpawnOdds: 6
+  vandalSpawnOdds: 10
+  thiefSpawnOdds: 10
   TutorialBubble: {fileID: 284430512717164410}
 --- !u!136 &623774053397015621
 CapsuleCollider:

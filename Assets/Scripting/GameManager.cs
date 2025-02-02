@@ -16,6 +16,9 @@ namespace Scripting
 {
     public class GameManager : MonoBehaviour
     {
+        int day = 0;
+        [SerializeField]
+        TextMeshProUGUI dayTrackerUI;
         [SerializeField]
         GameObject EOLScreen;
         [SerializeField]
@@ -181,6 +184,8 @@ namespace Scripting
 
         public void StartDay()
         {
+            day++;
+            dayTrackerUI.text = "DAY " + day + "/ 10";
             doorAnim.SetBool("opened", false);
             IsNightTime = false;
 
@@ -282,6 +287,7 @@ namespace Scripting
 
         public void DayFinished()
         {
+
             IsNightTime = true;
             AiController.Singleton.UnlockEverything();
             SpecialStoreManager.Singleton.SetRandomUpgrade();

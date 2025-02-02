@@ -109,7 +109,7 @@ namespace Scripting.Player
         private VandalismSpot _currentGraffiti;
 
         private float _counter = 0f;
-        private float _counterMax = 1.5f;
+        [SerializeField] float clientConversationLength = 1.5f;
 
         private float _graffitiRemoveCounter = 1.5f;
 
@@ -715,12 +715,12 @@ namespace Scripting.Player
                     if (Vector3.Distance(transform.position, _clientInteractor.transform.position) <
                         clientInteractDistance)
                     {
-                        if (_counter < _counterMax)
+                        if (_counter < clientConversationLength)
                         {
                             _clientInteractor.GetComponent<CustomerMotor>().StartConversing();
                             _counter += Time.deltaTime;
                             radialIndicatorUI.enabled = true;
-                            radialIndicatorUI.fillAmount = _counter / _counterMax;
+                            radialIndicatorUI.fillAmount = _counter / clientConversationLength;
                         }
                         else
                         {

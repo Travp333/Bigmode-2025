@@ -1253,11 +1253,11 @@ MonoBehaviour:
   talkNoise: {fileID: 5703301215413341313}
   myJingle: {fileID: 9085111203225683527}
   burlapSack: {fileID: 4042455961596595698}
-  assistantConvoTime: 5
+  assistantConvoTime: 8
   documentAttachPoint: {fileID: 7867324926524862912}
   rb: {fileID: 3146073703665844778}
   agent: {fileID: 1623644130164691735}
-  secondsUntilFreakOut: 20
+  secondsUntilFreakOut: 35
   secondsUntilChangeActivity: 10
   capsuleCollider: {fileID: 8198007597448793542}
   converseVariantProbability: 2
@@ -1265,8 +1265,8 @@ MonoBehaviour:
   anim: {fileID: 3746676972897926154}
   _runOut: 0
   _sneakOut: 0
-  vandalSpawnOdds: 6
-  thiefSpawnOdds: 6
+  vandalSpawnOdds: 10
+  thiefSpawnOdds: 10
   TutorialBubble: {fileID: 6251718909202966892}
 --- !u!136 &8198007597448793542
 CapsuleCollider:
