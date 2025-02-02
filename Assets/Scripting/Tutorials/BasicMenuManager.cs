@@ -61,7 +61,6 @@ public class BasicMenuManager : MonoBehaviour
     private void Awake()
     {
         _oldSensitivity = _newSensitivity = movement.MouseSpeed / 6f;
-
         mainMenuButtons.SetActive(false);
         optionsPanel.SetActive(false);
         state = PauseStates.Unpaused;
@@ -73,6 +72,14 @@ public class BasicMenuManager : MonoBehaviour
         {
             if (state == PauseStates.Paused)
             {
+                if(!movement.IsSeated){
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
+                else{
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                }
                 state = PauseStates.Unpaused;
                 Time.timeScale = 1;
                 mainMenuButtons.SetActive(false);
