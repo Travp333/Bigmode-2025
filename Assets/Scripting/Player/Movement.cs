@@ -603,14 +603,18 @@ namespace Scripting.Player
 
                 if (hit.transform.gameObject.CompareTag("Trashcan"))
                 {
-                    //INTERACT UI HERE
+                    if (_currentContract)
+                    {
+                        talk.SetActive(true);
+                        //INTERACT UI HERE
+                    }
                     if (_actionPressed)
                     {
                         if (_currentContract)
                         {
                             handAnim.SetBool("HoldingDocument", false);
                             handAnim.Play("IDLE");
-
+                            talk.SetActive(false);
                             // TODO: Play throw Animation?
                             ResetContract();
                         }
@@ -619,7 +623,13 @@ namespace Scripting.Player
 
                 if (hit.transform.gameObject.CompareTag("Mailbox"))
                 {
-                    //INTERACT UI HERE
+                    if(_currentContract){
+                        if(_currentContract.name == "ds" || _currentContract.name == "la" || _currentContract.name == "tec" || _currentContract.name == "eel"){
+                            //INTERACT UI HERE
+                            talk.SetActive(true);
+                        }
+                    }
+                    
                     if (_actionPressed)
                     {
                         if (_currentContract && _currentContract.GetIsMailBoxContract())
@@ -632,6 +642,7 @@ namespace Scripting.Player
                             handAnim.SetBool(HoldingDocument, false);
                             Destroy(_currentContract.gameObject);
                             _currentContract = null;
+                            talk.SetActive(false);
                         }
                     }
                 }

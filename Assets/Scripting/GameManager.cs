@@ -17,6 +17,8 @@ namespace Scripting
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
+        GameObject safeMoneyAmountUI;
+        [SerializeField]
         public int pentagramReward = 25000;
         [SerializeField]
         int day1Quota = 15000, day2Quota = 30000, day3Quota = 40000, day4Quota = 50000, day5Quota = 70000, day6Quota = 90000, day7Quota = 100000, day8Quota = 120000, day9Quota = 140000, day10Quota = 200000;
@@ -104,7 +106,7 @@ namespace Scripting
         private int _maxCustomers;
         private int _level = 1;
         private float _loanAgreementRunning;
-        private int _moneyInSafe = 200;
+        private int _moneyInSafe = 0;
         float aiSpawnRateCounter = 10f;
         float aiSpawnRate;
 
@@ -127,7 +129,7 @@ namespace Scripting
 
         private void SetInitValues()
         {
-            upgrades.money = 1000;
+            upgrades.money = 0;
 
             upgrades.chairs = false;
             upgrades.paintings = false;
@@ -242,6 +244,7 @@ namespace Scripting
 
         private void Update()
         {
+            Debug.Log(IsNightTime);
             if (IsNightTime)
             {
                 doorAnim.SetBool("opened", true);
@@ -329,6 +332,13 @@ namespace Scripting
             //upgrades.money += value;
             OnMoneyUpdated?.Invoke(upgrades.money, value);
         }
+        void hideSafeMoneyUI(){
+            safeMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + _moneyInSafe;
+            Invoke("hideSafeMoneyUI2", 5);
+        }
+        void hideSafeMoneyUI2(){
+            safeMoneyAmountUI.SetActive(false);
+        }
 
         public void DayFinished()
         {
@@ -358,11 +368,14 @@ namespace Scripting
 
             if (upgrades.money > todaysQuota)
             {
+                safeMoneyAmountUI.SetActive(true);
                 QuotaMetUI.SetActive(true);
                 Invoke(nameof(ResetQuotaMetUI), 3.5f);
                 ChangeMoneyAmount(-todaysQuota);
                 //upgrades.money -= todaysQuota;
+                safeMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + _moneyInSafe;
                 _moneyInSafe += todaysQuota;
+                Invoke("hideSafeMoneyUI", 3.5f);
             }
             else
             {

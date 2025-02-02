@@ -15,12 +15,12 @@ MonoBehaviour:
   tutorialDone: 1
   chairs: 0
   paintings: 0
-  baseballBat: 1
-  cigar: 1
+  baseballBat: 0
+  cigar: 0
   phone: 0
   bodyguard: 0
   assistant: 0
-  money: 35789
+  money: 13943
   priceChairs: 5000
   pricePaintings: 5000
   priceBaseballBat: 10000
@@ -40,9 +40,9 @@ MonoBehaviour:
   paintingsFlavorText: '(COST: $X) Your clients will lose themselves in these masterfully
     painted pieces of art, greatly increasing their patience.'
   baseballBatFlavorText: '(COST: $X) Protect your office and bat away any unwanted
-    or unruly clients'
+    or unruly clients. Find it on your desk after purchase'
   cigarFlavorText: '(COST: $X) Take a load off and relax for a bit! A few puffs will
-    stop you from stressing out so much. '
+    stop you from stressing out so much. Find it on your desk after purchase'
   phoneFlavorText: '(COST: $X) Take your business to the next level by accepting
     phone consultations! Clients will occasionally call you for advice, dont forget
     we charge by the hour!'
