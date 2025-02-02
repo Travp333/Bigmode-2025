@@ -233,12 +233,12 @@ namespace Scripting.Player
         }
 
         private AiController _aiController;
-        
+
         private void Start()
         {
             _aiController = AiController.Singleton;
         }
-        
+
         private void OnEnable()
         {
             _playerInput?.Enable();
@@ -451,7 +451,7 @@ namespace Scripting.Player
                     stressChange += _aiController.VandalismSpotList.Count(n => n.IsVisible) * 0.005f;
                 }
 
-               
+
                 StressLevel += Time.deltaTime * stressChange;
 
                 if (StressLevel < 0.0f)
@@ -614,6 +614,12 @@ namespace Scripting.Player
                         _canPickupBaseballBat = true;
                         if (_actionPressed)
                         {
+                            if (_currentContract)
+                            {
+                                handAnim.SetBool("HoldingDocument", false);
+                            }
+                            ResetContract();
+
                             _baseballBat = bat;
                             _baseballBat.PickUp();
                         }
@@ -1018,5 +1024,7 @@ namespace Scripting.Player
             get { return mouseSpeed; }
             set { mouseSpeed = value; }
         }
+
+        public bool IsSeated => _seated;
     }
 }
