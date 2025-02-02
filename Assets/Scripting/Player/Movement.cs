@@ -378,7 +378,7 @@ namespace Scripting.Player
                 {
                     crosshair.gameObject.SetActive(false);
                     stressChange /= 2f;
-                    if (Input.GetKeyDown(KeyCode.Tab) && !_isSmoking && !onPhone)
+                    if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) && !_isSmoking && !onPhone)
                     {
                         var contract = bothArmsScript.GetContractObject();
 
@@ -508,7 +508,7 @@ namespace Scripting.Player
             cam.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
             transform.Rotate(Vector3.up * mouseX);
 
-            if (_isInChairTrigger && _actionPressed && !GameManager.Singleton.IsNightTime)
+            if (_isInChairTrigger && !GameManager.Singleton.IsNightTime)
             {
                 var contract = GetComponentInChildren<Contract>();
                 if (contract)
