@@ -1145,16 +1145,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072b083a0370ba84ebd4685992b34b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  day1PhoneReward: 8333
-  day2PhoneReward: 11166
-  day3PhoneReward: 11166
-  day4PhoneReward: 12014
-  day5PhoneReward: 14014
-  day6PhoneReward: 15485
-  day7PhoneReward: 14300
-  day8PhoneReward: 14266
-  day9PhoneReward: 14500
-  day10PhoneReward: 18200
+  day1PhoneReward: 9333
+  day2PhoneReward: 12166
+  day3PhoneReward: 12166
+  day4PhoneReward: 13014
+  day5PhoneReward: 15014
+  day6PhoneReward: 16485
+  day7PhoneReward: 15300
+  day8PhoneReward: 15266
+  day9PhoneReward: 15500
+  day10PhoneReward: 19200
   phoneAnim: {fileID: 604574340}
   phoneCallLowerBound: 6
   phoneCallUpperBound: 15
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   myPhonePickup: {fileID: 110708420}
   myPhonePutdown: {fileID: 110708419}
   arms: {fileID: 93350757}
-  telephoneCooldown: 10
+  telephoneCooldown: 30
   handAnim: {fileID: 890395735}
   player: {fileID: 1953529837}
 --- !u!65 &110708418
@@ -10473,9 +10473,9 @@ MonoBehaviour:
   day9Quota: 140000
   day10Quota: 200000
   day1AISpawnRate: 10
-  day2AISpawnRate: 5
-  day3AISpawnRate: 5
-  day4AISpawnRate: 4
+  day2AISpawnRate: 8
+  day3AISpawnRate: 7
+  day4AISpawnRate: 5
   day5AISpawnRate: 4
   day6AISpawnRate: 3
   day7AISpawnRate: 3

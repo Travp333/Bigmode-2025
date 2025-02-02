@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7414179721df5e14289f0697c0bdb9ea, type: 3}
   m_Name: Upgrades
   m_EditorClassIdentifier: 
-  tutorialDone: 1
+  tutorialDone: 0
   chairs: 0
   paintings: 0
-  baseballBat: 1
+  baseballBat: 0
   cigar: 0
   phone: 0
   bodyguard: 0
   assistant: 0
-  money: 9989999
+  money: 0
   priceChairs: 5000
-  pricePaintings: 5000
+  pricePaintings: 10000
   priceBaseballBat: 10000
   priceCigar: 5000
   pricePhone: 30000
-  priceBodyguard: 15000
+  priceBodyguard: 35000
   priceAssistant: 40000
-  dismissal: 1
+  dismissal: 0
   hellishContract: 0
   powerFistRequisition: 0
   loanAgreement: 0
