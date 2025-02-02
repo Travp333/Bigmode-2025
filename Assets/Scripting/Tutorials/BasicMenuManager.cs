@@ -132,10 +132,11 @@ public class BasicMenuManager : MonoBehaviour
         movement.MouseSpeed = (sensitivity * 6f);
     }
 
-    private void GoBackSettings()
+    public void GoBackSettings()
     {
         mainMenuButtons.SetActive(true);
         optionsPanel.SetActive(false);
+        mainMenuButtons.SetActive(true);
     }
 
     public void ConfirmSettings()
