@@ -69,7 +69,7 @@ namespace Scripting.Desk
         }
 
         private bool _isWriting;
-
+        
         private void Update()
         {
             AlignWithContract();
@@ -129,6 +129,14 @@ namespace Scripting.Desk
             }
         }
 
+        private void Cancel()
+        { 
+                _surface.GetComponent<BoxCollider>().enabled = false;
+                _surface = null;
+                _lineRenderer = null;
+                Destroy(_surface); 
+        }
+
         private void FinalizeWriting()
         {
             _isWriting = false;
@@ -177,9 +185,9 @@ namespace Scripting.Desk
             }
 
             points = Normalize(points);
-            Debug.Log(string.Join(',',
-                points.Select(n =>
-                    $"new({n.X.ToString(CultureInfo.InvariantCulture)}f,{n.Y.ToString(CultureInfo.InvariantCulture)}f,{n.StrokeID})")));
+            // Debug.Log(string.Join(',',
+            //     points.Select(n =>
+            //         $"new({n.X.ToString(CultureInfo.InvariantCulture)}f,{n.Y.ToString(CultureInfo.InvariantCulture)}f,{n.StrokeID})")));
 
             var gesture = PointCloudRecognizer.Classify(new Gesture(points.ToArray()), _trainingsSet);
 
@@ -383,7 +391,7 @@ namespace Scripting.Desk
 
         public void Reset()
         {
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
 
         public bool GetIsMailBoxContract() => Converted && Result is "ds" or "eel" or "la" or "tec";
