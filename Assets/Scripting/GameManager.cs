@@ -286,23 +286,11 @@ namespace Scripting
             }
             // SPAWNRATE CALL "SpawnCustomer()";
 
-            if (upgrades.money <= 0)
-            {
-                Bankrupt();
-            }
-
             if (aiSpawnRate <= 0)
             {
                 aiSpawnRate = aiSpawnRateCounter;
                 SpawnCustomer();
             }
-        }
-
-        public void Bankrupt()
-        {
-            if (IsNightTime) return;
-            // Wasted
-            IsNightTime = true;
         }
 
         public void StressmeterTooHigh()
