@@ -346,6 +346,8 @@ namespace Scripting.Player
                 talk.SetActive(false);
                 graffiti.SetActive(false);
                 baseballbat.SetActive(false);
+                radialIndicatorUI.enabled = false;
+                graffitiRemoveProgress.enabled = false;
             }
             
             if (Physics.Raycast(cam.transform.position, cam.transform.forward,
