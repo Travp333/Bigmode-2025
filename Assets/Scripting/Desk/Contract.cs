@@ -123,7 +123,6 @@ namespace Scripting.Desk
                 }
             }
 
-
             if (Mouse.current.leftButton.wasReleasedThisFrame && _isWriting)
             {
                 FinalizeWriting();
@@ -135,17 +134,17 @@ namespace Scripting.Desk
             _isWriting = false;
             myWritingSound.Stop();
 
-            // if (!_lineRenderer) return;
+            if (!_lineRenderer) return;
 
-            // if (_lineRenderer.positionCount < 4)
-            // {
-            //     _surface.GetComponent<BoxCollider>().enabled = false;
-            //     _surface = null;
-            //     _lineRenderer = null;
-            //     Destroy(_surface);
-            //
-            //     return;
-            // }
+            if (_lineRenderer.positionCount < 2)
+            {
+                _surface.GetComponent<BoxCollider>().enabled = false;
+                _surface = null;
+                _lineRenderer = null;
+                Destroy(_surface);
+            
+                return;
+            }
 
             var points = new List<Point>();
 
