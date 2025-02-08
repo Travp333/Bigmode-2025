@@ -196,9 +196,9 @@ namespace Scripting.Desk
             }
 
             points = Normalize(points);
-            Debug.Log(string.Join(',',
-                points.Select(n =>
-                    $"new({n.X.ToString(CultureInfo.InvariantCulture)}f,{n.Y.ToString(CultureInfo.InvariantCulture)}f,{n.StrokeID})")));
+            // Debug.Log(string.Join(',',
+            //     points.Select(n =>
+            //         $"new({n.X.ToString(CultureInfo.InvariantCulture)}f,{n.Y.ToString(CultureInfo.InvariantCulture)}f,{n.StrokeID})")));
 
             var gesture = PointCloudRecognizer.Classify(new Gesture(points.ToArray()), _trainingsSet);
 

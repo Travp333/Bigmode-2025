@@ -822,6 +822,7 @@ namespace Scripting.Customer
             {
                 myJingle.Play();
                 bubble.gameObject.SetActive(false);
+                UnlockAssistant();
                 return true;
             }
             else
