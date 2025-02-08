@@ -25,8 +25,6 @@ namespace Scripting.Customer
             day9BadClientSpawnOdds = 4,
             day10BadClientSpawnOdds = 4;
 
-        int value;
-
         [SerializeField]
         int day1NPCReward = 8333,
             day2NPCReward = 11166,
@@ -70,8 +68,6 @@ namespace Scripting.Customer
         [SerializeField] private Billboard bubble;
         private SpriteRenderer bubSprite;
 
-        private readonly Vector3 _aiFixPosition = new(1.4f, 1.0f, -32f);
-
         public bool IsMotherfucker => _isMotherfucker;
         public bool IsThief => _isThief;
 
@@ -90,7 +86,7 @@ namespace Scripting.Customer
         public float StressMeter { get; private set; }
         public int Id { get; set; }
 
-        public static int NextId = 0;
+        public static int NextId;
 
         private AiSpot _currentSpot;
         public Animator anim;
@@ -168,52 +164,20 @@ namespace Scripting.Customer
 
             if (0 != Id)
             {
-                if (GameManager.Singleton.day == 1)
+                _isMotherfucker = _aiController.HasVandalismSpots && GameManager.Singleton.day switch
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day1BadClientSpawnOdds) == 1);
-                }
-                else if (GameManager.Singleton.day == 2)
-                {
-                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day2BadClientSpawnOdds) == 1);
-                }
-                else if (GameManager.Singleton.day == 3)
-                {
-                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day3BadClientSpawnOdds) == 1);
-                }
-                else if (GameManager.Singleton.day == 4)
-                {
-                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day4BadClientSpawnOdds) == 1);
-                }
-                else if (GameManager.Singleton.day == 5)
-                {
-                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day5BadClientSpawnOdds) == 1);
-                }
-                else if (GameManager.Singleton.day == 6)
-                {
-                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day6BadClientSpawnOdds) == 1);
-                }
-                else if (GameManager.Singleton.day == 7)
-                {
-                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day7BadClientSpawnOdds) == 1);
-                }
-                else if (GameManager.Singleton.day == 8)
-                {
-                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day8BadClientSpawnOdds) == 1);
-                }
-                else if (GameManager.Singleton.day == 9)
-                {
-                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day9BadClientSpawnOdds) == 1);
-                }
-                else if (GameManager.Singleton.day == 10)
-                {
-                    _isMotherfucker = _aiController.HasVandalismSpots &&
-                                      (Random.Range(0, day10BadClientSpawnOdds) == 1);
-                }
-                else
-                {
-                    _isMotherfucker = false;
-                    //error, day 11 
-                }
+                    1 => Random.Range(0, day1BadClientSpawnOdds) == 1,
+                    2 => Random.Range(0, day2BadClientSpawnOdds) == 1,
+                    3 => Random.Range(0, day3BadClientSpawnOdds) == 1,
+                    4 => Random.Range(0, day4BadClientSpawnOdds) == 1,
+                    5 => Random.Range(0, day5BadClientSpawnOdds) == 1,
+                    6 => Random.Range(0, day6BadClientSpawnOdds) == 1,
+                    7 => Random.Range(0, day7BadClientSpawnOdds) == 1,
+                    8 => Random.Range(0, day8BadClientSpawnOdds) == 1,
+                    9 => Random.Range(0, day9BadClientSpawnOdds) == 1,
+                    10 => Random.Range(0, day10BadClientSpawnOdds) == 1,
+                    _ => false
+                };
             }
 
             if (!_isMotherfucker && 0 != Id)
@@ -450,7 +414,7 @@ namespace Scripting.Customer
 
                         if (queuedSit)
                         {
-                            StartCoroutine(StandupAndTHENGoToAssistant());
+                            StartCoroutine(StandupAndThenGoToAssistant());
                         }
                         else
                         {
@@ -629,7 +593,7 @@ namespace Scripting.Customer
                 }, assistantConvoTime, UnlockAssistant));
         }
 
-        private IEnumerator StandupAndTHENGoToAssistant()
+        private IEnumerator StandupAndThenGoToAssistant()
         {
             Unsit();
 
@@ -662,7 +626,6 @@ namespace Scripting.Customer
             _capsuleCollider.enabled = false;
 
             var position = _currentSpot.transform.position + new Vector3(-0.5f, 0f, 0f);
-            // transform.position = position;
             var rotation = Quaternion.Euler(0, 90, 0);
             rb.isKinematic = true;
 
@@ -725,16 +688,13 @@ namespace Scripting.Customer
         public void InterruptSpraying()
         {
             _sprayInterrupted = true;
-            var paint = this.GetComponent<SprayPaintSounds>();
+            var paint = GetComponent<SprayPaintSounds>();
             paint.StopSpraySound();
             paint.HidePaintCan();
             paint.StopRattleSound();
             _isSpraying = false;
-            if (_vandalismSpot)
-            {
-                if (!_vandalismSpot.IsVisible)
-                    _vandalismSpot.IsLocked = false;
-            }
+            if (_vandalismSpot && !_vandalismSpot.IsVisible)
+                _vandalismSpot.IsLocked = false;
         }
 
         private int _stolenMoney;
@@ -756,16 +716,9 @@ namespace Scripting.Customer
 
         public void GetHit()
         {
-            // _done = true;
-            //_runOut = true;
-            //_conversing = false;
-
             Unsit();
-            //UnlockAssistant();
-            Debug.Log("GOT HIT " + Id);
             if (agent.isOnNavMesh)
                 agent.ResetPath();
-            //RunOut();
         }
 
 
@@ -805,17 +758,8 @@ namespace Scripting.Customer
         }
 #endif
 
-        private void RemoveMoney()
-        {
-            //GameManager.Singleton.upgrades.money -= _penalty;
-            GameManager.Singleton.ChangeMoneyAmount(-_penalty);
-            GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, -_penalty);
-            // HAS TO BE IMPLEMENTED
-        }
-
         public bool Validate(Contract contract)
         {
-            //myJingle.Play();
             GameManager.Singleton.upgrades.tutorialDone = true;
             Unsit();
             if (contract.Result == _contractType || contract.GetIsPowerContract())
@@ -825,11 +769,8 @@ namespace Scripting.Customer
                 UnlockAssistant();
                 return true;
             }
-            else
-            {
-                return false;
-            }
-            //return contract.Result == _contractType || contract.GetIsPowerContract();
+
+            return false;
         }
 
         public void WalkOut()
@@ -939,63 +880,32 @@ namespace Scripting.Customer
         {
             var laMultiplicator = GameManager.Singleton.LoanAgreementMultiplicator;
 
-            if (GameManager.Singleton.day == 1)
+            var value = GameManager.Singleton.day switch
             {
-                value = CalculateReward(day1NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
-            }
-            else if (GameManager.Singleton.day == 2)
-            {
-                value = CalculateReward(day2NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
-            }
-            else if (GameManager.Singleton.day == 3)
-            {
-                value = CalculateReward(day3NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
-            }
-            else if (GameManager.Singleton.day == 4)
-            {
-                value = CalculateReward(day4NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
-            }
-            else if (GameManager.Singleton.day == 5)
-            {
-                value = CalculateReward(day5NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
-            }
-            else if (GameManager.Singleton.day == 6)
-            {
-                value = CalculateReward(day6NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
-            }
-            else if (GameManager.Singleton.day == 7)
-            {
-                value = CalculateReward(day7NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
-            }
-            else if (GameManager.Singleton.day == 8)
-            {
-                value = CalculateReward(day8NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
-            }
-            else if (GameManager.Singleton.day == 9)
-            {
-                value = CalculateReward(day9NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
-            }
-            else if (GameManager.Singleton.day == 10)
-            {
-                value = CalculateReward(day10NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f);
-            }
-            else
-            {
-                value = 0; //error day 11 
-            }
+                1 => CalculateReward(day1NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                2 => CalculateReward(day2NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                3 => CalculateReward(day3NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                4 => CalculateReward(day4NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                5 => CalculateReward(day5NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                6 => CalculateReward(day6NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                7 => CalculateReward(day7NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                8 => CalculateReward(day8NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                9 => CalculateReward(day9NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                10 => CalculateReward(day10NPCReward, Random.Range(-1000, 1000),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                _ => 0
+            };
 
             GameManager.Singleton.ChangeMoneyAmount(value);
-            GameManager.Singleton.OnMoneyUpdated?.Invoke(GameManager.Singleton.upgrades.money, value);
         }
 
         public HuellController TargetedFrom { get; set; }

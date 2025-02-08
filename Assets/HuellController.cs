@@ -38,7 +38,9 @@ public class HuellController : MonoBehaviour
 
         _isWalkingOut = true;
         if (agent.isOnNavMesh)
+        {
             agent.SetDestination(AiController.Singleton.GetRandomDespawnPoint().transform.position);
+        }
         else
         {
             Destroy(gameObject);

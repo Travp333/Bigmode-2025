@@ -22,8 +22,6 @@ namespace Scripting
         [SerializeField]
         GameObject successScreen;
 
-        int finalMoneyTally;
-
         [SerializeField]
         GameObject safeMoneyAmountUI;
 
@@ -57,7 +55,7 @@ namespace Scripting
             day9AISpawnRate = 4,
             day10AISpawnRate = 2.66f;
 
-        public int day = 0;
+        public int day;
 
         [SerializeField]
         TextMeshProUGUI dayTrackerUI;
@@ -134,10 +132,11 @@ namespace Scripting
         public bool IsLoanAgreementRunning => _loanAgreementRunning > 0f;
         public bool IsDevilTimeRunning => _devilTime > 0.0f;
 
-        private float _increasedMotherfuckerTimer = 0.0f;
-        private float _decreasedMotherfuckerTimer = 0.0f;
-        private float _devilTime = 0.0f;
-
+        private float _increasedMotherfuckerTimer;
+        private float _decreasedMotherfuckerTimer;
+        private float _devilTime;
+        private int _finalMoneyTally;
+        
         public GameObject MainCanvas => mainCanvas;
         public Movement Player => player;
         private readonly List<CustomerMotor> _customerMotors = new();
@@ -145,10 +144,12 @@ namespace Scripting
         private int _maxCustomers;
         private int _level = 1;
         private float _loanAgreementRunning;
-        private int _moneyInSafe = 0;
-        float aiSpawnRateCounter = 10f;
-        float aiSpawnRate;
-
+        private int _moneyInSafe;
+        private float _aiSpawnRateCounter = 10f;
+        private float _aiSpawnRate;
+        
+        public bool _endOfLifePlan;
+        
         private static GameManager _singleton;
 
         public static GameManager Singleton
@@ -168,8 +169,9 @@ namespace Scripting
 
         private void SetInitValues()
         {
+#if !UNITY_EDITOR
+            upgrades.tutorialDone = false;
             upgrades.money = 0;
-
             upgrades.chairs = false;
             upgrades.paintings = false;
             upgrades.baseballBat = false;
@@ -183,6 +185,7 @@ namespace Scripting
             upgrades.loanAgreement = false;
             upgrades.temporaryEmploymentContract = false;
             upgrades.endOfLifePlan = false;
+#endif
         }
 
         private void Awake()
@@ -200,8 +203,6 @@ namespace Scripting
 
 
         public int GetMoney() => upgrades.money;
-
-        public Action<int, int> OnMoneyUpdated;
 
         private void Start()
         {
@@ -237,43 +238,43 @@ namespace Scripting
             QuotaUI.text = "Today's Quota: $" + GetCurrentQuota();
             if (day == 1)
             {
-                aiSpawnRateCounter = day1AISpawnRate;
+                _aiSpawnRateCounter = day1AISpawnRate;
             }
             else if (day == 2)
             {
-                aiSpawnRateCounter = day2AISpawnRate;
+                _aiSpawnRateCounter = day2AISpawnRate;
             }
             else if (day == 3)
             {
-                aiSpawnRateCounter = day3AISpawnRate;
+                _aiSpawnRateCounter = day3AISpawnRate;
             }
             else if (day == 4)
             {
-                aiSpawnRateCounter = day4AISpawnRate;
+                _aiSpawnRateCounter = day4AISpawnRate;
             }
             else if (day == 5)
             {
-                aiSpawnRateCounter = day5AISpawnRate;
+                _aiSpawnRateCounter = day5AISpawnRate;
             }
             else if (day == 6)
             {
-                aiSpawnRateCounter = day6AISpawnRate;
+                _aiSpawnRateCounter = day6AISpawnRate;
             }
             else if (day == 7)
             {
-                aiSpawnRateCounter = day7AISpawnRate;
+                _aiSpawnRateCounter = day7AISpawnRate;
             }
             else if (day == 8)
             {
-                aiSpawnRateCounter = day8AISpawnRate;
+                _aiSpawnRateCounter = day8AISpawnRate;
             }
             else if (day == 9)
             {
-                aiSpawnRateCounter = day9AISpawnRate;
+                _aiSpawnRateCounter = day9AISpawnRate;
             }
             else if (day == 10)
             {
-                aiSpawnRateCounter = day10AISpawnRate;
+                _aiSpawnRateCounter = day10AISpawnRate;
             }
             else
             {
@@ -306,7 +307,7 @@ namespace Scripting
             _increasedMotherfuckerTimer -= Time.deltaTime;
             _decreasedMotherfuckerTimer -= Time.deltaTime;
             _devilTime -= Time.deltaTime;
-            aiSpawnRate -= Time.deltaTime;
+            _aiSpawnRate -= Time.deltaTime;
 
             if (_loanAgreementRunning < 0f)
             {
@@ -336,14 +337,12 @@ namespace Scripting
             }
             // SPAWNRATE CALL "SpawnCustomer()";
 
-            if (aiSpawnRate <= 0)
+            if (_aiSpawnRate <= 0)
             {
-                aiSpawnRate = aiSpawnRateCounter;
+                _aiSpawnRate = _aiSpawnRateCounter;
                 SpawnCustomer();
             }
         }
-
-        public bool _endOfLifePlan;
 
         private void ResetQuotaMetUI()
         {
@@ -352,22 +351,18 @@ namespace Scripting
 
         public void MoneyStolen(int value)
         {
-            ChangeMoneyAmount(-value);
-            //upgrades.money -= value;
-            OnMoneyUpdated?.Invoke(upgrades.money, -value);
+            ChangeMoneyAmount(-value); 
         }
 
         public void ReturnStolenMoney(int value)
         {
-            ChangeMoneyAmount(value);
-            //upgrades.money += value;
-            OnMoneyUpdated?.Invoke(upgrades.money, value);
+            ChangeMoneyAmount(value); 
         }
 
         void hideSafeMoneyUI()
         {
             safeMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + _moneyInSafe;
-            Invoke("hideSafeMoneyUI2", 5);
+            Invoke(nameof(hideSafeMoneyUI2), 5);
         }
 
         void hideSafeMoneyUI2()
@@ -378,26 +373,26 @@ namespace Scripting
         void FinalQuotaStep2()
         {
             //Debug.Log("FINAL DAY #2");
-            finalMoneyTally += _moneyInSafe;
-            totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + finalMoneyTally;
+            _finalMoneyTally += _moneyInSafe;
+            totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + _finalMoneyTally;
             _moneyInSafe = 0;
             safeMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "";
-            Invoke("FinalQuotaStep3", 3f);
+            Invoke(nameof(FinalQuotaStep3), 3f);
         }
 
         void FinalQuotaStep3()
         {
             //Debug.Log("FINAL DAY #3");
-            finalMoneyTally = finalMoneyTally + upgrades.money;
-            totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + finalMoneyTally;
+            _finalMoneyTally = _finalMoneyTally + upgrades.money;
+            totalMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + _finalMoneyTally;
             ChangeMoneyAmount(-upgrades.money);
-            Invoke("FinalQuotaStep4", 3f);
+            Invoke(nameof(FinalQuotaStep4), 3f);
         }
 
         void FinalQuotaStep4()
         {
             //Debug.Log("FINAL DAY #4");
-            if (finalMoneyTally > 1000000)
+            if (_finalMoneyTally > 1000000)
             {
                 totalMoneyAmountUI.SetActive(false);
                 successScreen.SetActive(true);
@@ -693,59 +688,12 @@ namespace Scripting
 
         private void OnGUI()
         {
-            if (upgrades.loanAgreement)
-            {
-                uiPowerDocumentLoan.SetActive(true);
-            }
-            else
-            {
-                uiPowerDocumentLoan.SetActive(false);
-            }
-
-            if (upgrades.temporaryEmploymentContract)
-            {
-                uiPowerDocumentTEC.SetActive(true);
-            }
-            else
-            {
-                uiPowerDocumentTEC.SetActive(false);
-            }
-
-            if (upgrades.endOfLifePlan)
-            {
-                uiPowerDocumentEOL.SetActive(true);
-            }
-            else
-            {
-                uiPowerDocumentEOL.SetActive(false);
-            }
-
-            if (upgrades.dismissal)
-            {
-                uiPowerDocumentDismissal.SetActive(true);
-            }
-            else
-            {
-                uiPowerDocumentDismissal.SetActive(false);
-            }
-
-            if (upgrades.hellishContract)
-            {
-                uiPowerDocumentHell.SetActive(true);
-            }
-            else
-            {
-                uiPowerDocumentHell.SetActive(false);
-            }
-
-            if (upgrades.powerFistRequisition)
-            {
-                uiPowerDocumentFist.SetActive(true);
-            }
-            else
-            {
-                uiPowerDocumentFist.SetActive(false);
-            }
+            uiPowerDocumentLoan.SetActive(upgrades.loanAgreement);
+            uiPowerDocumentTEC.SetActive(upgrades.temporaryEmploymentContract);
+            uiPowerDocumentEOL.SetActive(upgrades.endOfLifePlan);
+            uiPowerDocumentDismissal.SetActive(upgrades.dismissal);
+            uiPowerDocumentHell.SetActive(upgrades.hellishContract);
+            uiPowerDocumentFist.SetActive(upgrades.powerFistRequisition);
 
             MoneyUI.text = "$" + upgrades.money;
         }
@@ -769,18 +717,13 @@ namespace Scripting
             }
         }
 
-        public List<CustomerMotor> GetCustomerList()
-        {
-            return _customerMotors;
-        }
+        public List<CustomerMotor> GetCustomerList() => _customerMotors;
 
         public bool PayAssistant()
         {
             if (upgrades.priceAssistant <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.priceAssistant);
-                //upgrades.money -= upgrades.priceAssistant;
-                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceAssistant);
+                ChangeMoneyAmount(-upgrades.priceAssistant); 
                 return true;
             }
 
@@ -791,9 +734,7 @@ namespace Scripting
         {
             if (upgrades.priceBodyguard <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.priceBodyguard);
-                //upgrades.money -= upgrades.priceBodyguard;
-                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceBodyguard);
+                ChangeMoneyAmount(-upgrades.priceBodyguard); 
                 return true;
             }
 
@@ -804,9 +745,7 @@ namespace Scripting
         {
             if (upgrades.pricePhone <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.pricePhone);
-                //upgrades.money -= upgrades.pricePhone;
-                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.pricePhone);
+                ChangeMoneyAmount(-upgrades.pricePhone); 
                 return true;
             }
 
@@ -817,9 +756,7 @@ namespace Scripting
         {
             if (upgrades.priceCigar <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.priceCigar);
-                //upgrades.money -= upgrades.priceCigar;
-                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceCigar);
+                ChangeMoneyAmount(-upgrades.priceCigar); 
                 return true;
             }
 
@@ -830,9 +767,7 @@ namespace Scripting
         {
             if (upgrades.priceBaseballBat <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.priceBaseballBat);
-                //upgrades.money -= upgrades.priceBaseballBat;
-                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceBaseballBat);
+                ChangeMoneyAmount(-upgrades.priceBaseballBat); 
                 return true;
             }
 
@@ -843,9 +778,7 @@ namespace Scripting
         {
             if (upgrades.pricePaintings <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.pricePaintings);
-                //upgrades.money -= upgrades.pricePaintings;
-                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.pricePaintings);
+                ChangeMoneyAmount(-upgrades.pricePaintings); 
                 return true;
             }
 
@@ -856,9 +789,7 @@ namespace Scripting
         {
             if (upgrades.priceChairs <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.priceChairs);
-                //upgrades.money -= upgrades.priceChairs;
-                OnMoneyUpdated?.Invoke(upgrades.money, -upgrades.priceChairs);
+                ChangeMoneyAmount(-upgrades.priceChairs); 
                 return true;
             }
 
