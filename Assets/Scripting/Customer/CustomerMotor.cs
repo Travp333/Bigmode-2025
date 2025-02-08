@@ -206,7 +206,8 @@ namespace Scripting.Customer
                 }
                 else if (GameManager.Singleton.day == 10)
                 {
-                    _isMotherfucker = _aiController.HasVandalismSpots && (Random.Range(0, day10BadClientSpawnOdds) == 1);
+                    _isMotherfucker = _aiController.HasVandalismSpots &&
+                                      (Random.Range(0, day10BadClientSpawnOdds) == 1);
                 }
                 else
                 {
@@ -354,7 +355,13 @@ namespace Scripting.Customer
             {
                 if (!convoWithAgent)
                 {
-                    transform.rotation = Quaternion.LookRotation(-_player.transform.forward, _player.transform.up);
+                    var rotationVector = _player.Cam.transform.rotation.eulerAngles;
+
+                    var newRotation = Quaternion.Euler(0, 180f + rotationVector.y, 0);
+
+                    transform.rotation = newRotation;
+
+                    // transform.rotation = Quaternion.LookRotation(-newForwardVector, transform.up);
                 }
 
                 if (!talkNoise.isPlaying)
@@ -749,15 +756,15 @@ namespace Scripting.Customer
 
         public void GetHit()
         {
-           // _done = true;
+            // _done = true;
             //_runOut = true;
             //_conversing = false;
 
             Unsit();
             //UnlockAssistant();
-            Debug.Log("GOT HIT "+ Id);
+            Debug.Log("GOT HIT " + Id);
             if (agent.isOnNavMesh)
-            agent.ResetPath();
+                agent.ResetPath();
             //RunOut();
         }
 

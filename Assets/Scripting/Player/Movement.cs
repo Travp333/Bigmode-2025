@@ -129,6 +129,8 @@ namespace Scripting.Player
         private bool _countDownGate;
         private GameObject _clientInteractor;
 
+
+        public Camera Cam => cam;
         public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
         public bool HasContract => _currentContract;
@@ -554,7 +556,7 @@ namespace Scripting.Player
                 return;
             if (chargeBlock)
             {
-                rb.AddForce(this.transform.forward * (1000f * Time.deltaTime));
+                rb.AddForce(cam.transform.forward * (1000f * Time.deltaTime));
             }
             else
             {
@@ -968,7 +970,7 @@ namespace Scripting.Player
                 seatEnterPosition.transform.rotation.eulerAngles.y, seatEnterPosition.transform.rotation.eulerAngles.z);
 
             _rotationY = seatEnterPosition.transform.rotation.eulerAngles.y;
-            
+
             SitOnChairDone();
         }
 
