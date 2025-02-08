@@ -27,9 +27,10 @@ namespace Scripting
 
         [SerializeField]
         GameObject totalMoneyAmountUI;
+        
 
-        [SerializeField]
-        public int pentagramReward = 25000;
+        
+
 
         [SerializeField]
         int day1Quota = 15000,
@@ -54,6 +55,18 @@ namespace Scripting
             day8AISpawnRate = 5.333f,
             day9AISpawnRate = 4,
             day10AISpawnRate = 2.66f;
+        
+        [SerializeField]
+        int day1PentagramReward = 7500,
+            day2PentagramReward = 15000,
+            day3PentagramReward = 20000,
+            day4PentagramReward = 25000,
+            day5PentagramReward = 35000,
+            day6PentagramReward = 45000,
+            day7PentagramReward = 50000,
+            day8PentagramReward = 60000,
+            day9PentagramReward = 70000,
+            day10PentagramReward = 100000;
 
         public int day;
 
@@ -802,6 +815,115 @@ namespace Scripting
         public void SetIsPauseMenu(bool p0)
         {
             IsPause = p0;
+        }
+
+        public int GetPentagramReward()
+        {
+            float result = 0f;
+            switch (day)
+            {
+                case 1:
+                    if (IsLoanAgreementRunning)
+                    {
+                        result = day1PentagramReward * loanAgreementMultiplicator;
+                    }
+                    else
+                    {
+                        result =  day1PentagramReward;
+                    }
+                    break;
+                case 2:
+                    if (IsLoanAgreementRunning)
+                    {
+                        result =  day2PentagramReward * loanAgreementMultiplicator;
+                    }
+                    else
+                    {
+                        result =  day2PentagramReward;
+                    }
+                    break;
+                case 3:
+                    if (IsLoanAgreementRunning)
+                    {
+                        result =  day3PentagramReward * loanAgreementMultiplicator;
+                    }
+                    else
+                    {
+                        result =  day3PentagramReward;
+                    }
+                    break;
+                case 4:
+                    if (IsLoanAgreementRunning)
+                    {
+                        result =  day4PentagramReward * loanAgreementMultiplicator;
+                    }
+                    else
+                    {
+                        result =  day4PentagramReward;
+                    }
+                    break;
+                case 5:
+                    if (IsLoanAgreementRunning)
+                    {
+                        result =  day5PentagramReward * loanAgreementMultiplicator;
+                    }
+                    else
+                    {
+                        result =  day5PentagramReward;
+                    }
+                    break;
+                case 6:
+                    if (IsLoanAgreementRunning)
+                    {
+                        result =  day6PentagramReward * loanAgreementMultiplicator;
+                    }
+                    else
+                    {
+                        result =  day6PentagramReward;
+                    }
+                    break;
+                case 7:
+                    if (IsLoanAgreementRunning)
+                    {
+                        result =  day7PentagramReward * loanAgreementMultiplicator;
+                    }
+                    else
+                    {
+                        result =  day7PentagramReward;
+                    }
+                    break;
+                case 8:
+                    if (IsLoanAgreementRunning)
+                    {
+                        result =  day8PentagramReward * loanAgreementMultiplicator;
+                    }
+                    else
+                    {
+                        result =  day8PentagramReward;
+                    }
+                    break;
+                case 9:
+                    if (IsLoanAgreementRunning)
+                    {
+                        result =  day9PentagramReward * loanAgreementMultiplicator;
+                    }
+                    else
+                    {
+                        result =  day9PentagramReward;
+                    }
+                    break;
+                case 10:
+                    if (IsLoanAgreementRunning)
+                    {
+                        result =  day10PentagramReward * loanAgreementMultiplicator;
+                    }
+                    else
+                    {
+                        result =  day10PentagramReward;
+                    }
+                    break;
+            }
+            return (int)result;
         }
     }
 }

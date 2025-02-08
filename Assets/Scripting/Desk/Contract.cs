@@ -438,7 +438,7 @@ namespace Scripting.Desk
                 switch (Result)
                 {
                     case "pentagramm":
-                        GameManager.Singleton.ChangeMoneyAmount(GameManager.Singleton.pentagramReward +
+                        GameManager.Singleton.ChangeMoneyAmount(GameManager.Singleton.GetPentagramReward() +
                                                                 Random.Range(-1000, 1000));
                         GameManager.Singleton.DoPentagrammLogic();
                         customer.StopHuell();
