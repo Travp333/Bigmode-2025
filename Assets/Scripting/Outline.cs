@@ -13,7 +13,7 @@ namespace Scripting
         private Camera _cam;
         private Material[] _originalMaterials;
         private bool _deactivate;
-        private bool isActive;
+        private bool _isActive;
 
         public void IsToonable(bool value)
         {
@@ -37,9 +37,9 @@ namespace Scripting
         {
             if (_deactivate)
             {
-                if (isActive)
+                if (_isActive)
                 {
-                    isActive = false;
+                    _isActive = false;
                     materialRenderer.materials = _originalMaterials.ToArray();
                 }
 
@@ -52,9 +52,9 @@ namespace Scripting
             {
                 if (hit.collider.gameObject == gameObject)
                 {
-                    if (!isActive)
+                    if (!_isActive)
                     {
-                        isActive = true;
+                        _isActive = true;
                         // Add outline by extending the materials array
                         var newMaterials = new Material[_originalMaterials.Length + 1];
                         for (var i = 0; i < _originalMaterials.Length; i++)
@@ -66,18 +66,18 @@ namespace Scripting
                 }
                 else
                 {
-                    if (isActive)
+                    if (_isActive)
                     {
-                        isActive = false;
+                        _isActive = false;
                         materialRenderer.materials = _originalMaterials.ToArray();
                     }
                 }
             }
             else
             {
-                if (isActive)
+                if (_isActive)
                 {
-                    isActive = false;
+                    _isActive = false;
                     materialRenderer.materials = _originalMaterials.ToArray();
                 }
             }
