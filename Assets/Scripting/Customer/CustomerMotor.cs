@@ -744,7 +744,7 @@ namespace Scripting.Customer
                     "Stresslevel: " + (_isMotherfucker ? "unlimited" : StressMeter));
 
                 Handles.Label(transform.position + Vector3.up * 3f,
-                    $"Target: " + (agent.isActiveAndEnabled ? agent.destination : "agent inanctive") + "\n" +
+                    "Target: " + (agent.isActiveAndEnabled ? agent.destination : "agent inanctive") + "\n" +
                     $"Done: {_done}, RunOut: {_runOut}, SInt: {_sprayInterrupted}\nSOut: {_sneakOut}, STInter: {_stealInterrupted}\nAssLock: {_lockedAssistant} ");
             }
             else
@@ -882,7 +882,7 @@ namespace Scripting.Customer
         public void Pay(bool isDismissal = false)
         {
             var laMultiplicator = GameManager.Singleton.LoanAgreementMultiplicator;
-
+            
             var value = GameManager.Singleton.day switch
             {
                 1 => CalculateReward(day1NPCReward, Random.Range(-1000, 1000),
