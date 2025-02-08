@@ -1,17 +1,18 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Scripting
 {
     public class MusicSwitcher : MonoBehaviour
     {
-        [SerializeField] AudioSource RAGEMODE;
+        [SerializeField] private AudioSource RAGEMODE;
         public static MusicSwitcher Instance;
-        [SerializeField] AudioSource dayMan;
-        [SerializeField] AudioSource nightMan;
-        [SerializeField] float transitionTime = 2.0f;
-        bool switchingToDay = false;
-        bool switchingToNight = false;
-        float progress = 0;
+        [SerializeField] private AudioSource dayMan;
+        [SerializeField] private AudioSource nightMan;
+        [SerializeField] private float transitionTime = 2.0f;
+        private bool _switchingToDay;
+        private bool _switchingToNight;
+        private float _progress;
 
         private void Awake()
         {
@@ -25,51 +26,81 @@ namespace Scripting
             }
         }
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
+        private bool _isFasterMusic;
 
+        private IEnumerator LerpPitch(float targetPitch, float duration)
+        {
+            var startPitch = dayMan.pitch;
+            var elapsedTime = 0f;
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                dayMan.pitch = Mathf.Lerp(startPitch, targetPitch, elapsedTime / duration);
+                yield return null;
+            }
+
+            dayMan.pitch = targetPitch; // Ensure final value is set
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            if (switchingToDay)
+            if (!GameManager.Singleton.IsNightTime && GameManager.Singleton.PercentTimeLeft <= 0.25)
             {
-                if (progress > transitionTime)
+                if (!_isFasterMusic)
                 {
-                    nightMan.Stop();// = 0.0f;
+                    _isFasterMusic = true;
+                    StartCoroutine(LerpPitch(1.1f, 0.5f));
+                }
+            }
+            else
+            {
+                if (_isFasterMusic)
+                {
+                    _isFasterMusic = false;
+                    StartCoroutine(LerpPitch(1f, 0.5f));
+                }
+            }
+
+            if (_switchingToDay)
+            {
+                if (_progress > transitionTime)
+                {
+                    nightMan.Stop(); // = 0.0f;
                     dayMan.volume = 1.0f;
-                    switchingToDay = false;
+                    _switchingToDay = false;
                 }
                 else
                 {
-                    nightMan.volume = Mathf.Clamp01(Mathf.Lerp(0.0f, 1.0f, (transitionTime - progress) / transitionTime));
-                    dayMan.volume = Mathf.Clamp01(Mathf.Lerp(0.0f, 1.0f, progress / transitionTime));
+                    nightMan.volume =
+                        Mathf.Clamp01(Mathf.Lerp(0.0f, 1.0f, (transitionTime - _progress) / transitionTime));
+                    dayMan.volume = Mathf.Clamp01(Mathf.Lerp(0.0f, 1.0f, _progress / transitionTime));
                 }
             }
-            else if (switchingToNight)
+            else if (_switchingToNight)
             {
-                if (progress > transitionTime)
+                if (_progress > transitionTime)
                 {
-                    dayMan.Stop();// = 0.0f;
+                    dayMan.Stop(); // = 0.0f;
                     nightMan.volume = 1.0f;
-                    switchingToNight = false;
+                    _switchingToNight = false;
                 }
                 else
                 {
-                    dayMan.volume = Mathf.Clamp01(Mathf.Lerp(0.0f, 1.0f, (transitionTime - progress) / transitionTime));
-                    nightMan.volume = Mathf.Clamp01(Mathf.Lerp(0.0f, 1.0f, progress / transitionTime));
+                    dayMan.volume =
+                        Mathf.Clamp01(Mathf.Lerp(0.0f, 1.0f, (transitionTime - _progress) / transitionTime));
+                    nightMan.volume = Mathf.Clamp01(Mathf.Lerp(0.0f, 1.0f, _progress / transitionTime));
                 }
             }
-            progress += Time.deltaTime;
+
+            _progress += Time.deltaTime;
         }
 
         public void DayTime()
         {
             RAGEMODE.Stop();
-            switchingToDay = true;
-            progress = 0;
+            _switchingToDay = true;
+            _progress = 0;
             dayMan.volume = 0.0f;
             dayMan.Play();
         }
@@ -77,16 +108,17 @@ namespace Scripting
         public void NightTime()
         {
             RAGEMODE.Stop();
-            switchingToNight = true;
-            progress = 0;
+            _switchingToNight = true;
+            _progress = 0;
             nightMan.volume = 0.0f;
             nightMan.Play();
         }
-        public void PlayRageMode(){
+
+        public void PlayRageMode()
+        {
             RAGEMODE.Play();
             dayMan.Stop();
             nightMan.Stop();
         }
-
     }
 }

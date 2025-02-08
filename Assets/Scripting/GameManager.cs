@@ -147,10 +147,13 @@ namespace Scripting
         private int _moneyInSafe;
         private float _aiSpawnRateCounter = 10f;
         private float _aiSpawnRate;
+        private float _dayTimer;
         
         public bool _endOfLifePlan;
         
         private static GameManager _singleton;
+
+        public float PercentTimeLeft => _dayTimer / dayLength;
 
         public static GameManager Singleton
         {
@@ -225,9 +228,6 @@ namespace Scripting
                 yield return null;
             }
         }
-
-        private float _dayTimer;
-
 
         public bool IsNightTime { get; private set; }
         public float LoanAgreementMultiplicator => loanAgreementMultiplicator;
@@ -434,7 +434,7 @@ namespace Scripting
                 totalMoneyAmountUI.SetActive(true);
                 //FINAL DAY!!! CHECK FINAL QUOTA!!!
                 //Debug.Log("FINAL DAY #1");
-                Invoke("FinalQuotaStep2", 3f);
+                Invoke(nameof(FinalQuotaStep2), 3f);
                 return;
             }
 
@@ -450,14 +450,14 @@ namespace Scripting
                 //upgrades.money -= todaysQuota;
                 safeMoneyAmountUI.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "$" + _moneyInSafe;
                 _moneyInSafe += todaysQuota;
-                Invoke("hideSafeMoneyUI", 3.5f);
+                Invoke(nameof(hideSafeMoneyUI), 3.5f);
             }
             else
             {
                 if (_endOfLifePlan)
                 {
                     EOLScreen.SetActive(true);
-                    Invoke("ResetEOLScreen", 3.5f);
+                    Invoke(nameof(ResetEOLScreen), 3.5f);
                     _endOfLifePlan = false;
                     _moneyInSafe += todaysQuota;
                     upgrades.money = 0;
