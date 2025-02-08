@@ -742,7 +742,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2480537316951037679}
   serializedVersion: 4
-  m_Mass: 60
+  m_Mass: 35
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -843,7 +843,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2480537316951037679}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e1e34cae49e9082428243220a23c27e1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1851,7 +1851,6 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 128
-  isActive: 0
 --- !u!1 &2675606373000583642 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: dbac4d4d693eec743864d3bd6b10c374, type: 3}
