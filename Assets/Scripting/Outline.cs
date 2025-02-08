@@ -15,6 +15,8 @@ namespace Scripting
         private bool _deactivate;
         private bool _isActive;
 
+        public bool OutlineActive => _isActive;
+        
         public void IsToonable(bool value)
         {
             _deactivate = !value;

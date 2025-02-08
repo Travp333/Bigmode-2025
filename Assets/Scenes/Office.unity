@@ -9445,6 +9445,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2951631501731502333, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
   m_PrefabInstance: {fileID: 5887139369653721332}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &862916670 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 623892907090503418, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+  m_PrefabInstance: {fileID: 5887139369653721332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &872554588 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4670267904308451048, guid: 26a760aabfa5cf74182a21e9624cc279, type: 3}
@@ -22924,6 +22929,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myVendSound: {fileID: 2125685380}
+--- !u!114 &2125685386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125685375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0c1d71fd2b68344ba87604ad293db51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toonMaterial: {fileID: 2100000, guid: a0efe207df356ef4495e47c92dbc5ab5, type: 2}
+  materialRenderer: {fileID: 862916670}
+  interactRayLength: 3
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &92214897693908626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24867,6 +24890,10 @@ PrefabInstance:
       value: 2.169
       objectReference: {fileID: 0}
     - target: {fileID: 7769893928707826632, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.676
+      objectReference: {fileID: 0}
+    - target: {fileID: 7769893928707826632, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
       propertyPath: m_LocalPosition.z
       value: -1.508
       objectReference: {fileID: 0}
@@ -24948,6 +24975,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8057375428857362874, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2125685380}
+    - targetCorrespondingSourceObject: {fileID: 8057375428857362874, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2125685386}
     - targetCorrespondingSourceObject: {fileID: 6962536368189241714, guid: a22cfa935bcce5444bcfb2e19749c85e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 591231653}

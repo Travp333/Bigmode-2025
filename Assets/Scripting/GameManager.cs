@@ -172,6 +172,7 @@ namespace Scripting
 
         private void SetInitValues()
         {
+            
 #if !UNITY_EDITOR
             upgrades.tutorialDone = false;
             upgrades.money = 0;
