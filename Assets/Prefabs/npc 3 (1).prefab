@@ -778,6 +778,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b5a84bfefb82a994394ce6ef8ac98802, type: 3}
       insertIndex: -1
       addedObject: {fileID: -9091774857274966958}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b5a84bfefb82a994394ce6ef8ac98802, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4221628487969463862}
   m_SourcePrefab: {fileID: 100100000, guid: b5a84bfefb82a994394ce6ef8ac98802, type: 3}
 --- !u!4 &238528286498030350 stripped
 Transform:
@@ -1915,6 +1918,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-4221628487969463862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5771346066556221148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0c1d71fd2b68344ba87604ad293db51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toonMaterial: {fileID: 2100000, guid: a0efe207df356ef4495e47c92dbc5ab5, type: 2}
+  materialRenderer: {fileID: 2884239957295058451}
+  interactRayLength: 3
+  isActive: 0
 --- !u!4 &6005438568687594141 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1117178536989204752, guid: b5a84bfefb82a994394ce6ef8ac98802, type: 3}

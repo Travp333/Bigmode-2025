@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b5f2a0412529a1947919a6bdbba59915
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - hellPortalPrefab: {fileID: 5624878940118680805, guid: 035e83667527f2f45afca94b3bab7e4e, type: 3}
+  - myMesh: {instanceID: 0}
+  - stoneFistPrefab: {fileID: 114746762879566936, guid: 01e8cf4900b963f4e958e866101bd732, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
