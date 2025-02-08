@@ -866,42 +866,44 @@ namespace Scripting.Customer
         public bool IsStealing => _isStealing;
         public bool IsSneakingOut => _sneakOut;
 
-        private int CalculateReward(int dayNpcReward, int variance, float multiplicator)
+        private int CalculateReward(int dayNpcReward, int variance, float multiplicator, bool isDismissal)
         {
+            const float dismissalMultiplicator = 0.5f;
+
             // Had to do this shit, cuz int can't handle floating points
             float converted = dayNpcReward + variance;
 
-            var reward = converted * multiplicator;
+            var reward = converted * multiplicator * (isDismissal ? dismissalMultiplicator : 1.0f);
 
             return (int) Math.Ceiling(reward);
         }
 
-        public void Pay()
+        public void Pay(bool isDismissal = false)
         {
             var laMultiplicator = GameManager.Singleton.LoanAgreementMultiplicator;
 
             var value = GameManager.Singleton.day switch
             {
                 1 => CalculateReward(day1NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f, isDismissal),
                 2 => CalculateReward(day2NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f, isDismissal),
                 3 => CalculateReward(day3NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f, isDismissal),
                 4 => CalculateReward(day4NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f, isDismissal),
                 5 => CalculateReward(day5NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f, isDismissal),
                 6 => CalculateReward(day6NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f, isDismissal),
                 7 => CalculateReward(day7NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f, isDismissal),
                 8 => CalculateReward(day8NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f, isDismissal),
                 9 => CalculateReward(day9NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f, isDismissal),
                 10 => CalculateReward(day10NPCReward, Random.Range(-1000, 1000),
-                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f),
+                    GameManager.Singleton.IsLoanAgreementRunning ? laMultiplicator : 1f, isDismissal),
                 _ => 0
             };
 
