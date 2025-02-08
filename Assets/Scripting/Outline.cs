@@ -11,13 +11,9 @@ namespace Scripting
         [SerializeField] private LayerMask mask;
 
         private Camera _cam;
-
         private Material[] _originalMaterials;
-
         private bool _deactivate;
-        
-        public bool isActive;
-
+        private bool isActive;
 
         public void IsToonable(bool value)
         {
