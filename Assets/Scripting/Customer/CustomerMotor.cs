@@ -266,6 +266,7 @@ namespace Scripting.Customer
         }
 
         private static bool _tutorialDone;
+        private static readonly int Sitting = Animator.StringToHash("Sitting");
 
         public void ShowBubble()
         {
@@ -378,7 +379,7 @@ namespace Scripting.Customer
 
             if (IsGoodGuy)
             {
-                if (agent.enabled && agent.remainingDistance < .1f && queuedSit && !anim.GetBool("Sitting"))
+                if (agent.enabled && agent.remainingDistance < .1f && queuedSit && !anim.GetBool(Sitting))
                 {
                     StartCoroutine(Sitdown());
                 }
@@ -387,7 +388,7 @@ namespace Scripting.Customer
                 if (_isBubbleVisible)
                 {
                     newColor = bubSprite.color;
-                    newColor.a = Mathf.Lerp(1, 0, StressMeter);
+                    newColor.a = Mathf.Lerp(1, .2f, StressMeter);
                     bubSprite.color = newColor;
                 }
 
