@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -10,14 +8,14 @@ namespace Scripting
         [SerializeField] private Material toonMaterial;
         [SerializeField] private Renderer materialRenderer;
         [SerializeField] private float interactRayLength = 3.0f;
+        [SerializeField] private LayerMask mask;
 
         private Camera _cam;
 
         private Material[] _originalMaterials;
 
         private bool _deactivate;
-
-
+        
         public bool isActive;
 
 
@@ -54,7 +52,7 @@ namespace Scripting
 
             var ray = _cam.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity))
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, mask))
             {
                 if (hit.collider.gameObject == gameObject)
                 {

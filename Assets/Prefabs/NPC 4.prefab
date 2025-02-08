@@ -1848,6 +1848,9 @@ MonoBehaviour:
   toonMaterial: {fileID: 2100000, guid: a0efe207df356ef4495e47c92dbc5ab5, type: 2}
   materialRenderer: {fileID: 6520565553341836832}
   interactRayLength: 3
+  mask:
+    serializedVersion: 2
+    m_Bits: 128
   isActive: 0
 --- !u!1 &2675606373000583642 stripped
 GameObject:

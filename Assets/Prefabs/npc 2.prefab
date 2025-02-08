@@ -2189,6 +2189,9 @@ MonoBehaviour:
   toonMaterial: {fileID: 2100000, guid: a0efe207df356ef4495e47c92dbc5ab5, type: 2}
   materialRenderer: {fileID: 884628056405412811}
   interactRayLength: 3
+  mask:
+    serializedVersion: 2
+    m_Bits: 128
   isActive: 0
 --- !u!4 &8581520017414238021 stripped
 Transform:
