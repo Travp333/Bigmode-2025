@@ -3178,13 +3178,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 321777785}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000054030252, y: 0.00000008742278, z: 4.7234746e-15, w: 1}
-  m_LocalPosition: {x: 0, y: 1.23, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.35, y: 2.23, z: -31.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1252999415}
-  m_Father: {fileID: 1953529833}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &323361980
 PrefabInstance:
@@ -7950,6 +7950,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fc80d1d5c3510743a42d826ae2f3b8f, type: 3}
+--- !u!1 &692642745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 692642746}
+  m_Layer: 3
+  m_Name: CameraAttachPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &692642746
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692642745}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.23, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1953529833}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &717371794
 GameObject:
   m_ObjectHideFlags: 0
@@ -19484,15 +19515,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1953529832}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.08291866, z: -0, w: -0.9965564}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.35, y: 1, z: -31.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 321777790}
   - {fileID: 1773336097}
+  - {fileID: 692642746}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -350.487, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1953529834
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -19597,6 +19628,7 @@ MonoBehaviour:
   rb: {fileID: 1953529838}
   capsuleCollider: {fileID: 1953529834}
   cam: {fileID: 321777789}
+  camAttachPoint: {fileID: 692642745}
   cameraRotationSitting: 15
   seatEnterPosition: {fileID: 296143890}
   seatExitPosition: {fileID: 1198057496}
@@ -19661,7 +19693,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &1953529839
@@ -25733,6 +25765,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 321777790}
   - {fileID: 1953529833}
   - {fileID: 243152189}
   - {fileID: 1134920919}
