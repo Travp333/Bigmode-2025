@@ -16,7 +16,7 @@ namespace Scripting
         private bool _isActive;
 
         public bool OutlineActive => _isActive;
-        
+
         public void IsToonable(bool value)
         {
             _deactivate = !value;
@@ -50,20 +50,15 @@ namespace Scripting
 
             var ray = _cam.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, mask))
+            if (Physics.Raycast(ray, out var hit, interactRayLength, mask))
             {
                 if (hit.collider.gameObject == gameObject)
                 {
                     if (!_isActive)
                     {
                         _isActive = true;
-                        // Add outline by extending the materials array
-                        var newMaterials = new Material[_originalMaterials.Length + 1];
-                        for (var i = 0; i < _originalMaterials.Length; i++)
-                            newMaterials[i] = _originalMaterials[i];  // Copy original materials
-            
-                        newMaterials[^1] = toonMaterial; // Add outline material
-                        materialRenderer.materials = newMaterials;
+
+                        materialRenderer.materials = materialRenderer.materials.Concat(new[] {toonMaterial}).ToArray();
                     }
                 }
                 else
@@ -71,7 +66,8 @@ namespace Scripting
                     if (_isActive)
                     {
                         _isActive = false;
-                        materialRenderer.materials = _originalMaterials.ToArray();
+                        materialRenderer.materials = materialRenderer.materials
+                            .Where(n => n.shader != toonMaterial.shader).ToArray();
                     }
                 }
             }
@@ -80,7 +76,9 @@ namespace Scripting
                 if (_isActive)
                 {
                     _isActive = false;
-                    materialRenderer.materials = _originalMaterials.ToArray();
+                    materialRenderer.materials = materialRenderer.materials.Where(n => n.shader != toonMaterial.shader)
+                        .ToArray();
+                    // materialRenderer.materials = _originalMaterials.ToArray();
                 }
             }
         }

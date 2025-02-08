@@ -149,7 +149,7 @@ namespace Scripting
         private float _decreasedMotherfuckerTimer;
         private float _devilTime;
         private int _finalMoneyTally;
-        
+
         public GameObject MainCanvas => mainCanvas;
         public Movement Player => player;
         private readonly List<CustomerMotor> _customerMotors = new();
@@ -161,9 +161,9 @@ namespace Scripting
         private float _aiSpawnRateCounter = 10f;
         private float _aiSpawnRate;
         private float _dayTimer;
-        
+
         public bool _endOfLifePlan;
-        
+
         private static GameManager _singleton;
 
         public float PercentTimeLeft => _dayTimer / dayLength;
@@ -185,8 +185,6 @@ namespace Scripting
 
         private void SetInitValues()
         {
-            
-#if !UNITY_EDITOR
             upgrades.tutorialDone = false;
             upgrades.money = 0;
             upgrades.chairs = false;
@@ -202,13 +200,11 @@ namespace Scripting
             upgrades.loanAgreement = false;
             upgrades.temporaryEmploymentContract = false;
             upgrades.endOfLifePlan = false;
-#endif
         }
 
         private void Awake()
         {
             CustomerMotor.ResetId();
-            SetInitValues();
             Singleton = this;
             IsNightTime = true;
 
@@ -365,12 +361,12 @@ namespace Scripting
 
         public void MoneyStolen(int value)
         {
-            ChangeMoneyAmount(-value); 
+            ChangeMoneyAmount(-value);
         }
 
         public void ReturnStolenMoney(int value)
         {
-            ChangeMoneyAmount(value); 
+            ChangeMoneyAmount(value);
         }
 
         void hideSafeMoneyUI()
@@ -600,7 +596,7 @@ namespace Scripting
         {
             _customerMotors.ToList().ForEach(n =>
             {
-                n.Pay();
+                n.Pay(true);
                 n.WalkOut();
                 n.anim.SetBool("conversing", false);
                 n.anim.SetBool("Sitting", false);
@@ -737,7 +733,7 @@ namespace Scripting
         {
             if (upgrades.priceAssistant <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.priceAssistant); 
+                ChangeMoneyAmount(-upgrades.priceAssistant);
                 return true;
             }
 
@@ -748,7 +744,7 @@ namespace Scripting
         {
             if (upgrades.priceBodyguard <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.priceBodyguard); 
+                ChangeMoneyAmount(-upgrades.priceBodyguard);
                 return true;
             }
 
@@ -759,7 +755,7 @@ namespace Scripting
         {
             if (upgrades.pricePhone <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.pricePhone); 
+                ChangeMoneyAmount(-upgrades.pricePhone);
                 return true;
             }
 
@@ -770,7 +766,7 @@ namespace Scripting
         {
             if (upgrades.priceCigar <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.priceCigar); 
+                ChangeMoneyAmount(-upgrades.priceCigar);
                 return true;
             }
 
@@ -781,7 +777,7 @@ namespace Scripting
         {
             if (upgrades.priceBaseballBat <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.priceBaseballBat); 
+                ChangeMoneyAmount(-upgrades.priceBaseballBat);
                 return true;
             }
 
@@ -792,7 +788,7 @@ namespace Scripting
         {
             if (upgrades.pricePaintings <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.pricePaintings); 
+                ChangeMoneyAmount(-upgrades.pricePaintings);
                 return true;
             }
 
@@ -803,7 +799,7 @@ namespace Scripting
         {
             if (upgrades.priceChairs <= upgrades.money)
             {
-                ChangeMoneyAmount(-upgrades.priceChairs); 
+                ChangeMoneyAmount(-upgrades.priceChairs);
                 return true;
             }
 
@@ -924,6 +920,11 @@ namespace Scripting
                     break;
             }
             return (int)result;
+        }
+
+        public void ResetScriptableObject()
+        {
+            SetInitValues();
         }
     }
 }
