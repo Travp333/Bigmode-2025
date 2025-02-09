@@ -324,14 +324,9 @@ namespace Scripting
         {
             if (special)
             {
-                List<Material> temp = _myMeshRenderer.materials.ToList();
+                var temp = _myMeshRenderer.materials.ToList();
                 temp[1] = SpecialStoreManager.Singleton.fetchUpgradeMaterial(myUpgradeType);
-                //
-                // if (GetComponent<Outline>().OutlineActive)
-                // {
-                //     
-                // }
-                //
+
                 _myMeshRenderer.SetMaterials(temp);
             }
             else

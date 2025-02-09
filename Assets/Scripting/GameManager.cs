@@ -28,10 +28,6 @@ namespace Scripting
         [SerializeField]
         GameObject totalMoneyAmountUI;
         
-
-        
-
-
         [SerializeField]
         int day1Quota = 15000,
             day2Quota = 30000,
@@ -163,11 +159,11 @@ namespace Scripting
         private float _dayTimer;
 
         public bool _endOfLifePlan;
-
-        private static GameManager _singleton;
-
+        
         public float PercentTimeLeft => _dayTimer / dayLength;
-
+        
+        private static GameManager _singleton;
+        
         public static GameManager Singleton
         {
             get => _singleton;
@@ -208,6 +204,7 @@ namespace Scripting
             Singleton = this;
             IsNightTime = true;
 
+            SetInitValues();
             Contract.ResetTutorial();
 
             fade.gameObject.SetActive(true);
@@ -920,11 +917,6 @@ namespace Scripting
                     break;
             }
             return (int)result;
-        }
-
-        public void ResetScriptableObject()
-        {
-            SetInitValues();
         }
     }
 }

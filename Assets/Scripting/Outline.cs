@@ -9,6 +9,8 @@ namespace Scripting
         [SerializeField] private Renderer materialRenderer;
         [SerializeField] private float interactRayLength = 3.0f;
         [SerializeField] private LayerMask mask;
+        [SerializeField] private bool isSeatedActive;
+        [SerializeField] private bool isNightActive;
 
         private Camera _cam;
         private Material[] _originalMaterials;
@@ -37,12 +39,29 @@ namespace Scripting
         // Update is called once per frame
         void Update()
         {
+            if (GameManager.Singleton.IsPause)
+                return;
+
+            if (isSeatedActive != GameManager.Singleton.Player.IsSeated ||
+                isNightActive != GameManager.Singleton.IsNightTime)
+            {
+                if (_isActive)
+                {
+                    _isActive = false;
+                    materialRenderer.materials = materialRenderer.materials.Where(n => n.shader != toonMaterial.shader)
+                        .ToArray();
+                }
+
+                return;
+            }
+
             if (_deactivate)
             {
                 if (_isActive)
                 {
                     _isActive = false;
-                    materialRenderer.materials = _originalMaterials.ToArray();
+                    materialRenderer.materials = materialRenderer.materials.Where(n => n.shader != toonMaterial.shader)
+                        .ToArray();
                 }
 
                 return;

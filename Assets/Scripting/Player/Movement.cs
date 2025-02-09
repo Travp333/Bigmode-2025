@@ -128,8 +128,7 @@ namespace Scripting.Player
 
         private bool _countDownGate;
         private GameObject _clientInteractor;
-
-
+        
         public Camera Cam => cam;
         public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
