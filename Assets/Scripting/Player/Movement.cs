@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,8 @@ namespace Scripting.Player
 
         [Header("Cameras")]
         [SerializeField] private Camera cam;
+
+        [SerializeField] private GameObject camAttachPoint;
 
         [Header("Sitting")]
         [SerializeField] private float cameraRotationSitting = 15f;
@@ -104,6 +107,7 @@ namespace Scripting.Player
         private Vector3 _moveInput;
         private PlayerInput _playerInput;
         private float _rotationX;
+        private float _rotationY;
         private bool _actionPressed;
         private bool _attackPressed;
         private bool _isInChairTrigger;
@@ -124,7 +128,8 @@ namespace Scripting.Player
 
         private bool _countDownGate;
         private GameObject _clientInteractor;
-
+        
+        public Camera Cam => cam;
         public float StressLevel { get; private set; }
         public bool BlockAction { get; private set; }
         public bool HasContract => _currentContract;
@@ -143,6 +148,7 @@ namespace Scripting.Player
         [SerializeField] private float rageModeTimer = 5f;
 
         bool chargeBlock;
+        [SerializeField] private float rageChargeSpeed = 5000f;
 
         private bool _mailboxTutorial;
         private bool _customerTutorial;
@@ -338,15 +344,20 @@ namespace Scripting.Player
             }
         }
 
+        private void LateUpdate()
+        {
+            cam.transform.position = camAttachPoint.transform.position;
+        }
+
         private void Update()
         {
             if (GameManager.Singleton.IsPause)
             {
                 return;
             }
-            
+
             if (GameManager.Singleton.IsNightTime)
-            { 
+            {
                 sitDown.SetActive(false);
                 getUp.SetActive(false);
                 talk.SetActive(false);
@@ -355,7 +366,7 @@ namespace Scripting.Player
                 radialIndicatorUI.enabled = false;
                 graffitiRemoveProgress.enabled = false;
             }
-            
+
             if (Physics.Raycast(cam.transform.position, cam.transform.forward,
                     out var hitGraffiti, interactRayLength, graffitiMask))
             {
@@ -545,7 +556,7 @@ namespace Scripting.Player
                 return;
             if (chargeBlock)
             {
-                rb.AddForce(this.transform.forward * (1000f * Time.deltaTime));
+                rb.AddForce(cam.transform.forward * (rageChargeSpeed * Time.deltaTime));
             }
             else
             {
@@ -555,7 +566,11 @@ namespace Scripting.Player
                 var vector = move * moveSpeed;
                 vector.y = rb.linearVelocity.y;
 
-                rb.linearVelocity = vector;
+                var yRotation = cam.transform.rotation.eulerAngles.y;
+
+                var camRotationDelta = Quaternion.Euler(0, yRotation, 0);
+
+                rb.linearVelocity = camRotationDelta * vector;
 
                 if (rb.linearVelocity.magnitude > 0.5f)
                 {
@@ -571,16 +586,17 @@ namespace Scripting.Player
             var mouseX = lookDelta.x;
             var mouseY = lookDelta.y;
 
-
             _rotationX -= mouseY;
             _rotationX = Mathf.Clamp(_rotationX, -80f, 80f);
 
-            cam.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
-            transform.Rotate(Vector3.up * mouseX);
+            if (!_seated)
+                _rotationY += mouseX;
+
+            cam.transform.rotation = Quaternion.Euler(_rotationX, _rotationY, 0);
 
             if (_isInChairTrigger && !GameManager.Singleton.IsNightTime && !rageMode)
             {
-                var contract = GetComponentInChildren<Contract>();
+                var contract = cam.GetComponentInChildren<Contract>();
                 if (contract)
                 {
                     //Debug.Log("Re entering seat while holding this document" + contract);
@@ -634,6 +650,7 @@ namespace Scripting.Player
                             {
                                 handAnim.SetBool("HoldingDocument", false);
                             }
+
                             ResetContract();
 
                             _baseballBat = bat;
@@ -940,21 +957,29 @@ namespace Scripting.Player
                 var t = elapsed / AnimationDuration;
 
                 transform.position = Vector3.Slerp(transform.position, seatEnterPosition.transform.position, t);
-                transform.rotation = Quaternion.Slerp(transform.rotation, seatEnterPosition.transform.rotation, t);
-                cam.transform.rotation =
-                    Quaternion.Euler(Mathf.Lerp(cam.transform.rotation.eulerAngles.x, cameraRotationSitting, t),
-                        cam.transform.rotation.eulerAngles.y,
-                        cam.transform.rotation.eulerAngles.z);
+                cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, Quaternion.Euler(
+                    cameraRotationSitting,
+                    seatEnterPosition.transform.rotation.eulerAngles.y,
+                    seatEnterPosition.transform.rotation.eulerAngles.z), t);
+
                 yield return null;
             }
 
             transform.position = seatEnterPosition.transform.position;
-            transform.rotation = seatEnterPosition.transform.rotation;
-            cam.transform.rotation = Quaternion.Euler(cam.transform.rotation.eulerAngles.x,
-                cam.transform.rotation.eulerAngles.y, cam.transform.rotation.eulerAngles.z);
+            cam.transform.rotation = Quaternion.Euler(cameraRotationSitting,
+                seatEnterPosition.transform.rotation.eulerAngles.y, seatEnterPosition.transform.rotation.eulerAngles.z);
+
+            _rotationY = seatEnterPosition.transform.rotation.eulerAngles.y;
 
             SitOnChairDone();
         }
+
+#if UNITY_EDITOR
+        private void OnGUI()
+        {
+            GUI.Label(new Rect(5, 5, 200, 50), "" + _rotationY);
+        }
+#endif
 
         private IEnumerator DoExitChairAnimation()
         {
@@ -968,13 +993,11 @@ namespace Scripting.Player
                 var t = elapsed / AnimationDuration;
 
                 transform.position = Vector3.Slerp(transform.position, seatExitPosition.transform.position, t);
-                transform.rotation = Quaternion.Slerp(transform.rotation, seatExitPosition.transform.rotation, t);
 
                 yield return null;
             }
 
             transform.position = seatExitPosition.transform.position;
-            transform.rotation = seatExitPosition.transform.rotation;
 
             ExitChairDone();
         }

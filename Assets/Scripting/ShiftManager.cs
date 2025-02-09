@@ -19,6 +19,7 @@ namespace Scripting
         [SerializeField] private bool isNightTime;
 
         [SerializeField] private ClockPointer clockPointer;
+        [SerializeField] private TimeIsRunningOutAlarm clockUi;
 
         [SerializeField] private MeshRenderer openRenderer;
 
@@ -105,6 +106,7 @@ namespace Scripting
             }
 
             clockPointer.SetDayTime(value);
+            clockUi.SetDayTime(value);
         }
 
 

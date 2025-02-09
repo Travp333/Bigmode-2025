@@ -1,172 +1,169 @@
 using System;
-using System.Collections;
-using Scripting;
-using Unity.Cinemachine;
+using Scripting.Player;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
-using Scripting.Player;
 
-public class BasicMenuManager : MonoBehaviour
+namespace Scripting.Tutorials
 {
-    [SerializeField]
-    GameObject successScreen;
-
-    [Header("Objects")]
-    [SerializeField] private GameObject optionsPanel;
-
-    [SerializeField] private GameObject mainMenuButtons;
-
-    [Header("Mixer")]
-    [SerializeField] private AudioMixer audioMixer;
-
-    [SerializeField] private Movement movement;
-
-    private float _oldMasterVolume;
-    private float _oldMusicVolume;
-    private float _oldSfxVolume;
-    private float _oldSpeechVolume;
-
-    private float _newMasterVolume;
-    private float _newMusicVolume;
-    private float _newSfxVolume;
-    private float _newSpeechVolume;
-
-    private float _oldSensitivity;
-    private float _newSensitivity;
-
-
-    private enum PauseStates
+    public class BasicMenuManager : MonoBehaviour
     {
-        Paused,
-        Options,
-        Unpaused
-    }
+        [SerializeField]
+        GameObject successScreen;
 
-    private PauseStates state;
+        [Header("Objects")]
+        [SerializeField] private GameObject optionsPanel;
 
-    public void Pause()
-    {
-        state = PauseStates.Unpaused;
-        Time.timeScale = 1;
-        mainMenuButtons.SetActive(false);
-        optionsPanel.SetActive(false);
-        movement.enabled = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        optionsPanel.SetActive(false);
-    }
+        [SerializeField] private GameObject mainMenuButtons;
 
-    private void Awake()
-    {
-        _oldSensitivity = _newSensitivity = movement.MouseSpeed / 6f;
-        mainMenuButtons.SetActive(false);
-        optionsPanel.SetActive(false);
-        state = PauseStates.Unpaused;
-    }
+        [Header("Mixer")]
+        [SerializeField] private AudioMixer audioMixer;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) && !successScreen.activeInHierarchy)
+        [SerializeField] private Movement movement;
+
+        private float _oldMasterVolume;
+        private float _oldMusicVolume;
+        private float _oldSfxVolume;
+        private float _oldSpeechVolume;
+
+        private float _newMasterVolume;
+        private float _newMusicVolume;
+        private float _newSfxVolume;
+        private float _newSpeechVolume;
+
+        private float _oldSensitivity;
+        private float _newSensitivity;
+
+
+        private enum PauseStates
         {
-            if (state == PauseStates.Paused)
+            Paused,
+            Options,
+            Unpaused
+        }
+
+        private PauseStates state;
+
+        public void Pause()
+        {
+            state = PauseStates.Unpaused;
+            Time.timeScale = 1;
+            mainMenuButtons.SetActive(false);
+            optionsPanel.SetActive(false);
+            movement.enabled = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            optionsPanel.SetActive(false);
+        }
+
+        private void Awake()
+        {
+            _oldSensitivity = _newSensitivity = movement.MouseSpeed / 6f;
+            mainMenuButtons.SetActive(false);
+            optionsPanel.SetActive(false);
+            state = PauseStates.Unpaused;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && !successScreen.activeInHierarchy)
             {
-                if(!movement.IsSeated){
-                    Cursor.lockState = CursorLockMode.Locked;
-                    Cursor.visible = false;
+                if (state == PauseStates.Paused)
+                {
+                    if(!movement.IsSeated){
+                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = false;
+                    }
+                    else{
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = false;
+                    }
+                    state = PauseStates.Unpaused;
+                    Time.timeScale = 1;
+                    mainMenuButtons.SetActive(false);
+                    optionsPanel.SetActive(false);
+                    movement.enabled = true;
+                    GameManager.Singleton.SetIsPauseMenu(false);
                 }
-                else{
+                else if (state == PauseStates.Unpaused)
+                {
+                    state = PauseStates.Paused;
+                    mainMenuButtons.SetActive(true);
+                    Time.timeScale = 0;
+                    movement.enabled = false;
                     Cursor.lockState = CursorLockMode.None;
-                    Cursor.visible = false;
+                    Cursor.visible = true;
+                    GameManager.Singleton.SetIsPauseMenu(true);
                 }
-                state = PauseStates.Unpaused;
-                Time.timeScale = 1;
-                mainMenuButtons.SetActive(false);
-                optionsPanel.SetActive(false);
-                movement.enabled = true;
-                GameManager.Singleton.SetIsPauseMenu(false);
-            }
-            else if (state == PauseStates.Unpaused)
-            {
-                state = PauseStates.Paused;
-                mainMenuButtons.SetActive(true);
-                Time.timeScale = 0;
-                movement.enabled = false;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                GameManager.Singleton.SetIsPauseMenu(true);
             }
         }
-    }
 
 
-    public void SetMasterVolume(float volume)
-    {
-        _oldMasterVolume = volume;
-        audioMixer.SetFloat("master", (float) Math.Log10(volume) * 20f);
-    }
+        public void SetMasterVolume(float volume)
+        {
+            _oldMasterVolume = volume;
+            audioMixer.SetFloat("master", (float) Math.Log10(volume) * 20f);
+        }
 
-    public void SetMusicVolume(float volume)
-    {
-        _oldMusicVolume = volume;
-        audioMixer.SetFloat("music", (float) Math.Log10(volume) * 20f);
-    }
+        public void SetMusicVolume(float volume)
+        {
+            _oldMusicVolume = volume;
+            audioMixer.SetFloat("music", (float) Math.Log10(volume) * 20f);
+        }
 
-    public void SetSfxVolume(float volume)
-    {
-        _oldSfxVolume = volume;
-        audioMixer.SetFloat("sfx", (float) Math.Log10(volume) * 20f);
-    }
+        public void SetSfxVolume(float volume)
+        {
+            _oldSfxVolume = volume;
+            audioMixer.SetFloat("sfx", (float) Math.Log10(volume) * 20f);
+        }
 
-    public void SetSpeechVolume(float volume)
-    {
-        _oldSpeechVolume = volume;
-        audioMixer.SetFloat("speech", (float) Math.Log10(volume) * 20f);
-    }
+        public void SetSpeechVolume(float volume)
+        {
+            _oldSpeechVolume = volume;
+            audioMixer.SetFloat("speech", (float) Math.Log10(volume) * 20f);
+        }
 
-    public void SetSensitivity(float sensitivity)
-    {
-        _oldSensitivity = sensitivity;
-        movement.MouseSpeed = (sensitivity * 6f);
-    }
+        public void SetSensitivity(float sensitivity)
+        {
+            _oldSensitivity = sensitivity;
+            movement.MouseSpeed = (sensitivity * 6f);
+        }
 
-    public void GoBackSettings()
-    {
-        mainMenuButtons.SetActive(true);
-        optionsPanel.SetActive(false);
-        mainMenuButtons.SetActive(true);
-    }
+        public void GoBackSettings()
+        {
+            mainMenuButtons.SetActive(true);
+            optionsPanel.SetActive(false);
+            mainMenuButtons.SetActive(true);
+        }
 
-    public void ConfirmSettings()
-    {
-        mainMenuButtons.SetActive(true);
-        optionsPanel.SetActive(false);
+        public void ConfirmSettings()
+        {
+            mainMenuButtons.SetActive(true);
+            optionsPanel.SetActive(false);
 
-        _oldMasterVolume = _newMasterVolume;
-        _oldMusicVolume = _newMusicVolume;
-        _oldSfxVolume = _newSfxVolume;
-        _oldSpeechVolume = _newSpeechVolume;
-        _oldSensitivity = _newSensitivity;
+            _oldMasterVolume = _newMasterVolume;
+            _oldMusicVolume = _newMusicVolume;
+            _oldSfxVolume = _newSfxVolume;
+            _oldSpeechVolume = _newSpeechVolume;
+            _oldSensitivity = _newSensitivity;
 
-        GoBackSettings();
-    }
+            GoBackSettings();
+        }
 
-    public void OptionsClicked()
-    {
-        mainMenuButtons.SetActive(false);
-        Debug.Log("click");
-        ShowOptionsPanel();
-    }
+        public void OptionsClicked()
+        {
+            mainMenuButtons.SetActive(false);
+            Debug.Log("click");
+            ShowOptionsPanel();
+        }
 
-    private void ShowOptionsPanel()
-    {
-        optionsPanel.SetActive(true);
-    }
+        private void ShowOptionsPanel()
+        {
+            optionsPanel.SetActive(true);
+        }
     
-    public void ExitGame()
-    {
-        Application.Quit();
+        public void ExitGame()
+        {
+            Application.Quit();
+        }
     }
 }

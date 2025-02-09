@@ -48,7 +48,9 @@ namespace Scripting.Desk
         }
 
         private void Update()
-        {  if (GameManager.Singleton.IsPause)
+        {
+            
+            if (GameManager.Singleton.IsPause)
             {
                 return;
             }
@@ -62,6 +64,7 @@ namespace Scripting.Desk
                     if (myPhoneDialogue.isPlaying)
                     {
                         myPhoneDialogue.Stop();
+                        
                     }
 
                     if (!myPhonePutdown.isPlaying)
@@ -70,6 +73,7 @@ namespace Scripting.Desk
                     }
 
                     handAnim.GetComponent<PhoneReferenceHolder>().HangupPhone();
+                    ConversationEndEarly();
                     player.onPhone = false;
                 }
 
@@ -138,6 +142,7 @@ namespace Scripting.Desk
             //NO Money!! 
             myPhonePutdown.Play();
             myPhoneDialogue.Stop();
+            player.onPhone = false;
         }
 
         private bool _isRinging;
@@ -216,6 +221,7 @@ namespace Scripting.Desk
 
             //GameManager.Singleton.upgrades.money += value;
             GameManager.Singleton.ChangeMoneyAmount(value);
+            player.onPhone = false;
         }
 
         private void Ring()
