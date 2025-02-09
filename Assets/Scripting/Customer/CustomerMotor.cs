@@ -122,6 +122,8 @@ namespace Scripting.Customer
         [SerializeField]
         public GameObject TutorialBubble;
 
+        private LaunchDetection launch;
+
         public static void ResetId()
         {
             NextId = 0;
@@ -133,6 +135,7 @@ namespace Scripting.Customer
         /// </summary>
         void Start()
         {
+            launch = GetComponent<LaunchDetection>();
             if (Id == 0)
             {
                 TutorialManager.Singleton.ShowOrderNumber(12);
@@ -354,6 +357,10 @@ namespace Scripting.Customer
         {
             if (!agent.hasPath)
             {
+                if (_runOut)
+                {
+                    agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
+                }
                 if (GameManager.Singleton.IsNightTime)
                 {
                     Destroy(gameObject);
@@ -811,23 +818,20 @@ namespace Scripting.Customer
         {
             UnlockAssistant();
             StopConversing();
-
             if (!agent.enabled)
             {
                 agent.enabled = true;
             }
-
             if (_runOut)
             {
                 return;
             }
-
+            
             _runOut = true;
             _sneakOut = false;
             anim.SetBool("isRunning", true);
             anim.Play("RUN");
             //GameManager.Singleton.RemoveCustomer(this);
-
             agent.speed = _initialAgentSpeed * 2f;
             agent.SetDestination(_aiController.GetRandomDespawnPoint().transform.position);
         }

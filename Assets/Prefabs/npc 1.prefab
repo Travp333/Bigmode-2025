@@ -2306,6 +2306,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 128
+  isSeatedActive: 0
+  isNightActive: 0
 --- !u!137 &6299489044259679723 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8417361359673230750, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}

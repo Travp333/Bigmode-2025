@@ -13,7 +13,7 @@ namespace Scripting
             if(!door.isOpen){
                 if(other.gameObject.GetComponent<LaunchDetection>()!=null){
                     //ai approacing door!
-                    if(other.gameObject.GetComponent<LaunchDetection>().lerpGate){
+                    if(other.gameObject.GetComponent<LaunchDetection>().isFlying){
                         //Debug.Log("NPC Flying, SLAM OPEN");
                         door.SlamOpenDoor();
                     }
@@ -31,7 +31,7 @@ namespace Scripting
                 //Still slam door open other direction even if its already open for effect
                 if(other.gameObject.GetComponent<LaunchDetection>()!=null){
                     //ai approacing door!
-                    if(other.gameObject.GetComponent<LaunchDetection>().lerpGate){
+                    if(other.gameObject.GetComponent<LaunchDetection>().isFlying){
                         //Debug.Log("NPC Flying, SLAM OPEN");
                         door.SlamOpenDoor();
                     }

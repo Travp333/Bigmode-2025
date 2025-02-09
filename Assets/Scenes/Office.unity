@@ -21111,6 +21111,7 @@ MonoBehaviour:
   rageMode: 0
   staplerMesh: {fileID: 841787311}
   rageModeTimer: 10
+  rageChargeSpeed: 2000
 --- !u!54 &1953529838
 Rigidbody:
   m_ObjectHideFlags: 0

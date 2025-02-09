@@ -2,6 +2,7 @@ using Scripting.Customer;
 using Scripting.Player;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace Scripting
 {
@@ -20,7 +21,7 @@ namespace Scripting
 
         private Animator _anim;
         private RaycastHit _hit;
-        public bool lerpGate;
+        [FormerlySerializedAs("lerpGate")] public bool isFlying;
         private Vector3 _lerpTarget;
         private Vector3 _hitNormal;
         private NavMeshAgent _agent;
@@ -44,7 +45,7 @@ namespace Scripting
 
         public void EnableAI()
         {
-            if (_scared)
+            if (_scared && !isFlying)
             {
                 _motor.RunOut();
             }
@@ -104,7 +105,7 @@ namespace Scripting
             _hitNormal = _hit.normal;
             //Debug.DrawRay(this.transform.position, _lerpTarget - this.transform.position, Color.yellow, 1f);
             //Debug.DrawRay(_lerpTarget, _hitNormal, Color.blue, 1f);
-            lerpGate = true;
+            isFlying = true;
             _scared = true;
         }
 
@@ -151,7 +152,7 @@ namespace Scripting
             if (other.gameObject.GetComponent<LaunchDetection>() != null)
             {
                 if (other.gameObject != gameObject &&
-                    other.gameObject.GetComponent<LaunchDetection>().lerpGate == true && lerpGate == false)
+                    other.gameObject.GetComponent<LaunchDetection>().isFlying == true && isFlying == false)
                 {
                     // if (_agent.enabled)
                     // {
@@ -160,11 +161,20 @@ namespace Scripting
                     _motor.GetHit();
                     //     }
                     // }
-
+                    
                     //Debug.Log("Hit by a flying person!");
                     transform.rotation = Quaternion.LookRotation(other.transform.position - transform.position,
                         transform.up);
                     PlayRandomDamageAnimation();
+                    if (_motor._runOut)
+                    {
+                        Debug.Log("HIT BY FLYING PERSON WHILE RUNNING AWAY");
+                        _agent.isStopped = false;
+                        EnableAI();
+                        isFlying = false;
+                        
+                        _motor.RunOut();
+                    }
                 }
             }
         }
@@ -198,13 +208,13 @@ namespace Scripting
 
         private void Update()
         {
-            if (lerpGate)
+            if (isFlying)
             {
                 if (Vector3.Distance(transform.position, _lerpTarget) < splatDistance)
                 {
                     //Debug.Log("ALREADY AT TARGET, SKIPPING");
                     PlayRandomDamageAnimation();
-                    lerpGate = false;
+                    isFlying = false;
                 }
                 else
                 {
@@ -218,14 +228,14 @@ namespace Scripting
                         {
                             transform.rotation = Quaternion.LookRotation(_hitNormal, transform.up);
                             _anim.Play("WALLSPLAT");
-                            lerpGate = false;
+                            isFlying = false;
                         }
                     }
                     else
                     {
                         //Debug.Log("INVALID HIT NORMAL, SKIPPING");
                         PlayRandomDamageAnimation();
-                        lerpGate = false;
+                        isFlying = false;
                     }
                 }
             }

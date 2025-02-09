@@ -1851,6 +1851,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 128
+  isSeatedActive: 0
+  isNightActive: 0
 --- !u!1 &2675606373000583642 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: dbac4d4d693eec743864d3bd6b10c374, type: 3}

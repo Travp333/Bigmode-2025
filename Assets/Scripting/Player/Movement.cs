@@ -148,6 +148,7 @@ namespace Scripting.Player
         [SerializeField] private float rageModeTimer = 5f;
 
         bool chargeBlock;
+        [SerializeField] private float rageChargeSpeed = 5000f;
 
         private bool _mailboxTutorial;
         private bool _customerTutorial;
@@ -555,7 +556,7 @@ namespace Scripting.Player
                 return;
             if (chargeBlock)
             {
-                rb.AddForce(cam.transform.forward * (1000f * Time.deltaTime));
+                rb.AddForce(cam.transform.forward * (rageChargeSpeed * Time.deltaTime));
             }
             else
             {
