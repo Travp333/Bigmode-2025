@@ -590,8 +590,6 @@ namespace Scripting
         {
             _loanAgreementRunning = loanAgreementTime;
             upgrades.loanAgreement = false;
-
-            powerTutorials.ForEach(n => n.Hide());
         }
 
         public void Dismissal()
@@ -625,8 +623,6 @@ namespace Scripting
             _devilTime = devilDealTime;
 
             upgrades.hellishContract = false;
-
-            powerTutorials.ForEach(n => n.Hide());
         }
 
         public void DoFistStuff(bool wasMotherfucker)
@@ -646,8 +642,6 @@ namespace Scripting
             }
 
             upgrades.powerFistRequisition = false;
-
-            powerTutorials.ForEach(n => n.Hide());
         }
 
         public void SpawnTec()
@@ -656,9 +650,6 @@ namespace Scripting
                 SpawnTecHuell();
 
             upgrades.temporaryEmploymentContract = false;
-
-
-            powerTutorials.ForEach(n => n.Hide());
         }
 
         public void GetExtraLife()
@@ -668,9 +659,6 @@ namespace Scripting
             _endOfLifePlan = true;
 
             upgrades.endOfLifePlan = false;
-
-
-            powerTutorials.ForEach(n => n.Hide());
         }
 
         private void SpawnTecHuell()
@@ -943,6 +931,11 @@ namespace Scripting
             }
 
             return (int) result;
+        }
+
+        public void HidePowerDocumentTutorial()
+        {
+            powerTutorials.ForEach(n => n.Hide());
         }
     }
 }

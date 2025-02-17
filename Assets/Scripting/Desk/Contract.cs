@@ -264,6 +264,7 @@ namespace Scripting.Desk
 
         public void Submit()
         {
+            GameManager.Singleton.HidePowerDocumentTutorial();
             if (!Converted)
             {
                 var names = TrainingsData.ContractTypes;
