@@ -15,12 +15,12 @@ MonoBehaviour:
   tutorialDone: 0
   chairs: 0
   paintings: 0
-  baseballBat: 1
+  baseballBat: 0
   cigar: 0
   phone: 0
   bodyguard: 0
   assistant: 0
-  money: 969064
+  money: 0
   priceChairs: 5000
   pricePaintings: 10000
   priceBaseballBat: 10000
@@ -29,7 +29,7 @@ MonoBehaviour:
   priceBodyguard: 35000
   priceAssistant: 40000
   dismissal: 0
-  hellishContract: 0
+  hellishContract: 1
   powerFistRequisition: 0
   loanAgreement: 0
   temporaryEmploymentContract: 0

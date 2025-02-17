@@ -11,6 +11,7 @@ namespace Scripting
         [SerializeField] private LayerMask mask;
         [SerializeField] private bool isSeatedActive;
         [SerializeField] private bool isNightActive;
+        [SerializeField] private bool isDayActive;
 
         private Camera _cam;
         private Material[] _originalMaterials;
@@ -43,7 +44,7 @@ namespace Scripting
                 return;
 
             if (isSeatedActive != GameManager.Singleton.Player.IsSeated ||
-                isNightActive != GameManager.Singleton.IsNightTime)
+                isNightActive != GameManager.Singleton.IsNightTime && isDayActive == GameManager.Singleton.IsNightTime)
             {
                 if (_isActive)
                 {
