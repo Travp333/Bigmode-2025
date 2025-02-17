@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Scripting.Customer;
@@ -17,6 +16,9 @@ namespace Scripting
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
+        public List<ShowOnlyOnce> powerTutorials;
+
+        [SerializeField]
         MusicSwitcher mus;
 
         [SerializeField]
@@ -27,7 +29,7 @@ namespace Scripting
 
         [SerializeField]
         GameObject totalMoneyAmountUI;
-        
+
         [SerializeField]
         int day1Quota = 15000,
             day2Quota = 30000,
@@ -51,7 +53,7 @@ namespace Scripting
             day8AISpawnRate = 5.333f,
             day9AISpawnRate = 4,
             day10AISpawnRate = 2.66f;
-        
+
         [SerializeField]
         int day1PentagramReward = 7500,
             day2PentagramReward = 15000,
@@ -159,11 +161,11 @@ namespace Scripting
         private float _dayTimer;
 
         public bool _endOfLifePlan;
-        
+
         public float PercentTimeLeft => _dayTimer / dayLength;
-        
+
         private static GameManager _singleton;
-        
+
         public static GameManager Singleton
         {
             get => _singleton;
@@ -182,6 +184,7 @@ namespace Scripting
         private void SetInitValues()
         {
             upgrades.tutorialDone = false;
+            upgrades.powerTutorialDone = false;
             upgrades.money = 0;
             upgrades.chairs = false;
             upgrades.paintings = false;
@@ -587,6 +590,8 @@ namespace Scripting
         {
             _loanAgreementRunning = loanAgreementTime;
             upgrades.loanAgreement = false;
+
+            powerTutorials.ForEach(n => n.Hide());
         }
 
         public void Dismissal()
@@ -620,6 +625,8 @@ namespace Scripting
             _devilTime = devilDealTime;
 
             upgrades.hellishContract = false;
+
+            powerTutorials.ForEach(n => n.Hide());
         }
 
         public void DoFistStuff(bool wasMotherfucker)
@@ -639,6 +646,8 @@ namespace Scripting
             }
 
             upgrades.powerFistRequisition = false;
+
+            powerTutorials.ForEach(n => n.Hide());
         }
 
         public void SpawnTec()
@@ -647,6 +656,9 @@ namespace Scripting
                 SpawnTecHuell();
 
             upgrades.temporaryEmploymentContract = false;
+
+
+            powerTutorials.ForEach(n => n.Hide());
         }
 
         public void GetExtraLife()
@@ -656,6 +668,9 @@ namespace Scripting
             _endOfLifePlan = true;
 
             upgrades.endOfLifePlan = false;
+
+
+            powerTutorials.ForEach(n => n.Hide());
         }
 
         private void SpawnTecHuell()
@@ -822,101 +837,112 @@ namespace Scripting
                     }
                     else
                     {
-                        result =  day1PentagramReward;
+                        result = day1PentagramReward;
                     }
+
                     break;
                 case 2:
                     if (IsLoanAgreementRunning)
                     {
-                        result =  day2PentagramReward * loanAgreementMultiplicator;
+                        result = day2PentagramReward * loanAgreementMultiplicator;
                     }
                     else
                     {
-                        result =  day2PentagramReward;
+                        result = day2PentagramReward;
                     }
+
                     break;
                 case 3:
                     if (IsLoanAgreementRunning)
                     {
-                        result =  day3PentagramReward * loanAgreementMultiplicator;
+                        result = day3PentagramReward * loanAgreementMultiplicator;
                     }
                     else
                     {
-                        result =  day3PentagramReward;
+                        result = day3PentagramReward;
                     }
+
                     break;
                 case 4:
                     if (IsLoanAgreementRunning)
                     {
-                        result =  day4PentagramReward * loanAgreementMultiplicator;
+                        result = day4PentagramReward * loanAgreementMultiplicator;
                     }
                     else
                     {
-                        result =  day4PentagramReward;
+                        result = day4PentagramReward;
                     }
+
                     break;
                 case 5:
                     if (IsLoanAgreementRunning)
                     {
-                        result =  day5PentagramReward * loanAgreementMultiplicator;
+                        result = day5PentagramReward * loanAgreementMultiplicator;
                     }
                     else
                     {
-                        result =  day5PentagramReward;
+                        result = day5PentagramReward;
                     }
+
                     break;
                 case 6:
                     if (IsLoanAgreementRunning)
                     {
-                        result =  day6PentagramReward * loanAgreementMultiplicator;
+                        result = day6PentagramReward * loanAgreementMultiplicator;
                     }
                     else
                     {
-                        result =  day6PentagramReward;
+                        result = day6PentagramReward;
                     }
+
                     break;
                 case 7:
                     if (IsLoanAgreementRunning)
                     {
-                        result =  day7PentagramReward * loanAgreementMultiplicator;
+                        result = day7PentagramReward * loanAgreementMultiplicator;
                     }
                     else
                     {
-                        result =  day7PentagramReward;
+                        result = day7PentagramReward;
                     }
+
                     break;
                 case 8:
                     if (IsLoanAgreementRunning)
                     {
-                        result =  day8PentagramReward * loanAgreementMultiplicator;
+                        result = day8PentagramReward * loanAgreementMultiplicator;
                     }
                     else
                     {
-                        result =  day8PentagramReward;
+                        result = day8PentagramReward;
                     }
+
                     break;
                 case 9:
                     if (IsLoanAgreementRunning)
                     {
-                        result =  day9PentagramReward * loanAgreementMultiplicator;
+                        result = day9PentagramReward * loanAgreementMultiplicator;
                     }
                     else
                     {
-                        result =  day9PentagramReward;
+                        result = day9PentagramReward;
                     }
+
                     break;
                 case 10:
                     if (IsLoanAgreementRunning)
                     {
-                        result =  day10PentagramReward * loanAgreementMultiplicator;
+                        result = day10PentagramReward * loanAgreementMultiplicator;
                     }
                     else
                     {
-                        result =  day10PentagramReward;
+                        result = day10PentagramReward;
                     }
+
                     break;
             }
-            return (int)result;
+
+            return (int) result;
         }
     }
 }
