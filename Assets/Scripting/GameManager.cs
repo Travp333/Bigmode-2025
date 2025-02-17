@@ -936,6 +936,7 @@ namespace Scripting
         public void HidePowerDocumentTutorial()
         {
             powerTutorials.ForEach(n => n.Hide());
+            upgrades.powerTutorialDone = true;
         }
     }
 }

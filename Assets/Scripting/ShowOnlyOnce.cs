@@ -1,24 +1,26 @@
-using Scripting;
 using UnityEngine;
 
-public class ShowOnlyOnce : MonoBehaviour
+namespace Scripting
 {
-    void Awake()
+    public class ShowOnlyOnce : MonoBehaviour
     {
-        if (!GameManager.Singleton.upgrades.powerTutorialDone)
+        void Awake()
         {
-            gameObject.SetActive(true);
+            if (!GameManager.Singleton.upgrades.powerTutorialDone)
+            {
+                gameObject.SetActive(true);
             
-            GameManager.Singleton.upgrades.powerTutorialDone = true;
+                GameManager.Singleton.upgrades.powerTutorialDone = true;
+            }
+            else
+            {
+                Hide();
+            }
         }
-        else
-        {
-            Hide();
-        }
-    }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
