@@ -11,7 +11,6 @@ namespace Scripting
         [SerializeField] private LayerMask mask;
         [SerializeField] private bool isSeatedActive;
         [SerializeField] private bool isNightActive;
-        [SerializeField] private bool isDayActive;
 
         private Camera _cam;
         private bool _deactivate;
