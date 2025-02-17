@@ -37,6 +37,8 @@ namespace Scripting.Player
         [SerializeField]
         Image rageModeUIFrontBase, rageModeUIFrontOVERFULL, rageModeUIFillBase, rageModeUIFillOVERFULL;
 
+        [SerializeField] private Animator rageModeUIFrontBaseAnim;
+
         [Header("Input")]
         [SerializeField] private float moveSpeed = 7.5f;
 
@@ -243,6 +245,7 @@ namespace Scripting.Player
         private void Start()
         {
             _aiController = AiController.Singleton;
+            
         }
 
         private void OnEnable()
@@ -280,6 +283,7 @@ namespace Scripting.Player
         {
             StressLevel = 0f;
             rageModeUIFillBase.fillAmount = StressLevel;
+            rageModeUIFrontBaseAnim.SetBool("LOW", false);
         }
 
         public void ResetContract()
@@ -347,6 +351,12 @@ namespace Scripting.Player
         private void LateUpdate()
         {
             cam.transform.position = camAttachPoint.transform.position;
+        }
+        private Vector3 GetCameraForward()
+        {
+            var forward = cam.transform.forward;
+            forward.y = 0;
+            return forward.normalized;
         }
 
         private void Update()
@@ -485,6 +495,16 @@ namespace Scripting.Player
                 if (StressLevel < 0.0f)
                 {
                     StressLevel = 0f;
+                    rageModeUIFrontBaseAnim.SetBool("LOW", false);
+                }
+
+                if (StressLevel > .8f)
+                {
+                    rageModeUIFrontBaseAnim.SetBool("LOW", true);
+                }
+                else
+                {
+                    rageModeUIFrontBaseAnim.SetBool("LOW", false);
                 }
 
                 //UI here
@@ -556,7 +576,7 @@ namespace Scripting.Player
                 return;
             if (chargeBlock)
             {
-                rb.AddForce(cam.transform.forward * (rageChargeSpeed * Time.deltaTime));
+                rb.AddForce( (Quaternion.LookRotation(GetCameraForward(), transform.up)) * Vector3.forward * (rageChargeSpeed * Time.deltaTime));
             }
             else
             {
