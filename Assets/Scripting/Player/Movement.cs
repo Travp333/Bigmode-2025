@@ -309,19 +309,13 @@ namespace Scripting.Player
                     if (hit.collider.gameObject == submit)
                     {
                         SubmitContract();
-                        if (hit.collider.gameObject.GetComponent<Animator>() != null)
-                        {
-                            hit.collider.gameObject.GetComponent<Animator>().Play("ButtonAnim");
-                        }
+                        hit.collider.gameObject.GetComponent<Animator>()?.Play("ButtonAnim");
                     }
 
                     if (hit.collider.gameObject == reset)
                     {
                         ResetContract();
-                        if (hit.collider.gameObject.GetComponent<Animator>() != null)
-                        {
-                            hit.collider.gameObject.GetComponent<Animator>().Play("ButtonAnim");
-                        }
+                        hit.collider.gameObject.GetComponent<Animator>()?.Play("ButtonAnim");
                     }
                 }
             }
@@ -371,10 +365,13 @@ namespace Scripting.Player
                 sitDown.SetActive(false);
                 getUp.SetActive(false);
                 talk.SetActive(false);
-                graffiti.SetActive(false);
+                
+                //graffiti.SetActive(false);
+                //graffitiRemoveProgress.enabled = false;
+                
                 baseballbat.SetActive(false);
                 radialIndicatorUI.enabled = false;
-                graffitiRemoveProgress.enabled = false;
+                
             }
 
             if (Physics.Raycast(cam.transform.position, cam.transform.forward,

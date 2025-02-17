@@ -29,7 +29,7 @@ MonoBehaviour:
   priceBodyguard: 35000
   priceAssistant: 40000
   dismissal: 0
-  hellishContract: 1
+  hellishContract: 0
   powerFistRequisition: 0
   loanAgreement: 0
   temporaryEmploymentContract: 0
