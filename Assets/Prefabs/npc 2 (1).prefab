@@ -920,7 +920,7 @@ MonoBehaviour:
   hurtAudio: {fileID: 6793753505410001465}
   screamAudio: {fileID: -4165666385931178996}
   flyAudio: {fileID: 3647758588113722682}
-  lerpGate: 0
+  isFlying: 0
 --- !u!114 &1961091437732004517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,7 +956,7 @@ MonoBehaviour:
   talkNoise: {fileID: 4210475809496326132}
   myJingle: {fileID: 1784708535963605763}
   burlapSack: {fileID: 8604939912651534694}
-  assistantConvoTime: 8
+  assistantConvoTime: 2
   documentAttachPoint: {fileID: 5241857624529445391}
   rb: {fileID: 553242129943493058}
   agent: {fileID: 6157713806970370704}
@@ -1988,6 +1988,7 @@ MonoBehaviour:
     m_Bits: 128
   isSeatedActive: 0
   isNightActive: 0
+  isDayActive: 0
 --- !u!4 &9223107308158036703 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1117178536989204752, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}

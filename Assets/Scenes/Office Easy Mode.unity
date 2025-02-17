@@ -12099,13 +12099,13 @@ MonoBehaviour:
   day1AISpawnRate: 10
   day2AISpawnRate: 8
   day3AISpawnRate: 7
-  day4AISpawnRate: 5
-  day5AISpawnRate: 4
-  day6AISpawnRate: 3
-  day7AISpawnRate: 3
-  day8AISpawnRate: 2.6665
-  day9AISpawnRate: 2
-  day10AISpawnRate: 1.33
+  day4AISpawnRate: 6
+  day5AISpawnRate: 6
+  day6AISpawnRate: 5
+  day7AISpawnRate: 5
+  day8AISpawnRate: 4
+  day9AISpawnRate: 4
+  day10AISpawnRate: 3
   day1PentagramReward: 7500
   day2PentagramReward: 15000
   day3PentagramReward: 20000
@@ -12121,7 +12121,7 @@ MonoBehaviour:
   EOLScreen: {fileID: 1743224566}
   wastedScreen: {fileID: 509939798}
   doorAnim: {fileID: 5887139369653721334}
-  loanAgreementMultiplicator: 1.5
+  loanAgreementMultiplicator: 2
   QuotaMetUI: {fileID: 1977934275}
   MoneyDifferenceUI: {fileID: 7100153450751291444, guid: a5d27f9c2609b6e45a53437a02610a23, type: 3}
   MoneyDifferenceUIPOS: {fileID: 288332474}
@@ -12134,9 +12134,9 @@ MonoBehaviour:
   uiPowerDocumentTEC: {fileID: 731378624}
   uiPowerDocumentEOL: {fileID: 788745225}
   upgrades: {fileID: 11400000, guid: 428cb30234fa46e44b67103fff65a4a7, type: 2}
-  dayLength: 100
-  loanAgreementTime: 30
-  devilDealTime: 45
+  dayLength: 145
+  loanAgreementTime: 60
+  devilDealTime: 20
   nightResetsTimer: 0
   shiftManager: {fileID: 1035944793}
   spawnPoints:
@@ -22525,11 +22525,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2846db2b77248de4b9b3c9902580ef24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  documentStressDecrease: -0.12
+  documentStressDecrease: -0.2
   switchMus: {fileID: 1495703884}
   RageModeActivate: {fileID: 1953529840}
   RageModePassive: {fileID: 1953529841}
-  stressRate: 0.017
+  stressRate: 0.01
   crosshair: {fileID: 1449593428}
   RageModeOverlay: {fileID: 953526614}
   rageModeUIFrontBase: {fileID: 799386582}

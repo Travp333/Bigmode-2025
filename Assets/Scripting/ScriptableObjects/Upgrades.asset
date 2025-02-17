@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7414179721df5e14289f0697c0bdb9ea, type: 3}
   m_Name: Upgrades
   m_EditorClassIdentifier: 
-  tutorialDone: 0
+  tutorialDone: 1
+  powerTutorialDone: 1
   chairs: 0
   paintings: 0
   baseballBat: 0
@@ -20,14 +21,14 @@ MonoBehaviour:
   phone: 0
   bodyguard: 0
   assistant: 0
-  money: 0
-  priceChairs: 5000
-  pricePaintings: 10000
-  priceBaseballBat: 10000
-  priceCigar: 5000
-  pricePhone: 30000
-  priceBodyguard: 35000
-  priceAssistant: 40000
+  money: 11820
+  priceChairs: 3000
+  pricePaintings: 7000
+  priceBaseballBat: 7000
+  priceCigar: 3000
+  pricePhone: 20000
+  priceBodyguard: 20000
+  priceAssistant: 25000
   dismissal: 0
   hellishContract: 0
   powerFistRequisition: 0
@@ -56,7 +57,7 @@ MonoBehaviour:
     document in the mailbox to activate!
   hellishContractFlavorText: This Power Document offers you a deal. Damn one client
     of your choosing to the depths of hell for all eternity in exchange for a large
-    monetary award. Be warned, taking deals of this sort can attract the wrong crowd.
+    monetary reward. Be warned, taking deals of this sort can attract the wrong crowd.
     Give this document to the client of your choosing to activate.
   powerFistRequisitionFlavorText: This Power Document allows you to use the patented
     Power Fist to crush one unruly client. using this on a bad client can make other

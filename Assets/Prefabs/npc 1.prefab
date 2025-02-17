@@ -1240,7 +1240,7 @@ MonoBehaviour:
   hurtAudio: {fileID: -8320939864731962045}
   screamAudio: {fileID: -8108349503199322909}
   flyAudio: {fileID: -2405131650569400286}
-  lerpGate: 0
+  isFlying: 0
 --- !u!114 &6682139132399686028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1276,7 +1276,7 @@ MonoBehaviour:
   talkNoise: {fileID: 5703301215413341313}
   myJingle: {fileID: 9085111203225683527}
   burlapSack: {fileID: 4042455961596595698}
-  assistantConvoTime: 8
+  assistantConvoTime: 2
   documentAttachPoint: {fileID: 7867324926524862912}
   rb: {fileID: 3146073703665844778}
   agent: {fileID: 1623644130164691735}
@@ -2308,6 +2308,7 @@ MonoBehaviour:
     m_Bits: 128
   isSeatedActive: 0
   isNightActive: 0
+  isDayActive: 0
 --- !u!137 &6299489044259679723 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8417361359673230750, guid: 978526f28e03f62478a1d6a8cdc2418c, type: 3}

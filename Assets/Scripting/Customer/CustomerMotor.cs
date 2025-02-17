@@ -46,7 +46,7 @@ namespace Scripting.Customer
         public GameObject burlapSack;
 
         [SerializeField]
-        float assistantConvoTime = 5f;
+        float assistantConvoTime = 2f;
 
         [SerializeField]
         public GameObject documentAttachPoint;

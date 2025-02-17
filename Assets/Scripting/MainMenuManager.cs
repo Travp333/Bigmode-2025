@@ -216,10 +216,18 @@ namespace Scripting
         {
             StartCoroutine(FadeOut(SwitchScene));
         }
+        public void StartEasyGame()
+        {
+            StartCoroutine(FadeOut(SwitchSceneToEasy));
+        }
 
         private void SwitchScene()
         {
             SceneManager.LoadScene("Office", LoadSceneMode.Single);
+        }
+        private void SwitchSceneToEasy()
+        {
+            SceneManager.LoadScene("Office Easy Mode", LoadSceneMode.Single);
         }
 
         public void ShowCredits()

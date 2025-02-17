@@ -785,7 +785,7 @@ MonoBehaviour:
   hurtAudio: {fileID: -2626849719142287653}
   screamAudio: {fileID: -1911533212989816655}
   flyAudio: {fileID: -2527227538533531461}
-  lerpGate: 0
+  isFlying: 0
 --- !u!114 &6235200270406264599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,7 +821,7 @@ MonoBehaviour:
   talkNoise: {fileID: 2773838696992718916}
   myJingle: {fileID: -5719311656026793074}
   burlapSack: {fileID: 2638802204615649367}
-  assistantConvoTime: 8
+  assistantConvoTime: 2
   documentAttachPoint: {fileID: 2871997366259391609}
   rb: {fileID: 6382585882196989438}
   agent: {fileID: 3738221036668295630}
@@ -1853,6 +1853,7 @@ MonoBehaviour:
     m_Bits: 128
   isSeatedActive: 0
   isNightActive: 0
+  isDayActive: 0
 --- !u!1 &2675606373000583642 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: dbac4d4d693eec743864d3bd6b10c374, type: 3}
