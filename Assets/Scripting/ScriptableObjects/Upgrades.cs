@@ -25,6 +25,7 @@ namespace Scripting.ScriptableObjects
         }
 
         public bool tutorialDone;
+        public bool powerTutorialDone;
 
         //upgrade status here?
         public bool chairs;
