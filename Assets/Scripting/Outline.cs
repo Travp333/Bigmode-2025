@@ -14,7 +14,6 @@ namespace Scripting
         [SerializeField] private bool isDayActive;
 
         private Camera _cam;
-        private Material[] _originalMaterials;
         private bool _deactivate;
         private bool _isActive;
 
@@ -33,7 +32,6 @@ namespace Scripting
 
         void Awake()
         {
-            _originalMaterials = materialRenderer.materials;
             _cam = Camera.main;
         }
 
@@ -44,8 +42,9 @@ namespace Scripting
                 return;
 
             if (isSeatedActive != GameManager.Singleton.Player.IsSeated ||
-                isNightActive != GameManager.Singleton.IsNightTime)
+                (isNightActive != GameManager.Singleton.IsNightTime && isDayActive == GameManager.Singleton.IsNightTime))
             {
+                // Wegnehmen
                 if (_isActive)
                 {
                     _isActive = false;
@@ -98,7 +97,6 @@ namespace Scripting
                     _isActive = false;
                     materialRenderer.materials = materialRenderer.materials.Where(n => n.shader != toonMaterial.shader)
                         .ToArray();
-                    // materialRenderer.materials = _originalMaterials.ToArray();
                 }
             }
         }
